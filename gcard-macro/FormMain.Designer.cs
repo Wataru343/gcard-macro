@@ -36,9 +36,19 @@
             this.tabControlRaid = new gcard_macro.TabControlRaid();
             this.tabPageGroup = new System.Windows.Forms.TabPage();
             this.tabControlGroup = new gcard_macro.TabControlGroup();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabControlGShooting = new gcard_macro.TabControlGShooting();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabControlPromotion = new gcard_macro.TabControlPromotion();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabControlGTactics = new gcard_macro.TabControlGTactics();
             this.timerWatchBrowser = new System.Windows.Forms.Timer(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxLog = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonRemoveCookie = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.checkBoxAutoRun = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBoxWaitMisc = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -52,66 +62,75 @@
             this.textBoxWaitSearch = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageRaid.SuspendLayout();
             this.tabPageGroup.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonRunBrowser
             // 
-            this.buttonRunBrowser.Location = new System.Drawing.Point(12, 12);
+            this.buttonRunBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonRunBrowser.Location = new System.Drawing.Point(3, 3);
             this.buttonRunBrowser.Name = "buttonRunBrowser";
-            this.buttonRunBrowser.Size = new System.Drawing.Size(107, 57);
+            this.buttonRunBrowser.Size = new System.Drawing.Size(165, 45);
             this.buttonRunBrowser.TabIndex = 0;
-            this.buttonRunBrowser.Text = "Chrome起動";
+            this.buttonRunBrowser.Text = "ブラウザ起動";
             this.buttonRunBrowser.UseVisualStyleBackColor = true;
             this.buttonRunBrowser.Click += new System.EventHandler(this.buttonRunBrowser_Click);
             // 
             // buttonStopBrowser
             // 
-            this.buttonStopBrowser.Location = new System.Drawing.Point(125, 12);
+            this.buttonStopBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonStopBrowser.Location = new System.Drawing.Point(174, 3);
             this.buttonStopBrowser.Name = "buttonStopBrowser";
-            this.buttonStopBrowser.Size = new System.Drawing.Size(107, 57);
+            this.buttonStopBrowser.Size = new System.Drawing.Size(166, 45);
             this.buttonStopBrowser.TabIndex = 1;
-            this.buttonStopBrowser.Text = "Chrome停止";
+            this.buttonStopBrowser.Text = "ブラウザ停止";
             this.buttonStopBrowser.UseVisualStyleBackColor = true;
             this.buttonStopBrowser.Click += new System.EventHandler(this.buttonStopBrowser_Click);
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tabControl1.Controls.Add(this.tabPageRaid);
             this.tabControl1.Controls.Add(this.tabPageGroup);
-            this.tabControl1.Location = new System.Drawing.Point(12, 321);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(946, 562);
+            this.tabControl1.Size = new System.Drawing.Size(679, 628);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPageRaid
             // 
+            this.tabPageRaid.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageRaid.Controls.Add(this.tabControlRaid);
             this.tabPageRaid.Location = new System.Drawing.Point(4, 22);
             this.tabPageRaid.Name = "tabPageRaid";
             this.tabPageRaid.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRaid.Size = new System.Drawing.Size(938, 536);
+            this.tabPageRaid.Size = new System.Drawing.Size(671, 602);
             this.tabPageRaid.TabIndex = 1;
             this.tabPageRaid.Text = "レイド";
-            this.tabPageRaid.UseVisualStyleBackColor = true;
             // 
             // tabControlRaid
             // 
             this.tabControlRaid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControlRaid.Location = new System.Drawing.Point(3, 6);
+            this.tabControlRaid.Location = new System.Drawing.Point(0, 0);
             this.tabControlRaid.Name = "tabControlRaid";
-            this.tabControlRaid.Size = new System.Drawing.Size(926, 432);
+            this.tabControlRaid.Size = new System.Drawing.Size(675, 606);
             this.tabControlRaid.TabIndex = 0;
             this.tabControlRaid.WaitAccessBlock = 0D;
             this.tabControlRaid.WaitAttack = 0D;
@@ -122,23 +141,23 @@
             // 
             // tabPageGroup
             // 
+            this.tabPageGroup.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageGroup.Controls.Add(this.tabControlGroup);
             this.tabPageGroup.Location = new System.Drawing.Point(4, 22);
             this.tabPageGroup.Name = "tabPageGroup";
             this.tabPageGroup.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGroup.Size = new System.Drawing.Size(938, 536);
+            this.tabPageGroup.Size = new System.Drawing.Size(671, 602);
             this.tabPageGroup.TabIndex = 2;
             this.tabPageGroup.Text = "部隊戦";
-            this.tabPageGroup.UseVisualStyleBackColor = true;
             // 
             // tabControlGroup
             // 
             this.tabControlGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControlGroup.Location = new System.Drawing.Point(0, 4);
+            this.tabControlGroup.Location = new System.Drawing.Point(0, 0);
             this.tabControlGroup.Name = "tabControlGroup";
-            this.tabControlGroup.Size = new System.Drawing.Size(938, 532);
+            this.tabControlGroup.Size = new System.Drawing.Size(675, 619);
             this.tabControlGroup.TabIndex = 0;
             this.tabControlGroup.WaitAccessBlock = 0D;
             this.tabControlGroup.WaitAttack = 0D;
@@ -147,26 +166,173 @@
             this.tabControlGroup.WaitReceive = 0D;
             this.tabControlGroup.WaitSearch = 0D;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.tabControlGShooting);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(671, 602);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "G-Shooting";
+            // 
+            // tabControlGShooting
+            // 
+            this.tabControlGShooting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlGShooting.Location = new System.Drawing.Point(0, 0);
+            this.tabControlGShooting.Name = "tabControlGShooting";
+            this.tabControlGShooting.Size = new System.Drawing.Size(675, 619);
+            this.tabControlGShooting.TabIndex = 0;
+            this.tabControlGShooting.WaitAccessBlock = 0D;
+            this.tabControlGShooting.WaitAttack = 0D;
+            this.tabControlGShooting.WaitBattle = 0D;
+            this.tabControlGShooting.WaitMisc = 0D;
+            this.tabControlGShooting.WaitReceive = 0D;
+            this.tabControlGShooting.WaitSearch = 0D;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.tabControlPromotion);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(671, 602);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "昇格戦";
+            // 
+            // tabControlPromotion
+            // 
+            this.tabControlPromotion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlPromotion.Location = new System.Drawing.Point(0, 0);
+            this.tabControlPromotion.Name = "tabControlPromotion";
+            this.tabControlPromotion.Size = new System.Drawing.Size(675, 619);
+            this.tabControlPromotion.TabIndex = 0;
+            this.tabControlPromotion.WaitAccessBlock = 0D;
+            this.tabControlPromotion.WaitAttack = 0D;
+            this.tabControlPromotion.WaitBattle = 0D;
+            this.tabControlPromotion.WaitMisc = 0D;
+            this.tabControlPromotion.WaitReceive = 0D;
+            this.tabControlPromotion.WaitSearch = 0D;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.tabControlGTactics);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(671, 602);
+            this.tabPage3.TabIndex = 4;
+            this.tabPage3.Text = "G-Tactics";
+            // 
+            // tabControlGTactics
+            // 
+            this.tabControlGTactics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlGTactics.Location = new System.Drawing.Point(0, 0);
+            this.tabControlGTactics.Name = "tabControlGTactics";
+            this.tabControlGTactics.Size = new System.Drawing.Size(675, 619);
+            this.tabControlGTactics.TabIndex = 0;
+            this.tabControlGTactics.WaitAccessBlock = 0D;
+            this.tabControlGTactics.WaitAttack = 0D;
+            this.tabControlGTactics.WaitBattle = 0D;
+            this.tabControlGTactics.WaitMisc = 0D;
+            this.tabControlGTactics.WaitReceive = 0D;
+            this.tabControlGTactics.WaitSearch = 0D;
+            // 
             // timerWatchBrowser
             // 
             this.timerWatchBrowser.Tick += new System.EventHandler(this.timerWatchBrowser_Tick);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.textBoxLog);
+            this.groupBox1.Controls.Add(this.tableLayoutPanel1);
+            this.groupBox1.Controls.Add(this.checkBoxAutoRun);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Location = new System.Drawing.Point(16, 76);
+            this.groupBox1.Location = new System.Drawing.Point(705, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(935, 239);
+            this.groupBox1.Size = new System.Drawing.Size(356, 616);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "共通設定";
+            // 
+            // textBoxLog
+            // 
+            this.textBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLog.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxLog.Location = new System.Drawing.Point(7, 222);
+            this.textBoxLog.Multiline = true;
+            this.textBoxLog.Name = "textBoxLog";
+            this.textBoxLog.ReadOnly = true;
+            this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxLog.Size = new System.Drawing.Size(334, 268);
+            this.textBoxLog.TabIndex = 10;
+            this.textBoxLog.WordWrap = false;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.buttonRunBrowser, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonRemoveCookie, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonStopBrowser, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonSave, 0, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 496);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(343, 103);
+            this.tableLayoutPanel1.TabIndex = 9;
+            // 
+            // buttonRemoveCookie
+            // 
+            this.buttonRemoveCookie.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonRemoveCookie.Location = new System.Drawing.Point(174, 54);
+            this.buttonRemoveCookie.Name = "buttonRemoveCookie";
+            this.buttonRemoveCookie.Size = new System.Drawing.Size(166, 46);
+            this.buttonRemoveCookie.TabIndex = 8;
+            this.buttonRemoveCookie.Text = "Cookie削除";
+            this.buttonRemoveCookie.UseVisualStyleBackColor = true;
+            this.buttonRemoveCookie.Click += new System.EventHandler(this.buttonRemoveCookie_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.Location = new System.Drawing.Point(3, 54);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(165, 46);
+            this.buttonSave.TabIndex = 6;
+            this.buttonSave.Text = "設定保存";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // checkBoxAutoRun
+            // 
+            this.checkBoxAutoRun.AutoSize = true;
+            this.checkBoxAutoRun.Location = new System.Drawing.Point(7, 198);
+            this.checkBoxAutoRun.Name = "checkBoxAutoRun";
+            this.checkBoxAutoRun.Size = new System.Drawing.Size(108, 16);
+            this.checkBoxAutoRun.TabIndex = 7;
+            this.checkBoxAutoRun.Text = "ブラウザ自動起動";
+            this.checkBoxAutoRun.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -184,9 +350,9 @@
             this.groupBox2.Controls.Add(this.textBoxWaitSearch);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(16, 18);
+            this.groupBox2.Location = new System.Drawing.Point(7, 18);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(904, 174);
+            this.groupBox2.Size = new System.Drawing.Size(334, 174);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Wait(秒)";
@@ -197,10 +363,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitMisc.Location = new System.Drawing.Point(118, 141);
             this.textBoxWaitMisc.Name = "textBoxWaitMisc";
-            this.textBoxWaitMisc.Size = new System.Drawing.Size(779, 19);
+            this.textBoxWaitMisc.Size = new System.Drawing.Size(209, 19);
             this.textBoxWaitMisc.TabIndex = 11;
             this.textBoxWaitMisc.TextChanged += new System.EventHandler(this.textBoxWaitMisc_TextChanged);
             this.textBoxWaitMisc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitMisc_KeyPress);
+            this.textBoxWaitMisc.Validated += new System.EventHandler(this.textBoxWaitMisc_Validated);
             // 
             // label9
             // 
@@ -217,10 +384,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitAccessBlock.Location = new System.Drawing.Point(118, 116);
             this.textBoxWaitAccessBlock.Name = "textBoxWaitAccessBlock";
-            this.textBoxWaitAccessBlock.Size = new System.Drawing.Size(780, 19);
+            this.textBoxWaitAccessBlock.Size = new System.Drawing.Size(210, 19);
             this.textBoxWaitAccessBlock.TabIndex = 9;
             this.textBoxWaitAccessBlock.TextChanged += new System.EventHandler(this.textBoxWaitAccessBlock_TextChanged);
             this.textBoxWaitAccessBlock.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitAccessBlock_KeyPress);
+            this.textBoxWaitAccessBlock.Validated += new System.EventHandler(this.textBoxWaitAccessBlock_Validated);
             // 
             // label8
             // 
@@ -237,10 +405,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitReceive.Location = new System.Drawing.Point(118, 91);
             this.textBoxWaitReceive.Name = "textBoxWaitReceive";
-            this.textBoxWaitReceive.Size = new System.Drawing.Size(780, 19);
+            this.textBoxWaitReceive.Size = new System.Drawing.Size(210, 19);
             this.textBoxWaitReceive.TabIndex = 7;
             this.textBoxWaitReceive.TextChanged += new System.EventHandler(this.textBoxWaitReceive_TextChanged);
             this.textBoxWaitReceive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitReceive_KeyPress);
+            this.textBoxWaitReceive.Validated += new System.EventHandler(this.textBoxWaitReceive_Validated);
             // 
             // label7
             // 
@@ -257,10 +426,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitAttack.Location = new System.Drawing.Point(118, 66);
             this.textBoxWaitAttack.Name = "textBoxWaitAttack";
-            this.textBoxWaitAttack.Size = new System.Drawing.Size(780, 19);
+            this.textBoxWaitAttack.Size = new System.Drawing.Size(210, 19);
             this.textBoxWaitAttack.TabIndex = 5;
             this.textBoxWaitAttack.TextChanged += new System.EventHandler(this.textBoxWaitAttack_TextChanged);
             this.textBoxWaitAttack.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitAttack_KeyPress);
+            this.textBoxWaitAttack.Validated += new System.EventHandler(this.textBoxWaitAttack_Validated);
             // 
             // label6
             // 
@@ -277,10 +447,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitBattle.Location = new System.Drawing.Point(118, 41);
             this.textBoxWaitBattle.Name = "textBoxWaitBattle";
-            this.textBoxWaitBattle.Size = new System.Drawing.Size(780, 19);
+            this.textBoxWaitBattle.Size = new System.Drawing.Size(210, 19);
             this.textBoxWaitBattle.TabIndex = 3;
             this.textBoxWaitBattle.TextChanged += new System.EventHandler(this.textBoxWaitBattle_TextChanged);
             this.textBoxWaitBattle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitBattle_KeyPress);
+            this.textBoxWaitBattle.Validated += new System.EventHandler(this.textBoxWaitBattle_Validated);
             // 
             // textBoxWaitSearch
             // 
@@ -288,10 +459,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitSearch.Location = new System.Drawing.Point(118, 16);
             this.textBoxWaitSearch.Name = "textBoxWaitSearch";
-            this.textBoxWaitSearch.Size = new System.Drawing.Size(780, 19);
+            this.textBoxWaitSearch.Size = new System.Drawing.Size(210, 19);
             this.textBoxWaitSearch.TabIndex = 1;
             this.textBoxWaitSearch.TextChanged += new System.EventHandler(this.textBoxWaitSearch_TextChanged);
             this.textBoxWaitSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitSearch_KeyPress);
+            this.textBoxWaitSearch.Validated += new System.EventHandler(this.textBoxWaitSearch_Validated);
             // 
             // label5
             // 
@@ -311,33 +483,25 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "探索前";
             // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(238, 12);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(107, 57);
-            this.buttonSave.TabIndex = 6;
-            this.buttonSave.Text = "設定保存";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(970, 895);
-            this.Controls.Add(this.buttonSave);
+            this.ClientSize = new System.Drawing.Size(1073, 640);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.buttonStopBrowser);
-            this.Controls.Add(this.buttonRunBrowser);
             this.Name = "FormMain";
-            this.Text = "ガンダムカードコレクション自動化ツール Ver0.2.0β";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
+            this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPageRaid.ResumeLayout(false);
             this.tabPageGroup.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -352,7 +516,6 @@
         private System.Windows.Forms.TabPage tabPageRaid;
         private TabControlRaid tabControlRaid;
         private System.Windows.Forms.Timer timerWatchBrowser;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox textBoxWaitMisc;
@@ -370,6 +533,16 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.TabPage tabPageGroup;
         private TabControlGroup tabControlGroup;
+        private System.Windows.Forms.TabPage tabPage1;
+        private TabControlGShooting tabControlGShooting;
+        private System.Windows.Forms.TabPage tabPage2;
+        private TabControlPromotion tabControlPromotion;
+        private System.Windows.Forms.TabPage tabPage3;
+        private TabControlGTactics tabControlGTactics;
+        private System.Windows.Forms.CheckBox checkBoxAutoRun;
+        private System.Windows.Forms.Button buttonRemoveCookie;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TextBox textBoxLog;
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace gcard_macro
 {
-    partial class TabControlGShooting
+    partial class TabControlGTactics
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -35,8 +35,38 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerWatchWebdriver = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxStandby = new System.Windows.Forms.CheckBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.textBoxPointDiff = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.comboBoxPriority = new System.Windows.Forms.ComboBox();
+            this.checkBoxForceCharge = new System.Windows.Forms.CheckBox();
+            this.checkBoxUseForce = new System.Windows.Forms.CheckBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.comboBoxForcePattern = new System.Windows.Forms.ComboBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.comboBoxStrategicArea = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.comboBoxShieldC3 = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.comboBoxShieldC2 = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.comboBoxShieldC1 = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.comboBoxShieldB3 = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.comboBoxShieldB2 = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.comboBoxShieldB1 = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBoxShieldA3 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.comboBoxShieldA2 = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBoxShieldA1 = new System.Windows.Forms.ComboBox();
             this.checkBoxRecievePresent = new System.Windows.Forms.CheckBox();
-            this.checkBoxRequest = new System.Windows.Forms.CheckBox();
             this.checkBoxOnlySearch = new System.Windows.Forms.CheckBox();
             this.checkBoxRecieveReword = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -62,18 +92,20 @@
             this.labelStateEventFinished = new System.Windows.Forms.Label();
             this.labelStateUnknown = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.labelRequest = new System.Windows.Forms.Label();
+            this.labelStateInterval = new System.Windows.Forms.Label();
             this.labelStateGetCard = new System.Windows.Forms.Label();
             this.labelStateLevelUp = new System.Windows.Forms.Label();
             this.labelMiniCap = new System.Windows.Forms.Label();
+            this.labelArea = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStart
             // 
             this.buttonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonStart.Location = new System.Drawing.Point(363, 477);
+            this.buttonStart.Location = new System.Drawing.Point(291, 555);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(81, 42);
             this.buttonStart.TabIndex = 6;
@@ -84,7 +116,7 @@
             // buttonStop
             // 
             this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonStop.Location = new System.Drawing.Point(450, 477);
+            this.buttonStop.Location = new System.Drawing.Point(378, 555);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 42);
             this.buttonStop.TabIndex = 0;
@@ -98,7 +130,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxURL.Location = new System.Drawing.Point(136, 13);
             this.textBoxURL.Name = "textBoxURL";
-            this.textBoxURL.Size = new System.Drawing.Size(589, 19);
+            this.textBoxURL.Size = new System.Drawing.Size(517, 19);
             this.textBoxURL.TabIndex = 1;
             // 
             // label1
@@ -119,8 +151,18 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.checkBoxStandby);
+            this.groupBox1.Controls.Add(this.label19);
+            this.groupBox1.Controls.Add(this.textBoxPointDiff);
+            this.groupBox1.Controls.Add(this.label20);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Controls.Add(this.comboBoxPriority);
+            this.groupBox1.Controls.Add(this.checkBoxForceCharge);
+            this.groupBox1.Controls.Add(this.checkBoxUseForce);
+            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.comboBoxForcePattern);
+            this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.checkBoxRecievePresent);
-            this.groupBox1.Controls.Add(this.checkBoxRequest);
             this.groupBox1.Controls.Add(this.checkBoxOnlySearch);
             this.groupBox1.Controls.Add(this.checkBoxRecieveReword);
             this.groupBox1.Controls.Add(this.label8);
@@ -134,35 +176,393 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(19, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(506, 421);
+            this.groupBox1.Size = new System.Drawing.Size(434, 505);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
             // 
+            // checkBoxStandby
+            // 
+            this.checkBoxStandby.AutoSize = true;
+            this.checkBoxStandby.Location = new System.Drawing.Point(14, 333);
+            this.checkBoxStandby.Name = "checkBoxStandby";
+            this.checkBoxStandby.Size = new System.Drawing.Size(299, 16);
+            this.checkBoxStandby.TabIndex = 38;
+            this.checkBoxStandby.Text = "目標エリアレベル、敵部隊との点数差を満たしたら待機する";
+            this.checkBoxStandby.UseVisualStyleBackColor = true;
+            // 
+            // label19
+            // 
+            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(365, 307);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(63, 12);
+            this.label19.TabIndex = 37;
+            this.label19.Text = "以上で待機";
+            // 
+            // textBoxPointDiff
+            // 
+            this.textBoxPointDiff.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPointDiff.Location = new System.Drawing.Point(14, 304);
+            this.textBoxPointDiff.Name = "textBoxPointDiff";
+            this.textBoxPointDiff.Size = new System.Drawing.Size(345, 19);
+            this.textBoxPointDiff.TabIndex = 36;
+            this.textBoxPointDiff.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPointDiff_KeyPress);
+            this.textBoxPointDiff.Validated += new System.EventHandler(this.textBoxPointDiff_Validated);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(14, 284);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(95, 12);
+            this.label20.TabIndex = 35;
+            this.label20.Text = "敵部隊との点数差";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(14, 453);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(99, 12);
+            this.label18.TabIndex = 34;
+            this.label18.Text = "戦略拠点の優先度";
+            // 
+            // comboBoxPriority
+            // 
+            this.comboBoxPriority.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPriority.FormattingEnabled = true;
+            this.comboBoxPriority.Items.AddRange(new object[] {
+            "戦略拠点を優先しない",
+            "戦略拠点を優先する",
+            "戦略拠点のみ"});
+            this.comboBoxPriority.Location = new System.Drawing.Point(14, 471);
+            this.comboBoxPriority.Name = "comboBoxPriority";
+            this.comboBoxPriority.Size = new System.Drawing.Size(210, 20);
+            this.comboBoxPriority.TabIndex = 31;
+            // 
+            // checkBoxForceCharge
+            // 
+            this.checkBoxForceCharge.AutoSize = true;
+            this.checkBoxForceCharge.Location = new System.Drawing.Point(14, 382);
+            this.checkBoxForceCharge.Name = "checkBoxForceCharge";
+            this.checkBoxForceCharge.Size = new System.Drawing.Size(148, 16);
+            this.checkBoxForceCharge.TabIndex = 33;
+            this.checkBoxForceCharge.Text = "フォースチャージを使用する";
+            this.checkBoxForceCharge.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxUseForce
+            // 
+            this.checkBoxUseForce.AutoSize = true;
+            this.checkBoxUseForce.Location = new System.Drawing.Point(14, 358);
+            this.checkBoxUseForce.Name = "checkBoxUseForce";
+            this.checkBoxUseForce.Size = new System.Drawing.Size(111, 16);
+            this.checkBoxUseForce.TabIndex = 32;
+            this.checkBoxUseForce.Text = "フォースを使用する";
+            this.checkBoxUseForce.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(14, 405);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(159, 12);
+            this.label17.TabIndex = 31;
+            this.label17.Text = "戦略拠点のフォース使用パターン";
+            // 
+            // comboBoxForcePattern
+            // 
+            this.comboBoxForcePattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxForcePattern.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxForcePattern.FormattingEnabled = true;
+            this.comboBoxForcePattern.Items.AddRange(new object[] {
+            "攻撃回数を最適化",
+            "強弱弱弱",
+            "弱のみ"});
+            this.comboBoxForcePattern.Location = new System.Drawing.Point(14, 425);
+            this.comboBoxForcePattern.Name = "comboBoxForcePattern";
+            this.comboBoxForcePattern.Size = new System.Drawing.Size(210, 20);
+            this.comboBoxForcePattern.TabIndex = 30;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.label16);
+            this.groupBox3.Controls.Add(this.comboBoxStrategicArea);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.comboBoxShieldC3);
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.comboBoxShieldC2);
+            this.groupBox3.Controls.Add(this.label15);
+            this.groupBox3.Controls.Add(this.comboBoxShieldC1);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.comboBoxShieldB3);
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.comboBoxShieldB2);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.comboBoxShieldB1);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.comboBoxShieldA3);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.comboBoxShieldA2);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.comboBoxShieldA1);
+            this.groupBox3.Location = new System.Drawing.Point(230, 357);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(198, 141);
+            this.groupBox3.TabIndex = 29;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "目標エリアレベル";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(138, 58);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(53, 12);
+            this.label16.TabIndex = 19;
+            this.label16.Text = "戦略拠点";
+            // 
+            // comboBoxStrategicArea
+            // 
+            this.comboBoxStrategicArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStrategicArea.FormattingEnabled = true;
+            this.comboBoxStrategicArea.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxStrategicArea.Location = new System.Drawing.Point(138, 73);
+            this.comboBoxStrategicArea.Name = "comboBoxStrategicArea";
+            this.comboBoxStrategicArea.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxStrategicArea.TabIndex = 18;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(94, 99);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(19, 12);
+            this.label13.TabIndex = 17;
+            this.label13.Text = "C3";
+            // 
+            // comboBoxShieldC3
+            // 
+            this.comboBoxShieldC3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldC3.FormattingEnabled = true;
+            this.comboBoxShieldC3.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldC3.Location = new System.Drawing.Point(94, 114);
+            this.comboBoxShieldC3.Name = "comboBoxShieldC3";
+            this.comboBoxShieldC3.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldC3.TabIndex = 16;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(50, 99);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(19, 12);
+            this.label14.TabIndex = 15;
+            this.label14.Text = "C2";
+            // 
+            // comboBoxShieldC2
+            // 
+            this.comboBoxShieldC2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldC2.FormattingEnabled = true;
+            this.comboBoxShieldC2.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldC2.Location = new System.Drawing.Point(50, 114);
+            this.comboBoxShieldC2.Name = "comboBoxShieldC2";
+            this.comboBoxShieldC2.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldC2.TabIndex = 14;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 99);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(19, 12);
+            this.label15.TabIndex = 13;
+            this.label15.Text = "C1";
+            // 
+            // comboBoxShieldC1
+            // 
+            this.comboBoxShieldC1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldC1.FormattingEnabled = true;
+            this.comboBoxShieldC1.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldC1.Location = new System.Drawing.Point(6, 114);
+            this.comboBoxShieldC1.Name = "comboBoxShieldC1";
+            this.comboBoxShieldC1.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldC1.TabIndex = 12;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(94, 58);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(19, 12);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "B3";
+            // 
+            // comboBoxShieldB3
+            // 
+            this.comboBoxShieldB3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldB3.FormattingEnabled = true;
+            this.comboBoxShieldB3.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldB3.Location = new System.Drawing.Point(94, 73);
+            this.comboBoxShieldB3.Name = "comboBoxShieldB3";
+            this.comboBoxShieldB3.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldB3.TabIndex = 10;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(50, 58);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(19, 12);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "B2";
+            // 
+            // comboBoxShieldB2
+            // 
+            this.comboBoxShieldB2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldB2.FormattingEnabled = true;
+            this.comboBoxShieldB2.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldB2.Location = new System.Drawing.Point(50, 73);
+            this.comboBoxShieldB2.Name = "comboBoxShieldB2";
+            this.comboBoxShieldB2.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldB2.TabIndex = 8;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 58);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(19, 12);
+            this.label12.TabIndex = 7;
+            this.label12.Text = "B1";
+            // 
+            // comboBoxShieldB1
+            // 
+            this.comboBoxShieldB1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldB1.FormattingEnabled = true;
+            this.comboBoxShieldB1.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldB1.Location = new System.Drawing.Point(6, 73);
+            this.comboBoxShieldB1.Name = "comboBoxShieldB1";
+            this.comboBoxShieldB1.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldB1.TabIndex = 6;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(94, 17);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(19, 12);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "A3";
+            // 
+            // comboBoxShieldA3
+            // 
+            this.comboBoxShieldA3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldA3.FormattingEnabled = true;
+            this.comboBoxShieldA3.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldA3.Location = new System.Drawing.Point(94, 32);
+            this.comboBoxShieldA3.Name = "comboBoxShieldA3";
+            this.comboBoxShieldA3.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldA3.TabIndex = 4;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(50, 17);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(19, 12);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "A2";
+            // 
+            // comboBoxShieldA2
+            // 
+            this.comboBoxShieldA2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldA2.FormattingEnabled = true;
+            this.comboBoxShieldA2.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldA2.Location = new System.Drawing.Point(50, 32);
+            this.comboBoxShieldA2.Name = "comboBoxShieldA2";
+            this.comboBoxShieldA2.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldA2.TabIndex = 2;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 17);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(19, 12);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "A1";
+            // 
+            // comboBoxShieldA1
+            // 
+            this.comboBoxShieldA1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxShieldA1.FormattingEnabled = true;
+            this.comboBoxShieldA1.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3"});
+            this.comboBoxShieldA1.Location = new System.Drawing.Point(6, 32);
+            this.comboBoxShieldA1.Name = "comboBoxShieldA1";
+            this.comboBoxShieldA1.Size = new System.Drawing.Size(34, 20);
+            this.comboBoxShieldA1.TabIndex = 0;
+            // 
             // checkBoxRecievePresent
             // 
             this.checkBoxRecievePresent.AutoSize = true;
-            this.checkBoxRecievePresent.Location = new System.Drawing.Point(16, 209);
+            this.checkBoxRecievePresent.Location = new System.Drawing.Point(14, 209);
             this.checkBoxRecievePresent.Name = "checkBoxRecievePresent";
             this.checkBoxRecievePresent.Size = new System.Drawing.Size(121, 16);
             this.checkBoxRecievePresent.TabIndex = 28;
             this.checkBoxRecievePresent.Text = "プレゼントを受け取る";
             this.checkBoxRecievePresent.UseVisualStyleBackColor = true;
             // 
-            // checkBoxRequest
-            // 
-            this.checkBoxRequest.AutoSize = true;
-            this.checkBoxRequest.Location = new System.Drawing.Point(14, 281);
-            this.checkBoxRequest.Name = "checkBoxRequest";
-            this.checkBoxRequest.Size = new System.Drawing.Size(103, 16);
-            this.checkBoxRequest.TabIndex = 27;
-            this.checkBoxRequest.Text = "応援依頼を出す";
-            this.checkBoxRequest.UseVisualStyleBackColor = true;
-            // 
             // checkBoxOnlySearch
             // 
             this.checkBoxOnlySearch.AutoSize = true;
-            this.checkBoxOnlySearch.Location = new System.Drawing.Point(16, 161);
+            this.checkBoxOnlySearch.Location = new System.Drawing.Point(14, 161);
             this.checkBoxOnlySearch.Name = "checkBoxOnlySearch";
             this.checkBoxOnlySearch.Size = new System.Drawing.Size(69, 16);
             this.checkBoxOnlySearch.TabIndex = 26;
@@ -172,7 +572,7 @@
             // checkBoxRecieveReword
             // 
             this.checkBoxRecieveReword.AutoSize = true;
-            this.checkBoxRecieveReword.Location = new System.Drawing.Point(16, 185);
+            this.checkBoxRecieveReword.Location = new System.Drawing.Point(14, 185);
             this.checkBoxRecieveReword.Name = "checkBoxRecieveReword";
             this.checkBoxRecieveReword.Size = new System.Drawing.Size(100, 16);
             this.checkBoxRecieveReword.TabIndex = 24;
@@ -183,7 +583,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(406, 41);
+            this.label8.Location = new System.Drawing.Point(334, 41);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(94, 12);
             this.label8.TabIndex = 23;
@@ -195,7 +595,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxEnemyCount.Location = new System.Drawing.Point(14, 39);
             this.textBoxEnemyCount.Name = "textBoxEnemyCount";
-            this.textBoxEnemyCount.Size = new System.Drawing.Size(384, 19);
+            this.textBoxEnemyCount.Size = new System.Drawing.Size(312, 19);
             this.textBoxEnemyCount.TabIndex = 22;
             this.textBoxEnemyCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxEnemyCount_KeyPress);
             this.textBoxEnemyCount.Validated += new System.EventHandler(this.textBoxEnemyCount_Validated);
@@ -221,7 +621,7 @@
             "一発だけ攻撃する"});
             this.comboBoxAttackMode.Location = new System.Drawing.Point(14, 86);
             this.comboBoxAttackMode.Name = "comboBoxAttackMode";
-            this.comboBoxAttackMode.Size = new System.Drawing.Size(486, 20);
+            this.comboBoxAttackMode.Size = new System.Drawing.Size(414, 20);
             this.comboBoxAttackMode.TabIndex = 15;
             // 
             // label4
@@ -261,7 +661,7 @@
             "10"});
             this.comboBoxRecieve.Location = new System.Drawing.Point(14, 253);
             this.comboBoxRecieve.Name = "comboBoxRecieve";
-            this.comboBoxRecieve.Size = new System.Drawing.Size(486, 20);
+            this.comboBoxRecieve.Size = new System.Drawing.Size(414, 20);
             this.comboBoxRecieve.TabIndex = 12;
             // 
             // textBoxBaseDamage
@@ -270,7 +670,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBaseDamage.Location = new System.Drawing.Point(14, 134);
             this.textBoxBaseDamage.Name = "textBoxBaseDamage";
-            this.textBoxBaseDamage.Size = new System.Drawing.Size(486, 19);
+            this.textBoxBaseDamage.Size = new System.Drawing.Size(414, 19);
             this.textBoxBaseDamage.TabIndex = 9;
             this.textBoxBaseDamage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBaseDamage_KeyPress);
             this.textBoxBaseDamage.Validated += new System.EventHandler(this.textBoxBaseDamage_Validated);
@@ -299,7 +699,7 @@
             // 
             this.labelStateSearch.BackColor = System.Drawing.Color.White;
             this.labelStateSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateSearch.Location = new System.Drawing.Point(96, 19);
+            this.labelStateSearch.Location = new System.Drawing.Point(12, 62);
             this.labelStateSearch.Name = "labelStateSearch";
             this.labelStateSearch.Size = new System.Drawing.Size(85, 46);
             this.labelStateSearch.TabIndex = 9;
@@ -310,7 +710,7 @@
             // 
             this.labelStateEnemyList.BackColor = System.Drawing.Color.White;
             this.labelStateEnemyList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateEnemyList.Location = new System.Drawing.Point(12, 59);
+            this.labelStateEnemyList.Location = new System.Drawing.Point(95, 62);
             this.labelStateEnemyList.Name = "labelStateEnemyList";
             this.labelStateEnemyList.Size = new System.Drawing.Size(85, 46);
             this.labelStateEnemyList.TabIndex = 10;
@@ -321,7 +721,7 @@
             // 
             this.labelStateBattle.BackColor = System.Drawing.Color.White;
             this.labelStateBattle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateBattle.Location = new System.Drawing.Point(96, 59);
+            this.labelStateBattle.Location = new System.Drawing.Point(12, 105);
             this.labelStateBattle.Name = "labelStateBattle";
             this.labelStateBattle.Size = new System.Drawing.Size(85, 46);
             this.labelStateBattle.TabIndex = 11;
@@ -332,7 +732,7 @@
             // 
             this.labelStateBattleFlash.BackColor = System.Drawing.Color.White;
             this.labelStateBattleFlash.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateBattleFlash.Location = new System.Drawing.Point(12, 104);
+            this.labelStateBattleFlash.Location = new System.Drawing.Point(95, 105);
             this.labelStateBattleFlash.Name = "labelStateBattleFlash";
             this.labelStateBattleFlash.Size = new System.Drawing.Size(85, 46);
             this.labelStateBattleFlash.TabIndex = 12;
@@ -343,7 +743,7 @@
             // 
             this.labelStateResult.BackColor = System.Drawing.Color.White;
             this.labelStateResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateResult.Location = new System.Drawing.Point(96, 104);
+            this.labelStateResult.Location = new System.Drawing.Point(12, 149);
             this.labelStateResult.Name = "labelStateResult";
             this.labelStateResult.Size = new System.Drawing.Size(85, 46);
             this.labelStateResult.TabIndex = 13;
@@ -354,7 +754,7 @@
             // 
             this.labelStateReceive.BackColor = System.Drawing.Color.White;
             this.labelStateReceive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateReceive.Location = new System.Drawing.Point(12, 149);
+            this.labelStateReceive.Location = new System.Drawing.Point(96, 149);
             this.labelStateReceive.Name = "labelStateReceive";
             this.labelStateReceive.Size = new System.Drawing.Size(85, 46);
             this.labelStateReceive.TabIndex = 14;
@@ -365,7 +765,7 @@
             // 
             this.labelStatePresentList.BackColor = System.Drawing.Color.White;
             this.labelStatePresentList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStatePresentList.Location = new System.Drawing.Point(96, 149);
+            this.labelStatePresentList.Location = new System.Drawing.Point(12, 194);
             this.labelStatePresentList.Name = "labelStatePresentList";
             this.labelStatePresentList.Size = new System.Drawing.Size(85, 46);
             this.labelStatePresentList.TabIndex = 15;
@@ -431,7 +831,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.labelRequest);
+            this.groupBox2.Controls.Add(this.labelStateInterval);
             this.groupBox2.Controls.Add(this.labelStateGetCard);
             this.groupBox2.Controls.Add(this.labelStateHome);
             this.groupBox2.Controls.Add(this.labelStateLevelUp);
@@ -447,23 +847,23 @@
             this.groupBox2.Controls.Add(this.labelStateResult);
             this.groupBox2.Controls.Add(this.labelStateReceive);
             this.groupBox2.Controls.Add(this.labelStatePresentList);
-            this.groupBox2.Location = new System.Drawing.Point(536, 75);
+            this.groupBox2.Location = new System.Drawing.Point(464, 99);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(190, 444);
+            this.groupBox2.Size = new System.Drawing.Size(190, 496);
             this.groupBox2.TabIndex = 23;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "画面遷移";
             // 
-            // labelRequest
+            // labelStateInterval
             // 
-            this.labelRequest.BackColor = System.Drawing.Color.White;
-            this.labelRequest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelRequest.Location = new System.Drawing.Point(12, 194);
-            this.labelRequest.Name = "labelRequest";
-            this.labelRequest.Size = new System.Drawing.Size(85, 46);
-            this.labelRequest.TabIndex = 25;
-            this.labelRequest.Text = "応援依頼完了";
-            this.labelRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateInterval.BackColor = System.Drawing.Color.White;
+            this.labelStateInterval.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelStateInterval.Location = new System.Drawing.Point(96, 19);
+            this.labelStateInterval.Name = "labelStateInterval";
+            this.labelStateInterval.Size = new System.Drawing.Size(85, 46);
+            this.labelStateInterval.TabIndex = 25;
+            this.labelStateInterval.Text = "インターバル";
+            this.labelStateInterval.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelStateGetCard
             // 
@@ -491,16 +891,27 @@
             // 
             this.labelMiniCap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMiniCap.AutoSize = true;
-            this.labelMiniCap.Location = new System.Drawing.Point(534, 50);
+            this.labelMiniCap.Location = new System.Drawing.Point(462, 50);
             this.labelMiniCap.Name = "labelMiniCap";
             this.labelMiniCap.Size = new System.Drawing.Size(45, 12);
             this.labelMiniCap.TabIndex = 24;
             this.labelMiniCap.Text = "ミニカプ：";
             // 
-            // TabControlGShooting
+            // labelArea
+            // 
+            this.labelArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelArea.AutoSize = true;
+            this.labelArea.Location = new System.Drawing.Point(462, 74);
+            this.labelArea.Name = "labelArea";
+            this.labelArea.Size = new System.Drawing.Size(60, 12);
+            this.labelArea.TabIndex = 25;
+            this.labelArea.Text = "現在エリア：";
+            // 
+            // TabControlGTactics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelArea);
             this.Controls.Add(this.labelMiniCap);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -508,10 +919,12 @@
             this.Controls.Add(this.textBoxURL);
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
-            this.Name = "TabControlGShooting";
-            this.Size = new System.Drawing.Size(743, 536);
+            this.Name = "TabControlGTactics";
+            this.Size = new System.Drawing.Size(671, 614);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -554,8 +967,39 @@
         private System.Windows.Forms.Label labelStateLevelUp;
         private System.Windows.Forms.CheckBox checkBoxRecieveReword;
         private System.Windows.Forms.CheckBox checkBoxOnlySearch;
-        private System.Windows.Forms.CheckBox checkBoxRequest;
-        private System.Windows.Forms.Label labelRequest;
+        private System.Windows.Forms.Label labelStateInterval;
         private System.Windows.Forms.CheckBox checkBoxRecievePresent;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBoxShieldA3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox comboBoxShieldA2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox comboBoxShieldA1;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox comboBoxShieldC3;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox comboBoxShieldC2;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox comboBoxShieldC1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox comboBoxShieldB3;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox comboBoxShieldB2;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox comboBoxShieldB1;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox comboBoxStrategicArea;
+        private System.Windows.Forms.CheckBox checkBoxForceCharge;
+        private System.Windows.Forms.CheckBox checkBoxUseForce;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ComboBox comboBoxForcePattern;
+        private System.Windows.Forms.Label labelArea;
+        private System.Windows.Forms.ComboBox comboBoxPriority;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox textBoxPointDiff;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.CheckBox checkBoxStandby;
     }
 }

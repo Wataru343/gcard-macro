@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace gcard_macro
 {
-    public partial class TabControlGShooting : UserControl
+    public partial class TabControlGroup : UserControl
     {
         private Group Group { get; set; }
-        private bool IsStart { get; set; }
+        private volatile bool IsStart;
         private Label CurrentState { get; set; }
 
         public double WaitSearch { get; set; }
@@ -23,8 +23,12 @@ namespace gcard_macro
         public double WaitAccessBlock { get; set; }
         public double WaitMisc { get; set; }
 
+        public delegate void BotActiveHandler(object sender, bool actived);
+        public event BotActiveHandler BotActived;
+        public delegate void LogHandler(object sender, string text);
+        public event LogHandler Log;
 
-        public TabControlGShooting()
+        public TabControlGroup()
         {
             InitializeComponent();
             timerWatchWebdriver.Start();
@@ -43,6 +47,7 @@ namespace gcard_macro
             checkBoxUseBoost.Checked = Properties.Settings.Default.GroupUseBoost;
             checkBoxFirstAttackBoss.Checked = Properties.Settings.Default.GroupFirstAttackBoss;
             checkBoxRecieveReword.Checked = Properties.Settings.Default.GroupReceiveReword;
+            checkBoxRecievePresent.Checked = Properties.Settings.Default.GroupReceivePresent;
             checkBoxAutojobLevelUp.Checked = Properties.Settings.Default.GroupAutoJobLevelUp;
             checkBoxOnlySearch.Checked = Properties.Settings.Default.GroupOnlySearch;
 
@@ -58,8 +63,7 @@ namespace gcard_macro
                 return;
             }
 
-            if(Group != null)
-                Group.KillThread();
+            Group?.KillThread();
 
 
             if (Webdriver.IsOoen())
@@ -82,16 +86,23 @@ namespace gcard_macro
                     UseBoost = checkBoxUseBoost.Checked,
                     FirstAttackBoss = checkBoxFirstAttackBoss.Checked,
                     ReceiveReword = checkBoxRecieveReword.Checked,
+                    ReceivePresent = checkBoxRecievePresent.Checked,
                     AutojobLevelUp = checkBoxAutojobLevelUp.Checked,
                     OnlySearch = checkBoxOnlySearch.Checked
                 };
 
-                Group.StateChanged += group_StateChanged;
-                Group.MinicapChanged += group_MiniCapChanged;
+                Group.StateChanged += StateChanged;
+                Group.MinicapChanged += MiniCapChanged;
+                Group.Log += OnLog;
+
+                Log?.Invoke(this, "マクロ初期化完了");
             }
             else
             {
                 MessageBox.Show("ブラウザが起動していません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                Log?.Invoke(this, "ブラウザが起動していません");
+
                 return;
             }
             Group.CreateThread();
@@ -99,6 +110,7 @@ namespace gcard_macro
             buttonStart.Enabled = false;
             buttonStop.Enabled = true;
             IsStart = true;
+            BotActived?.Invoke(this, true);
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -108,25 +120,31 @@ namespace gcard_macro
 
             IsStart = false;
 
-            if(Group != null)
-                Group.KillThread();
-            Group = null;            
+            Group?.KillThread();
+            Group = null;
+
+            BotActived?.Invoke(this, false);
         }
 
         private void timerWatchWebdriver_Tick(object sender, EventArgs e)
         {
             if (IsStart)
             {
-                if (!Webdriver.IsOoen() || !Group.IsRun)
+                IsStart = true;
+                lock (Group)
                 {
-                    IsStart = false;
-                    if (Group != null)
-                        Group.KillThread();
-                    Group = null;
+                    if (!Webdriver.IsOoen() || !Group.IsRun)
+                    {
+                        IsStart = false;
+                        Group?.KillThread();
+                        Group = null;
 
-                    buttonStop.PerformClick();
+                        buttonStop.PerformClick();
 
-                    MessageBox.Show("マクロが停止しました", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("マクロが停止しました", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        Log?.Invoke(this, "マクロが停止しました");
+                    }
                 }
             }
         }
@@ -144,6 +162,7 @@ namespace gcard_macro
             Properties.Settings.Default.GroupUseBoost = checkBoxUseBoost.Checked;
             Properties.Settings.Default.GroupFirstAttackBoss = checkBoxFirstAttackBoss.Checked;
             Properties.Settings.Default.GroupReceiveReword = checkBoxRecieveReword.Checked;
+            Properties.Settings.Default.GroupReceivePresent = checkBoxRecievePresent.Checked;
             Properties.Settings.Default.GroupAutoJobLevelUp = checkBoxAutojobLevelUp.Checked;
             Properties.Settings.Default.GroupOnlySearch = checkBoxOnlySearch.Checked;
             Properties.Settings.Default.Save();
@@ -156,7 +175,13 @@ namespace gcard_macro
 
         private void textBoxEnemyCount_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
 
-        private void group_MiniCapChanged(object sender, int count)
+        private void textBoxEnemyCount_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
+
+        private void textBoxBaseDamage_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
+
+        private void textBoxPointDiff_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
+
+        private void MiniCapChanged(object sender, int count)
         {
             Invoke((MethodInvoker)delegate
             {
@@ -164,90 +189,105 @@ namespace gcard_macro
             });
         }
 
-        private void group_StateChanged(object sender, Event.State state)
+        private void StateChanged(object sender, Event.State state)
         {
-            Invoke((MethodInvoker)delegate {
-                CurrentState.BackColor = Color.White;
-
-                switch (state)
+            try
+            {
+                Invoke((MethodInvoker)delegate
                 {
-                    case Event.State.Home:
-                        labelStateHome.BackColor = Color.Yellow;
-                        CurrentState = labelStateHome;
-                        break;
-                    case Event.State.Battle:
-                        labelStateBattle.BackColor = Color.Yellow;
-                        CurrentState = labelStateBattle;
-                        break;
-                    case Event.State.EnemyList:
-                        labelStateEnemyList.BackColor = Color.Yellow;
-                        CurrentState = labelStateEnemyList;
-                        break;
-                    case Event.State.SearchFlash:
-                        labelStateSearch.BackColor = Color.Yellow;
-                        CurrentState = labelStateSearch;
-                        break;
-                    case Event.State.BattleFlash:
-                        labelStateBattleFlash.BackColor = Color.Yellow;
-                        CurrentState = labelStateBattleFlash;
-                        break;
-                     case Event.State.LevelUp:
-                        labelStateLevelUp.BackColor = Color.Yellow;
-                        CurrentState = labelStateLevelUp;
-                        break;
-                    case Event.State.Error:
-                        labelStateError.BackColor = Color.Yellow;
-                        CurrentState = labelStateError;
-                        break;
-                    case Event.State.Result:
-                        labelStateResult.BackColor = Color.Yellow;
-                        CurrentState = labelStateResult;
-                        break;
-                    case Event.State.Receive:
-                        labelStateReceive.BackColor = Color.Yellow;
-                        CurrentState = labelStateReceive;
-                        break;
-                    case Event.State.PresentList:
-                        labelStatePresentList.BackColor = Color.Yellow;
-                        CurrentState = labelStatePresentList;
-                        break;
-                    case Event.State.FightAlreadyFinished:
-                        labelStateFightAlreadyFinished.BackColor = Color.Yellow;
-                        CurrentState = labelStateFightAlreadyFinished;
-                        break;
-                    case Event.State.AccessBlock:
-                        labelStateAccessBlock.BackColor = Color.Yellow;
-                        CurrentState = labelStateAccessBlock;
-                        break;
-                    case Event.State.GetCard:
-                        labelStateGetCard.BackColor = Color.Yellow;
-                        CurrentState = labelStateGetCard;
-                        break;
-                    case Event.State.EventFinished:
-                        labelStateEventFinished.BackColor = Color.Yellow;
-                        CurrentState = labelStateEventFinished;
-                        break;
-                    case Event.State.Unknown:
-                        labelStateUnknown.BackColor = Color.Yellow;
-                        CurrentState = labelStateUnknown;
-                        break;
-                    case Event.State.GroupInterval:
-                        labelStateInterval.BackColor = Color.Yellow;
-                        CurrentState = labelStateInterval;
-                        break;
-                    case Event.State.SelectJobs:
-                        labelStateSelectJobs.BackColor = Color.Yellow;
-                        CurrentState = labelStateSelectJobs;
-                        break;
-                    case Event.State.UseBoost:
-                        labelStateUseBoost.BackColor = Color.Yellow;
-                        CurrentState = labelStateUseBoost;
-                        break;
-                    default:
-                        labelStateUnknown.BackColor = Color.Yellow;
-                        CurrentState = labelStateUnknown;
-                        break;
-                }
+                    CurrentState.BackColor = Color.White;
+
+                    switch (state)
+                    {
+                        case Event.State.Home:
+                            labelStateHome.BackColor = Color.Yellow;
+                            CurrentState = labelStateHome;
+                            break;
+                        case Event.State.Battle:
+                            labelStateBattle.BackColor = Color.Yellow;
+                            CurrentState = labelStateBattle;
+                            break;
+                        case Event.State.EnemyList:
+                            labelStateEnemyList.BackColor = Color.Yellow;
+                            CurrentState = labelStateEnemyList;
+                            break;
+                        case Event.State.SearchFlash:
+                            labelStateSearch.BackColor = Color.Yellow;
+                            CurrentState = labelStateSearch;
+                            break;
+                        case Event.State.BattleFlash:
+                            labelStateBattleFlash.BackColor = Color.Yellow;
+                            CurrentState = labelStateBattleFlash;
+                            break;
+                        case Event.State.LevelUp:
+                            labelStateLevelUp.BackColor = Color.Yellow;
+                            CurrentState = labelStateLevelUp;
+                            break;
+                        case Event.State.Error:
+                            labelStateError.BackColor = Color.Yellow;
+                            CurrentState = labelStateError;
+                            break;
+                        case Event.State.Result:
+                            labelStateResult.BackColor = Color.Yellow;
+                            CurrentState = labelStateResult;
+                            break;
+                        case Event.State.Receive:
+                            labelStateReceive.BackColor = Color.Yellow;
+                            CurrentState = labelStateReceive;
+                            break;
+                        case Event.State.PresentList:
+                            labelStatePresentList.BackColor = Color.Yellow;
+                            CurrentState = labelStatePresentList;
+                            break;
+                        case Event.State.FightAlreadyFinished:
+                            labelStateFightAlreadyFinished.BackColor = Color.Yellow;
+                            CurrentState = labelStateFightAlreadyFinished;
+                            break;
+                        case Event.State.AccessBlock:
+                            labelStateAccessBlock.BackColor = Color.Yellow;
+                            CurrentState = labelStateAccessBlock;
+                            break;
+                        case Event.State.GetCard:
+                            labelStateGetCard.BackColor = Color.Yellow;
+                            CurrentState = labelStateGetCard;
+                            break;
+                        case Event.State.EventFinished:
+                            labelStateEventFinished.BackColor = Color.Yellow;
+                            CurrentState = labelStateEventFinished;
+                            break;
+                        case Event.State.Unknown:
+                            labelStateUnknown.BackColor = Color.Yellow;
+                            CurrentState = labelStateUnknown;
+                            break;
+                        case Event.State.Interval:
+                            labelStateInterval.BackColor = Color.Yellow;
+                            CurrentState = labelStateInterval;
+                            break;
+                        case Event.State.GroupSelectJobs:
+                            labelStateSelectJobs.BackColor = Color.Yellow;
+                            CurrentState = labelStateSelectJobs;
+                            break;
+                        case Event.State.GroupUseBoost:
+                            labelStateUseBoost.BackColor = Color.Yellow;
+                            CurrentState = labelStateUseBoost;
+                            break;
+                        default:
+                            labelStateUnknown.BackColor = Color.Yellow;
+                            CurrentState = labelStateUnknown;
+                            break;
+                    }
+                });
+            }
+            catch { }
+        }
+
+        public void EnableRunButton(bool enabled) => buttonStart.Enabled = enabled;
+
+        private void OnLog(object sender, string text)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                Log?.Invoke(sender, text);
             });
         }
     }

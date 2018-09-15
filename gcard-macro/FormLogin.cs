@@ -9,13 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
+
+using OpenQA.Selenium.Interactions;
 
 namespace gcard_macro
 {
     public partial class FormLogin : Form
     {
-        public ChromeDriver driver;
+        public RemoteWebDriver driver;
 
         public FormLogin()
         {
@@ -25,6 +27,15 @@ namespace gcard_macro
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            try
+            {
+                IWebElement elm = driver.FindElementByClassName("swf");
+
+                Actions action = new Actions(driver);
+                action.MoveToElement(elm, (int)(elm.Size.Width / 2.6), elm.Size.Height / 6 * 5).Click().Build().Perform();
+            }
+            catch { }
+
             try
             {
                 if (driver != null && driver.Url == "http://gcc.sp.mbga.jp/_gcard_my_room")

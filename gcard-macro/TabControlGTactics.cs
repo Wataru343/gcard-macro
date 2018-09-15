@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace gcard_macro
 {
-    public partial class TabControlRaid : UserControl
+    public partial class TabControlGTactics : UserControl
     {
-        private Raid Raid { get; set; }
+        private GTactics GTactics { get; set; }
         private bool IsStart { get; set; }
         private Label CurrentState { get; set; }
 
@@ -28,28 +28,38 @@ namespace gcard_macro
         public delegate void LogHandler(object sender, string text);
         public event LogHandler Log;
 
-        public TabControlRaid()
+        public TabControlGTactics()
         {
             InitializeComponent();
             timerWatchWebdriver.Start();
-            Raid = null;
+            GTactics = null;
             IsStart = false;
             buttonStop.Enabled = false;
 
-            textBoxURL.Text = Properties.Settings.Default.RaidURL;
-            checkBoxJoinAssault.Checked = Properties.Settings.Default.RaidJoinAssault;
-            checkBoxUseAssaultBE.Checked = Properties.Settings.Default.RaidUseAssaultBE;
-            checkBoxRequest.Checked = Properties.Settings.Default.RaidRequest;
-            textBoxBaseDamage.Text = Properties.Settings.Default.RaidBaseDamage.ToString();
-            textBoxEnemyCount.Text = Properties.Settings.Default.RaidEnemyCount.ToString();
-            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.RaidAttackMode;
-            comboBoxRecieve.SelectedIndex = Properties.Settings.Default.RaidReceiveCount;
-            checkBoxOnlySearch.Checked = Properties.Settings.Default.RaidOnlySearch;
-            checkBoxRecieveReword.Checked = Properties.Settings.Default.RaidReceiveReword;
-            checkBoxRecievePresent.Checked = Properties.Settings.Default.RaidReceivePresent;
-            checkBoxAimMVP.Checked = Properties.Settings.Default.RaidAimMVP;
-            checkBoxOnlyAttackAssultBoss.Checked = Properties.Settings.Default.RaidOnlyAttackAssultBoss;
-            textBoxWaitRecieveAssult.Text = Properties.Settings.Default.RaidWaitRecieveAssult.ToString();
+            textBoxURL.Text = Properties.Settings.Default.GTacticsURL;
+            textBoxBaseDamage.Text = Properties.Settings.Default.GTacticsBaseDamage.ToString();
+            textBoxEnemyCount.Text = Properties.Settings.Default.GTacticsEnemyCount.ToString();
+            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.GTacticsAttackMode;
+            comboBoxRecieve.SelectedIndex = Properties.Settings.Default.GTacticsReceiveCount;
+            checkBoxRecieveReword.Checked = Properties.Settings.Default.GTacticsReceiveReword;
+            checkBoxRecievePresent.Checked = Properties.Settings.Default.GTacticsReceivePresent;
+            checkBoxOnlySearch.Checked = Properties.Settings.Default.GTacticsOnlySearch;
+            comboBoxShieldA1.SelectedIndex = Properties.Settings.Default.GTacticsShieldA1;
+            comboBoxShieldA2.SelectedIndex = Properties.Settings.Default.GTacticsShieldA2;
+            comboBoxShieldA3.SelectedIndex = Properties.Settings.Default.GTacticsShieldA3;
+            comboBoxShieldB1.SelectedIndex = Properties.Settings.Default.GTacticsShieldB1;
+            comboBoxShieldB2.SelectedIndex = Properties.Settings.Default.GTacticsShieldB2;
+            comboBoxShieldB3.SelectedIndex = Properties.Settings.Default.GTacticsShieldB3;
+            comboBoxShieldC1.SelectedIndex = Properties.Settings.Default.GTacticsShieldC1;
+            comboBoxShieldC2.SelectedIndex = Properties.Settings.Default.GTacticsShieldC2;
+            comboBoxShieldC3.SelectedIndex = Properties.Settings.Default.GTacticsShieldC3;
+            comboBoxStrategicArea.SelectedIndex = Properties.Settings.Default.GTacticsStrategicArea;
+            checkBoxUseForce.Checked = Properties.Settings.Default.GTacticsUseForce;
+            checkBoxForceCharge.Checked = Properties.Settings.Default.GTacticsForceCharge;
+            comboBoxForcePattern.SelectedIndex = Properties.Settings.Default.GTacticsForcePattern;
+            comboBoxPriority.SelectedIndex= Properties.Settings.Default.GTacticsPriority;
+            textBoxPointDiff.Text = Properties.Settings.Default.GTacticsPointDiff.ToString();
+            checkBoxStandby.Checked = Properties.Settings.Default.GTacticsStandby;
             CurrentState = labelStateHome;
         }
 
@@ -62,12 +72,12 @@ namespace gcard_macro
                 return;
             }
 
-            Raid?.KillThread();
+            GTactics?.KillThread();
 
 
             if (Webdriver.IsOoen())
             {
-                Raid = new Raid(Webdriver.Instance, textBoxURL.Text)
+                GTactics = new GTactics(Webdriver.Instance, textBoxURL.Text)
                 {
                     WaitSearch = WaitSearch,
                     WaitBattle = WaitBattle,
@@ -75,35 +85,49 @@ namespace gcard_macro
                     WaitReceive = WaitReceive,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
-                    JoinAssault = checkBoxJoinAssault.Checked,
-                    UseAssaultBE = checkBoxUseAssaultBE.Checked,
-                    Request = checkBoxRequest.Checked,
                     BaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text),
                     EnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text),
                     Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
                     ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
-                    OnlySearch = checkBoxOnlySearch.Checked,
                     ReceiveReword = checkBoxRecieveReword.Checked,
                     ReceivePresent = checkBoxRecievePresent.Checked,
-                    AimMVP = checkBoxAimMVP.Checked,
-                    OnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked,
-                    WaitRecieveAssult = Convert.ToDouble(textBoxWaitRecieveAssult.Text)
+                    OnlySearch = checkBoxOnlySearch.Checked,
+                    Shield = new Dictionary<string, int> {
+                        { "A1", comboBoxShieldA1.SelectedIndex },
+                        { "A2", comboBoxShieldA2.SelectedIndex },
+                        { "A3", comboBoxShieldA3.SelectedIndex },
+                        { "B1", comboBoxShieldB1.SelectedIndex },
+                        { "B2", comboBoxShieldB2.SelectedIndex },
+                        { "B3", comboBoxShieldB3.SelectedIndex },
+                        { "C1", comboBoxShieldC1.SelectedIndex },
+                        { "C2", comboBoxShieldC2.SelectedIndex },
+                        { "C3", comboBoxShieldC3.SelectedIndex },
+                        { "戦略拠点", comboBoxStrategicArea.SelectedIndex },
+                    },
+                    Priority = (GTactics.AreaPriority)comboBoxPriority.SelectedIndex,
+                    UseForce = checkBoxUseForce.Checked,
+                    ForceCharge = checkBoxForceCharge.Checked,
+                    StrategyAreaForcePattern = (GTactics.ForcePattern)comboBoxForcePattern.SelectedIndex,
+                    PointDiff = Convert.ToInt64(textBoxPointDiff.Text),
+                    Standby = checkBoxStandby.Checked
                 };
 
-                Raid.StateChanged += StateChanged;
-                Raid.MinicapChanged += MiniCapChanged;
-                Raid.Log += OnLog;
+                GTactics.StateChanged += StateChanged;
+                GTactics.MinicapChanged += MiniCapChanged;
+                GTactics.AreaChanged += AreaChanged;
+                GTactics.Log += OnLog;
             }
             else
             {
                 MessageBox.Show("ブラウザが起動していません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Raid.CreateThread();
+            GTactics.CreateThread();
 
             buttonStart.Enabled = false;
             buttonStop.Enabled = true;
             IsStart = true;
+
             BotActived?.Invoke(this, true);
         }
 
@@ -113,9 +137,10 @@ namespace gcard_macro
             buttonStop.Enabled = false;
 
             IsStart = false;
-            
-            Raid?.KillThread();
-            Raid = null;
+
+
+            GTactics?.KillThread();
+            GTactics = null;
 
             BotActived?.Invoke(this, false);
         }
@@ -124,12 +149,12 @@ namespace gcard_macro
         {
             if (IsStart)
             {
-                if (!Webdriver.IsOoen() || !Raid.IsRun)
+                if (!Webdriver.IsOoen() || !GTactics.IsRun)
                 {
                     IsStart = false;
 
-                    Raid?.KillThread();
-                    Raid = null;
+                    GTactics?.KillThread();
+                    GTactics = null;
 
                     buttonStop.PerformClick();
 
@@ -138,53 +163,49 @@ namespace gcard_macro
             }
         }
 
-
         public void SaveSetting()
         {
-            Properties.Settings.Default.RaidURL = textBoxURL.Text;
-            Properties.Settings.Default.RaidJoinAssault = checkBoxJoinAssault.Checked;
-            Properties.Settings.Default.RaidUseAssaultBE = checkBoxUseAssaultBE.Checked;
-            Properties.Settings.Default.RaidRequest = checkBoxRequest.Checked;
-            Properties.Settings.Default.RaidBaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text);
-            Properties.Settings.Default.RaidEnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text);
-            Properties.Settings.Default.RaidAttackMode = comboBoxAttackMode.SelectedIndex;
-            Properties.Settings.Default.RaidReceiveCount = comboBoxRecieve.SelectedIndex;
-            Properties.Settings.Default.RaidOnlySearch = checkBoxOnlySearch.Checked;
-            Properties.Settings.Default.RaidReceiveReword = checkBoxRecieveReword.Checked;
-            Properties.Settings.Default.RaidReceivePresent = checkBoxRecievePresent.Checked;
-            Properties.Settings.Default.RaidAimMVP = checkBoxAimMVP.Checked;
-            Properties.Settings.Default.RaidOnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked;
-            Properties.Settings.Default.RaidWaitRecieveAssult = Convert.ToDouble(textBoxWaitRecieveAssult.Text);
+            Properties.Settings.Default.GTacticsURL = textBoxURL.Text;
+            Properties.Settings.Default.GTacticsBaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text);
+            Properties.Settings.Default.GTacticsEnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text);
+            Properties.Settings.Default.GTacticsAttackMode = comboBoxAttackMode.SelectedIndex;
+            Properties.Settings.Default.GTacticsReceiveCount = comboBoxRecieve.SelectedIndex;
+            Properties.Settings.Default.GTacticsReceiveReword = checkBoxRecieveReword.Checked;
+            Properties.Settings.Default.GTacticsReceivePresent = checkBoxRecievePresent.Checked;
+            Properties.Settings.Default.GTacticsOnlySearch = checkBoxOnlySearch.Checked;
+            Properties.Settings.Default.GTacticsShieldA1 = comboBoxShieldA1.SelectedIndex;
+            Properties.Settings.Default.GTacticsShieldA2 = comboBoxShieldA2.SelectedIndex;
+            Properties.Settings.Default.GTacticsShieldA3 = comboBoxShieldA3.SelectedIndex;
+            Properties.Settings.Default.GTacticsShieldB1 = comboBoxShieldB1.SelectedIndex;
+            Properties.Settings.Default.GTacticsShieldB2 = comboBoxShieldB2.SelectedIndex;
+            Properties.Settings.Default.GTacticsShieldB3 = comboBoxShieldB3.SelectedIndex;
+            Properties.Settings.Default.GTacticsShieldC1 = comboBoxShieldC1.SelectedIndex;
+            Properties.Settings.Default.GTacticsShieldC2 = comboBoxShieldC2.SelectedIndex;
+            Properties.Settings.Default.GTacticsShieldC3 = comboBoxShieldC3.SelectedIndex;
+            Properties.Settings.Default.GTacticsStrategicArea = comboBoxStrategicArea.SelectedIndex;
+            Properties.Settings.Default.GTacticsPriority = comboBoxPriority.SelectedIndex;
+            Properties.Settings.Default.GTacticsUseForce = checkBoxUseForce.Checked;
+            Properties.Settings.Default.GTacticsForceCharge = checkBoxForceCharge.Checked;
+            Properties.Settings.Default.GTacticsForcePattern = comboBoxForcePattern.SelectedIndex;
+            Properties.Settings.Default.GTacticsPointDiff = Convert.ToUInt64(textBoxPointDiff.Text);
+            Properties.Settings.Default.GTacticsStandby = checkBoxStandby.Checked;
+
             Properties.Settings.Default.Save();
         }
 
 
-        private void checkBoxJoinAssault_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Raid != null) Raid.JoinAssault = (sender as CheckBox).Checked;
-        }
-
-        private void checkBoxUseAssaultBE_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Raid != null) Raid.UseAssaultBE = (sender as CheckBox).Checked;
-        }
-
-        private void checkBoxRequest_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Raid != null) Raid.Request = (sender as CheckBox).Checked;
-        }
-
         private void textBoxBaseDamage_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
+
+        private void textBoxPointDiff_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
 
         private void textBoxEnemyCount_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
 
-        private void textBoxWaitRecieveAssult_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
+        private void textBoxEnemyCount_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void textBoxBaseDamage_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
-        private void textBoxEnemyCount_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
+        private void textBoxPointDiff_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
-        private void textBoxWaitRecieveAssult_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
 
         private void MiniCapChanged(object sender, int count)
@@ -207,11 +228,19 @@ namespace gcard_macro
                         labelStateHome.BackColor = Color.Yellow;
                         CurrentState = labelStateHome;
                         break;
+                    case Event.State.Interval:
+                        labelStateInterval.BackColor = Color.Yellow;
+                        CurrentState = labelStateInterval;
+                        break;
                     case Event.State.Battle:
                         labelStateBattle.BackColor = Color.Yellow;
                         CurrentState = labelStateBattle;
                         break;
                     case Event.State.EnemyList:
+                        labelStateEnemyList.BackColor = Color.Yellow;
+                        CurrentState = labelStateEnemyList;
+                        break;
+                    case Event.State.GTacticsStrategicArea:
                         labelStateEnemyList.BackColor = Color.Yellow;
                         CurrentState = labelStateEnemyList;
                         break;
@@ -244,7 +273,7 @@ namespace gcard_macro
                         CurrentState = labelStatePresentList;
                         break;
                     case Event.State.RequestComplete:
-                        labelStatePresentList.BackColor = Color.Yellow;
+                        labelStateResult.BackColor = Color.Yellow;
                         CurrentState = labelStatePresentList;
                         break;
                     case Event.State.FightAlreadyFinished:
@@ -267,35 +296,19 @@ namespace gcard_macro
                         labelStateUnknown.BackColor = Color.Yellow;
                         CurrentState = labelStateUnknown;
                         break;
-                    case Event.State.AssaultOperationHome:
-                        labelStateAssaultOperationHome.BackColor = Color.Yellow;
-                        CurrentState = labelStateAssaultOperationHome;
-                        break;
-                    case Event.State.BattleAssaultOperation:
-                        labelStateBattleAssaultOperation.BackColor = Color.Yellow;
-                        CurrentState = labelStateBattleAssaultOperation;
-                        break;
-                    case Event.State.AssaultOperationRequest:
-                        labelStateAssaultOperationRequest.BackColor = Color.Yellow;
-                        CurrentState = labelStateAssaultOperationRequest;
-                        break;
-                    case Event.State.AssaultOperationRequestSubmit:
-                        labelStateAssaultOperationRequestSubmit.BackColor = Color.Yellow;
-                        CurrentState = labelStateAssaultOperationRequestSubmit;
-                        break;
-                    case Event.State.AssaultOperationRequestComplete:
-                        labelStateAssaultOperationRequestComplete.BackColor = Color.Yellow;
-                        CurrentState = labelStateAssaultOperationRequestComplete;
-                        break;
-                    case Event.State.AssaultOperationWin:
-                        labelStateAssaultOperationWin.BackColor = Color.Yellow;
-                        CurrentState = labelStateAssaultOperationWin;
-                        break;
                     default:
                         labelStateUnknown.BackColor = Color.Yellow;
                         CurrentState = labelStateUnknown;
                         break;
                 }
+            });
+        }
+
+        private void AreaChanged(object sender, string area)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                labelArea.Text = "現在エリア：" + area;
             });
         }
 
@@ -307,5 +320,3 @@ namespace gcard_macro
         }
     }
 }
-//http://gcc.sp.mbga.jp/_gcard_event299
-                                       

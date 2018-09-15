@@ -1,0 +1,474 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Drawing;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Interactions;
+
+namespace gcard_macro
+{
+    class Promotion : Event
+    {
+        public delegate void StateChangedHandler(object sender, State state);
+        public event StateChangedHandler StateChanged;
+        public delegate void MinicapChangedHandler(object sender, int count);
+        public event MinicapChangedHandler MinicapChanged;
+        public delegate void SllayCountChangedHandler(object sender, int count);
+        public event SllayCountChangedHandler SallyCountChanged;
+        public delegate void LogHandler(object sender, string text);
+        public event LogHandler Log;
+
+        public int WatchRank { get; set; }
+        public int SallyCount { get; set; }
+        public DateTime SallyStart { get; set; }
+        public DateTime SallyEnd { get; set; }
+
+        public bool SallyUnlimited { get; set; }
+        private DateTime prevTime { get; set; }
+        private int BaseSallyCount { get; set; }
+
+        public Promotion(RemoteWebDriver driver, string home_path) : base(driver, home_path)
+        {
+            RunObj = new object();
+            driver_ = driver;
+            driver_.Navigate().GoToUrl(home_path);
+            home_path_ = home_path;
+            CurrentState = State.Home;
+            Exec = SearchState;
+            WaitSearch = 0.0;
+            WaitBattle = 0.0;
+            WaitAttack = 0.0;
+            WaitReceive = 0.0;
+            WaitAccessBlock = 0.0;
+            WaitMisc = 0.0;
+            SallyUnlimited = SallyCount == 0 ? true : false;
+            prevTime = DateTime.Now;
+            BaseSallyCount = -1;
+        }
+
+        override protected void SearchState()
+        {
+            if(BaseSallyCount == -1)
+            {
+                BaseSallyCount = SallyCount;
+            }
+
+            try
+            {
+                //イベントホーム
+                if (IsHome())
+                {
+                    CurrentState = State.Home;
+                    Wait(WaitSearch);
+                    Exec = MoveEventHomeToSearch;
+                }
+                //戦闘フラッシュ
+                else if (IsFightFlash())
+                {
+                    CurrentState = State.BattleFlash;
+                    Wait(WaitAttack);
+                    Exec = ClickBattleFlash;
+                }
+                //敵一覧
+                else if (IsEnemyList())
+                {
+                    CurrentState = State.EnemyList;
+                    Wait(WaitSearch);
+                    Exec = MoveEnemyListToSearch;
+                }
+                //戦闘画面
+                else if (IsBattle())
+                {
+                    CurrentState = State.Battle;
+                    Wait(WaitAttack);
+                    Exec = Battle;
+                }
+                //戦闘リザルト
+                else if (IsResult())
+                {
+                    CurrentState = State.Result;
+                    Wait(WaitReceive);
+                    Exec = MoveResultToEnemyList;
+                }
+                //撤退確認画面
+                else if (IsWithdrawalConfirmation())
+                {
+                    CurrentState = State.PromotionWithdrawalConfirmation;
+                    Wait(WaitMisc);
+                    Exec = ConfirmWithdrawal;
+                }
+                //撤退完了画面
+                else if (IsWithdrawalCompletion())
+                {
+                    CurrentState = State.PromotionWithdrawalCompletion;
+                    Wait(WaitMisc);
+                    Exec = CompleteWithdrawal;
+                }
+                //出撃確認画面
+                else if (IsSallyConfirmation())
+                {
+                    CurrentState = State.PromotionSallyConfirmation;
+                    Wait(WaitMisc);
+                    Exec = ConfirmSally;
+                }
+                //報酬受け取り
+                else if (IsReceive())
+                {
+                    CurrentState = State.Receive;
+                    Wait(WaitReceive);
+                    Exec = MoveReceiveToPresentList;
+                }
+                //プレゼント一覧
+                else if (IsPresentList())
+                {
+                    CurrentState = State.PresentList;
+                    Wait(WaitReceive);
+                    Exec = MovePresentListToPresent;
+                }
+                //レベルアップ
+                else if (IsLevelUp())
+                {
+                    CurrentState = State.LevelUp;
+                    Wait(WaitMisc);
+                    Exec = MoveLevelUpToSearch;
+                }
+                //既に戦闘は終了しています
+                else if (IsFightAlreadyFinished())
+                {
+                    CurrentState = State.FightAlreadyFinished;
+                    Wait(WaitMisc);
+                    driver_.Navigate().GoToUrl(home_path_);
+                    Attacked = false;
+                }
+                //不正な画面遷移です
+                else if (IsError())
+                {
+                    CurrentState = State.Error;
+                    Wait(WaitMisc);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                //アクセスを制限
+                else if (IsAccessBlock())
+                {
+                    CurrentState = State.AccessBlock;
+                    Wait(WaitAccessBlock);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                //イベント終了
+                else if (IsEventFinished())
+                {
+                    CurrentState = State.EventFinished;
+                    //IsRun = false;
+                }
+                else
+                {
+                    CurrentState = State.Unknown;
+                    Wait(WaitMisc);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+            }
+            catch { }
+
+            StateChanged?.Invoke(this, CurrentState);
+
+            if(prevTime.Day < DateTime.Now.Day)
+            {
+                SallyCount = BaseSallyCount;
+            }
+
+            prevTime = DateTime.Now;
+        }
+
+
+        /// <summary>
+        /// 敵一覧画面判定
+        /// </summary>
+        /// <returns></returns>
+        override protected bool IsEnemyList() => driver_.Url == @"http://gcc.sp.mbga.jp/_gcard_promotion_battles" || driver_.Url == @"http://gcc.sp.mbga.jp/_gcard_promotion_battles?ae=1";
+
+        /// <summary>
+        /// 戦闘画面判定
+        /// </summary>
+        /// <returns></returns>
+        override protected bool IsBattle() => driver_.PageSource.IndexOf("バトルエネルギー") >= 0 && driver_.PageSource.IndexOf("今回使用するデッキ") >= 0;
+
+        /// <summary>
+        /// リザルト画面判定
+        /// </summary>
+        /// <returns></returns>
+        override protected bool IsResult() => driver_.PageSource.IndexOf("次の対戦へ進む") >= 0 || driver_.PageSource.IndexOf("戦闘結果") >= 0;
+
+        /// <summary>
+        /// 撤退確認画面判定
+        /// </summary>
+        /// <returns></returns>
+        private bool IsWithdrawalConfirmation() => driver_.PageSource.IndexOf("撤退しますか") >= 0;
+
+        /// <summary>
+        /// 出撃確認画面判定
+        /// </summary>
+        /// <returns></returns>
+        private bool IsSallyConfirmation() => driver_.PageSource.IndexOf("出撃チケットを使って出撃しますか") >= 0;
+
+        /// <summary>
+        /// 撤退完了画面判定
+        /// </summary>
+        /// <returns></returns>
+        private bool IsWithdrawalCompletion() =>  driver_.PageSource.IndexOf("撤退しました") >= 0;
+
+
+        /// <summary>
+        /// イベントのホームから出撃
+        /// </summary>
+        private void MoveEventHomeToSearch()
+        {
+            try
+            {
+                try
+                {
+                    IWebElement rank = driver_.FindElementByXPath("//div[contains(text(), \"現在\")]/span");
+
+                    if(Convert.ToInt32(rank.Text) <= WatchRank)
+                    {
+                        Wait(5);
+                        Exec = SearchState;
+                        return;
+                    }
+                }
+                catch { }
+
+                TimeSpan now = DateTime.Now.TimeOfDay;
+                TimeSpan start = SallyStart.TimeOfDay;
+                TimeSpan end = SallyEnd.TimeOfDay;
+
+                if (start >= end) end += TimeSpan.FromDays(1);
+
+                if (now >= start && now < end)
+                {
+                    try
+                    {
+                        IWebElement elm = driver_.FindElementByXPath("//a[@class=\"sally now\"]");
+                        driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                    }
+                    catch
+                    {
+                        if (SallyUnlimited || SallyCount > 0)
+                        {
+                            IWebElement elm = driver_.FindElementByXPath("//a[@class=\"sally\" or @class=\"sally now\" or @class=\"sally ticket\"]");
+                            driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                            SallyCount--;
+                        }
+                        else
+                        {
+                            Wait(5);
+                            Exec = SearchState;
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    Wait(5);
+                    Exec = SearchState;
+                    return;
+                }
+            }
+            catch
+            {
+                Wait(5);
+            }
+
+            Exec = SearchState;
+        }
+
+
+        /// <summary>
+        /// 戦闘結果から敵一覧へ
+        /// </summary>
+        override protected void MoveResultToEnemyList()
+        {
+            try
+            {
+                //var elms = driver_.FindElementsByXPath("//input[@value=\"報酬を受け取る\"]");
+                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"次の対戦へ進む\"]");
+                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+            }
+            catch
+            {
+                try
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                catch { }
+            }
+
+            Exec = SearchState;
+        }
+
+
+        /// <summary>
+        /// 敵一覧から戦闘へ
+        /// </summary>
+        private void MoveEnemyListToSearch()
+        {
+            SallyCountChanged?.Invoke(this, SallyUnlimited ? 0 : SallyCount);
+
+
+            if (enemy_list_path_ == "")
+            {
+                enemy_list_path_ = driver_.Url;
+            }
+
+
+            try
+            {
+                var enemyButton = driver_.FindElementsByXPath("//li[@class=\"enemy-detail\"]/a");
+                var enemyPower = driver_.FindElementsByXPath("//li[@class=\"enemy-detail\"]/a/dl/dd[@class=\"power\"]/span").Select(e => Convert.ToUInt64(e.Text)).ToList();
+                var enemyAlive = driver_.FindElementsByXPath("//li[@class=\"enemy-detail\"]/a/dl/dd[@class=\"alive\"]/span").Select(e => Convert.ToUInt64(e.Text)).ToList();
+                var enemyPt = driver_.FindElementsByXPath("//li[@class=\"enemy-detail\"]/a/dl/dd[@class=\"pt\"]/span").Select(e => Convert.ToUInt64(e.Text.Replace(",", ""))).ToList();
+
+                var hp = driver_.FindElementByXPath("//div[@class=\"hp flex\"]").Text.Replace(",", "").Split(new char[] { '/' });
+                var myHP = Convert.ToInt64(hp[0]);
+                var maxHP = Convert.ToInt64(hp[1]);
+
+                switch (Mode)
+                {
+                    case AttackMode.攻撃力が低い敵を攻撃撤退無し:
+                        int minIdx = enemyPower.IndexOf(enemyPower.Min());
+                        driver_.Navigate().GoToUrl(enemyButton[minIdx].GetAttribute("href"));
+                        break;
+
+                    case AttackMode.攻撃力が低い敵を攻撃HP20パーセント以下で撤退:
+                        if(myHP <= maxHP * 0.2)
+                        {
+                            IWebElement button = driver_.FindElementByXPath("//a[text()=\"撤退する\"]");
+                            driver_.Navigate().GoToUrl(button.GetAttribute("href"));
+                            break;
+                        }
+                        minIdx = enemyPower.IndexOf(enemyPower.Min());
+                        driver_.Navigate().GoToUrl(enemyButton[minIdx].GetAttribute("href"));
+                        break;
+
+                    case AttackMode.PTが高い敵を攻撃撤退無し:
+                        minIdx = enemyPt.IndexOf(enemyPt.Max());
+                        driver_.Navigate().GoToUrl(enemyButton[minIdx].GetAttribute("href"));
+                        break;
+
+                    case AttackMode.PTが高い敵を攻撃HP20パーセント以下で撤退:
+                        if (myHP <= maxHP * 0.2)
+                        {
+                            IWebElement button = driver_.FindElementByXPath("//a[text()=\"撤退する\"]");
+                            driver_.Navigate().GoToUrl(button.GetAttribute("href"));
+                            break;
+                        }
+                        minIdx = enemyPt.IndexOf(enemyPt.Max());
+                        driver_.Navigate().GoToUrl(enemyButton[minIdx].GetAttribute("href"));
+                        break;
+
+                    case AttackMode.攻撃力割るMS数が低い敵を攻撃撤退無し:
+                        var powPerMs = enemyPower.Zip(enemyAlive, (p, a) => new { pow = (double)p, ms = (double)a }).Select(e => e.pow / e.ms).ToList();
+                        minIdx = powPerMs.IndexOf(powPerMs.Min());
+                        driver_.Navigate().GoToUrl(enemyButton[minIdx].GetAttribute("href"));
+                        break;
+
+                    case AttackMode.攻撃力割るMS数が低い敵を攻撃HP20パーセント以下で撤退:
+                        if (myHP <= maxHP * 0.2)
+                        {
+                            IWebElement button = driver_.FindElementByXPath("//a[text()=\"撤退する\"]");
+                            driver_.Navigate().GoToUrl(button.GetAttribute("href"));
+                            break;
+                        }
+                        powPerMs = enemyPower.Zip(enemyAlive, (p, a) => new { pow = (double)p, ms = (double)a }).Select(e => e.pow / e.ms).ToList();
+                        minIdx = powPerMs.IndexOf(powPerMs.Min());
+                        driver_.Navigate().GoToUrl(enemyButton[minIdx].GetAttribute("href"));
+                        break;
+                    default:
+                        break;
+                }
+
+
+
+            }
+            catch { }
+
+            Exec = SearchState;
+        }
+
+
+        /// <summary>
+        /// 戦闘画面
+        /// </summary>
+        private void Battle()
+        {
+            Exec = SearchState;
+
+            try
+            {
+                IWebElement elm = driver_.FindElementByXPath("//div[contains(text(), \"BE回復ミニカプセル\")]/span");
+                if (MinicapCount != Convert.ToInt32(elm.Text)){
+                    MinicapChanged?.Invoke(this, Convert.ToInt32(elm.Text));
+                    MinicapCount = Convert.ToInt32(elm.Text);
+                }
+            }
+            catch { }
+            
+
+            try
+            {
+                var elms = driver_.FindElementsByXPath("//*[@class=\"txt-c pb8 pt8\"]/a");
+                AddEnemyId(driver_.Url);
+                driver_.Navigate().GoToUrl(elms.ElementAt(2).GetAttribute("href"));
+            }
+            catch { }
+
+            IsCombo = false;
+        }
+
+        /// <summary>
+        /// 撤退確認画面
+        /// </summary
+        private void ConfirmWithdrawal()
+        {
+            try
+            {
+                IWebElement elm = driver_.FindElementByXPath("//input[@value=\"撤退する\"]");
+                elm.Submit();
+            }
+            catch { }
+
+            Exec = SearchState;
+        }
+
+        /// <summary>
+        /// 撤退完了画面
+        /// </summary
+        private void CompleteWithdrawal()
+        {
+            try
+            {
+                driver_.Navigate().GoToUrl(home_path_);
+            }
+            catch { }
+
+            Exec = SearchState;
+        }
+
+        /// <summary>
+        /// 出撃確認画面
+        /// </summary
+        private void ConfirmSally()
+        {
+            try
+            {
+                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"出撃する\"]");
+                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+            }
+            catch { }
+
+            Exec = SearchState;
+        }
+    }
+}

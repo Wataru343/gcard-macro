@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Interactions;
 
 namespace gcard_macro
@@ -14,12 +14,25 @@ namespace gcard_macro
         public bool JoinAssault { get; set; }
         public bool UseAssaultBE { get; set; }
         public bool Request { get; set; }
+        public bool AimMVP { get; set; }
+        public bool OnlyAttackAssultBoss { get; set; }
+        public double WaitRecieveAssult { get; set; }
+
+        public delegate void StateChangedHandler(object sender, State state);
+        public event StateChangedHandler StateChanged;
+        public delegate void MinicapChangedHandler(object sender, int count);
+        public event MinicapChangedHandler MinicapChanged;
+        public delegate void LogHandler(object sender, string text);
+        public event LogHandler Log;
+
         private bool AssaultOperations { get; set; }
         private bool AssaultOperationsRequest { get; set; }
+        private bool AssaultOperationsRequest2 { get; set; }
         private bool OneAttack { get; set; }
+        private bool IsRareBoss { get; set; }
+        private bool IsAssaultBEEnded { get; set; }
 
-
-        public Raid(ChromeDriver driver, string home_path): base(driver, home_path)
+        public Raid(RemoteWebDriver driver, string home_path): base(driver, home_path)
         {
             RunObj = new object();
             driver_ = driver;
@@ -37,8 +50,11 @@ namespace gcard_macro
             UseAssaultBE = false;
             Request = false;
             BaseDamage = 0;
-        }
+            IsAssaultBEEnded = false;
+            WaitRecieveAssult = 0.0;
 
+            Log?.Invoke(this, "マクロ初期化");
+        }
 
 
         override protected void SearchState()
@@ -123,13 +139,6 @@ namespace gcard_macro
                         Wait(WaitMisc);
                         Exec = MoveEnemyListToAssaultOperationRequest;
                     }
-                    //敵出現
-                    else if (IsEnemyAppearance())
-                    {
-                        CurrentState = State.EnemyAppearance;
-                        Wait(WaitBattle);
-                        Exec = MoveEnemyAppearanceToBattle;
-                    }
                     else
                     {
                         CurrentState = State.EnemyList;
@@ -186,20 +195,22 @@ namespace gcard_macro
                     Wait(WaitMisc);
                     Exec = MoveAssaultOperationRequestCompleteToAssaultOperationHome;
                 }
+                //強襲作戦未受取報酬一覧
+                else if (IsAssaultOperationPresentList())
+                {
+                    CurrentState = State.AssaultOperationRequestComplete;
+                    Wait(WaitMisc);
+                    Exec = MoveAssaultOperationPresentListToReceive;
+                }
                 //強襲作戦成功
                 else if (IsAssaultOperationWin())
                 {
                     CurrentState = State.AssaultOperationWin;
                     AssaultOperations = false;
                     AssaultOperationsRequest = false;
+                    AssaultOperationsRequest2 = false;
                     Wait(WaitMisc);
                     driver_.Navigate().GoToUrl(home_path_);
-                }
-                //強襲作戦未受取報酬一覧
-                else if (IsAssaultOperationPresentList()){
-                    CurrentState = State.AssaultOperationRequestComplete;
-                    Wait(WaitMisc);
-                    Exec = MoveAssaultOperationPresentListToReceive;
                 }
                 //カード入手
                 else if (IsGetCard())
@@ -220,7 +231,7 @@ namespace gcard_macro
                 {
                     CurrentState = State.FightAlreadyFinished;
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(enemy_list_path_);
                     Attacked = false;
                 }
                 //強襲作戦に参加していません
@@ -258,6 +269,8 @@ namespace gcard_macro
                 }
             }
             catch { }
+
+            StateChanged?.Invoke(this, CurrentState);
         }
         
 
@@ -265,7 +278,7 @@ namespace gcard_macro
         /// 戦闘画面(強襲作戦)判定
         /// </summary>
         /// <returns></returns>
-        private bool IsBattleAssaultOperation() => driver_.PageSource.IndexOf("バトルエネルギー") >= 0 && driver_.PageSource.IndexOf("強襲作戦専用BE") >= 0;
+        private bool IsBattleAssaultOperation() => driver_.PageSource.IndexOf("バトルエネルギー") >= 0 && AssaultOperations;
 
 
 
@@ -279,7 +292,7 @@ namespace gcard_macro
         /// ホーム画面に参加中の強襲作戦が出ているかどうか判定
         /// </summary>
         /// <returns></returns>
-        private bool IsAssaultOperationInHome() => driver_.Url == home_path_ && driver_.PageSource.IndexOf("参加中の作戦へ戻る") >= 0;
+        private bool IsAssaultOperationInHome() => driver_.Url == home_path_ && driver_.PageSource.IndexOf("参加中の作戦へ戻る") >= 0 || driver_.Url == home_path_ && driver_.PageSource.IndexOf("依頼を確認する") >= 0;
 
         /// <summary>
         /// 戦闘画面に強襲作戦参加依頼が出ているかどうか判定
@@ -323,13 +336,6 @@ namespace gcard_macro
         /// <returns></returns>
         private bool IsAssaultOperationPresentList() => driver_.PageSource.IndexOf("強襲作戦未受取報酬一覧") >= 0;
 
-        
-        /// <summary>
-        /// 応援依頼完了画面判定
-        /// </summary>
-        /// <returns></returns>
-        private bool IsRequestComplete() => driver_.PageSource.IndexOf("応援依頼完了") >= 0;
-
         /// <summary>
         /// 強襲作戦に参加していません画面判定
         /// </summary>
@@ -355,99 +361,181 @@ namespace gcard_macro
 
 
         /// <summary>
-        /// 敵一覧から探索へ
+        /// 敵一覧から戦闘へ
         /// </summary>
         private void MoveEnemyListToSearch()
         {
+            enemy_list_path_ = driver_.Url;
+
+            IsRareBoss = false;
+            AssaultOperations = false;
+
+            System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> enemys = null;
+
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"敵を見つける\"]");
-                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                //全ボタン検索                
+                enemys = driver_.FindElementsByXPath("//a[contains(@class,\"btn-raidboss-\")]");
+                if (enemys.Count == 0) AttackedEnemyId.Clear();
             }
-            catch
+            catch { }
+
+            //報酬受け取り
+            if (ReceiveReword)
             {
                 try
                 {
-                    IWebElement elm = driver_.FindElementByXPath("//a[text()=\"報酬をまとめて受け取る\"]");
-                    driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                    var rewords = driver_.FindElementsByXPath("//*[text()=\"報酬を受け取る\"]");
+                    if (rewords.Count() >= ReceiveCount)
+                    {
+                        IWebElement elm = driver_.FindElementByXPath("//a[text()=\"報酬をまとめて受け取る\"]");
+                        driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                        Exec = SearchState;
+                        return;
+                    }
                 }
                 catch
                 { }
             }
 
-            Exec = SearchState;
-        }
 
-        /// <summary>
-        /// 敵一覧から戦闘へ
-        /// </summary>
-        private void MoveEnemyAppearanceToBattle()
-        {
-            //コンボ数が多い順に狙う
-            int idx = -1;
-            Exec = SearchState;
-            try
+            //探索のみ
+            if (!OnlySearch)
             {
-                var elms = driver_.FindElementsByXPath("//a[@class=\"btn-raidboss-attack chance\"]");
-                if (elms.Count > 0)
+                //コンボ数が多い順に狙う
+                int idx = -1;
+                Exec = SearchState;
+
+                //レアボス相手にMVPを狙う
+                if (AimMVP)
                 {
-                    var combo = elms.Select(e => Convert.ToInt32(e.FindElement(By.XPath("//a[@class=\"btn-raidboss-attack chance\"]/../dl[@class=\"raidboss-combo\"]//span")).Text)).ToList();
-                    idx = combo.IndexOf(combo.Max());
-                    driver_.Navigate().GoToUrl(elms[idx].GetAttribute("href"));
-                    Exec = SearchState;
-                    OneAttack = true;
-                    return;
+                    foreach (var enemy in enemys)
+                    {
+                        //レアボスであ攻撃する
+                        if(enemy.FindElement(By.XPath("../p[@class=\"raidboss-name\"]")).Text.IndexOf("ﾚｱﾎﾞｽ") >= 0)
+                        {
+                            if (AttackedEnemyId.IndexOf(GetEnemyId(enemy.GetAttribute("href"))) < 0)
+                            {
+                                driver_.Navigate().GoToUrl(enemy.GetAttribute("href"));
+                                Exec = SearchState;
+                                IsRareBoss = true;
+                                return;
+                            }
+                        }
+                    }
                 }
-            }
-            catch { }
 
-            try
-            {
-                var elms = driver_.FindElementsByXPath("//a[@class=\"btn-raidboss-attack not\"]");
-                if (elms.Count > 0)
+
+                //一度しか攻撃しない場合
+                if (Mode == AttackMode.OneAttack)
                 {
-                    var combo = elms.Select(e => Convert.ToInt32(e.FindElement(By.XPath("//a[@class=\"btn-raidboss-attack not\"]/../dl[@class=\"raidboss-combo\"]//span")).Text)).ToList();
-                    idx = combo.IndexOf(combo.Max());
-                    driver_.Navigate().GoToUrl(elms[idx].GetAttribute("href"));
-                    Exec = SearchState;
-                    OneAttack = true;
-                    return;
+                    foreach (var enemy in enemys)
+                    {
+                        try
+                        {
+                            if (AttackedEnemyId.IndexOf(GetEnemyId(enemy.GetAttribute("href"))) < 0)
+                            {
+                                driver_.Navigate().GoToUrl(enemy.GetAttribute("href"));
+                                Exec = SearchState;
+                                return;
+                            }
+                        }
+                        catch { }
+                    }
                 }
-            }
-            catch { }
-
-
-            try
-            {
-                var elms = driver_.FindElementsByXPath("//dl[@class=\"raidboss-combo\"]//span ");
-
-                if(elms.Count == 4)
+                //無制限に攻撃する場合
+                else if (Mode == AttackMode.Unlimited)
                 {
-                    IWebElement elm = driver_.FindElementByXPath("//a[text()=\"戦況を更新\"]");
-                    driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-                    Exec = SearchState;
-                    return;
+                    try
+                    {
+                        driver_.Navigate().GoToUrl(enemys[0].GetAttribute("href"));
+                        Exec = SearchState;
+                        return;
+                    }
+                    catch { }
                 }
                 else
+                {
+                    //コンボチャンス
+                    try
+                    {
+                        var elms = driver_.FindElementsByXPath("//a[@class=\"btn-raidboss-attack chance\"]");
+                        if (elms.Count > 0)
+                        {
+                            var combo = elms.Select(e => Convert.ToInt32(e.FindElement(By.XPath("//a[@class=\"btn-raidboss-attack chance\"]/../dl[@class=\"raidboss-combo\"]//span")).Text)).ToList();
+                            idx = combo.IndexOf(combo.Max());
+                            driver_.Navigate().GoToUrl(elms[idx].GetAttribute("href"));
+                            Exec = SearchState;
+                            IsCombo = true;
+                            return;
+                        }
+                    }
+                    catch { }
+
+                    //協力要請
+                    try
+                    {
+                        var elms = driver_.FindElementsByXPath("//a[@class=\"btn-raidboss-attack request\"]");
+                        if (elms.Count > 0)
+                        {
+                            var combo = elms.Select(e => Convert.ToInt32(e.FindElement(By.XPath("//a[@class=\"btn-raidboss-attack request\"]/../dl[@class=\"raidboss-combo\"]//span")).Text)).ToList();
+                            idx = combo.IndexOf(combo.Max());
+                            driver_.Navigate().GoToUrl(elms[idx].GetAttribute("href"));
+                            Exec = SearchState;
+                            IsCombo = true;
+                            return;
+                        }
+                    }
+                    catch { }
+
+                    //未攻撃
+                    try
+                    {
+                        var elms = driver_.FindElementsByXPath("//a[@class=\"btn-raidboss-attack not\"]");
+                        if (elms.Count > 0)
+                        {
+                            var combo = elms.Select(e => Convert.ToInt32(e.FindElement(By.XPath("//a[@class=\"btn-raidboss-attack not\"]/../dl[@class=\"raidboss-combo\"]//span")).Text)).ToList();
+                            idx = combo.IndexOf(combo.Max());
+                            driver_.Navigate().GoToUrl(elms[idx].GetAttribute("href"));
+                            Exec = SearchState;
+                            RemoveEnemyId(GetEnemyId(driver_.Url));
+                            return;
+                        }
+                    }
+                    catch { }
+                }
+            }
+
+
+            try
+            {
+                if (enemys.Count() <= (int)EnemyCount)
                 {
                     IWebElement elm = driver_.FindElementByXPath("//a[text()=\"敵を見つける\"]");
                     driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                     Exec = SearchState;
                     return;
                 }
+            }
+            catch { }
 
-                //var combo = elms.Select(e => Convert.ToInt32(e.Text)).ToList();
-                //idx = combo.IndexOf(combo.Max());
-            }
-            catch
+
+            try
             {
+                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"戦況を更新する\" or text()=\"戦況を更新\"]");
+                Wait(5);
+                driver_.Navigate().Refresh();
                 Exec = SearchState;
-                try
-                {
-                    driver_.Navigate().GoToUrl(home_path_);
-                }
-                catch { }
+                return;
             }
+            catch { }
+
+            Exec = SearchState;
+            try
+            {
+                driver_.Navigate().GoToUrl(home_path_);
+            }
+            catch { }
         }
 
         /// <summary>
@@ -457,11 +545,68 @@ namespace gcard_macro
         {
             try
             {
+                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"依頼を確認する\"]");
+                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                Exec = SearchState;
+                return;
+            }
+            catch { }
+
+
+            try
+            {
                 IWebElement elm = driver_.FindElementByXPath("//a[text()=\"参加中の作戦へ戻る\"]");
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 AssaultOperations = true;
+                Exec = SearchState;
+                return;
             }
             catch { }
+        }
+
+        /// <summary>
+        /// 戦闘結果から敵一覧へ
+        /// </summary>
+        override protected void MoveResultToEnemyList()
+        {
+            Exec = SearchState;
+            try
+            {
+                var elms = driver_.FindElementsByXPath("//input[@value=\"報酬を受け取る\"]");
+                foreach (var e in elms)
+                {
+                    e.Submit();
+                    return;
+                }
+            }
+            catch { }
+
+            try
+            {
+                //var elms = driver_.FindElementsByXPath("//input[@value=\"報酬を受け取る\"]");
+                var elms = driver_.FindElementsByXPath("//a[text()=\"敵一覧\"]");
+                foreach (var e in elms)
+                {
+                    //e.Submit();
+                    driver_.Navigate().GoToUrl(e.GetAttribute("href"));
+                    return;
+                }
+            }
+            catch { }
+
+            try
+            {
+                //var elms = driver_.FindElementsByXPath("//input[@value=\"報酬を受け取る\"]");
+                var elms = driver_.FindElementsByXPath("//a[text()=\"強襲作戦敵一覧\"]");
+                foreach (var e in elms)
+                {
+                    //e.Submit();
+                    driver_.Navigate().GoToUrl(e.GetAttribute("href"));
+                    return;
+                }
+            }
+            catch { }
+
 
             Exec = SearchState;
         }
@@ -504,7 +649,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"作戦参加\" and @href]");
+                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"未受取報酬を受け取る\"]");
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 Exec = SearchState;
                 return;
@@ -514,7 +659,7 @@ namespace gcard_macro
 
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"未受取報酬を受け取る\"]");
+                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"作戦参加\" and @href]");
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 Exec = SearchState;
                 return;
@@ -542,7 +687,9 @@ namespace gcard_macro
                 IWebElement elm = driver_.FindElementByXPath("//a[text()=\"強襲作戦敵一覧へ\"]");
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 AssaultOperations = true;
+                IsAssaultBEEnded = false;
                 AssaultOperationsRequest = false;
+                AssaultOperationsRequest2 = false;
             }
             catch { }
 
@@ -550,7 +697,7 @@ namespace gcard_macro
         }
 
         /// <summary>
-        /// 強襲作戦参加完了から強襲作戦開始へ
+        /// 作戦参加依頼完了から強襲作戦開始へ
         /// </summary>
         private void MoveAssaultOperationRequestCompleteToAssaultOperationHome()
         {
@@ -559,6 +706,7 @@ namespace gcard_macro
                 IWebElement elm = driver_.FindElementByXPath("//a[text()=\"強襲作戦敵一覧\"]");
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 AssaultOperations = true;
+                IsAssaultBEEnded = false;
             }
             catch { }
 
@@ -566,13 +714,13 @@ namespace gcard_macro
         }
 
         /// <summary>
-        /// 強襲作戦参加完了から強襲作戦開始へ
+        /// 強襲作戦参加完了の報酬受け取り
         /// </summary>
         private void MoveAssaultOperationPresentListToReceive()
         {
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"報酬をまとめて受け取る\"]");
+                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"報酬をまとめて受け取る\" or text()=\"強襲作戦未受取報酬一覧\" or text()=\"報酬を受け取る\"]");
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
             catch { }
@@ -586,21 +734,56 @@ namespace gcard_macro
         /// </summary>
         private void MoveAssaultOperationHomeToAssaultOperationBattle()
         {
-            if (!AssaultOperationsRequest)
+            enemy_list_path_ = driver_.Url;
+
+            if (Request)
+            {
+                if (!AssaultOperationsRequest || !AssaultOperationsRequest2)
+                {
+                    try
+                    {
+                        IWebElement elm = driver_.FindElementByXPath("//a[text()=\"戦友に参加依頼\"]");
+                        driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                        AssaultOperations = true;
+                        if (AssaultOperationsRequest) AssaultOperationsRequest2 = true;
+                        AssaultOperationsRequest = true;
+                    }
+                    catch { }
+
+                    Exec = SearchState;
+                    return;
+                }
+
+            }
+
+
+            //報酬受け取り
+            if (ReceiveReword)
             {
                 try
                 {
-                    IWebElement elm = driver_.FindElementByXPath("//a[text()=\"戦友に参加依頼\"]");
-                    driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-                    AssaultOperations = true;
-                    AssaultOperationsRequest = true;
+                    var rewords = driver_.FindElementsByXPath("//*[text()=\"報酬を受け取る\"]");
+                    if (rewords.Count() >= 5)
+                    {
+                        IWebElement elm = driver_.FindElementByXPath("//a[text()=\"報酬をまとめて受け取る\"]");
+                        Wait(WaitRecieveAssult);
+                        driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                        Exec = SearchState;
+                        return;
+                    }
                 }
-                catch { }
+                catch
+                { }
+            }
 
+
+            if (IsAssaultBEEnded && UseAssaultBE)
+            {
+                Wait(3);
+                driver_.Navigate().Refresh();
                 Exec = SearchState;
                 return;
             }
-            
 
             try
             {
@@ -611,91 +794,25 @@ namespace gcard_macro
             }
             catch { }
 
-
-            try
-            {
-                var elms = driver_.FindElementsByXPath("//div[@class=\"boss-wrap\"]/a[@href]");
-
-                foreach (var elm in elms.Reverse())
-                {
-                    driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-                    break;
-                }
-                AssaultOperations = true;
-            }
-            catch { }
-
-            Exec = SearchState;
-        }
-
-
-        /// <summary>
-        /// 応援依頼完了から戦闘画面 or 探索へ
-        /// </summary>
-        private void MoveRequestCompleteToBattle()
-        {
-            try
-            {
-                driver_.Navigate().GoToUrl(home_path_);
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"ボス戦に戻る\"]");
-                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-                Exec = SearchState;
-                return;
-            }
-            catch { }
-
-            try
-            {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"続けて探索する\"]");
-                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-            }
-            catch
+            if (!OnlyAttackAssultBoss)
             {
                 try
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    var elms = driver_.FindElementsByXPath("//div[@class=\"boss-wrap\"]/a[@href]");
+                    driver_.Navigate().GoToUrl(elms[5].GetAttribute("href"));
+                    AssaultOperations = true;
                 }
                 catch { }
             }
-
-
-            Exec = SearchState;
-        }        
-
-
-        /// <summary>
-        /// プレゼント一覧からプレゼント受け取り or 探索へ
-        /// </summary>
-        override protected void MovePresentListToPresent()
-        {            
-            try
+            else
             {
-                IWebElement elm = driver_.FindElementByXPath("//input[@value=\"プレゼントをまとめて受け取る\"]");
-                elm.Submit();
+                Wait(3);
+                driver_.Navigate().Refresh();
                 Exec = SearchState;
                 return;
             }
-            catch { }
 
-            try
-            {
-                if (AssaultOperations)
-                {
-                    driver_.Navigate().GoToUrl(home_path_);
-                    Exec = SearchState;
-                    return;
-                }
-            }
-            catch { }
-
-            try
-            {
-
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"探索\"]");
-                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-                Exec = SearchState;
-            }
-            catch { }            
+            Exec = SearchState;
         }
 
 
@@ -704,6 +821,62 @@ namespace gcard_macro
         /// </summary>
         private void Battle()
         {
+            Exec = SearchState;
+
+            try
+            {
+                IWebElement elm = driver_.FindElementByXPath("//div[contains(text(), \"BE回復ミニカプセル\")]/span");
+                if (MinicapCount != Convert.ToInt32(elm.Text))
+                {
+                    MinicapChanged?.Invoke(this, Convert.ToInt32(elm.Text));
+                    MinicapCount = Convert.ToInt32(elm.Text);
+                }
+            }
+            catch { }
+
+
+            ulong hp = 0;
+            try
+            {
+                //敵HPを取得
+                IWebElement elm = driver_.FindElementByXPath("//div[@class=\"raid_boss_summary_para\"]/div[@class=\"flex wb\"]");
+                string strhp = elm.Text;
+                string current_hp = strhp.Replace(",", "").Split(new char[] { '/' })[0];
+                hp = ulong.Parse(current_hp);
+
+                ulong myDamage = 0;
+                try
+                {
+                    //自分が与えたダメージを取得
+                    myDamage = ulong.Parse(driver_.FindElementByXPath("//div[contains(text(),\"の総ダメージ\")]/strong").Text.Replace(",", ""));
+                }
+                catch
+                {
+                    try
+                    {
+                        var elms = driver_.FindElementsByXPath("//div[contains(text(),\"現在のMVP候補\")]/../div/div/p");
+                        myDamage = ulong.Parse(elms[1].Text.Split(new char[] { ':' })[1].Replace(",", ""));
+                    }
+                    catch { }
+                }
+
+                if (AimMVP && IsRareBoss)
+                {
+                    if (hp < myDamage * 2)
+                    {
+                        AddEnemyId(driver_.Url);
+                        driver_.Navigate().GoToUrl(enemy_list_path_);
+                        return;
+                    }
+                    else
+                    {
+                        RemoveEnemyId(GetEnemyId(driver_.Url));
+                    }
+                }
+            }
+            catch { }
+
+
             if (Request)
             {
                 try
@@ -717,51 +890,64 @@ namespace gcard_macro
                 catch { }
             }
 
-            if (Attacked)
+
+            //無制限に攻撃するでない
+            if (Mode != AttackMode.Unlimited)
             {
-                Attacked = false;
-                driver_.Navigate().GoToUrl(home_path_);
-                return;
+                if (IsAttacked(driver_.Url) && !IsCombo)
+                {
+                    if (Mode != AttackMode.Unlimited)
+                    {
+                        if (enemy_list_path_ != "")
+                        {
+                            Attacked = false;
+                            driver_.Navigate().GoToUrl(enemy_list_path_);
+                            return;
+                        }
+                    }
+                }
             }
+
 
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//div[@class=\"raid_boss_summary_para\"]/div[@class=\"flex wb\"]");
-                string strhp = elm.Text;
-                string current_hp = strhp.Replace(",", "").Split(new char[] { '/' })[0];
-                UInt64 hp = UInt64.Parse(current_hp);
-
-
                 var elms = driver_.FindElementsByXPath("//*[@class=\"flex w100p\"]/a");
 
-
-                
+                //コンボ数取得
                 double combo = 1;
 
                 try
                 {
-                    elm = driver_.FindElementByXPath("//div[@id=\"attc\"]/strong");
+                    IWebElement elm = driver_.FindElementByXPath("//div[@id=\"attc\"]/strong");
                     combo = Convert.ToDouble(elm.Text);
                 }
                 catch { }
 
 
+                //一撃で倒せる必要倍率を計算
+                int requiredRatio = Utils.CalcUseMiniCapsules(hp, BaseDamage, 1.0, combo);
+                int useBe = 0;
+                if (requiredRatio == 0) requiredRatio = 1;
 
-                int useBe = Utils.CalcUseMiniCapsules(hp, BaseDamage, 1.0, combo);
 
-                if (useBe == 0) useBe = 1;
-                else if (useBe > 3) useBe = 3;
+                if (requiredRatio > 3) useBe = 3;
+                else if (requiredRatio > 1.2) useBe = 2;
+                else useBe = 1;
 
                 if (useBe > 0)
                 {
                     useBe--;
+                    if (!AimMVP || !IsRareBoss)
+                    {
+                        AddEnemyId(driver_.Url);
+                    }
                     driver_.Navigate().GoToUrl(elms.ElementAt(useBe).GetAttribute("href"));
                     Attacked = true;
-                }                
+                }
             }
             catch { }
 
-            Exec = SearchState;
+            IsCombo = false;
         }
 
         /// <summary>
@@ -769,26 +955,98 @@ namespace gcard_macro
         /// </summary>
         private void AssaultOperationBattle()
         {
-            if (!UseAssaultBE)
-            {
-                Battle();
-                return;
-            }
+            Exec = SearchState;
 
-            int be = 0;
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//p[text()=\"強襲作戦専用BE:\"]/span");
-                be = Convert.ToInt32(elm.Text);
-
-                if (be > 3) be = 3;
+                IWebElement elm = driver_.FindElementByXPath("//div[contains(text(), \"BE回復ミニカプセル\")]/span");
+                if (MinicapCount != Convert.ToInt32(elm.Text))
+                {
+                    MinicapChanged?.Invoke(this, Convert.ToInt32(elm.Text));
+                    MinicapCount = Convert.ToInt32(elm.Text);
+                }
             }
             catch { }
 
+            try
+            {
+                var assultBtn = driver_.FindElementsByXPath("//div[@class=\"assault-btn\"]/a");
+                driver_.Navigate().GoToUrl(assultBtn.ElementAt(1).GetAttribute("href"));
+                return;
+            }
+            catch { }
 
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//div[@class=\"raid_boss_summary_para\"]/div[@class=\"flex wb\"]");
+                IWebElement elm = driver_.FindElementByXPath("//p[contains(text(), \"強襲作戦専用BE\")]/span");
+
+                if(UseAssaultBE && Convert.ToInt32(elm.Text) == 0)
+                {
+                    driver_.Navigate().GoToUrl(enemy_list_path_);
+                    IsAssaultBEEnded = true;
+                    Exec = SearchState;
+                    return;
+                }
+            }
+            catch
+            {
+                if (UseAssaultBE)
+                {
+                    driver_.Navigate().GoToUrl(enemy_list_path_);
+                    IsAssaultBEEnded = true;
+                    Exec = SearchState;
+                    return;
+                }
+            }
+
+            if (Request)
+            {
+                try
+                {
+                    //応援依頼が出ていれば依頼する
+                    IWebElement elm = driver_.FindElementByXPath("//form[contains(@action, \"request\")]");
+                    elm.Submit();
+                    Exec = SearchState;
+                    return;
+                }
+                catch { }
+            }
+
+
+            //////無制限に攻撃するでない
+            //if (Mode != AttackMode.Unlimited)
+            //{
+            //    if (IsAttacked(driver_.Url) && !IsCombo)
+            //    {
+            //        if (Mode != AttackMode.Unlimited)
+            //        {
+            //            if (enemy_list_path_ != "")
+            //            {
+            //                Attacked = false;
+            //                driver_.Navigate().GoToUrl(enemy_list_path_);
+            //                return;
+            //            }
+            //        }
+            //    }
+            //}
+
+            
+            try
+            {
+                //敵HPを取得
+                IWebElement elm = null;
+                try
+                {
+                    elm = driver_.FindElementByXPath("//div[@class=\"raid_boss_summary_para\" or @class=\"raid_boss_summary_para bac\"]");
+                }
+                catch
+                {
+                    try
+                    {
+                        elm = driver_.FindElementByXPath("//span[@class=\"now_hp\"]");
+                    }
+                    catch { }
+                }
                 string strhp = elm.Text;
                 string current_hp = strhp.Replace(",", "").Split(new char[] { '/' })[0];
                 UInt64 hp = UInt64.Parse(current_hp);
@@ -796,10 +1054,7 @@ namespace gcard_macro
 
                 var elms = driver_.FindElementsByXPath("//*[@class=\"flex w100p\"]/a");
 
-                if (elms.Count < be) be = elms.Count;
-
-
-                
+                //コンボ数取得
                 double combo = 1;
 
                 try
@@ -809,21 +1064,27 @@ namespace gcard_macro
                 }
                 catch { }
 
-                int useBe = Utils.CalcUseMiniCapsules(hp, BaseDamage, 1.0, combo);
 
-                if (useBe == 0) useBe = 1;
-                else if (useBe > 3) useBe = 3;
+                //一撃で倒せる必要倍率を計算
+                int requiredRatio = Utils.CalcUseMiniCapsules(hp, BaseDamage, 1.0, combo);
+                int useBe = 0;
+                if (requiredRatio == 0) requiredRatio = 1;
 
-                useBe = Math.Min(useBe, be);
 
-                if (useBe > 0) {
+                if (requiredRatio > 3) useBe = 3;
+                else if (requiredRatio > 1.2) useBe = 2;
+                else useBe = 1;
+
+                if (useBe > 0)
+                {
                     useBe--;
                     driver_.Navigate().GoToUrl(elms.ElementAt(useBe).GetAttribute("href"));
+                    Attacked = true;
                 }
             }
             catch { }
-            
-            Exec = SearchState;
+
+            IsCombo = false;
         }
     }
 }

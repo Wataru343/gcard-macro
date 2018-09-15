@@ -310,5 +310,603 @@ namespace gcard_macro.Properties {
                 this["GroupOnlySearch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        public string GShootingURL {
+            get {
+                return ((string)(this["GShootingURL"]));
+            }
+            set {
+                this["GShootingURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong GShootingBaseDamage {
+            get {
+                return ((ulong)(this["GShootingBaseDamage"]));
+            }
+            set {
+                this["GShootingBaseDamage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong GShootingEnemyCount {
+            get {
+                return ((ulong)(this["GShootingEnemyCount"]));
+            }
+            set {
+                this["GShootingEnemyCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int GShootingAttackMode {
+            get {
+                return ((int)(this["GShootingAttackMode"]));
+            }
+            set {
+                this["GShootingAttackMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GShootingReceiveCount {
+            get {
+                return ((int)(this["GShootingReceiveCount"]));
+            }
+            set {
+                this["GShootingReceiveCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GShootingOnlySearch {
+            get {
+                return ((bool)(this["GShootingOnlySearch"]));
+            }
+            set {
+                this["GShootingOnlySearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GShootingReceiveReword {
+            get {
+                return ((bool)(this["GShootingReceiveReword"]));
+            }
+            set {
+                this["GShootingReceiveReword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GShootingRequest {
+            get {
+                return ((bool)(this["GShootingRequest"]));
+            }
+            set {
+                this["GShootingRequest"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        public string PromotionURL {
+            get {
+                return ((string)(this["PromotionURL"]));
+            }
+            set {
+                this["PromotionURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PromotionAttackMode {
+            get {
+                return ((int)(this["PromotionAttackMode"]));
+            }
+            set {
+                this["PromotionAttackMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PromotionWatchRank {
+            get {
+                return ((int)(this["PromotionWatchRank"]));
+            }
+            set {
+                this["PromotionWatchRank"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GShootingReceivePresent {
+            get {
+                return ((bool)(this["GShootingReceivePresent"]));
+            }
+            set {
+                this["GShootingReceivePresent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupReceivePresent {
+            get {
+                return ((bool)(this["GroupReceivePresent"]));
+            }
+            set {
+                this["GroupReceivePresent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RaidReceivePresent {
+            get {
+                return ((bool)(this["RaidReceivePresent"]));
+            }
+            set {
+                this["RaidReceivePresent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RaidReceiveReword {
+            get {
+                return ((bool)(this["RaidReceiveReword"]));
+            }
+            set {
+                this["RaidReceiveReword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PromotionSallyCount {
+            get {
+                return ((int)(this["PromotionSallyCount"]));
+            }
+            set {
+                this["PromotionSallyCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime PromotionTimeStart {
+            get {
+                return ((global::System.DateTime)(this["PromotionTimeStart"]));
+            }
+            set {
+                this["PromotionTimeStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime PromotionTimeEnd {
+            get {
+                return ((global::System.DateTime)(this["PromotionTimeEnd"]));
+            }
+            set {
+                this["PromotionTimeEnd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        public string GTacticsURL {
+            get {
+                return ((string)(this["GTacticsURL"]));
+            }
+            set {
+                this["GTacticsURL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong GTacticsBaseDamage {
+            get {
+                return ((ulong)(this["GTacticsBaseDamage"]));
+            }
+            set {
+                this["GTacticsBaseDamage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong GTacticsEnemyCount {
+            get {
+                return ((ulong)(this["GTacticsEnemyCount"]));
+            }
+            set {
+                this["GTacticsEnemyCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsAttackMode {
+            get {
+                return ((int)(this["GTacticsAttackMode"]));
+            }
+            set {
+                this["GTacticsAttackMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsReceiveCount {
+            get {
+                return ((int)(this["GTacticsReceiveCount"]));
+            }
+            set {
+                this["GTacticsReceiveCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsOnlySearch {
+            get {
+                return ((bool)(this["GTacticsOnlySearch"]));
+            }
+            set {
+                this["GTacticsOnlySearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsReceiveReword {
+            get {
+                return ((bool)(this["GTacticsReceiveReword"]));
+            }
+            set {
+                this["GTacticsReceiveReword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsReceivePresent {
+            get {
+                return ((bool)(this["GTacticsReceivePresent"]));
+            }
+            set {
+                this["GTacticsReceivePresent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldA1 {
+            get {
+                return ((int)(this["GTacticsShieldA1"]));
+            }
+            set {
+                this["GTacticsShieldA1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldA2 {
+            get {
+                return ((int)(this["GTacticsShieldA2"]));
+            }
+            set {
+                this["GTacticsShieldA2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldA3 {
+            get {
+                return ((int)(this["GTacticsShieldA3"]));
+            }
+            set {
+                this["GTacticsShieldA3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldB1 {
+            get {
+                return ((int)(this["GTacticsShieldB1"]));
+            }
+            set {
+                this["GTacticsShieldB1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldB2 {
+            get {
+                return ((int)(this["GTacticsShieldB2"]));
+            }
+            set {
+                this["GTacticsShieldB2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldB3 {
+            get {
+                return ((int)(this["GTacticsShieldB3"]));
+            }
+            set {
+                this["GTacticsShieldB3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldC1 {
+            get {
+                return ((int)(this["GTacticsShieldC1"]));
+            }
+            set {
+                this["GTacticsShieldC1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldC2 {
+            get {
+                return ((int)(this["GTacticsShieldC2"]));
+            }
+            set {
+                this["GTacticsShieldC2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsShieldC3 {
+            get {
+                return ((int)(this["GTacticsShieldC3"]));
+            }
+            set {
+                this["GTacticsShieldC3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsStrategicArea {
+            get {
+                return ((int)(this["GTacticsStrategicArea"]));
+            }
+            set {
+                this["GTacticsStrategicArea"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsPriority {
+            get {
+                return ((int)(this["GTacticsPriority"]));
+            }
+            set {
+                this["GTacticsPriority"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsUseForce {
+            get {
+                return ((bool)(this["GTacticsUseForce"]));
+            }
+            set {
+                this["GTacticsUseForce"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsForceCharge {
+            get {
+                return ((bool)(this["GTacticsForceCharge"]));
+            }
+            set {
+                this["GTacticsForceCharge"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GTacticsForcePattern {
+            get {
+                return ((int)(this["GTacticsForcePattern"]));
+            }
+            set {
+                this["GTacticsForcePattern"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong GTacticsPointDiff {
+            get {
+                return ((ulong)(this["GTacticsPointDiff"]));
+            }
+            set {
+                this["GTacticsPointDiff"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsStandby {
+            get {
+                return ((bool)(this["GTacticsStandby"]));
+            }
+            set {
+                this["GTacticsStandby"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong RaidEnemyCount {
+            get {
+                return ((ulong)(this["RaidEnemyCount"]));
+            }
+            set {
+                this["RaidEnemyCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RaidAttackMode {
+            get {
+                return ((int)(this["RaidAttackMode"]));
+            }
+            set {
+                this["RaidAttackMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RaidReceiveCount {
+            get {
+                return ((int)(this["RaidReceiveCount"]));
+            }
+            set {
+                this["RaidReceiveCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RaidOnlySearch {
+            get {
+                return ((bool)(this["RaidOnlySearch"]));
+            }
+            set {
+                this["RaidOnlySearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RaidAimMVP {
+            get {
+                return ((bool)(this["RaidAimMVP"]));
+            }
+            set {
+                this["RaidAimMVP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RaidOnlyAttackAssultBoss {
+            get {
+                return ((bool)(this["RaidOnlyAttackAssultBoss"]));
+            }
+            set {
+                this["RaidOnlyAttackAssultBoss"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoRun {
+            get {
+                return ((bool)(this["AutoRun"]));
+            }
+            set {
+                this["AutoRun"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double RaidWaitRecieveAssult {
+            get {
+                return ((double)(this["RaidWaitRecieveAssult"]));
+            }
+            set {
+                this["RaidWaitRecieveAssult"] = value;
+            }
+        }
     }
 }

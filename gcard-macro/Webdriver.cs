@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Interactions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
@@ -18,13 +21,13 @@ namespace gcard_macro
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         private const int SW_HIDE = 0;
 
-        private static ChromeDriver driver_ = null;
+        private static volatile RemoteWebDriver driver_ = null;
         private Webdriver()
         {
 
         }
 
-        static public ChromeDriver Instance
+        static public RemoteWebDriver Instance
         {
             get
             {
@@ -44,26 +47,59 @@ namespace gcard_macro
                     options.AddArgument(@"--user-data-dir=" + path);
                     options.AddArgument("--user-agent=\"Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
 
+                    //options.AddArgument(@"--disable-gpu");
+                    //options.AddArgument(@"--ignore-certificate-errors");
+                    //options.AddArgument(@"--allow-running-insecure-content");
+                    //options.AddArgument(@"--disable-web-security");
+                    //options.AddArgument(@"--disable-desktop-notifications");
+                    //options.AddArgument(@"--disable-extensions");
+                    //options.AddArgument(@"--blink-settings=imagesEnabled=false");
+
                     driver_ = driver_ ?? new ChromeDriver(driverService, options);
+
                     driver_.Manage().Window.Size = new System.Drawing.Size(600, 800);
                     driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
-#if !DEBUG
+
                     //ログイン待機
                     if (driver_.Url != "http://gcc.sp.mbga.jp/_gcard_my_room")
                     {
                         new FormLogin() { driver = driver_ }.ShowDialog();
                     }
 
-                    //一度example.comに移動してウィンドウハンドルを取得
-                    driver_.Navigate().GoToUrl("http://example.com/");
-                    IntPtr[] hwnd = System.Diagnostics.Process.GetProcesses().Where(e => e.MainWindowTitle.IndexOf("Example Domain") >= 0).Select(e => e.MainWindowHandle).ToArray();
-                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
-                    ShowWindow(hwnd[0], SW_HIDE);
-#endif
+#if !DEBUG
+                    var cookies = driver_.Manage().Cookies.AllCookies;
 
+                    driver_.Quit();
+
+                    PhantomJSDriverService phantomDriverService = PhantomJSDriverService.CreateDefaultService();
+                    phantomDriverService.HideCommandPromptWindow = true;
+
+                    PhantomJSOptions po = new PhantomJSOptions();
+                    po.AddAdditionalCapability("phantomjs.page.settings.userAgent", "Mozilla /5.0(iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
+                    driver_ = new PhantomJSDriver(phantomDriverService, po);
+
+
+                    driver_.Manage().Window.Size = new System.Drawing.Size(600, 800);
+                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/");
+
+                    foreach (var c in cookies)
+                    {
+                        try
+                        {
+                            driver_.Manage().Cookies.AddCookie(c);
+                        }
+                        catch { }                        
+                    }
+
+                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
+                    driver_.GetScreenshot().SaveAsFile("ss.png", System.Drawing.Imaging.ImageFormat.Png);
+#endif
                     return driver_;
                 }
-                catch { }
+                catch
+                {
+                    driver_ = null;
+                }
 
                 return driver_;
             }
@@ -90,6 +126,11 @@ namespace gcard_macro
             }
         }
 
-        static public bool IsOoen() => driver_ != null;
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        static public bool IsOoen()
+        {
+            bool ret = driver_ != null;
+            return ret;
+        }
     }
 }

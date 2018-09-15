@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace gcard_macro
 {
-    public partial class TabControlGShooting : UserControl
+    public partial class TabControlPromotion : UserControl
     {
-        private GShooting GShooting { get; set; }
+        private Promotion Promotion { get; set; }
         private bool IsStart { get; set; }
         private Label CurrentState { get; set; }
 
@@ -28,24 +28,25 @@ namespace gcard_macro
         public delegate void LogHandler(object sender, string text);
         public event LogHandler Log;
 
-        public TabControlGShooting()
+        public TabControlPromotion()
         {
             InitializeComponent();
             timerWatchWebdriver.Start();
-            GShooting = null;
+            Promotion = null;
             IsStart = false;
             buttonStop.Enabled = false;
 
-            textBoxURL.Text = Properties.Settings.Default.GShootingURL;
-            textBoxBaseDamage.Text = Properties.Settings.Default.GShootingBaseDamage.ToString();
-            textBoxEnemyCount.Text = Properties.Settings.Default.GShootingEnemyCount.ToString();
-            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.GShootingAttackMode;
-            comboBoxRecieve.SelectedIndex = Properties.Settings.Default.GShootingReceiveCount;
-            checkBoxRecieveReword.Checked = Properties.Settings.Default.GShootingReceiveReword;
-            checkBoxRecievePresent.Checked = Properties.Settings.Default.GShootingReceivePresent;
-            checkBoxOnlySearch.Checked = Properties.Settings.Default.GShootingOnlySearch;
-            checkBoxRequest.Checked = Properties.Settings.Default.GShootingRequest;
+            textBoxURL.Text = Properties.Settings.Default.PromotionURL;
+            textBoxWatchRank.Text = Properties.Settings.Default.PromotionWatchRank.ToString();
+            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.PromotionAttackMode;
+            textBoxSallyCount.Text = Properties.Settings.Default.PromotionSallyCount.ToString();
 
+            try
+            {
+                dateTimePickerSallyTimeStart.Value = Properties.Settings.Default.PromotionTimeStart;
+                dateTimePickerSallyTimeEnd.Value = Properties.Settings.Default.PromotionTimeEnd;
+            }
+            catch { }
             CurrentState = labelStateHome;
         }
 
@@ -58,12 +59,12 @@ namespace gcard_macro
                 return;
             }
 
-            GShooting?.KillThread();
+            Promotion?.KillThread();
 
 
             if (Webdriver.IsOoen())
             {
-                GShooting = new GShooting(Webdriver.Instance, textBoxURL.Text)
+                Promotion = new Promotion(Webdriver.Instance, textBoxURL.Text)
                 {
                     WaitSearch = WaitSearch,
                     WaitBattle = WaitBattle,
@@ -71,31 +72,29 @@ namespace gcard_macro
                     WaitReceive = WaitReceive,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
-                    BaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text),
-                    EnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text),
-                    Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
-                    ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
-                    ReceiveReword = checkBoxRecieveReword.Checked,
-                    ReceivePresent = checkBoxRecievePresent.Checked,
-                    OnlySearch = checkBoxOnlySearch.Checked,
-                    Request = checkBoxRequest.Checked
+                    Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex + 3,
+                    WatchRank = Convert.ToInt32(textBoxWatchRank.Text),
+                    SallyCount = Convert.ToInt32(textBoxSallyCount.Text),
+                    SallyUnlimited = Convert.ToInt32(textBoxSallyCount.Text) == 0 ? true : false,
+                    SallyStart = dateTimePickerSallyTimeStart.Value,
+                    SallyEnd = dateTimePickerSallyTimeEnd.Value
                 };
 
-                GShooting.StateChanged += StateChanged;
-                GShooting.MinicapChanged += MiniCapChanged;
-                GShooting.Log += OnLog;
+                Promotion.StateChanged += StateChanged;
+                Promotion.MinicapChanged += MiniCapChanged;
+                Promotion.SallyCountChanged += SallyCountChanged;
+                Promotion.Log += OnLog;
             }
             else
             {
                 MessageBox.Show("ブラウザが起動していません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            GShooting.CreateThread();
+            Promotion.CreateThread();
 
             buttonStart.Enabled = false;
             buttonStop.Enabled = true;
             IsStart = true;
-
             BotActived?.Invoke(this, true);
         }
 
@@ -106,8 +105,8 @@ namespace gcard_macro
 
             IsStart = false;
 
-            GShooting?.KillThread();
-            GShooting = null;
+            Promotion?.KillThread();
+            Promotion = null;
 
             BotActived?.Invoke(this, false);
         }
@@ -116,12 +115,12 @@ namespace gcard_macro
         {
             if (IsStart)
             {
-                if (!Webdriver.IsOoen() || !GShooting.IsRun)
+                if (!Webdriver.IsOoen() || !Promotion.IsRun)
                 {
                     IsStart = false;
 
-                    GShooting?.KillThread();
-                    GShooting = null;
+                    Promotion?.KillThread();
+                    Promotion = null;
 
                     buttonStop.PerformClick();
 
@@ -132,28 +131,26 @@ namespace gcard_macro
         
         public void SaveSetting()
         {
-            Properties.Settings.Default.GShootingURL = textBoxURL.Text;
-            Properties.Settings.Default.GShootingBaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text);
-            Properties.Settings.Default.GShootingEnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text);
-            Properties.Settings.Default.GShootingAttackMode = comboBoxAttackMode.SelectedIndex;
-            Properties.Settings.Default.GShootingReceiveCount = comboBoxRecieve.SelectedIndex;
-            Properties.Settings.Default.GShootingReceiveReword = checkBoxRecieveReword.Checked;
-            Properties.Settings.Default.GShootingReceivePresent = checkBoxRecievePresent.Checked;
-            Properties.Settings.Default.GShootingOnlySearch = checkBoxOnlySearch.Checked;
-            Properties.Settings.Default.GShootingRequest = checkBoxRequest.Checked;
+            Properties.Settings.Default.PromotionURL = textBoxURL.Text;
+            Properties.Settings.Default.PromotionWatchRank = Convert.ToInt32(textBoxWatchRank.Text);
+            Properties.Settings.Default.PromotionAttackMode = comboBoxAttackMode.SelectedIndex;
+            Properties.Settings.Default.PromotionSallyCount = Convert.ToInt32(textBoxSallyCount.Text);
+            Properties.Settings.Default.PromotionTimeStart = dateTimePickerSallyTimeStart.Value;
+            Properties.Settings.Default.PromotionTimeEnd = dateTimePickerSallyTimeEnd.Value;
             Properties.Settings.Default.Save();
         }
 
 
         private void textBoxBaseDamage_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
 
-        private void textBoxPointDiff_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
 
-        private void textBoxEnemyCount_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
+        private void textBoxWatchRank_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
 
-        private void textBoxEnemyCount_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
+        private void textBoxWatchRank_Leave(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
-        private void textBoxBaseDamage_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
+        private void textBoxSallyCount_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
+
+        private void textBoxSallyCount_Leave(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void MiniCapChanged(object sender, int count)
         {
@@ -182,17 +179,9 @@ namespace gcard_macro
                         labelStateEnemyList.BackColor = Color.Yellow;
                         CurrentState = labelStateEnemyList;
                         break;
-                    case Event.State.SearchFlash:
-                        labelStateSearch.BackColor = Color.Yellow;
-                        CurrentState = labelStateSearch;
-                        break;
                     case Event.State.BattleFlash:
                         labelStateBattleFlash.BackColor = Color.Yellow;
                         CurrentState = labelStateBattleFlash;
-                        break;
-                     case Event.State.LevelUp:
-                        labelStateLevelUp.BackColor = Color.Yellow;
-                        CurrentState = labelStateLevelUp;
                         break;
                     case Event.State.Error:
                         labelStateError.BackColor = Color.Yellow;
@@ -202,29 +191,9 @@ namespace gcard_macro
                         labelStateResult.BackColor = Color.Yellow;
                         CurrentState = labelStateResult;
                         break;
-                    case Event.State.Receive:
-                        labelStateReceive.BackColor = Color.Yellow;
-                        CurrentState = labelStateReceive;
-                        break;
-                    case Event.State.PresentList:
-                        labelStatePresentList.BackColor = Color.Yellow;
-                        CurrentState = labelStatePresentList;
-                        break;
-                    case Event.State.RequestComplete:
-                        labelStateResult.BackColor = Color.Yellow;
-                        CurrentState = labelStatePresentList;
-                        break;
-                    case Event.State.FightAlreadyFinished:
-                        labelStateFightAlreadyFinished.BackColor = Color.Yellow;
-                        CurrentState = labelStateFightAlreadyFinished;
-                        break;
                     case Event.State.AccessBlock:
                         labelStateAccessBlock.BackColor = Color.Yellow;
                         CurrentState = labelStateAccessBlock;
-                        break;
-                    case Event.State.GetCard:
-                        labelStateGetCard.BackColor = Color.Yellow;
-                        CurrentState = labelStateGetCard;
                         break;
                     case Event.State.EventFinished:
                         labelStateEventFinished.BackColor = Color.Yellow;
@@ -234,11 +203,32 @@ namespace gcard_macro
                         labelStateUnknown.BackColor = Color.Yellow;
                         CurrentState = labelStateUnknown;
                         break;
+                    case Event.State.PromotionWithdrawalConfirmation:
+                        labelStateWithdrawalConfirmation.BackColor = Color.Yellow;
+                        CurrentState = labelStateWithdrawalConfirmation;
+                        break;
+                    case Event.State.PromotionWithdrawalCompletion:
+                        labelStateWithdrawalCompletion.BackColor = Color.Yellow;
+                        CurrentState = labelStateWithdrawalCompletion;
+                        break;
+                    case Event.State.PromotionSallyConfirmation:
+                        labelStateSallyConfirmation.BackColor = Color.Yellow;
+                        CurrentState = labelStateSallyConfirmation;
+                        break;
                     default:
                         labelStateUnknown.BackColor = Color.Yellow;
                         CurrentState = labelStateUnknown;
                         break;
                 }
+            });
+        }
+
+
+        private void SallyCountChanged(object sender, int count)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                labelSallyCount.Text = "残り出撃回数：" + count.ToString() + "回";
             });
         }
 
@@ -250,3 +240,5 @@ namespace gcard_macro
         }
     }
 }
+//http://gcc.sp.mbga.jp/_gcard_event299
+                                       
