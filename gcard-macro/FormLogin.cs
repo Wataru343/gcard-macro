@@ -17,7 +17,7 @@ namespace gcard_macro
 {
     public partial class FormLogin : Form
     {
-        public RemoteWebDriver driver;
+        public IWebDriver driver;
 
         public FormLogin()
         {
@@ -29,7 +29,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver.FindElementByClassName("swf");
+                IWebElement elm = driver.FindElement(By.ClassName("swf"));
 
                 Actions action = new Actions(driver);
                 action.MoveToElement(elm, (int)(elm.Size.Width / 2.6), elm.Size.Height / 6 * 5).Click().Build().Perform();

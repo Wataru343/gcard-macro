@@ -22,6 +22,7 @@ namespace gcard_macro
         public double WaitReceive { get; set; }
         public double WaitAccessBlock { get; set; }
         public double WaitMisc { get; set; }
+        public string UserName { get; set; }
 
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
@@ -50,12 +51,31 @@ namespace gcard_macro
             checkBoxAimMVP.Checked = Properties.Settings.Default.RaidAimMVP;
             checkBoxOnlyAttackAssultBoss.Checked = Properties.Settings.Default.RaidOnlyAttackAssultBoss;
             textBoxWaitRecieveAssult.Text = Properties.Settings.Default.RaidWaitRecieveAssult.ToString();
+            textBoxWaitAtackBattleShip.Text = Properties.Settings.Default.RaidWaitAtackBattleShip.ToString();
             CurrentState = labelStateHome;
         }
 
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            //シリアルキーチェック
+            if (Properties.Settings.Default.AccessKey != KeyGenerator.Hash.GenerateHash(UserName))
+            {
+
+                string str = Microsoft.VisualBasic.Interaction.InputBox("", "シリアルキーを入力してください", "", -1, -1);
+
+                if (str != KeyGenerator.Hash.GenerateHash(UserName))
+                {
+                    MessageBox.Show("シリアルキーが正しくありません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    buttonStop.PerformClick();
+                    return;
+                }
+
+                Properties.Settings.Default.AccessKey = str;
+                Properties.Settings.Default.Save();
+            }
+
             if (!Uri.IsWellFormedUriString(textBoxURL.Text, UriKind.Absolute))
             {
                 MessageBox.Show("URLが正しい形式ではありません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -64,6 +84,13 @@ namespace gcard_macro
 
             Raid?.KillThread();
 
+#if !DEBUG
+            if (Webdriver.IsChrome())
+            {
+                Webdriver.Close();
+                Webdriver.CreatePhantomJS();
+            }
+#endif
 
             if (Webdriver.IsOoen())
             {
@@ -93,10 +120,15 @@ namespace gcard_macro
                 Raid.StateChanged += StateChanged;
                 Raid.MinicapChanged += MiniCapChanged;
                 Raid.Log += OnLog;
+
+                Log?.Invoke(this, "マクロ初期化完了");
             }
             else
             {
                 MessageBox.Show("ブラウザが起動していません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                Log?.Invoke(this, "ブラウザが起動していません");
+
                 return;
             }
             Raid.CreateThread();
@@ -134,6 +166,8 @@ namespace gcard_macro
                     buttonStop.PerformClick();
 
                     MessageBox.Show("マクロが停止しました", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    Log?.Invoke(this, "マクロが停止しました");
                 }
             }
         }
@@ -155,6 +189,7 @@ namespace gcard_macro
             Properties.Settings.Default.RaidAimMVP = checkBoxAimMVP.Checked;
             Properties.Settings.Default.RaidOnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked;
             Properties.Settings.Default.RaidWaitRecieveAssult = Convert.ToDouble(textBoxWaitRecieveAssult.Text);
+            Properties.Settings.Default.RaidWaitAtackBattleShip = Convert.ToDouble(textBoxWaitAtackBattleShip.Text);
             Properties.Settings.Default.Save();
         }
 
@@ -291,6 +326,10 @@ namespace gcard_macro
                         labelStateAssaultOperationWin.BackColor = Color.Yellow;
                         CurrentState = labelStateAssaultOperationWin;
                         break;
+                    case Event.State.AssaultOperationFaildRequestJoin:
+                        labelStateAssaultOperationRequestFaild.BackColor = Color.Yellow;
+                        CurrentState = labelStateAssaultOperationRequestFaild;
+                        break;
                     default:
                         labelStateUnknown.BackColor = Color.Yellow;
                         CurrentState = labelStateUnknown;
@@ -303,7 +342,10 @@ namespace gcard_macro
 
         private void OnLog(object sender, string text)
         {
-            Log?.Invoke(sender, text);
+            Invoke((MethodInvoker)delegate
+            {
+                Log?.Invoke(sender, text);
+            });
         }
     }
 }

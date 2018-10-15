@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcard-macro", "gcard-macro\gcard-macro.csproj", "{37B09625-485A-4B23-8DA6-9C4F29EC1700}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyGenerator", "KeyGenerator\KeyGenerator.csproj", "{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

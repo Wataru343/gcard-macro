@@ -62,7 +62,7 @@
             this.labelStateEventFinished = new System.Windows.Forms.Label();
             this.labelStateUnknown = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.labelRequest = new System.Windows.Forms.Label();
+            this.labelStateRequest = new System.Windows.Forms.Label();
             this.labelStateGetCard = new System.Windows.Forms.Label();
             this.labelStateLevelUp = new System.Windows.Forms.Label();
             this.labelMiniCap = new System.Windows.Forms.Label();
@@ -431,7 +431,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.labelRequest);
+            this.groupBox2.Controls.Add(this.labelStateRequest);
             this.groupBox2.Controls.Add(this.labelStateGetCard);
             this.groupBox2.Controls.Add(this.labelStateHome);
             this.groupBox2.Controls.Add(this.labelStateLevelUp);
@@ -454,16 +454,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "画面遷移";
             // 
-            // labelRequest
+            // labelStateRequest
             // 
-            this.labelRequest.BackColor = System.Drawing.Color.White;
-            this.labelRequest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelRequest.Location = new System.Drawing.Point(12, 194);
-            this.labelRequest.Name = "labelRequest";
-            this.labelRequest.Size = new System.Drawing.Size(85, 46);
-            this.labelRequest.TabIndex = 25;
-            this.labelRequest.Text = "応援依頼完了";
-            this.labelRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateRequest.BackColor = System.Drawing.Color.White;
+            this.labelStateRequest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelStateRequest.Location = new System.Drawing.Point(12, 194);
+            this.labelStateRequest.Name = "labelStateRequest";
+            this.labelStateRequest.Size = new System.Drawing.Size(85, 46);
+            this.labelStateRequest.TabIndex = 25;
+            this.labelStateRequest.Text = "応援依頼完了";
+            this.labelStateRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelStateGetCard
             // 
@@ -555,7 +555,7 @@
         private System.Windows.Forms.CheckBox checkBoxRecieveReword;
         private System.Windows.Forms.CheckBox checkBoxOnlySearch;
         private System.Windows.Forms.CheckBox checkBoxRequest;
-        private System.Windows.Forms.Label labelRequest;
+        private System.Windows.Forms.Label labelStateRequest;
         private System.Windows.Forms.CheckBox checkBoxRecievePresent;
     }
 }

@@ -75,6 +75,8 @@
             this.labelStateGetCard = new System.Windows.Forms.Label();
             this.labelStateLevelUp = new System.Windows.Forms.Label();
             this.labelMiniCap = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBoxFinalJob = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -82,7 +84,7 @@
             // buttonStart
             // 
             this.buttonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonStart.Location = new System.Drawing.Point(363, 477);
+            this.buttonStart.Location = new System.Drawing.Point(363, 526);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(81, 42);
             this.buttonStart.TabIndex = 6;
@@ -93,7 +95,7 @@
             // buttonStop
             // 
             this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonStop.Location = new System.Drawing.Point(450, 477);
+            this.buttonStop.Location = new System.Drawing.Point(450, 526);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 42);
             this.buttonStop.TabIndex = 0;
@@ -128,6 +130,8 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.comboBoxFinalJob);
             this.groupBox1.Controls.Add(this.checkBoxRecievePresent);
             this.groupBox1.Controls.Add(this.checkBoxOnlySearch);
             this.groupBox1.Controls.Add(this.checkBoxAutojobLevelUp);
@@ -150,7 +154,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(19, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(506, 421);
+            this.groupBox1.Size = new System.Drawing.Size(506, 470);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
@@ -158,22 +162,24 @@
             // checkBoxRecievePresent
             // 
             this.checkBoxRecievePresent.AutoSize = true;
-            this.checkBoxRecievePresent.Location = new System.Drawing.Point(14, 303);
+            this.checkBoxRecievePresent.Location = new System.Drawing.Point(14, 347);
             this.checkBoxRecievePresent.Name = "checkBoxRecievePresent";
             this.checkBoxRecievePresent.Size = new System.Drawing.Size(121, 16);
             this.checkBoxRecievePresent.TabIndex = 27;
             this.checkBoxRecievePresent.Text = "プレゼントを受け取る";
             this.checkBoxRecievePresent.UseVisualStyleBackColor = true;
+            this.checkBoxRecievePresent.CheckedChanged += new System.EventHandler(this.checkBoxRecievePresent_CheckedChanged);
             // 
             // checkBoxOnlySearch
             // 
             this.checkBoxOnlySearch.AutoSize = true;
-            this.checkBoxOnlySearch.Location = new System.Drawing.Point(14, 259);
+            this.checkBoxOnlySearch.Location = new System.Drawing.Point(14, 303);
             this.checkBoxOnlySearch.Name = "checkBoxOnlySearch";
             this.checkBoxOnlySearch.Size = new System.Drawing.Size(69, 16);
             this.checkBoxOnlySearch.TabIndex = 26;
             this.checkBoxOnlySearch.Text = "探索のみ";
             this.checkBoxOnlySearch.UseVisualStyleBackColor = true;
+            this.checkBoxOnlySearch.CheckedChanged += new System.EventHandler(this.checkBoxOnlySearch_CheckedChanged);
             // 
             // checkBoxAutojobLevelUp
             // 
@@ -184,16 +190,18 @@
             this.checkBoxAutojobLevelUp.TabIndex = 25;
             this.checkBoxAutojobLevelUp.Text = "自動ジョブレベル上げ";
             this.checkBoxAutojobLevelUp.UseVisualStyleBackColor = true;
+            this.checkBoxAutojobLevelUp.CheckedChanged += new System.EventHandler(this.checkBoxAutojobLevelUp_CheckedChanged);
             // 
             // checkBoxRecieveReword
             // 
             this.checkBoxRecieveReword.AutoSize = true;
-            this.checkBoxRecieveReword.Location = new System.Drawing.Point(14, 281);
+            this.checkBoxRecieveReword.Location = new System.Drawing.Point(14, 325);
             this.checkBoxRecieveReword.Name = "checkBoxRecieveReword";
             this.checkBoxRecieveReword.Size = new System.Drawing.Size(100, 16);
             this.checkBoxRecieveReword.TabIndex = 24;
             this.checkBoxRecieveReword.Text = "報酬を受け取る";
             this.checkBoxRecieveReword.UseVisualStyleBackColor = true;
+            this.checkBoxRecieveReword.CheckedChanged += new System.EventHandler(this.checkBoxRecieveReword_CheckedChanged);
             // 
             // label8
             // 
@@ -234,6 +242,7 @@
             this.checkBoxUseBoost.TabIndex = 20;
             this.checkBoxUseBoost.Text = "ブーストを使用する";
             this.checkBoxUseBoost.UseVisualStyleBackColor = true;
+            this.checkBoxUseBoost.CheckedChanged += new System.EventHandler(this.checkBoxUseBoost_CheckedChanged);
             // 
             // checkBoxFirstAttackBoss
             // 
@@ -244,12 +253,13 @@
             this.checkBoxFirstAttackBoss.TabIndex = 19;
             this.checkBoxFirstAttackBoss.Text = "メモリアルボスを優先して攻撃する";
             this.checkBoxFirstAttackBoss.UseVisualStyleBackColor = true;
+            this.checkBoxFirstAttackBoss.CheckedChanged += new System.EventHandler(this.checkBoxFirstAttackBoss_CheckedChanged);
             // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(437, 393);
+            this.label6.Location = new System.Drawing.Point(437, 434);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(63, 12);
             this.label6.TabIndex = 18;
@@ -259,21 +269,23 @@
             // 
             this.textBoxPointDiff.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPointDiff.Location = new System.Drawing.Point(14, 387);
+            this.textBoxPointDiff.Location = new System.Drawing.Point(14, 431);
             this.textBoxPointDiff.Name = "textBoxPointDiff";
             this.textBoxPointDiff.Size = new System.Drawing.Size(417, 19);
             this.textBoxPointDiff.TabIndex = 17;
+            this.textBoxPointDiff.TextChanged += new System.EventHandler(this.textBoxPointDiff_TextChanged);
             this.textBoxPointDiff.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPointDiff_KeyPress);
             this.textBoxPointDiff.Validated += new System.EventHandler(this.textBoxPointDiff_Validated);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 369);
+            this.label5.Location = new System.Drawing.Point(14, 413);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 12);
             this.label5.TabIndex = 16;
             this.label5.Text = "敵部隊との点数差";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // comboBoxAttackMode
             // 
@@ -302,11 +314,12 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 325);
+            this.label3.Location = new System.Drawing.Point(14, 369);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 12);
             this.label3.TabIndex = 13;
             this.label3.Text = "報酬をまとめて受け取る個数";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // comboBoxRecieve
             // 
@@ -325,10 +338,11 @@
             "8",
             "9",
             "10"});
-            this.comboBoxRecieve.Location = new System.Drawing.Point(14, 343);
+            this.comboBoxRecieve.Location = new System.Drawing.Point(14, 387);
             this.comboBoxRecieve.Name = "comboBoxRecieve";
             this.comboBoxRecieve.Size = new System.Drawing.Size(486, 20);
             this.comboBoxRecieve.TabIndex = 12;
+            this.comboBoxRecieve.SelectedIndexChanged += new System.EventHandler(this.comboBoxRecieve_SelectedIndexChanged);
             // 
             // checkBoxUseAttack20
             // 
@@ -339,6 +353,7 @@
             this.checkBoxUseAttack20.TabIndex = 11;
             this.checkBoxUseAttack20.Text = "BEx3 20倍攻撃を使用する(敵部隊のミラージュコロイドが発動しているときのみ)";
             this.checkBoxUseAttack20.UseVisualStyleBackColor = true;
+            this.checkBoxUseAttack20.CheckedChanged += new System.EventHandler(this.checkBoxUseAttack20_CheckedChanged);
             // 
             // checkBoxUseAttack10
             // 
@@ -570,7 +585,7 @@
             this.groupBox2.Controls.Add(this.labelStatePresentList);
             this.groupBox2.Location = new System.Drawing.Point(536, 75);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(190, 444);
+            this.groupBox2.Size = new System.Drawing.Size(190, 493);
             this.groupBox2.TabIndex = 23;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "画面遷移";
@@ -607,6 +622,33 @@
             this.labelMiniCap.TabIndex = 24;
             this.labelMiniCap.Text = "ミニカプ：";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 259);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(54, 12);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "最終ジョブ";
+            // 
+            // comboBoxFinalJob
+            // 
+            this.comboBoxFinalJob.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxFinalJob.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFinalJob.FormattingEnabled = true;
+            this.comboBoxFinalJob.Items.AddRange(new object[] {
+            "アタッカー",
+            "コマンダー",
+            "シーカー",
+            "スーパーエース",
+            "スーパーサポーター"});
+            this.comboBoxFinalJob.Location = new System.Drawing.Point(14, 277);
+            this.comboBoxFinalJob.Name = "comboBoxFinalJob";
+            this.comboBoxFinalJob.Size = new System.Drawing.Size(486, 20);
+            this.comboBoxFinalJob.TabIndex = 28;
+            this.comboBoxFinalJob.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // TabControlGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -619,7 +661,7 @@
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
             this.Name = "TabControlGroup";
-            this.Size = new System.Drawing.Size(743, 536);
+            this.Size = new System.Drawing.Size(743, 585);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -676,5 +718,7 @@
         private System.Windows.Forms.CheckBox checkBoxUseAttack20;
         private System.Windows.Forms.CheckBox checkBoxUseAttack10;
         private System.Windows.Forms.CheckBox checkBoxRecievePresent;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBoxFinalJob;
     }
 }

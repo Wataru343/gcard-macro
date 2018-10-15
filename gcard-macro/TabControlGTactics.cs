@@ -22,6 +22,7 @@ namespace gcard_macro
         public double WaitReceive { get; set; }
         public double WaitAccessBlock { get; set; }
         public double WaitMisc { get; set; }
+        public string UserName { get; set; }
 
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
@@ -66,6 +67,24 @@ namespace gcard_macro
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            //シリアルキーチェック
+            if (Properties.Settings.Default.AccessKey != KeyGenerator.Hash.GenerateHash(UserName))
+            {
+
+                string str = Microsoft.VisualBasic.Interaction.InputBox("", "シリアルキーを入力してください", "", -1, -1);
+
+                if (str != KeyGenerator.Hash.GenerateHash(UserName))
+                {
+                    MessageBox.Show("シリアルキーが正しくありません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    buttonStop.PerformClick();
+                    return;
+                }
+
+                Properties.Settings.Default.AccessKey = str;
+                Properties.Settings.Default.Save();
+            }
+
             if (!Uri.IsWellFormedUriString(textBoxURL.Text, UriKind.Absolute))
             {
                 MessageBox.Show("URLが正しい形式ではありません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -74,6 +93,13 @@ namespace gcard_macro
 
             GTactics?.KillThread();
 
+#if !DEBUG
+            if (Webdriver.IsChrome())
+            {
+                Webdriver.Close();
+                Webdriver.CreatePhantomJS();
+            }
+#endif
 
             if (Webdriver.IsOoen())
             {
@@ -116,10 +142,15 @@ namespace gcard_macro
                 GTactics.MinicapChanged += MiniCapChanged;
                 GTactics.AreaChanged += AreaChanged;
                 GTactics.Log += OnLog;
+
+                Log?.Invoke(this, "マクロ初期化完了");
             }
             else
             {
                 MessageBox.Show("ブラウザが起動していません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                Log?.Invoke(this, "ブラウザが起動していません");
+
                 return;
             }
             GTactics.CreateThread();
@@ -159,6 +190,8 @@ namespace gcard_macro
                     buttonStop.PerformClick();
 
                     MessageBox.Show("マクロが停止しました", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    Log?.Invoke(this, "マクロが停止しました");
                 }
             }
         }
@@ -316,7 +349,10 @@ namespace gcard_macro
 
         private void OnLog(object sender, string text)
         {
-            Log?.Invoke(sender, text);
+            Invoke((MethodInvoker)delegate
+            {
+                Log?.Invoke(sender, text);
+            });
         }
     }
 }

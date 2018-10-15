@@ -35,6 +35,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerWatchWebdriver = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBoxWaitAtackBattleShip = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxWaitRecieveAssult = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.checkBoxOnlyAttackAssultBoss = new System.Windows.Forms.CheckBox();
             this.checkBoxRecievePresent = new System.Windows.Forms.CheckBox();
             this.checkBoxOnlySearch = new System.Windows.Forms.CheckBox();
@@ -75,9 +81,7 @@
             this.labelStateBattleAssaultOperation = new System.Windows.Forms.Label();
             this.labelStateReceive = new System.Windows.Forms.Label();
             this.labelStatePresentList = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBoxWaitRecieveAssult = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.labelStateAssaultOperationRequestFaild = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -131,6 +135,9 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.textBoxWaitAtackBattleShip);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.textBoxWaitRecieveAssult);
             this.groupBox1.Controls.Add(this.label6);
@@ -158,10 +165,68 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
             // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(470, 399);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(17, 12);
+            this.label9.TabIndex = 41;
+            this.label9.Text = "秒";
+            // 
+            // textBoxWaitAtackBattleShip
+            // 
+            this.textBoxWaitAtackBattleShip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxWaitAtackBattleShip.Location = new System.Drawing.Point(10, 394);
+            this.textBoxWaitAtackBattleShip.Name = "textBoxWaitAtackBattleShip";
+            this.textBoxWaitAtackBattleShip.Size = new System.Drawing.Size(454, 19);
+            this.textBoxWaitAtackBattleShip.TabIndex = 40;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(10, 376);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(155, 12);
+            this.label10.TabIndex = 39;
+            this.label10.Text = "強襲作戦の戦艦攻撃時のWait";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(470, 440);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(17, 12);
+            this.label5.TabIndex = 38;
+            this.label5.Text = "秒";
+            // 
+            // textBoxWaitRecieveAssult
+            // 
+            this.textBoxWaitRecieveAssult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxWaitRecieveAssult.Location = new System.Drawing.Point(10, 437);
+            this.textBoxWaitRecieveAssult.Name = "textBoxWaitRecieveAssult";
+            this.textBoxWaitRecieveAssult.Size = new System.Drawing.Size(454, 19);
+            this.textBoxWaitRecieveAssult.TabIndex = 37;
+            this.textBoxWaitRecieveAssult.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitRecieveAssult_KeyPress);
+            this.textBoxWaitRecieveAssult.Validated += new System.EventHandler(this.textBoxWaitRecieveAssult_Validated);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 419);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(173, 12);
+            this.label6.TabIndex = 36;
+            this.label6.Text = "強襲作戦の報酬受け取り時のWait";
+            // 
             // checkBoxOnlyAttackAssultBoss
             // 
             this.checkBoxOnlyAttackAssultBoss.AutoSize = true;
-            this.checkBoxOnlyAttackAssultBoss.Location = new System.Drawing.Point(10, 355);
+            this.checkBoxOnlyAttackAssultBoss.Location = new System.Drawing.Point(10, 354);
             this.checkBoxOnlyAttackAssultBoss.Name = "checkBoxOnlyAttackAssultBoss";
             this.checkBoxOnlyAttackAssultBoss.Size = new System.Drawing.Size(199, 16);
             this.checkBoxOnlyAttackAssultBoss.TabIndex = 35;
@@ -338,7 +403,7 @@
             // checkBoxUseAssaultBE
             // 
             this.checkBoxUseAssaultBE.AutoSize = true;
-            this.checkBoxUseAssaultBE.Location = new System.Drawing.Point(10, 333);
+            this.checkBoxUseAssaultBE.Location = new System.Drawing.Point(10, 332);
             this.checkBoxUseAssaultBE.Name = "checkBoxUseAssaultBE";
             this.checkBoxUseAssaultBE.Size = new System.Drawing.Size(132, 16);
             this.checkBoxUseAssaultBE.TabIndex = 1;
@@ -360,12 +425,13 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.labelStateLevelUp);
+            this.groupBox2.Controls.Add(this.labelStateAssaultOperationRequestFaild);
             this.groupBox2.Controls.Add(this.labelStateAssaultOperationWin);
             this.groupBox2.Controls.Add(this.labelStateAssaultOperationRequestComplete);
             this.groupBox2.Controls.Add(this.labelStateAssaultOperationRequestSubmit);
             this.groupBox2.Controls.Add(this.labelStateGetCard);
             this.groupBox2.Controls.Add(this.labelStateHome);
-            this.groupBox2.Controls.Add(this.labelStateLevelUp);
             this.groupBox2.Controls.Add(this.labelStateUnknown);
             this.groupBox2.Controls.Add(this.labelStateAssaultOperationHome);
             this.groupBox2.Controls.Add(this.labelStateEventFinished);
@@ -396,7 +462,7 @@
             this.labelStateAssaultOperationWin.Name = "labelStateAssaultOperationWin";
             this.labelStateAssaultOperationWin.Size = new System.Drawing.Size(85, 46);
             this.labelStateAssaultOperationWin.TabIndex = 27;
-            this.labelStateAssaultOperationWin.Text = "強襲作戦勝利";
+            this.labelStateAssaultOperationWin.Text = "強襲作戦終了";
             this.labelStateAssaultOperationWin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelStateAssaultOperationRequestComplete
@@ -425,7 +491,7 @@
             // 
             this.labelStateGetCard.BackColor = System.Drawing.Color.White;
             this.labelStateGetCard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateGetCard.Location = new System.Drawing.Point(96, 327);
+            this.labelStateGetCard.Location = new System.Drawing.Point(12, 372);
             this.labelStateGetCard.Name = "labelStateGetCard";
             this.labelStateGetCard.Size = new System.Drawing.Size(85, 45);
             this.labelStateGetCard.TabIndex = 24;
@@ -447,7 +513,7 @@
             // 
             this.labelStateLevelUp.BackColor = System.Drawing.Color.White;
             this.labelStateLevelUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateLevelUp.Location = new System.Drawing.Point(12, 326);
+            this.labelStateLevelUp.Location = new System.Drawing.Point(96, 327);
             this.labelStateLevelUp.Name = "labelStateLevelUp";
             this.labelStateLevelUp.Size = new System.Drawing.Size(85, 46);
             this.labelStateLevelUp.TabIndex = 23;
@@ -458,7 +524,7 @@
             // 
             this.labelStateUnknown.BackColor = System.Drawing.Color.White;
             this.labelStateUnknown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateUnknown.Location = new System.Drawing.Point(12, 461);
+            this.labelStateUnknown.Location = new System.Drawing.Point(96, 459);
             this.labelStateUnknown.Name = "labelStateUnknown";
             this.labelStateUnknown.Size = new System.Drawing.Size(85, 46);
             this.labelStateUnknown.TabIndex = 22;
@@ -480,7 +546,7 @@
             // 
             this.labelStateEventFinished.BackColor = System.Drawing.Color.White;
             this.labelStateEventFinished.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateEventFinished.Location = new System.Drawing.Point(96, 416);
+            this.labelStateEventFinished.Location = new System.Drawing.Point(12, 459);
             this.labelStateEventFinished.Name = "labelStateEventFinished";
             this.labelStateEventFinished.Size = new System.Drawing.Size(85, 46);
             this.labelStateEventFinished.TabIndex = 21;
@@ -502,7 +568,7 @@
             // 
             this.labelStateAccessBlock.BackColor = System.Drawing.Color.White;
             this.labelStateAccessBlock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateAccessBlock.Location = new System.Drawing.Point(12, 416);
+            this.labelStateAccessBlock.Location = new System.Drawing.Point(96, 416);
             this.labelStateAccessBlock.Name = "labelStateAccessBlock";
             this.labelStateAccessBlock.Size = new System.Drawing.Size(85, 46);
             this.labelStateAccessBlock.TabIndex = 20;
@@ -524,7 +590,7 @@
             // 
             this.labelStateFightAlreadyFinished.BackColor = System.Drawing.Color.White;
             this.labelStateFightAlreadyFinished.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateFightAlreadyFinished.Location = new System.Drawing.Point(96, 371);
+            this.labelStateFightAlreadyFinished.Location = new System.Drawing.Point(12, 414);
             this.labelStateFightAlreadyFinished.Name = "labelStateFightAlreadyFinished";
             this.labelStateFightAlreadyFinished.Size = new System.Drawing.Size(85, 46);
             this.labelStateFightAlreadyFinished.TabIndex = 19;
@@ -546,7 +612,7 @@
             // 
             this.labelStateError.BackColor = System.Drawing.Color.White;
             this.labelStateError.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateError.Location = new System.Drawing.Point(12, 371);
+            this.labelStateError.Location = new System.Drawing.Point(96, 371);
             this.labelStateError.Name = "labelStateError";
             this.labelStateError.Size = new System.Drawing.Size(85, 46);
             this.labelStateError.TabIndex = 18;
@@ -619,35 +685,16 @@
             this.labelStatePresentList.Text = "プレゼント一覧";
             this.labelStatePresentList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // labelStateAssaultOperationRequestFaild
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(470, 401);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(17, 12);
-            this.label5.TabIndex = 38;
-            this.label5.Text = "秒";
-            // 
-            // textBoxWaitRecieveAssult
-            // 
-            this.textBoxWaitRecieveAssult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWaitRecieveAssult.Location = new System.Drawing.Point(10, 398);
-            this.textBoxWaitRecieveAssult.Name = "textBoxWaitRecieveAssult";
-            this.textBoxWaitRecieveAssult.Size = new System.Drawing.Size(454, 19);
-            this.textBoxWaitRecieveAssult.TabIndex = 37;
-            this.textBoxWaitRecieveAssult.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitRecieveAssult_KeyPress);
-            this.textBoxWaitRecieveAssult.Validated += new System.EventHandler(this.textBoxWaitRecieveAssult_Validated);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 379);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(173, 12);
-            this.label6.TabIndex = 36;
-            this.label6.Text = "強襲作戦の報酬受け取り時のWait";
+            this.labelStateAssaultOperationRequestFaild.BackColor = System.Drawing.Color.White;
+            this.labelStateAssaultOperationRequestFaild.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelStateAssaultOperationRequestFaild.Location = new System.Drawing.Point(12, 327);
+            this.labelStateAssaultOperationRequestFaild.Name = "labelStateAssaultOperationRequestFaild";
+            this.labelStateAssaultOperationRequestFaild.Size = new System.Drawing.Size(85, 46);
+            this.labelStateAssaultOperationRequestFaild.TabIndex = 28;
+            this.labelStateAssaultOperationRequestFaild.Text = "強襲作戦エラー";
+            this.labelStateAssaultOperationRequestFaild.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TabControlRaid
             // 
@@ -721,5 +768,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxWaitRecieveAssult;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBoxWaitAtackBattleShip;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label labelStateAssaultOperationRequestFaild;
     }
 }

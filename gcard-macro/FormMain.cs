@@ -15,7 +15,7 @@ namespace gcard_macro
 {
     public partial class FormMain : Form
     {
-        private RemoteWebDriver driver_ { get; set; }
+        private IWebDriver driver_ { get; set; }
         private string UserName { get; set; }
         private string AppTitle { get; set; }
         
@@ -45,7 +45,7 @@ namespace gcard_macro
             tabControlGTactics.Log += onLog;
 
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver0.6.0β";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.0.0";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -56,7 +56,7 @@ namespace gcard_macro
                 onLog(this, "ログイン中");
 
                 Cursor.Current = Cursors.WaitCursor;
-                driver_ = Webdriver.Instance;
+                driver_ = Webdriver.CreatePhantomJS();
 
                 buttonRunBrowser.Enabled = false;
                 buttonStopBrowser.Enabled = true;
@@ -73,11 +73,18 @@ namespace gcard_macro
 
                 try
                 {
-                    driver_.Navigate().GoToUrl(driver_.FindElementByXPath("//a[@class=\"profile\"]").GetAttribute("href"));
-                    UserName = driver_.FindElementByXPath("//div[@class=\"name-and-rank\"]").Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    //var htmlDoc = new HtmlAgilityPack.HtmlDocument();
+                    //htmlDoc.LoadHtml(driver_.PageSource);
+                    //var aa = htmlDoc.DocumentNode.SelectSingleNode("//a[@class=\"profile\"]");
+                    //var inner = aa.InnerHtml;
+                    //var bb =aa.Attributes.AttributesWithName("href").ElementAt(0).Value;
+                    driver_.Navigate().GoToUrl(driver_.FindElement(By.XPath("//a[@class=\"profile\"]")).GetAttribute("href"));
+                    UserName = driver_.FindElement(By.XPath("//div[@class=\"name-and-rank\"]")).Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[0];
                     this.Text = string.Format("{0} - {1}", UserName, AppTitle);
 
                     onLog(this, string.Format("ユーザー名取得({0})", UserName));
+
+                    tabControlGroup.UserName = UserName;
                 }
                 catch
                 {
@@ -115,13 +122,17 @@ namespace gcard_macro
 
         private void timerWatchBrowser_Tick(object sender, EventArgs e)
         {
-            if(driver_ != null)
+            var driver = Webdriver.Instance;
+            if(driver != null)
             {
                 Task.Run(() =>
                 {
                     try
                     {
-                        string aa = driver_.PageSource.ToString();
+                        if (!Webdriver.IsBooting)
+                        {
+                            string aa = driver.PageSource.ToString();
+                        }
                     }
                     catch
                     {

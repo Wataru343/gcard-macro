@@ -22,6 +22,7 @@ namespace gcard_macro
         public double WaitReceive { get; set; }
         public double WaitAccessBlock { get; set; }
         public double WaitMisc { get; set; }
+        public string UserName { get; set; }
 
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
@@ -50,6 +51,7 @@ namespace gcard_macro
             checkBoxRecievePresent.Checked = Properties.Settings.Default.GroupReceivePresent;
             checkBoxAutojobLevelUp.Checked = Properties.Settings.Default.GroupAutoJobLevelUp;
             checkBoxOnlySearch.Checked = Properties.Settings.Default.GroupOnlySearch;
+            comboBoxFinalJob.SelectedIndex = Properties.Settings.Default.GroupFinalJob;
 
             CurrentState = labelStateHome;
         }
@@ -57,6 +59,24 @@ namespace gcard_macro
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            //シリアルキーチェック
+            if(Properties.Settings.Default.AccessKey != KeyGenerator.Hash.GenerateHash(UserName))
+            {
+
+                string str = Microsoft.VisualBasic.Interaction.InputBox("", "シリアルキーを入力してください", "", -1, -1);
+                
+                if(str != KeyGenerator.Hash.GenerateHash(UserName))
+                {
+                    MessageBox.Show("シリアルキーが正しくありません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    buttonStop.PerformClick();
+                    return;
+                }
+
+                Properties.Settings.Default.AccessKey = str;
+                Properties.Settings.Default.Save();
+            }
+
             if (!Uri.IsWellFormedUriString(textBoxURL.Text, UriKind.Absolute))
             {
                 MessageBox.Show("URLが正しい形式ではありません", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -65,6 +85,13 @@ namespace gcard_macro
 
             Group?.KillThread();
 
+#if !DEBUG
+            if (Webdriver.IsChrome())
+            {
+                Webdriver.Close();
+                Webdriver.CreatePhantomJS();
+            }
+#endif
 
             if (Webdriver.IsOoen())
             {
@@ -88,7 +115,8 @@ namespace gcard_macro
                     ReceiveReword = checkBoxRecieveReword.Checked,
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     AutojobLevelUp = checkBoxAutojobLevelUp.Checked,
-                    OnlySearch = checkBoxOnlySearch.Checked
+                    OnlySearch = checkBoxOnlySearch.Checked,
+                    FinalJob = comboBoxFinalJob.SelectedIndex
                 };
 
                 Group.StateChanged += StateChanged;
@@ -130,21 +158,17 @@ namespace gcard_macro
         {
             if (IsStart)
             {
-                IsStart = true;
-                lock (Group)
+                if (!Webdriver.IsOoen() || !Group.IsRun)
                 {
-                    if (!Webdriver.IsOoen() || !Group.IsRun)
-                    {
-                        IsStart = false;
-                        Group?.KillThread();
-                        Group = null;
+                    IsStart = false;
+                    Group?.KillThread();
+                    Group = null;
 
-                        buttonStop.PerformClick();
+                    buttonStop.PerformClick();
 
-                        MessageBox.Show("マクロが停止しました", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("マクロが停止しました", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                        Log?.Invoke(this, "マクロが停止しました");
-                    }
+                    Log?.Invoke(this, "マクロが停止しました");
                 }
             }
         }
@@ -165,6 +189,7 @@ namespace gcard_macro
             Properties.Settings.Default.GroupReceivePresent = checkBoxRecievePresent.Checked;
             Properties.Settings.Default.GroupAutoJobLevelUp = checkBoxAutojobLevelUp.Checked;
             Properties.Settings.Default.GroupOnlySearch = checkBoxOnlySearch.Checked;
+            Properties.Settings.Default.GroupFinalJob = comboBoxFinalJob.SelectedIndex;
             Properties.Settings.Default.Save();
         }
 
@@ -289,6 +314,66 @@ namespace gcard_macro
             {
                 Log?.Invoke(sender, text);
             });
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxRecievePresent_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxOnlySearch_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxAutojobLevelUp_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxRecieveReword_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxUseBoost_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxFirstAttackBoss_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxPointDiff_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxRecieve_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxUseAttack20_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

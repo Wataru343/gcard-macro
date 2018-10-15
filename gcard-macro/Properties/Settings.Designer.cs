@@ -908,5 +908,41 @@ namespace gcard_macro.Properties {
                 this["RaidWaitRecieveAssult"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double RaidWaitAtackBattleShip {
+            get {
+                return ((double)(this["RaidWaitAtackBattleShip"]));
+            }
+            set {
+                this["RaidWaitAtackBattleShip"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int GroupFinalJob {
+            get {
+                return ((int)(this["GroupFinalJob"]));
+            }
+            set {
+                this["GroupFinalJob"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AccessKey {
+            get {
+                return ((string)(this["AccessKey"]));
+            }
+            set {
+                this["AccessKey"] = value;
+            }
+        }
     }
 }

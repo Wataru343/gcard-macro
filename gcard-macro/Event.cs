@@ -14,7 +14,7 @@ namespace gcard_macro
 {
     class Event
     {
-        virtual protected RemoteWebDriver driver_ { get; set; }
+        virtual protected IWebDriver driver_ { get; set; }
         virtual protected string home_path_ { get; set; }
         virtual protected string enemy_list_path_ { get; set; }
         virtual protected System.Threading.Thread worker_thread { get; set; }
@@ -73,6 +73,7 @@ namespace gcard_macro
             AssaultOperationPresentList,
             AssaultOperationWin,
             AssaultOperationStart,
+            AssaultOperationFaildRequestJoin,
             GroupSelectJobs,
             GroupUseBoost,
             PromotionWithdrawalConfirmation,
@@ -94,7 +95,7 @@ namespace gcard_macro
             攻撃力割るMS数が低い敵を攻撃HP20パーセント以下で撤退
         }
 
-        public Event(RemoteWebDriver driver, string home_path)
+        public Event(IWebDriver driver, string home_path)
         {
             driver_ = driver;            
             home_path_ = home_path;
@@ -300,13 +301,21 @@ namespace gcard_macro
             {
                 try
                 {
+                    int retry = 0;
                     while (true)
                     {
-                        IWebElement elm = driver_.FindElementByClassName("swf");
+                        IWebElement elm = driver_.FindElement(By.ClassName("swf"));
 
                         Actions action = new Actions(driver_);
                         action.MoveToElement(elm, (int)(elm.Size.Width / 2.6), elm.Size.Height / 6 * 5).Click().Build().Perform();
                         Wait(0.5);
+                        retry++;
+
+                        if(retry > 10)
+                        {
+                            driver_.Navigate().GoToUrl(home_path_);
+                            break;
+                        }
                     }
                 }
                 catch { }
@@ -366,39 +375,49 @@ namespace gcard_macro
         {
             try
             {
-                WebClient client = GetWebClient();
-
-                Stream stream = client.OpenRead(url);
-                StreamReader sr = new StreamReader(stream, Encoding.UTF8);
-                string pageSource = sr.ReadToEnd();
-
-                client = GetWebClient();
-                stream = client.OpenRead(GetSwfURL(pageSource));
-                BinaryReader br = new BinaryReader(stream, Encoding.ASCII);
-                string source = new string(br.ReadChars(3000));
-
-                string tid = GetTid(source);
-                string mid = GetMid(source);
-                string token = GetToken(source);
-                string type = GetType(source);
-                string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
-                string resultURL = "";
-                if (type == "return")
+                using (WebClient client = GetWebClient())
+                using (Stream stream = client.OpenRead(url))
                 {
-                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
+                    stream.ReadTimeout = 5000;
+                    using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
+                    {
+                        string pageSource = sr.ReadToEnd();
+
+                        using (WebClient clientSwf = GetWebClient())
+                        using (Stream streamSwf = clientSwf.OpenRead(GetSwfURL(pageSource)))
+                        {
+                            streamSwf.ReadTimeout = 5000;
+                            using (BinaryReader br = new BinaryReader(streamSwf, Encoding.ASCII))
+                            {
+                                string source = new string(br.ReadChars(3000));
+
+                                string tid = GetTid(source);
+                                string mid = GetMid(source);
+                                string token = GetToken(source);
+                                string type = GetType(source);
+                                string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
+                                string resultURL = "";
+                                if (type == "return")
+                                {
+                                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
+                                }
+                                else
+                                {
+                                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
+                                }
+
+                                using (WebClient clientGet = GetWebClient())
+                                {
+                                    string respons = clientGet.DownloadString(resultURL);
+
+                                    driver_.Navigate().Refresh();
+
+                                    return true;
+                                }
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
-                }
-
-                client.Dispose();
-                client = GetWebClient();
-                string respons = client.DownloadString(resultURL);
-
-                driver_.Navigate().Refresh();
-
-                return true;
             }
             catch
             {
@@ -414,8 +433,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//*[@id=\"main\"]/canvas");
-
+                IWebElement elm = driver_.FindElement(By.XPath("//*[@id=\"main\"]/canvas"));
                 Actions action = new Actions(driver_);
                 action.MoveToElement(elm, 300, 520).Click().Build().Perform();
             }
@@ -431,7 +449,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"ラッキーチャンスゲームに挑戦\"]");
+                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"ラッキーチャンスゲームに挑戦\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 Exec = SearchState;
                 return;
@@ -441,7 +459,7 @@ namespace gcard_macro
 
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//div[text()=\"探索する\"]");
+                IWebElement elm = driver_.FindElement(By.XPath("//div[text()=\"探索する\"]"));
                 elm.Submit();
             }
             catch { }
@@ -456,7 +474,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"売却して探索する\"]");
+                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"売却して探索する\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
             catch { }
@@ -471,8 +489,8 @@ namespace gcard_macro
         {
             try
             {
-                //var elms = driver_.FindElementsByXPath("//input[@value=\"報酬を受け取る\"]");
-                var elms = driver_.FindElementsByXPath("//a[text()=\"敵一覧\"]");
+                //var elms = driver_.FindElements(By.XPath("//input[@value=\"報酬を受け取る\"]"));
+                var elms = driver_.FindElements(By.XPath("//a[text()=\"敵一覧\"]"));
                 foreach (var e in elms)
                 {
                     //e.Submit();
@@ -493,7 +511,7 @@ namespace gcard_macro
             try
             {
                 driver_.Navigate().GoToUrl(enemy_list_path_);
-                //IWebElement elm = driver_.FindElementByXPath("//a[text()=\"ボス戦に戻る\"]");
+                //IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"ボス戦に戻る\"]");
                 //driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 Exec = SearchState;
                 return;
@@ -502,7 +520,7 @@ namespace gcard_macro
 
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"続けて探索する\"]");
+                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"続けて探索する\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
             catch
@@ -527,7 +545,7 @@ namespace gcard_macro
             {
                 if (ReceivePresent)
                 {
-                    IWebElement elm = driver_.FindElementByXPath("//a[@href=\"_gcard_gifts\"]");
+                    IWebElement elm = driver_.FindElement(By.XPath("//a[@href=\"_gcard_gifts\"]"));
                     driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 }
                 else
@@ -550,7 +568,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//input[@value=\"プレゼントをまとめて受け取る\"]");
+                IWebElement elm = driver_.FindElement(By.XPath("//input[@value=\"プレゼントをまとめて受け取る\"]"));
                 elm.Submit();
                 Exec = SearchState;
                 return;
@@ -562,12 +580,14 @@ namespace gcard_macro
             {
                 driver_.Navigate().GoToUrl(enemy_list_path_);
                 Exec = SearchState;
+                if (enemy_list_path_ == "")
+                    throw new Exception();
             }
             catch
             {
                 try
                 {
-                    IWebElement elm = driver_.FindElementByXPath("//a[text()=\"敵一覧\"]");
+                    IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"敵一覧\"]"));
                     driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 }
                 catch { }
@@ -583,7 +603,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElementByXPath("//a[text()=\"ボスと戦う\"]");
+                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"ボスと戦う\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
             catch { }
@@ -595,7 +615,7 @@ namespace gcard_macro
 
         virtual protected void AddEnemyId(string url) => AttackedEnemyId.Add(GetEnemyId(url));
 
-        virtual protected void RemoveEnemyId(string url) => AttackedEnemyId.Remove(GetEnemyId(url));
+        virtual protected void RemoveEnemyId(string url) => AttackedEnemyId.RemoveAll(elm => elm == GetEnemyId(url));
 
         virtual protected string GetEnemyId(string url)
         {

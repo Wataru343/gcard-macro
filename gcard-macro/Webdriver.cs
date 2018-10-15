@@ -21,50 +21,53 @@ namespace gcard_macro
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         private const int SW_HIDE = 0;
 
-        private static volatile RemoteWebDriver driver_ = null;
+        private static volatile IWebDriver driver_ = null;
+        
         private Webdriver()
         {
 
         }
 
-        static public RemoteWebDriver Instance
+        static public bool IsBooting;
+
+        static public IWebDriver Instance
         {
             get
             {
-                if (IsOoen()) return driver_;
+                return driver_;
+            }
+        }
 
-                try
+        static public IWebDriver CreatePhantomJS()
+        {
+            if (IsOoen()) return driver_;
+
+            IsBooting = true;
+
+            try
+            {
+                //ユーザデータフォルダ作成
+                string path = Path.Combine(System.Environment.CurrentDirectory, "userdata");
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+                ChromeDriverService driverService = ChromeDriverService.CreateDefaultService();
+                driverService.HideCommandPromptWindow = true;
+
+                //オプションでユーザーデータフォルダとユーザーエージェント指定
+                ChromeOptions options = new ChromeOptions();
+                options.AddArgument(@"--user-data-dir=" + path);
+                options.AddArgument("--user-agent=\"Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
+
+                driver_ = driver_ ?? new ChromeDriver(driverService, options);
+
+                driver_.Manage().Window.Size = new System.Drawing.Size(600, 800);
+                driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
+
+                //ログイン待機
+                if (driver_.Url != "http://gcc.sp.mbga.jp/_gcard_my_room")
                 {
-                    //ユーザデータフォルダ作成
-                    string path = Path.Combine(System.Environment.CurrentDirectory, "userdata");
-                    if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-
-                    ChromeDriverService driverService = ChromeDriverService.CreateDefaultService();
-                    driverService.HideCommandPromptWindow = true;
-
-                    //オプションでユーザーデータフォルダとユーザーエージェント指定
-                    ChromeOptions options = new ChromeOptions();
-                    options.AddArgument(@"--user-data-dir=" + path);
-                    options.AddArgument("--user-agent=\"Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
-
-                    //options.AddArgument(@"--disable-gpu");
-                    //options.AddArgument(@"--ignore-certificate-errors");
-                    //options.AddArgument(@"--allow-running-insecure-content");
-                    //options.AddArgument(@"--disable-web-security");
-                    //options.AddArgument(@"--disable-desktop-notifications");
-                    //options.AddArgument(@"--disable-extensions");
-                    //options.AddArgument(@"--blink-settings=imagesEnabled=false");
-
-                    driver_ = driver_ ?? new ChromeDriver(driverService, options);
-
-                    driver_.Manage().Window.Size = new System.Drawing.Size(600, 800);
-                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
-
-                    //ログイン待機
-                    if (driver_.Url != "http://gcc.sp.mbga.jp/_gcard_my_room")
-                    {
-                        new FormLogin() { driver = driver_ }.ShowDialog();
-                    }
+                    new FormLogin() { driver = driver_ }.ShowDialog();
+                }
 
 #if !DEBUG
                     var cookies = driver_.Manage().Cookies.AllCookies;
@@ -92,17 +95,81 @@ namespace gcard_macro
                     }
 
                     driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
-                    driver_.GetScreenshot().SaveAsFile("ss.png", System.Drawing.Imaging.ImageFormat.Png);
+                    driver_.GetScreenshot().SaveAsFile("login.png", System.Drawing.Imaging.ImageFormat.Png);
 #endif
-                    return driver_;
-                }
-                catch
-                {
-                    driver_ = null;
-                }
+
+                IsBooting = false;
 
                 return driver_;
             }
+            catch
+            {
+                driver_ = null;
+            }
+
+            IsBooting = false;
+
+            return driver_;
+        }
+
+
+        static public IWebDriver CreateChrome()
+        {
+            if (IsOoen()) return driver_;
+
+            IsBooting = true;
+
+            try
+            {
+                //ユーザデータフォルダ作成
+                string path = Path.Combine(System.Environment.CurrentDirectory, "userdata");
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+                ChromeDriverService driverService = ChromeDriverService.CreateDefaultService();
+                driverService.HideCommandPromptWindow = true;
+
+                //オプションでユーザーデータフォルダとユーザーエージェント指定
+                ChromeOptions options = new ChromeOptions();
+                options.AddArgument(@"--user-data-dir=" + path);
+                options.AddArgument("--user-agent=\"Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
+                //options.AddArgument(@"--ignore-certificate-errors");
+                //options.AddArgument(@"--allow-running-insecure-content");
+                //options.AddArgument(@"--disable-web-security");
+                //options.AddArgument(@"--disable-desktop-notifications");
+                //options.AddArgument(@"--disable-extensions");
+                //options.AddArgument(@"--blink-settings=imagesEnabled=false");
+
+                driver_ = driver_ ?? new ChromeDriver(driverService, options);
+
+                driver_.Manage().Window.Size = new System.Drawing.Size(600, 800);
+                driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
+
+                //ログイン待機
+                if (driver_.Url != "http://gcc.sp.mbga.jp/_gcard_my_room")
+                {
+                    new FormLogin() { driver = driver_ }.ShowDialog();
+                }
+
+#if !DEBUG
+                //一度example.comに移動してウィンドウハンドルを取得
+                driver_.Navigate().GoToUrl("http://example.com/");
+                IntPtr[] hwnd = System.Diagnostics.Process.GetProcesses().Where(e => e.MainWindowTitle.IndexOf("Example Domain") >= 0).Select(e => e.MainWindowHandle).ToArray();
+                driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
+                ShowWindow(hwnd[0], SW_HIDE);
+#endif
+
+                IsBooting = false;
+
+                return driver_;
+            }
+            catch
+            {
+                driver_ = null;
+            }
+
+            IsBooting = false;
+
+            return driver_;
         }
 
         static public void Close()
@@ -126,11 +193,10 @@ namespace gcard_macro
             }
         }
 
+        static public bool IsChrome() => driver_ is ChromeDriver;
+        static public bool IsPhantomJS() => driver_ is PhantomJSDriver;
+
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
-        static public bool IsOoen()
-        {
-            bool ret = driver_ != null;
-            return ret;
-        }
+        static public bool IsOoen() => driver_ != null;
     }
 }
