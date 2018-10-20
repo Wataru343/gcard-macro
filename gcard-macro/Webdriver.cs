@@ -5,13 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.PhantomJS;
-using OpenQA.Selenium.Interactions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
+using gcard_macro.WebDriber;
 
 namespace gcard_macro
 {
@@ -38,7 +34,7 @@ namespace gcard_macro
             }
         }
 
-        static public IWebDriver CreatePhantomJS()
+        static public IWebDriver CreateHtmlAgilityPackDriver()
         {
             if (IsOoen()) return driver_;
 
@@ -69,34 +65,23 @@ namespace gcard_macro
                     new FormLogin() { driver = driver_ }.ShowDialog();
                 }
 
-#if !DEBUG
-                    var cookies = driver_.Manage().Cookies.AllCookies;
+                #if CHROME
+                var cookies = driver_.Manage().Cookies.AllCookies;
 
-                    driver_.Quit();
+                driver_.Quit();
 
-                    PhantomJSDriverService phantomDriverService = PhantomJSDriverService.CreateDefaultService();
-                    phantomDriverService.HideCommandPromptWindow = true;
+                driver_ = new HtmlAgilityPackDriver("Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
 
-                    PhantomJSOptions po = new PhantomJSOptions();
-                    po.AddAdditionalCapability("phantomjs.page.settings.userAgent", "Mozilla /5.0(iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
-                    driver_ = new PhantomJSDriver(phantomDriverService, po);
-
-
-                    driver_.Manage().Window.Size = new System.Drawing.Size(600, 800);
-                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/");
-
-                    foreach (var c in cookies)
+                foreach (var c in cookies)
+                {
+                    try
                     {
-                        try
-                        {
-                            driver_.Manage().Cookies.AddCookie(c);
-                        }
-                        catch { }                        
+                        driver_.Manage().Cookies.AddCookie(c);
                     }
-
-                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
-                    driver_.GetScreenshot().SaveAsFile("login.png", System.Drawing.Imaging.ImageFormat.Png);
-#endif
+                    catch { }
+                }
+                driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
+                #endif
 
                 IsBooting = false;
 
@@ -194,7 +179,7 @@ namespace gcard_macro
         }
 
         static public bool IsChrome() => driver_ is ChromeDriver;
-        static public bool IsPhantomJS() => driver_ is PhantomJSDriver;
+        static public bool IsHtmlAgilityPackDriver() => driver_ is HtmlAgilityPackDriver;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         static public bool IsOoen() => driver_ != null;

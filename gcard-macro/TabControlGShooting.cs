@@ -56,7 +56,6 @@ namespace gcard_macro
             //シリアルキーチェック
             if (Properties.Settings.Default.AccessKey != KeyGenerator.Hash.GenerateHash(UserName))
             {
-
                 string str = Microsoft.VisualBasic.Interaction.InputBox("", "シリアルキーを入力してください", "", -1, -1);
 
                 if (str != KeyGenerator.Hash.GenerateHash(UserName))
@@ -80,11 +79,11 @@ namespace gcard_macro
             GShooting?.KillThread();
 
 #if !DEBUG
-            if (Webdriver.IsChrome())
-            {
-                Webdriver.Close();
-                Webdriver.CreatePhantomJS();
-            }
+            //if (Webdriver.IsChrome())
+            //{
+            //    Webdriver.Close();
+            //    Webdriver.CreatePhantomJS();
+            //}
 #endif
 
             if (Webdriver.IsOoen())

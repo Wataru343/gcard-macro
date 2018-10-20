@@ -7,9 +7,6 @@ using System.Drawing;
 using System.Net;
 using System.IO;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Interactions;
-using System.Diagnostics;
 
 namespace gcard_macro
 {
@@ -92,7 +89,7 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：Flash画面");
                     CurrentState = State.SearchFlash;
                     Wait(WaitBattle);
-                    Exec = ClickSearchFlash;
+                    Exec = EmulateClickFlash;
                 }
                 //戦闘フラッシュ
                 else if (IsFightFlash())

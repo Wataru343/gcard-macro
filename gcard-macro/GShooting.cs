@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Interactions;
 
 namespace gcard_macro
 {
@@ -57,7 +55,7 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：Flash画面");
                     CurrentState = State.SearchFlash;
                     Wait(WaitBattle);
-                    Exec = ClickSearchFlash;
+                    Exec = EmulateClickFlash;
                 }
                 //戦闘フラッシュ
                 else if (IsFightFlash())
@@ -361,7 +359,7 @@ namespace gcard_macro
                         if (elms.Count > 0)
                         {
                             elms = elms.OrderBy(i => Guid.NewGuid()).ToList();
-                            var combo = elms.Select(e => Convert.ToInt32(e.FindElement(By.XPath("//a[@class=\"btn-raidboss-attack not\"]/../dl[@class=\"raidboss-combo\"]//span")).Text)).ToList();
+                            var combo = elms.Select(e => Convert.ToInt32(e.FindElement(By.XPath("../dl[@class=\"raidboss-combo\"]/dd/span")).Text)).ToList();
 
                             idx = combo.IndexOf(combo.Max());
 
@@ -477,8 +475,17 @@ namespace gcard_macro
 
             try
             {
+                IWebElement elm;
                 //敵HPを取得
-                IWebElement elm = driver_.FindElement(By.XPath("//div[@class=\"raid_boss_summary_para\" or @class=\"raid_boss_summary_para bac\"]"));
+                try
+                {
+                    elm = driver_.FindElement(By.XPath("//div[@class=\"raid_boss_summary_para\" or @class=\"raid_boss_summary_para bac\"]/text()"));
+                }
+                catch
+                {
+                    elm = driver_.FindElement(By.XPath("//div[@class=\"raid_boss_summary_para\" or @class=\"raid_boss_summary_para bac\"]"));
+                }
+
                 string strhp = elm.Text;
                 string current_hp = strhp.Replace(",", "").Split(new char[] { '/' })[0];
                 ulong hp = ulong.Parse(current_hp);
@@ -512,11 +519,18 @@ namespace gcard_macro
                     Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     useBe--;
 
-                    var wc = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
-                    if (wc.IndexOf("swf") < 0)
+                    string ret = "";
+
+                    try
                     {
-                        Wait(WaitAccessBlock);
+                        ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                    }
+                    catch { }
+
+                    if (ret.IndexOf("swf") < 0)
+                    {
                         StateChanged?.Invoke(this, State.AccessBlock);
+                        Wait(WaitAccessBlock);
                         driver_.Navigate().GoToUrl(home_path_);
                         return;
                     }

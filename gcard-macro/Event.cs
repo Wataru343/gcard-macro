@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Interactions;
 using System.Net;
 using System.IO;
@@ -261,41 +260,44 @@ namespace gcard_macro
         /// <summary>
         /// 探索時のFlashをクリックする
         /// </summary>
-        virtual protected void ClickSearchFlash()
+        virtual protected void EmulateClickFlash()
         {
             try
             {
-                WebClient client = GetWebClient();
+                string swfUrl = GetSwfURL(driver_.PageSource);
 
-                Stream stream = client.OpenRead(GetSwfURL(driver_.PageSource));
-                BinaryReader br = new BinaryReader(stream, Encoding.ASCII);
-                string source = new string(br.ReadChars(3000));
-
-                string tid = GetTid(source);
-                string mid = GetMid(source);
-                string token = GetToken(source);
-                string type = GetType(source);
-                string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
-                string resultURL = "";
-                if (type == "return")
+                if (swfUrl.IndexOf("gcard_mission_effect") > 0)
                 {
-                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
+                    SearchEnemy(driver_.Url);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                else if (swfUrl.IndexOf("lucky") > 0)
+                {
+                    SearchEnemy(driver_.Url);
+
+                }
+                else if (swfUrl.IndexOf("lvup") > 0)
+                {
+                    string resultUrl = swfUrl.Replace("effect", "result");
+                    driver_.Navigate().GoToUrl(enemy_list_path_ == "" ? home_path_ : enemy_list_path_);
+                    Exec = SearchState;
+                    return;
+                }
+                else if (swfUrl.IndexOf("raid_boss_supply_boss_appear") > 0)
+                {
+                    string resultUrl = swfUrl.Replace("effect", "result");
+                    driver_.Navigate().GoToUrl(enemy_list_path_ == "" ? home_path_ : enemy_list_path_);
+                    Exec = SearchState;
+                    return;
+                }
+                else if (swfUrl.IndexOf("promotion_battle") >= 0)
+                {
+                    throw new Exception();
                 }
                 else
                 {
-                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
+                    driver_.Navigate().GoToUrl(home_path_);
                 }
-
-                client.Dispose();
-                client = GetWebClient();
-                string respons = client.DownloadString(resultURL);
-                driver_.Navigate().GoToUrl(enemy_list_path_ == "" ? home_path_ : enemy_list_path_);
-                Exec = SearchState;
-
-                stream.Close();
-                br.Close();
-                client.Dispose();
-                return;
             }
             catch
             {
@@ -318,7 +320,10 @@ namespace gcard_macro
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
             }
 
             Exec = SearchState;
@@ -326,10 +331,11 @@ namespace gcard_macro
 
         protected string GetSwfURL(string PageSource)
         {
-            Regex r = new Regex(@"_gcard_mission_effect\?sk=(?<id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            //var swf = '_gcard_event309_raid_boss_supply_boss_appear_effect?sk=91124';
+            Regex r = new Regex(@"_gcard_(?<type>.+)effect\?sk=(?<id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             MatchCollection mc = r.Matches(PageSource);
-
-            return mc.Count > 0 ? @"http://gcc.sp.mbga.jp/_gcard_mission_effect?sk=" + mc[0].Groups["id"].Value : "";
+            string url = mc.Count > 0 ? @"http://gcc.sp.mbga.jp/_gcard_" + mc[0].Groups["type"] + "effect?sk=" + mc[0].Groups["id"].Value : "";
+            return url;
         }
 
         protected string GetTid(string SwfBinary)
@@ -353,12 +359,15 @@ namespace gcard_macro
 
         protected string GetToken(string SwfBinary) => new string(SwfBinary.Substring(SwfBinary.IndexOf("token") + 10, 6).Where(c => char.IsNumber(c)).ToArray());
 
+        protected string GetLuckyToken(string SwfBinary) => new string(SwfBinary.Substring(SwfBinary.IndexOf("token") + 6, 8).Where(c => char.IsNumber(c)).ToArray());
+
         protected string GetType(string SwfBinary) => SwfBinary.Substring(SwfBinary.IndexOf("type") + 9, 1)[0] == 'c' ? "chance" : "return";
 
         protected WebClient GetWebClient()
         {
             WebClient client = new WebClient();
-            client.Headers.Add("User-Agent", "Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
+            client.Encoding = Encoding.UTF8;
+            client.Headers[HttpRequestHeader.UserAgent] = "Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1";
             string cc = string.Join("; ", driver_.Manage().Cookies.AllCookies.Select(c => string.Format("{0}={1}", c.Name, c.Value)));
             client.Headers[HttpRequestHeader.Cookie] = string.Join("; ", driver_.Manage().Cookies.AllCookies.Select(c => string.Format("{0}={1}", c.Name, c.Value)));
 
@@ -382,28 +391,39 @@ namespace gcard_macro
                     using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
                     {
                         string pageSource = sr.ReadToEnd();
-
+                        string swfUrl = GetSwfURL(pageSource);
                         using (WebClient clientSwf = GetWebClient())
-                        using (Stream streamSwf = clientSwf.OpenRead(GetSwfURL(pageSource)))
+                        using (Stream streamSwf = clientSwf.OpenRead(swfUrl))
                         {
                             streamSwf.ReadTimeout = 5000;
                             using (BinaryReader br = new BinaryReader(streamSwf, Encoding.ASCII))
                             {
-                                string source = new string(br.ReadChars(3000));
-
-                                string tid = GetTid(source);
-                                string mid = GetMid(source);
-                                string token = GetToken(source);
-                                string type = GetType(source);
-                                string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
+                                string swf = new string(br.ReadChars(3000));
                                 string resultURL = "";
-                                if (type == "return")
+
+                                //カードチャンスであれば
+                                if (swfUrl.IndexOf("lucky") >= 0)
                                 {
-                                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
+                                    string token = GetLuckyToken(swf);
+                                    resultURL = (@"http://gcc.sp.mbga.jp/_gcard_mission_lucky_lot" + "?token=" + token + "&card=1&mekuru=0");
+                                    driver_.Navigate().GoToUrl(resultURL);
+                                    return false;
                                 }
                                 else
                                 {
-                                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
+                                    string tid = GetTid(swf);
+                                    string mid = GetMid(swf);
+                                    string token = GetToken(swf);
+                                    string type = GetType(swf);
+                                    string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
+                                    if (type == "return")
+                                    {
+                                        resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
+                                    }
+                                    else
+                                    {
+                                        resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
+                                    }                                    
                                 }
 
                                 using (WebClient clientGet = GetWebClient())
@@ -475,7 +495,7 @@ namespace gcard_macro
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"売却して探索する\"]"));
-                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                driver_.Navigate().GoToUrl(enemy_list_path_);
             }
             catch { }
 
@@ -568,7 +588,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElement(By.XPath("//input[@value=\"プレゼントをまとめて受け取る\"]"));
+                IWebElement elm = driver_.FindElement(By.XPath("//input[@value=\"プレゼントをまとめて受け取る\"]/../../../form"));
                 elm.Submit();
                 Exec = SearchState;
                 return;

@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 
 namespace gcard_macro
 {
@@ -45,7 +44,7 @@ namespace gcard_macro
             tabControlGTactics.Log += onLog;
 
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.0.0";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.1";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -56,7 +55,7 @@ namespace gcard_macro
                 onLog(this, "ログイン中");
 
                 Cursor.Current = Cursors.WaitCursor;
-                driver_ = Webdriver.CreatePhantomJS();
+                driver_ = Webdriver.CreateHtmlAgilityPackDriver();
 
                 buttonRunBrowser.Enabled = false;
                 buttonStopBrowser.Enabled = true;
@@ -73,18 +72,17 @@ namespace gcard_macro
 
                 try
                 {
-                    //var htmlDoc = new HtmlAgilityPack.HtmlDocument();
-                    //htmlDoc.LoadHtml(driver_.PageSource);
-                    //var aa = htmlDoc.DocumentNode.SelectSingleNode("//a[@class=\"profile\"]");
-                    //var inner = aa.InnerHtml;
-                    //var bb =aa.Attributes.AttributesWithName("href").ElementAt(0).Value;
                     driver_.Navigate().GoToUrl(driver_.FindElement(By.XPath("//a[@class=\"profile\"]")).GetAttribute("href"));
-                    UserName = driver_.FindElement(By.XPath("//div[@class=\"name-and-rank\"]")).Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                    UserName = driver_.FindElement(By.XPath("//div[@class=\"name-and-rank\"]")).Text.Split(new string[] { "<br>", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries)[0].Trim(new char[] { ' ' });
                     this.Text = string.Format("{0} - {1}", UserName, AppTitle);
 
                     onLog(this, string.Format("ユーザー名取得({0})", UserName));
 
+                    tabControlRaid.UserName = UserName;
                     tabControlGroup.UserName = UserName;
+                    tabControlGShooting.UserName = UserName;
+                    tabControlPromotion.UserName = UserName;
+                    tabControlGTactics.UserName = UserName;
                 }
                 catch
                 {
