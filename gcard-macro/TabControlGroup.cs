@@ -89,7 +89,7 @@ namespace gcard_macro
             if (Webdriver.IsChrome())
             {
                 Webdriver.Close();
-                Webdriver.CreatePhantomJS();
+                Webdriver.CreateHtmlAgilityPackDriver();
             }
 #endif
 

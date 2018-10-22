@@ -255,27 +255,34 @@ namespace gcard_macro
         /// <returns></returns>
         virtual protected bool IsEventFinished() => driver_.PageSource.IndexOf("イベントは終了しました") >= 0;
 
-
-
         /// <summary>
         /// 探索時のFlashをクリックする
         /// </summary>
         virtual protected void EmulateClickFlash()
         {
+
             try
             {
                 string swfUrl = GetSwfURL(driver_.PageSource);
+                string swf = new string(GetSwfBinary(swfUrl, 1024 * 1024));
 
+                //WebClient wc = GetWebClient();
+                //wc.DownloadFile(swfUrl, string.Format(@"11.swf", DateTime.Now.ToLongTimeString()));
+                //wc.Dispose();
+
+                //探索演出
                 if (swfUrl.IndexOf("gcard_mission_effect") > 0)
                 {
                     SearchEnemy(driver_.Url);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
+                //カードゲットチャンス
                 else if (swfUrl.IndexOf("lucky") > 0)
                 {
                     SearchEnemy(driver_.Url);
 
                 }
+                //レベルアップ演出
                 else if (swfUrl.IndexOf("lvup") > 0)
                 {
                     string resultUrl = swfUrl.Replace("effect", "result");
@@ -283,16 +290,67 @@ namespace gcard_macro
                     Exec = SearchState;
                     return;
                 }
+                //補給ボス演出
                 else if (swfUrl.IndexOf("raid_boss_supply_boss_appear") > 0)
                 {
-                    string resultUrl = swfUrl.Replace("effect", "result");
-                    driver_.Navigate().GoToUrl(enemy_list_path_ == "" ? home_path_ : enemy_list_path_);
-                    Exec = SearchState;
-                    return;
+                    string a_point = new string(swf.Substring(swf.IndexOf("a_point") + 12, 10).Where(c => char.IsNumber(c)).ToArray());
+                    string b_point = new string(swf.Substring(swf.IndexOf("b_point") + 12, 10).Where(c => char.IsNumber(c)).ToArray());
+                    string boss_eids = FilterNumComma(swf.Substring(swf.IndexOf("boss_eids") + 14));
+                    string can_r = new string(swf.Substring(swf.IndexOf("can_r") + 10, 2).Where(c => char.IsNumber(c)).ToArray());
+                    string g_point = new string(swf.Substring(swf.IndexOf("g_point", 8000) + 12, 10).Where(c => char.IsNumber(c)).ToArray());
+
+                    string resultURL = @"http://gcc.sp.mbga.jp/_gcard_event309_raid_boss_receive_multi_result" +
+                        "?a_point=" + a_point +
+                        "&b_point=" + b_point +
+                        "&boss_eids=" + boss_eids +
+                        "&can_r=" + can_r +
+                        "&g_point=" + g_point;
+
+                    driver_.Navigate().GoToUrl(resultURL);
                 }
+                //昇格戦戦闘演出
                 else if (swfUrl.IndexOf("promotion_battle") >= 0)
                 {
-                    throw new Exception();
+                    string gift_key = new string(swf.Substring(swf.IndexOf("gift_key", 8000) + 13, 6).Where(c => char.IsNumber(c)).ToArray());
+                    string new_en = new string(swf.Substring(swf.IndexOf("new_en") + 11, 2).Where(c => char.IsNumber(c)).ToArray());
+                    string exchanged_tmp_be_num = new string(swf.Substring(swf.IndexOf("exchanged_tmp_be_num", 8000) + 25, 1).Where(c => char.IsNumber(c)).ToArray());
+                    string old_en = new string(swf.Substring(swf.IndexOf("old_en", 8000) + 11, 2).Where(c => char.IsNumber(c)).ToArray());
+                    string old_pt = new string(swf.Substring(swf.IndexOf("ol_pt", 8000) + 11, 8).Where(c => char.IsNumber(c)).ToArray());
+                    string round_id = new string(swf.Substring(swf.IndexOf("round_id", 8000) + 13, 2).Where(c => char.IsNumber(c)).ToArray());
+                    string e_id = new string(swf.Substring(swf.IndexOf("e_id", 8000) + 9, 10).Where(c => char.IsNumber(c)).ToArray());
+                    string total_pt = new string(swf.Substring(swf.IndexOf("total_pt", 8000) + 13, 8).Where(c => char.IsNumber(c)).ToArray());
+                    string deck_id = new string(swf.Substring(swf.IndexOf("deck_id", 8000) + 12, 1).Where(c => char.IsNumber(c)).ToArray());
+                    string nr = new string(swf.Substring(swf.IndexOf("nr", 8000) + 7, 4).Where(c => char.IsNumber(c)).ToArray());
+                    string round_gift = new string(swf.Substring(swf.IndexOf("round_gift", 8000) + 15, 9).Where(c => char.IsNumber(c)).ToArray());
+                    string win = new string(swf.Substring(swf.IndexOf("win", 8000) + 7, 4).Where(c => char.IsNumber(c)).ToArray());
+                    string br = new string(swf.Substring(swf.IndexOf("br", 8000) + 7, 4).Where(c => char.IsNumber(c)).ToArray());
+                    string win_all = new string(swf.Substring(swf.IndexOf("win_all", 8000) + 12, 2).Where(c => char.IsNumber(c)).ToArray());
+                    string perfect = new string(swf.Substring(swf.IndexOf("perfect", 8000) + 12, 1).Where(c => char.IsNumber(c)).ToArray());
+                    string get_pt = new string(swf.Substring(swf.IndexOf("get_pt", 8000) + 11, 7).Where(c => char.IsNumber(c)).ToArray());
+                    string rank_up_incentive_flg = new string(swf.Substring(swf.IndexOf("rank_up_incentive_flg", 8000) + 12, 2).Where(c => char.IsNumber(c)).ToArray());
+                    string new_pt = new string(swf.Substring(swf.IndexOf("new_pt", 8000) + 11, 8).Where(c => char.IsNumber(c)).ToArray());
+
+                    string resultURL = @"http://gcc.sp.mbga.jp/_gcard_promotion_battle_result?" +
+                        "gift_key=" + gift_key +
+                        "&new_en=" + new_en +
+                        "&exchanged_tmp_be_num=" + exchanged_tmp_be_num +
+                        "&old_en=" + old_en +
+                        "&old_pt=" + old_pt +
+                        "&round_id=" + round_id +
+                        "&e_id=" + e_id +
+                        "&total_pt=" + total_pt +
+                        "&deck_id=" + deck_id +
+                        "&nr=" + nr +
+                        "&round_gift=" + round_gift +
+                        "&win=" + win +
+                        "&br=" + br +
+                        "&win_all=" + win_all +
+                        "&perfect=" + perfect +
+                        "&get_pt=" + get_pt +
+                        "&rank_up_incentive_flg=" + rank_up_incentive_flg +
+                        "&new_pt=" + new_pt;
+
+                    driver_.Navigate().GoToUrl(resultURL);
                 }
                 else
                 {
@@ -332,27 +390,31 @@ namespace gcard_macro
         protected string GetSwfURL(string PageSource)
         {
             //var swf = '_gcard_event309_raid_boss_supply_boss_appear_effect?sk=91124';
-            Regex r = new Regex(@"_gcard_(?<type>.+)effect\?sk=(?<id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            MatchCollection mc = r.Matches(PageSource);
-            string url = mc.Count > 0 ? @"http://gcc.sp.mbga.jp/_gcard_" + mc[0].Groups["type"] + "effect?sk=" + mc[0].Groups["id"].Value : "";
+            Regex r = new Regex(@"(var swf = '|'swf': ')(?<type>.+)(';|',)(\n|\r|.*'target')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            MatchCollection mc = r.Matches(PageSource.Replace("&amp;", "&"));
+            string url = mc.Count > 0 ? @"http://gcc.sp.mbga.jp/" + mc[0].Groups["type"].Value : "";
             return url;
         }
 
-        protected string GetTid(string SwfBinary)
+        protected string FilterNumComma(string SwfBinary)
         {
-            string tidstr = SwfBinary.Substring(SwfBinary.IndexOf("t_id") + 9);
-            string tid = "";
+            string ret = "";
 
-            foreach(char c in tidstr)
+            foreach (char c in SwfBinary)
             {
                 if (char.IsNumber(c) || c == ',')
                 {
-                    tid += c;
+                    ret += c;
                 }
                 else break;
             }
 
-            return System.Web.HttpUtility.UrlEncode(tid);
+            return System.Web.HttpUtility.UrlEncode(ret);
+        }
+
+        protected string GetTid(string SwfBinary)
+        {
+            return FilterNumComma(SwfBinary.Substring(SwfBinary.IndexOf("t_id") + 9));
         }
 
         protected string GetMid(string SwfBinary) => SwfBinary.Substring(SwfBinary.IndexOf("m_id") + 9, 8);
@@ -374,6 +436,31 @@ namespace gcard_macro
             return client;
         }
 
+        /// <summary>
+        /// swfのバイナリデータを取得する
+        /// </summary>
+        /// <param name="swfUrl">swfのurl</param>
+        /// <returns>バイナリデータ</returns>
+        char[] GetSwfBinary(string swfUrl, int readCount)
+        {
+            try
+            {
+                using (WebClient clientSwf = GetWebClient())
+                using (Stream streamSwf = clientSwf.OpenRead(swfUrl))
+                {
+                    streamSwf.ReadTimeout = 5000;
+                    using (BinaryReader br = new BinaryReader(streamSwf, Encoding.ASCII))
+                    {
+                        return br.ReadChars(readCount);
+                    }
+                }
+            }
+            catch
+            {
+                return new char[] { };
+            }
+        }
+
 
         /// <summary>
         /// 敵を出現させる
@@ -392,49 +479,43 @@ namespace gcard_macro
                     {
                         string pageSource = sr.ReadToEnd();
                         string swfUrl = GetSwfURL(pageSource);
-                        using (WebClient clientSwf = GetWebClient())
-                        using (Stream streamSwf = clientSwf.OpenRead(swfUrl))
+
+                        string swf = new string(GetSwfBinary(swfUrl, 3000));
+                        string resultURL = "";
+
+
+                        //カードチャンスであれば
+                        if (swfUrl.IndexOf("lucky") >= 0)
                         {
-                            streamSwf.ReadTimeout = 5000;
-                            using (BinaryReader br = new BinaryReader(streamSwf, Encoding.ASCII))
+                            string token = GetLuckyToken(swf);
+                            resultURL = (@"http://gcc.sp.mbga.jp/_gcard_mission_lucky_lot" + "?token=" + token + "&card=1&mekuru=0");
+                            driver_.Navigate().GoToUrl(resultURL);
+                            return false;
+                        }
+                        else
+                        {
+                            string tid = GetTid(swf);
+                            string mid = GetMid(swf);
+                            string token = GetToken(swf);
+                            string type = GetType(swf);
+                            string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
+                            if (type == "return")
                             {
-                                string swf = new string(br.ReadChars(3000));
-                                string resultURL = "";
-
-                                //カードチャンスであれば
-                                if (swfUrl.IndexOf("lucky") >= 0)
-                                {
-                                    string token = GetLuckyToken(swf);
-                                    resultURL = (@"http://gcc.sp.mbga.jp/_gcard_mission_lucky_lot" + "?token=" + token + "&card=1&mekuru=0");
-                                    driver_.Navigate().GoToUrl(resultURL);
-                                    return false;
-                                }
-                                else
-                                {
-                                    string tid = GetTid(swf);
-                                    string mid = GetMid(swf);
-                                    string token = GetToken(swf);
-                                    string type = GetType(swf);
-                                    string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
-                                    if (type == "return")
-                                    {
-                                        resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
-                                    }
-                                    else
-                                    {
-                                        resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
-                                    }                                    
-                                }
-
-                                using (WebClient clientGet = GetWebClient())
-                                {
-                                    string respons = clientGet.DownloadString(resultURL);
-
-                                    driver_.Navigate().Refresh();
-
-                                    return true;
-                                }
+                                resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
                             }
+                            else
+                            {
+                                resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
+                            }
+                        }
+
+                        using (WebClient clientGet = GetWebClient())
+                        {
+                            string respons = clientGet.DownloadString(resultURL);
+
+                            driver_.Navigate().Refresh();
+
+                            return true;
                         }
                     }
                 }
@@ -643,6 +724,20 @@ namespace gcard_macro
             MatchCollection mc = r.Matches(url);
 
             return mc.Count > 0 ? mc[0].Groups["id"].Value : "";
+        }
+
+        protected string RemoveTag(string hrml)
+        {
+            Regex r = new Regex(@"(<.*?>)+");
+            MatchCollection mc = r.Matches(hrml);
+            StringBuilder sb = new StringBuilder(hrml);
+
+            foreach (Match m in mc)
+                for (int i = 0; i < m.Groups.Count; i++)
+                    for (int j = 0; j < m.Groups[i].Captures.Count; j++)
+                        sb.Replace(m.Groups[i].Captures[j].Value, "");
+
+            return sb.ToString();
         }
     }
 }

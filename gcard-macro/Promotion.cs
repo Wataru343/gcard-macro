@@ -72,7 +72,7 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：戦闘演出画面");
                     CurrentState = State.BattleFlash;
                     Wait(WaitAttack);
-                    Exec = ClickBattleFlash;
+                    Exec = EmulateClickFlash;
                 }
                 //敵一覧
                 else if (IsEnemyList())
@@ -264,7 +264,9 @@ namespace gcard_macro
                 if (start >= end)
                 {
                     end += TimeSpan.FromDays(1);
-                    now += TimeSpan.FromDays(1);
+
+                    if(start > now)
+                        now += TimeSpan.FromDays(1);
                 }
 
                 if (now >= start && now < end)
@@ -359,7 +361,8 @@ namespace gcard_macro
 
                 try
                 {
-                    var hp = driver_.FindElement(By.XPath("//div[@class=\"hp flex\"]")).Text.Replace(",", "").Split(new char[] { '/' });
+                    var hp = RemoveTag(driver_.FindElement(By.XPath("//div[@class=\"hp flex\"]")).Text).Replace(",", "").Split(new char[] { '/' });
+
                     myHP = Convert.ToUInt64(hp[0]);
                     maxHP = Convert.ToUInt64(hp[1]);
                 }

@@ -44,7 +44,7 @@ namespace gcard_macro
             tabControlGTactics.Log += onLog;
 
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.1";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.3";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 

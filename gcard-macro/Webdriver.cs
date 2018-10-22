@@ -65,7 +65,7 @@ namespace gcard_macro
                     new FormLogin() { driver = driver_ }.ShowDialog();
                 }
 
-                #if CHROME
+                #if !CHROME
                 var cookies = driver_.Manage().Cookies.AllCookies;
 
                 driver_.Quit();

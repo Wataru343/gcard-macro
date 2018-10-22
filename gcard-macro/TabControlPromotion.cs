@@ -81,11 +81,10 @@ namespace gcard_macro
             Promotion?.KillThread();
 
 #if !DEBUG
-            if (!Webdriver.IsChrome())
+            if (Webdriver.IsChrome())
             {
-                Log?.Invoke(this, "Chromeに切り替え中");
                 Webdriver.Close();
-                Webdriver.CreateChrome();
+                Webdriver.CreateHtmlAgilityPackDriver();
             }
 #endif
 
