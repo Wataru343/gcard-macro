@@ -35,6 +35,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerWatchWebdriver = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBoxFinalJob = new System.Windows.Forms.ComboBox();
             this.checkBoxRecievePresent = new System.Windows.Forms.CheckBox();
             this.checkBoxOnlySearch = new System.Windows.Forms.CheckBox();
             this.checkBoxAutojobLevelUp = new System.Windows.Forms.CheckBox();
@@ -75,8 +77,6 @@
             this.labelStateGetCard = new System.Windows.Forms.Label();
             this.labelStateLevelUp = new System.Windows.Forms.Label();
             this.labelMiniCap = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.comboBoxFinalJob = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -159,6 +159,32 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(14, 259);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(54, 12);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "最終ジョブ";
+            // 
+            // comboBoxFinalJob
+            // 
+            this.comboBoxFinalJob.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxFinalJob.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxFinalJob.FormattingEnabled = true;
+            this.comboBoxFinalJob.Items.AddRange(new object[] {
+            "アタッカー",
+            "コマンダー",
+            "シーカー",
+            "スーパーエース",
+            "スーパーサポーター"});
+            this.comboBoxFinalJob.Location = new System.Drawing.Point(14, 277);
+            this.comboBoxFinalJob.Name = "comboBoxFinalJob";
+            this.comboBoxFinalJob.Size = new System.Drawing.Size(486, 20);
+            this.comboBoxFinalJob.TabIndex = 28;
+            // 
             // checkBoxRecievePresent
             // 
             this.checkBoxRecievePresent.AutoSize = true;
@@ -168,7 +194,6 @@
             this.checkBoxRecievePresent.TabIndex = 27;
             this.checkBoxRecievePresent.Text = "プレゼントを受け取る";
             this.checkBoxRecievePresent.UseVisualStyleBackColor = true;
-            this.checkBoxRecievePresent.CheckedChanged += new System.EventHandler(this.checkBoxRecievePresent_CheckedChanged);
             // 
             // checkBoxOnlySearch
             // 
@@ -179,7 +204,6 @@
             this.checkBoxOnlySearch.TabIndex = 26;
             this.checkBoxOnlySearch.Text = "探索のみ";
             this.checkBoxOnlySearch.UseVisualStyleBackColor = true;
-            this.checkBoxOnlySearch.CheckedChanged += new System.EventHandler(this.checkBoxOnlySearch_CheckedChanged);
             // 
             // checkBoxAutojobLevelUp
             // 
@@ -190,7 +214,6 @@
             this.checkBoxAutojobLevelUp.TabIndex = 25;
             this.checkBoxAutojobLevelUp.Text = "自動ジョブレベル上げ";
             this.checkBoxAutojobLevelUp.UseVisualStyleBackColor = true;
-            this.checkBoxAutojobLevelUp.CheckedChanged += new System.EventHandler(this.checkBoxAutojobLevelUp_CheckedChanged);
             // 
             // checkBoxRecieveReword
             // 
@@ -201,7 +224,6 @@
             this.checkBoxRecieveReword.TabIndex = 24;
             this.checkBoxRecieveReword.Text = "報酬を受け取る";
             this.checkBoxRecieveReword.UseVisualStyleBackColor = true;
-            this.checkBoxRecieveReword.CheckedChanged += new System.EventHandler(this.checkBoxRecieveReword_CheckedChanged);
             // 
             // label8
             // 
@@ -242,7 +264,6 @@
             this.checkBoxUseBoost.TabIndex = 20;
             this.checkBoxUseBoost.Text = "ブーストを使用する";
             this.checkBoxUseBoost.UseVisualStyleBackColor = true;
-            this.checkBoxUseBoost.CheckedChanged += new System.EventHandler(this.checkBoxUseBoost_CheckedChanged);
             // 
             // checkBoxFirstAttackBoss
             // 
@@ -253,7 +274,6 @@
             this.checkBoxFirstAttackBoss.TabIndex = 19;
             this.checkBoxFirstAttackBoss.Text = "メモリアルボスを優先して攻撃する";
             this.checkBoxFirstAttackBoss.UseVisualStyleBackColor = true;
-            this.checkBoxFirstAttackBoss.CheckedChanged += new System.EventHandler(this.checkBoxFirstAttackBoss_CheckedChanged);
             // 
             // label6
             // 
@@ -273,7 +293,6 @@
             this.textBoxPointDiff.Name = "textBoxPointDiff";
             this.textBoxPointDiff.Size = new System.Drawing.Size(417, 19);
             this.textBoxPointDiff.TabIndex = 17;
-            this.textBoxPointDiff.TextChanged += new System.EventHandler(this.textBoxPointDiff_TextChanged);
             this.textBoxPointDiff.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPointDiff_KeyPress);
             this.textBoxPointDiff.Validated += new System.EventHandler(this.textBoxPointDiff_Validated);
             // 
@@ -285,7 +304,6 @@
             this.label5.Size = new System.Drawing.Size(95, 12);
             this.label5.TabIndex = 16;
             this.label5.Text = "敵部隊との点数差";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // comboBoxAttackMode
             // 
@@ -319,7 +337,6 @@
             this.label3.Size = new System.Drawing.Size(141, 12);
             this.label3.TabIndex = 13;
             this.label3.Text = "報酬をまとめて受け取る個数";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // comboBoxRecieve
             // 
@@ -342,7 +359,6 @@
             this.comboBoxRecieve.Name = "comboBoxRecieve";
             this.comboBoxRecieve.Size = new System.Drawing.Size(486, 20);
             this.comboBoxRecieve.TabIndex = 12;
-            this.comboBoxRecieve.SelectedIndexChanged += new System.EventHandler(this.comboBoxRecieve_SelectedIndexChanged);
             // 
             // checkBoxUseAttack20
             // 
@@ -353,7 +369,6 @@
             this.checkBoxUseAttack20.TabIndex = 11;
             this.checkBoxUseAttack20.Text = "BEx3 20倍攻撃を使用する(敵部隊のミラージュコロイドが発動しているときのみ)";
             this.checkBoxUseAttack20.UseVisualStyleBackColor = true;
-            this.checkBoxUseAttack20.CheckedChanged += new System.EventHandler(this.checkBoxUseAttack20_CheckedChanged);
             // 
             // checkBoxUseAttack10
             // 
@@ -621,33 +636,6 @@
             this.labelMiniCap.Size = new System.Drawing.Size(45, 12);
             this.labelMiniCap.TabIndex = 24;
             this.labelMiniCap.Text = "ミニカプ：";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(14, 259);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(54, 12);
-            this.label9.TabIndex = 29;
-            this.label9.Text = "最終ジョブ";
-            // 
-            // comboBoxFinalJob
-            // 
-            this.comboBoxFinalJob.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxFinalJob.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxFinalJob.FormattingEnabled = true;
-            this.comboBoxFinalJob.Items.AddRange(new object[] {
-            "アタッカー",
-            "コマンダー",
-            "シーカー",
-            "スーパーエース",
-            "スーパーサポーター"});
-            this.comboBoxFinalJob.Location = new System.Drawing.Point(14, 277);
-            this.comboBoxFinalJob.Name = "comboBoxFinalJob";
-            this.comboBoxFinalJob.Size = new System.Drawing.Size(486, 20);
-            this.comboBoxFinalJob.TabIndex = 28;
-            this.comboBoxFinalJob.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // TabControlGroup
             // 

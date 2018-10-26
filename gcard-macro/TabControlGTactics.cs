@@ -58,7 +58,7 @@ namespace gcard_macro
             checkBoxUseForce.Checked = Properties.Settings.Default.GTacticsUseForce;
             checkBoxForceCharge.Checked = Properties.Settings.Default.GTacticsForceCharge;
             comboBoxForcePattern.SelectedIndex = Properties.Settings.Default.GTacticsForcePattern;
-            comboBoxPriority.SelectedIndex= Properties.Settings.Default.GTacticsPriority;
+            comboBoxPriority.SelectedIndex = Properties.Settings.Default.GTacticsPriority;
             textBoxPointDiff.Text = Properties.Settings.Default.GTacticsPointDiff.ToString();
             checkBoxStandby.Checked = Properties.Settings.Default.GTacticsStandby;
             CurrentState = labelStateHome;
@@ -67,6 +67,7 @@ namespace gcard_macro
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+#if !DEBUG
             //シリアルキーチェック
             if (Properties.Settings.Default.AccessKey != KeyGenerator.Hash.GenerateHash(UserName))
             {
@@ -84,6 +85,7 @@ namespace gcard_macro
                 Properties.Settings.Default.AccessKey = str;
                 Properties.Settings.Default.Save();
             }
+#endif
 
             if (!Uri.IsWellFormedUriString(textBoxURL.Text, UriKind.Absolute))
             {

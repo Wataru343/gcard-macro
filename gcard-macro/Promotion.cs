@@ -49,7 +49,7 @@ namespace gcard_macro
 
         override protected void SearchState()
         {
-            if(BaseSallyCount == -1)
+            if (BaseSallyCount == -1)
             {
                 BaseSallyCount = SallyCount;
             }
@@ -155,20 +155,20 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(home_path_);
                     Attacked = false;
                 }
-                //不正な画面遷移です
-                else if (IsError())
-                {
-                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
-                    CurrentState = State.Error;
-                    Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
-                }
                 //アクセスを制限
                 else if (IsAccessBlock())
                 {
                     Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                     CurrentState = State.AccessBlock;
                     Wait(WaitAccessBlock);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                //不正な画面遷移です
+                else if (IsError())
+                {
+                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
+                    CurrentState = State.Error;
+                    Wait(WaitMisc);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
                 //イベント終了
@@ -191,7 +191,7 @@ namespace gcard_macro
 
             StateChanged?.Invoke(this, CurrentState);
 
-            if(prevTime.Day < DateTime.Now.Day)
+            if (prevTime.Day < DateTime.Now.Day)
             {
                 SallyCount = BaseSallyCount;
             }
@@ -234,7 +234,7 @@ namespace gcard_macro
         /// 撤退完了画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsWithdrawalCompletion() =>  driver_.PageSource.IndexOf("撤退しました") >= 0;
+        private bool IsWithdrawalCompletion() => driver_.PageSource.IndexOf("撤退しました") >= 0;
 
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace gcard_macro
                 {
                     IWebElement rank = driver_.FindElement(By.XPath("//div[contains(text(), \"現在\")]/span"));
 
-                    if(Convert.ToInt32(rank.Text) <= WatchRank)
+                    if (Convert.ToInt32(rank.Text) <= WatchRank)
                     {
                         Wait(5);
                         Exec = SearchState;
@@ -265,7 +265,7 @@ namespace gcard_macro
                 {
                     end += TimeSpan.FromDays(1);
 
-                    if(start > now)
+                    if (start > now)
                         now += TimeSpan.FromDays(1);
                 }
 
@@ -361,7 +361,7 @@ namespace gcard_macro
 
                 try
                 {
-                    var hp = RemoveTag(driver_.FindElement(By.XPath("//div[@class=\"hp flex\"]")).Text).Replace(",", "").Split(new char[] { '/' });
+                    var hp = driver_.FindElement(By.XPath("//div[@class=\"hp flex\"]")).Text.Replace(",", "").Split(new char[] { '/' });
 
                     myHP = Convert.ToUInt64(hp[0]);
                     maxHP = Convert.ToUInt64(hp[1]);
@@ -379,7 +379,7 @@ namespace gcard_macro
                         break;
 
                     case AttackMode.攻撃力が低い敵を攻撃HP20パーセント以下で撤退:
-                        if(myHP <= maxHP * 0.2)
+                        if (myHP <= maxHP * 0.2)
                         {
                             IWebElement button = driver_.FindElement(By.XPath("//a[text()=\"撤退する\"]"));
                             driver_.Navigate().GoToUrl(button.GetAttribute("href"));
@@ -449,19 +449,20 @@ namespace gcard_macro
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//div[contains(text(), \"BE回復ミニカプセル\")]/span"));
-                if (MinicapCount != Convert.ToInt32(elm.Text)){
+                if (MinicapCount != Convert.ToInt32(elm.Text))
+                {
                     MinicapChanged?.Invoke(this, Convert.ToInt32(elm.Text));
                     MinicapCount = Convert.ToInt32(elm.Text);
                 }
             }
             catch { }
-            
+
 
             try
             {
                 var elms = driver_.FindElements(By.XPath("//*[@class=\"txt-c pb8 pt8\"]/a"));
 
-                if(elms.Count() == 0)
+                if (elms.Count() == 0)
                     elms = driver_.FindElements(By.XPath("//*[@class=\"ml8 fc-white f14 txt-c\"]/div/a"));
 
                 AddEnemyId(driver_.Url);

@@ -20,7 +20,7 @@ namespace gcard_macro
         virtual protected object RunObj { get; set; }
         virtual protected bool Attacked { get; set; }
         virtual protected bool IsCombo { get; set; }
-        virtual protected List<string> AttackedEnemyId {get; set;}
+        virtual protected List<string> AttackedEnemyId { get; set; }
         virtual protected int MinicapCount { get; set; }
 
         internal Action Exec;
@@ -96,7 +96,7 @@ namespace gcard_macro
 
         public Event(IWebDriver driver, string home_path)
         {
-            driver_ = driver;            
+            driver_ = driver;
             home_path_ = home_path;
             enemy_list_path_ = "";
             CurrentState = State.Home;
@@ -277,21 +277,37 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(home_path_);
                 }
                 //カードゲットチャンス
-                else if (swfUrl.IndexOf("lucky") > 0)
+                else if (swfUrl.IndexOf("lucky_effectt") > 0)
                 {
                     SearchEnemy(driver_.Url);
+                }
+                //クエストクリア演出
+                else if (swfUrl.IndexOf("quest_clear_effect") > 0)
+                {
+                    //http://gcc.sp.mbga.jp/_gcard_event310_raid_boss_receive_multi_result?l_boss_eids=&p_q_ss=1&c_q_ids=3&r_boss_eids=1106723%2C1108205%2C1108461%2C1108716%2C1108974
+                    string l_boss_eids = new string(swf.Substring(swf.IndexOf("l_boss_eids", 16 * 3000) + 16, 2).Where(c => char.IsNumber(c)).ToArray());
+                    string p_q_ss = new string(swf.Substring(swf.IndexOf("p_q_ss", 16 * 3000) + 11, 3).Where(c => char.IsNumber(c)).ToArray());
+                    string c_q_ids = new string(swf.Substring(swf.IndexOf("c_q_ids", 16 * 3000) + 12, 3).Where(c => char.IsNumber(c)).ToArray());
+                    string r_boss_eids = FilterNumComma(swf.Substring(swf.IndexOf("r_boss_eids") + 16));
 
+                    string resultURL = @"http://gcc.sp.mbga.jp/_gcard_event310_raid_boss_receive_multi_result" +
+                        "?l_boss_eids=" + l_boss_eids +
+                        "&p_q_ss=" + p_q_ss +
+                        "&c_q_ids=" + c_q_ids +
+                        "&r_boss_eids=" + r_boss_eids;
+
+                    driver_.Navigate().GoToUrl(resultURL);
                 }
                 //レベルアップ演出
-                else if (swfUrl.IndexOf("lvup") > 0)
+                else if (swfUrl.IndexOf("lvup_effect") > 0)
                 {
                     string resultUrl = swfUrl.Replace("effect", "result");
-                    driver_.Navigate().GoToUrl(enemy_list_path_ == "" ? home_path_ : enemy_list_path_);
+                    driver_.Navigate().GoToUrl(resultUrl);
                     Exec = SearchState;
                     return;
                 }
                 //補給ボス演出
-                else if (swfUrl.IndexOf("raid_boss_supply_boss_appear") > 0)
+                else if (swfUrl.IndexOf("raid_boss_supply_boss_appear_effect") > 0)
                 {
                     string a_point = new string(swf.Substring(swf.IndexOf("a_point") + 12, 10).Where(c => char.IsNumber(c)).ToArray());
                     string b_point = new string(swf.Substring(swf.IndexOf("b_point") + 12, 10).Where(c => char.IsNumber(c)).ToArray());
@@ -309,7 +325,7 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(resultURL);
                 }
                 //昇格戦戦闘演出
-                else if (swfUrl.IndexOf("promotion_battle") >= 0)
+                else if (swfUrl.IndexOf("promotion_battle_effect") >= 0)
                 {
                     string gift_key = new string(swf.Substring(swf.IndexOf("gift_key", 8000) + 13, 6).Where(c => char.IsNumber(c)).ToArray());
                     string new_en = new string(swf.Substring(swf.IndexOf("new_en") + 11, 2).Where(c => char.IsNumber(c)).ToArray());
@@ -352,6 +368,27 @@ namespace gcard_macro
 
                     driver_.Navigate().GoToUrl(resultURL);
                 }
+                //中隊メンバー結成演出(G-Tactics)
+                else if (swfUrl.IndexOf("team_formation_effect") >= 0)
+                {
+                    driver_.Navigate().GoToUrl(home_path_ + "_group_members");
+                }
+                //部隊クエスト終了(G-Tactics)
+                else if (swfUrl.IndexOf("group_quest_result_effect") >= 0)
+                {
+                    string id = swfUrl.Substring(swfUrl.IndexOf("id=") + 3);
+                    driver_.Navigate().GoToUrl(home_path_ + "_group_quest_result?id=" + id);
+                }
+                //ラウンドリザルト(G-Tactics)
+                else if (swfUrl.IndexOf("group_result_effect") >= 0)
+                {
+                    driver_.Navigate().GoToUrl(home_path_ + "_group_records");
+                }
+                //戦略拠点制圧(G-Tactics)
+                else if (swfUrl.IndexOf("field_occupy_strategic_area_effect") >= 0)
+                {
+                    driver_.Navigate().GoToUrl(enemy_list_path_);
+                }
                 else
                 {
                     driver_.Navigate().GoToUrl(home_path_);
@@ -359,29 +396,7 @@ namespace gcard_macro
             }
             catch
             {
-                try
-                {
-                    int retry = 0;
-                    while (true)
-                    {
-                        IWebElement elm = driver_.FindElement(By.ClassName("swf"));
-
-                        Actions action = new Actions(driver_);
-                        action.MoveToElement(elm, (int)(elm.Size.Width / 2.6), elm.Size.Height / 6 * 5).Click().Build().Perform();
-                        Wait(0.5);
-                        retry++;
-
-                        if(retry > 10)
-                        {
-                            driver_.Navigate().GoToUrl(home_path_);
-                            break;
-                        }
-                    }
-                }
-                catch
-                {
-                    driver_.Navigate().GoToUrl(home_path_);
-                }
+                driver_.Navigate().GoToUrl(home_path_);
             }
 
             Exec = SearchState;
@@ -391,7 +406,7 @@ namespace gcard_macro
         {
             //var swf = '_gcard_event309_raid_boss_supply_boss_appear_effect?sk=91124';
             Regex r = new Regex(@"(var swf = '|'swf': ')(?<type>.+)(';|',)(\n|\r|.*'target')", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            MatchCollection mc = r.Matches(PageSource.Replace("&amp;", "&"));
+            MatchCollection mc = r.Matches(PageSource.Replace("&amp;", "&").Replace(";", ";\n"));
             string url = mc.Count > 0 ? @"http://gcc.sp.mbga.jp/" + mc[0].Groups["type"].Value : "";
             return url;
         }
@@ -724,20 +739,6 @@ namespace gcard_macro
             MatchCollection mc = r.Matches(url);
 
             return mc.Count > 0 ? mc[0].Groups["id"].Value : "";
-        }
-
-        protected string RemoveTag(string hrml)
-        {
-            Regex r = new Regex(@"(<.*?>)+");
-            MatchCollection mc = r.Matches(hrml);
-            StringBuilder sb = new StringBuilder(hrml);
-
-            foreach (Match m in mc)
-                for (int i = 0; i < m.Groups.Count; i++)
-                    for (int j = 0; j < m.Groups[i].Captures.Count; j++)
-                        sb.Replace(m.Groups[i].Captures[j].Value, "");
-
-            return sb.ToString();
         }
     }
 }

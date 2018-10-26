@@ -34,7 +34,7 @@ namespace gcard_macro
         private bool IsAssaultBEEnded { get; set; }
         private bool IsBattleShip { get; set; }
 
-        public Raid(IWebDriver driver, string home_path): base(driver, home_path)
+        public Raid(IWebDriver driver, string home_path) : base(driver, home_path)
         {
             RunObj = new object();
             driver_ = driver;
@@ -62,7 +62,7 @@ namespace gcard_macro
             AssaultOperationsRequest = false;
             AssaultOperationsRequest2 = false;
             FoundAssaultOperations = false;
-            
+
             Log?.Invoke(this, "マクロ初期化");
         }
 
@@ -299,20 +299,20 @@ namespace gcard_macro
                     Wait(WaitMisc);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
-                //不正な画面遷移です
-                else if (IsError())
-                {
-                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
-                    CurrentState = State.Error;
-                    Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
-                }
                 //アクセスを制限
                 else if (IsAccessBlock())
                 {
                     Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                     CurrentState = State.AccessBlock;
                     Wait(WaitAccessBlock);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                //不正な画面遷移です
+                else if (IsError())
+                {
+                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
+                    CurrentState = State.Error;
+                    Wait(WaitMisc);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
                 //イベント終了
@@ -364,7 +364,7 @@ namespace gcard_macro
                 }
             }
         }
-        
+
 
         /// <summary>
         /// 戦闘画面(強襲作戦)判定
@@ -396,7 +396,7 @@ namespace gcard_macro
         /// 強襲作戦参加画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsAssaultOperationRequestSubmit() => driver_.PageSource.IndexOf("強襲作戦に参加せず") >= 0 ||(driver_.PageSource.IndexOf("作戦参加") >= 0 && driver_.PageSource.IndexOf("参加依頼を断る") >= 0);
+        private bool IsAssaultOperationRequestSubmit() => driver_.PageSource.IndexOf("強襲作戦に参加せず") >= 0 || (driver_.PageSource.IndexOf("作戦参加") >= 0 && driver_.PageSource.IndexOf("参加依頼を断る") >= 0);
 
         /// <summary>
         /// 強襲作戦開始画面判定
@@ -438,7 +438,7 @@ namespace gcard_macro
         /// 強襲作戦参加依頼失敗画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsFaildJoinRequestAssaultOperationt() =>  driver_.PageSource.IndexOf("作戦参加依頼を送信できません") >= 0;
+        private bool IsFaildJoinRequestAssaultOperationt() => driver_.PageSource.IndexOf("作戦参加依頼を送信できません") >= 0;
 
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace gcard_macro
                     foreach (var enemy in enemys)
                     {
                         //レアボスなら攻撃する
-                        if(enemy.Item2.Text.IndexOf("ﾚｱﾎﾞｽ") >= 0)
+                        if (enemy.Item2.Text.IndexOf("ﾚｱﾎﾞｽ") >= 0)
                         {
                             if (AttackedEnemyId.IndexOf(GetEnemyId(enemy.Item1.GetAttribute("href"))) < 0)
                             {
@@ -838,7 +838,7 @@ namespace gcard_macro
             Exec = SearchState;
         }
 
-        
+
 
         /// <summary>
         /// 強襲作戦参加同意から強襲作戦開始へ
@@ -1122,21 +1122,30 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     useBe--;
+
+                    string ret = "";
+
+                    try
+                    {
+                        ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                    }
+                    catch { }
+
+                    if (ret.IndexOf("swf") < 0)
+                    {
+                        StateChanged?.Invoke(this, State.AccessBlock);
+                        Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                        Wait(WaitAccessBlock);
+                        driver_.Navigate().GoToUrl(home_path_);
+                        return;
+                    }
+
                     if (!AimMVP || !IsRareBoss)
                     {
                         AddEnemyId(driver_.Url);
                     }
-                    var wc = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
-                    if (wc.IndexOf("swf") < 0)
-                    {
-                        Wait(WaitAccessBlock);
-                        StateChanged?.Invoke(this, State.AccessBlock);
-                        driver_.Navigate().GoToUrl(home_path_);
-                    }
 
-                    //driver_.Navigate().GoToUrl(elms.ElementAt(useBe).GetAttribute("href"));
                     driver_.Navigate().Refresh();
-
                     Attacked = true;
                 }
             }
@@ -1177,7 +1186,7 @@ namespace gcard_macro
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//p[contains(text(), \"強襲作戦専用BE\")]/span"));
 
-                if(UseAssaultBE && Convert.ToInt32(elm.Text) == 0)
+                if (UseAssaultBE && Convert.ToInt32(elm.Text) == 0)
                 {
                     driver_.Navigate().GoToUrl(enemy_list_path_);
                     IsAssaultBEEnded = true;
@@ -1218,7 +1227,7 @@ namespace gcard_macro
                 catch { }
             }
 
-            
+
             try
             {
                 //敵HPを取得
@@ -1265,23 +1274,31 @@ namespace gcard_macro
 
                 if (useBe > 0)
                 {
-                    if(IsBattleShip)
+                    if (IsBattleShip)
                         Wait(WaitAtackBattleShip);
 
-                    if(name != "")
+                    if (name != "")
                         Log?.Invoke(this, "攻撃： " + name);
                     Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     useBe--;
-                    var wc = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
-                    if (wc.IndexOf("swf") < 0)
+
+                    string ret = "";
+
+                    try
                     {
-                        Wait(WaitAccessBlock);
+                        ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                    }
+                    catch { }
+
+                    if (ret.IndexOf("swf") < 0)
+                    {
                         StateChanged?.Invoke(this, State.AccessBlock);
+                        Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                        Wait(WaitAccessBlock);
                         driver_.Navigate().GoToUrl(home_path_);
                         return;
                     }
 
-                    //driver_.Navigate().GoToUrl(elms.ElementAt(useBe).GetAttribute("href"));
                     driver_.Navigate().Refresh();
                     Attacked = true;
                 }

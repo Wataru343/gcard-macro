@@ -36,7 +36,9 @@ namespace gcard_macro
         private int SearchForceIdx { get; set; }
         private long OurPoint { get; set; }
         private long EnemyPoint { get; set; }
-        private int AreaMovingCount { get; set; }
+        private int AttackCount { get; set; }
+        private bool TargetAllClear { get; set; }
+        private bool ShieldClear { get; set; }
 
         public enum Force
         {
@@ -82,7 +84,9 @@ namespace gcard_macro
             SearchForceIdx = -1;
             OurPoint = 0;
             EnemyPoint = 0;
-            AreaMovingCount = 0;
+            AttackCount = 0;
+            TargetAllClear = false;
+            ShieldClear = false;
         }
 
         override protected void SearchState()
@@ -191,20 +195,20 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(home_path_);
                     Attacked = false;
                 }
-                //不正な画面遷移です
-                else if (IsError())
-                {
-                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
-                    CurrentState = State.Error;
-                    Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
-                }
                 //アクセスを制限
                 else if (IsAccessBlock())
                 {
                     Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                     CurrentState = State.AccessBlock;
                     Wait(WaitAccessBlock);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                //不正な画面遷移です
+                else if (IsError())
+                {
+                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
+                    CurrentState = State.Error;
+                    Wait(WaitMisc);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
                 //イベント終了
@@ -214,6 +218,14 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
                     //IsRun = false;
+                }
+                //フォース実行失敗
+                else if (IsForceFaild())
+                {
+                    Log?.Invoke(this, "ページ移動：フォースの実行に失敗");
+                    driver_.Navigate().GoToUrl(enemy_list_path_);
+                    Wait(WaitMisc);
+                    Exec = StrategicAreaBattle;
                 }
                 //戦略拠点
                 else if (IsStrategicArea())
@@ -247,13 +259,23 @@ namespace gcard_macro
         /// 戦略拠点画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsStrategicArea() => driver_.Url.IndexOf("strategic_area") >= 0;
+        private bool IsStrategicArea() => driver_.Url.IndexOf("strategic_area") >= 0 && driver_.PageSource.IndexOf("js-force-submit") >= 0;
+
+        /// <summary>
+        /// フォース実行失敗画面判定
+        /// </summary>
+        /// <returns></returns>
+        private bool IsForceFaild() => driver_.PageSource.IndexOf("フォースの実行に失敗しました") >= 0;
 
         /// <summary>
         /// イベントのホームから探索へ
         /// </summary>
         private void MoveEventHomeToSearch()
         {
+            TargetAllClear = false;
+            ShieldClear = false;
+            AttackCount = 0;
+
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//li[@class=\"search\" or @class=\"attack\"]/a"));
@@ -265,7 +287,7 @@ namespace gcard_macro
                 try
                 {
                     try
-                    {                        
+                    {
                         OurPoint = Convert.ToInt64(driver_.FindElement(By.XPath("//p[@class=\"own-group-point\"]")).Text.Replace(",", "").Replace("pt", ""));
                         EnemyPoint = Convert.ToInt64(driver_.FindElement(By.XPath("//p[@class=\"enemy-group-point\"]")).Text.Replace(",", "").Replace("pt", ""));
                     }
@@ -273,12 +295,14 @@ namespace gcard_macro
 
                     var panel = driver_.FindElements(By.XPath("//div[contains(@class,\"area-wrap\")]")).Take(10).Reverse().ToArray();
                     var button = driver_.FindElements(By.XPath("//div[contains(@class,\"area-btn area-btn-\")]")).Take(10).Reverse().ToArray();
+                    var link = driver_.FindElements(By.XPath("//div[contains(@class, \"js-battlemap-btn select_link\")]")).Take(10).Reverse().ToArray();
                     List<int> levels = new List<int>();
                     List<string> areaNames = new List<string>();
                     for (int i = 0; i < panel.Count(); i++)
                     {
                         try
                         {
+                            //シェルターレベル取得
                             string aa = panel[i].FindElement(By.XPath("img[contains(@src,\"shelter\")]")).GetAttribute("src");
                             var shelterStr = aa.Split(new char[] { '/' }).Last().Split(new char[] { '_' });
                             string eo = shelterStr[1];
@@ -294,8 +318,8 @@ namespace gcard_macro
                                 try
                                 {
                                     var strategicAreaLevel = panel[0].FindElement(By.XPath("div")).GetAttribute("class").Split(new char[] { ' ' });
-                                    
-                                    if(strategicAreaLevel[0] == "our")
+
+                                    if (strategicAreaLevel[0] == "our")
                                     {
                                         //Shield["戦略拠点"] = Convert.ToInt32(strategicAreaLevel[1].Substring(2, 1));
                                         levels.Add(Convert.ToInt32(strategicAreaLevel[1].Substring(2, 1)));
@@ -330,42 +354,42 @@ namespace gcard_macro
                     {
                         case AreaPriority.None:
                             {
-                                foreach (var p in panel.Skip(1))
+                                foreach (var p in panel.Skip(1).Zip(link.Skip(1), (p, l) => new { panel = p, link = l }))
                                 {
-                                    string className = p.GetAttribute("class");
+                                    string className = p.panel.GetAttribute("class");
                                     if ((className.IndexOf("own") < 0 && className.IndexOf("enemy") < 0) || className.IndexOf("enemy") >= 0)
                                     {
-                                        IWebElement pd = p.FindElement(By.XPath("div"));
-                                        Actions action = new Actions(driver_);
-                                        action.MoveToElement(pd).Click().Build().Perform();
-
-
-                                        pd = driver_.FindElement(By.XPath("//div[text()=\"移動する\"]"));
-                                        action = new Actions(driver_);
-                                        action.MoveToElement(pd).Click().Build().Perform();
-                                        Exec = SearchState;
-                                        return;
+                                        try
+                                        {
+                                            string areaLink = p.link.GetAttribute("data-js-modal-link").Replace("&amp;", "&");
+                                            driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/" + areaLink);
+                                            Exec = SearchState;
+                                            return;
+                                        }
+                                        catch { }
                                     }
                                 }
 
                                 var panel2 = panel.Skip(1).ToList().Concat(panel.Take(1).ToList()).ToArray();
                                 var areaNames2 = areaNames.Skip(1).ToList().Concat(areaNames.Take(1).ToList()).ToArray();
                                 var levels2 = levels.Skip(1).ToList().Concat(levels.Take(1).ToList()).ToArray();
+                                var link2 = link.Skip(1).ToList().Concat(link.Take(1).ToList()).ToArray();
 
                                 for (int i = 0; i < panel2.Count(); i++)
                                 {
                                     if (Shield[areaNames2[i]] > levels2[i])
                                     {
-                                        IWebElement pd = panel2[i].FindElement(By.XPath("div"));
-                                        Actions action = new Actions(driver_);
-                                        action.MoveToElement(pd).Click().Build().Perform();
-
-                                        //戦略拠点は2番目の要素
-                                        pd = i < 9 ? driver_.FindElements(By.XPath("//div[text()=\"移動する\"]"))[0] : driver_.FindElements(By.XPath("//div[text()=\"移動する\"]"))[1];
-                                        action = new Actions(driver_);
-                                        action.MoveToElement(pd).Click().Build().Perform();
-                                        Exec = SearchState;
-                                        return;
+                                        try
+                                        {
+                                            string areaLink = link2[i].GetAttribute("data-js-modal-link").Replace("&amp;", "&");
+                                            if (areaLink != "")
+                                            {
+                                                driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/" + areaLink);
+                                                Exec = SearchState;
+                                                return;
+                                            }
+                                        }
+                                        catch { }
                                     }
                                 }
                             }
@@ -377,66 +401,65 @@ namespace gcard_macro
                                     string className = panel[i].GetAttribute("class");
                                     if (Shield[areaNames[i]] > levels[i] || className.IndexOf("enemy") >= 0)
                                     {
-                                        IWebElement pd = panel[i].FindElement(By.XPath("div"));
-                                        Actions action = new Actions(driver_);
-                                        action.MoveToElement(pd).Click().Build().Perform();
-
-
-                                        pd = i > 0 ? driver_.FindElements(By.XPath("//div[text()=\"移動する\"]"))[0] : driver_.FindElements(By.XPath("//div[text()=\"移動する\"]"))[1];
-                                        action = new Actions(driver_);
-                                        action.MoveToElement(pd).Click().Build().Perform();
-                                        Exec = SearchState;
-                                        return;
+                                        try
+                                        {
+                                            string areaLink = link[i].GetAttribute("data-js-modal-link").Replace("&amp;", "&");
+                                            if (areaLink != "")
+                                            {
+                                                driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/" + areaLink);
+                                                Exec = SearchState;
+                                                return;
+                                            }
+                                        }
+                                        catch { }
                                     }
                                 }
                             }
                             break;
                         case AreaPriority.OnlyStrategyArea:
                             {
-                                IWebElement pd = panel[0].FindElement(By.XPath("div"));
-                                Actions action = new Actions(driver_);
-                                action.MoveToElement(pd).Click().Build().Perform();
-
-
-                                pd = driver_.FindElements(By.XPath("//div[text()=\"移動する\"]"))[1];
-                                action = new Actions(driver_);
-                                action.MoveToElement(pd).Click().Build().Perform();
-                                Exec = SearchState;
-                                return;
+                                try
+                                {
+                                    string areaLink = link[0].GetAttribute("data-js-modal-link").Replace("&amp;", "&");
+                                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/" + areaLink);
+                                    Exec = SearchState;
+                                    return;
+                                }
+                                catch { }
+                                break;
                             }
                         default:
                             break;
                     }
 
+                    ShieldClear = true;
 
-
-                    if(PointDiff > (OurPoint - EnemyPoint))
+                    if (PointDiff > (OurPoint - EnemyPoint))
                     {
-                        IWebElement pd = panel[1].FindElement(By.XPath("div"));
-                        Actions action = new Actions(driver_);
-                        action.MoveToElement(pd).Click().Build().Perform();
+                        try
+                        {
+                            string areaLink = link[1].GetAttribute("data-js-modal-link").Replace("&amp;", "&");
+                            driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/" + areaLink);
+                            Exec = SearchState;
+                            return;
+                        }
+                        catch { }
 
-
-                        pd = driver_.FindElement(By.XPath("//div[text()=\"移動する\"]"));
-                        action = new Actions(driver_);
-                        action.MoveToElement(pd).Click().Build().Perform();
-                        Exec = SearchState;
-                        return;
                     }
+
+                    //シェルターレベル、点数差全てクリア
+                    TargetAllClear = true;
 
                     if (!Standby)
                     {
-                        AreaMovingCount = 5;
-                        IWebElement pd = panel[1].FindElement(By.XPath("div"));
-                        Actions action = new Actions(driver_);
-                        action.MoveToElement(pd).Click().Build().Perform();
-
-
-                        pd = driver_.FindElement(By.XPath("//div[text()=\"移動する\"]"));
-                        action = new Actions(driver_);
-                        action.MoveToElement(pd).Click().Build().Perform();
-                        Exec = SearchState;
-                        return;
+                        try
+                        {
+                            string areaLink = link[1].GetAttribute("data-js-modal-link").Replace("&amp;", "&");
+                            driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/" + areaLink);
+                            Exec = SearchState;
+                            return;
+                        }
+                        catch { }
                     }
 
                     Wait(5);
@@ -446,18 +469,13 @@ namespace gcard_macro
                 {
                     try
                     {
-                        IWebElement elm = driver_.FindElement(By.XPath("//div[contains(@class,\"position-9 area-wrap\")]/div"));
-                        Actions action = new Actions(driver_);
-                        action.MoveToElement(elm).Click().Build().Perform();
-
-
-                        elm = driver_.FindElement(By.XPath("//div[text()=\"移動する\"]"));
-                        action = new Actions(driver_);
-                        action.MoveToElement(elm).Click().Build().Perform();
+                        IWebElement elm = driver_.FindElement(By.XPath("//div[contains(@class,\"position-9 js-battlemap-btn select_link\")]"));
+                        string areaLink = elm.GetAttribute("data-js-modal-link").Replace("&amp;", "&");
+                        driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/" + areaLink);
+                        Exec = SearchState;
+                        return;
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
             }
 
@@ -520,17 +538,15 @@ namespace gcard_macro
 
                     if (areaLevel < Shield["戦略拠点"])
                     {
-                        //ポップアップを出しておく
-                        IWebElement popupButton = driver_.FindElement(By.XPath("//div[@class=\"strategy-move-button\"]"));
-                        Actions action = new Actions(driver_);
-                        action.MoveToElement(popupButton).Click().Build().Perform();
-
-                        //エリア移動ボタン取得
-                        var moveButton = driver_.FindElements(By.XPath("//div[contains(@class, \"area pos-\")]/a")).Reverse().ToArray();
-
-                        driver_.Navigate().GoToUrl(moveButton.First().GetAttribute("href"));
-                        Exec = SearchState;
-                        return;
+                        try
+                        {
+                            var link = driver_.FindElements(By.XPath("//a[contains(@href, \"field_move\")]")).Take(10).Reverse().ToArray();
+                            string areaLink = link[0].GetAttribute("href");
+                            driver_.Navigate().GoToUrl(areaLink);
+                            Exec = SearchState;
+                            return;
+                        }
+                        catch { }
                     }
                 }
                 catch { }
@@ -587,11 +603,23 @@ namespace gcard_macro
                     shield = shelterPt / 10000000;
 
                     //既定のシールドレベル以上なら移動
-                    if (Shield[area] <= (int)shield && AreaMovingCount < 1)
+                    if (Shield[area] <= (int)shield)
                     {
-                        driver_.Navigate().GoToUrl(home_path_);
-                        Exec = SearchState;
-                        return;
+                        if (TargetAllClear)
+                        {
+                            if (AttackCount > 10)
+                            {
+                                driver_.Navigate().GoToUrl(home_path_);
+                                Exec = SearchState;
+                                return;
+                            }
+                        }
+                        else if(!ShieldClear)
+                        {
+                            driver_.Navigate().GoToUrl(home_path_);
+                            Exec = SearchState;
+                            return;
+                        }
                     }
                 }
                 IsAreaBattle = true;
@@ -618,7 +646,7 @@ namespace gcard_macro
             try
             {
                 //全ボタン検索                
-                enemys = driver_.FindElements(By.XPath("//a[contains(@class,\"js-show-link\")]")).Where(e => e.GetAttribute("href").Length > 0).ToList();
+                enemys = driver_.FindElements(By.XPath("//a[contains(@class,\"js-show-link\")]")).Where(e => e.GetAttribute("href")?.Length > 0).ToList();
                 enemys.OrderBy(i => Guid.NewGuid()).ToList();
                 if (enemys.Count == 0) AttackedEnemyId.Clear();
             }
@@ -880,7 +908,6 @@ namespace gcard_macro
         /// </summary>
         private void Battle()
         {
-            AreaMovingCount--;
             Exec = SearchState;
 
             try
@@ -961,11 +988,19 @@ namespace gcard_macro
                     Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     useBe--;
 
-                    var wc = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
-                    if (wc.IndexOf("swf") < 0)
+                    string ret = "";
+
+                    try
                     {
-                        Wait(WaitAccessBlock);
+                        ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                    }
+                    catch { }
+
+                    if (ret.IndexOf("swf") < 0)
+                    {
                         StateChanged?.Invoke(this, State.AccessBlock);
+                        Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                        Wait(WaitAccessBlock);
                         driver_.Navigate().GoToUrl(home_path_);
                         return;
                     }
@@ -973,6 +1008,7 @@ namespace gcard_macro
                     AddEnemyId(driver_.Url);
                     driver_.Navigate().Refresh();
                     Attacked = true;
+                    AttackCount++;
                 }
             }
             catch { }
@@ -1069,11 +1105,19 @@ namespace gcard_macro
                     //フォース取得
                     var forces = driver_.FindElements(By.XPath("//div[contains(@class,\"js-force-submit\")]"));
                     var forceCount = driver_.FindElements(By.XPath("//div[contains(@class,\"js-force-submit\")]//span")).Select(e => Convert.ToInt32(e.Text)).ToArray();
-                    
-                    var enemys = driver_.FindElements(By.XPath("//div[contains(@class,\"js-raid-boss-info\") and contains(@style,\"visible\")]"));
+
+                    var forceCount2 = driver_.FindElements(By.XPath("//div[contains(@class,\"js-force-submit\")]")).ToArray();
+
+                    var enemys = driver_.FindElements(By.XPath("//div[contains(@class,\"js-raid-boss-info\")]")).ToList();
+
+                    //HPが残っている敵をフィルタ
+                    if (enemys.Count > 0)
+                    {
+                        enemys = enemys.Where(e => (e.GetAttribute("data-after-hp") ?? e.GetAttribute("data-current-hp")) != "0" && e.GetAttribute("data-current-hp") != null).ToList();
+                    }
 
                     //敵出現中
-                    if(enemys.Count() > 0)
+                    if (enemys.Count() > 0)
                     {
                         if (forceCount[0] > 0)
                         {
@@ -1113,19 +1157,24 @@ namespace gcard_macro
                                         }
                                     }
 
+                                    if (hp.Count() == 0)
+                                    {
+                                        driver_.Navigate().Refresh();
+                                        return;
+                                    }
 
                                     ulong maxHp = hp.Max();
 
                                     if (maxHp <= WeakForceDamage && forceCount[0] > 0 || WeakForceDamage == 0)
                                     {
                                         Log?.Invoke(this, "弱フォース使用");
-                                        forces[0].FindElement(By.TagName("form")).Submit();
+                                        forces[0].FindElement(By.XPath("form")).Submit();
                                         PrevUsedForce = Force.Weak;
                                     }
                                     else
                                     {
                                         Log?.Invoke(this, "強フォース使用");
-                                        forces[1].FindElement(By.TagName("form")).Submit();
+                                        forces[1].FindElement(By.XPath("form")).Submit();
                                         PrevUsedForce = Force.Strong;
                                     }
                                     break;
@@ -1135,22 +1184,22 @@ namespace gcard_macro
                                     {
                                         case Force.None:
                                             Log?.Invoke(this, "強フォース使用");
-                                            forces[1].FindElement(By.TagName("form")).Submit();
+                                            forces[1].FindElement(By.XPath("form")).Submit();
                                             PrevUsedForce = Force.Strong;
                                             break;
                                         case Force.Weak:
                                             Log?.Invoke(this, "弱フォース使用");
-                                            forces[0].FindElement(By.TagName("form")).Submit();
+                                            forces[0].FindElement(By.XPath("form")).Submit();
                                             PrevUsedForce = Force.Weak;
                                             break;
                                         case Force.Strong:
                                             Log?.Invoke(this, "弱フォース使用");
-                                            forces[0].FindElement(By.TagName("form")).Submit();
+                                            forces[0].FindElement(By.XPath("form")).Submit();
                                             PrevUsedForce = Force.Weak;
                                             break;
                                         default:
                                             Log?.Invoke(this, "弱フォース使用");
-                                            forces[0].FindElement(By.TagName("form")).Submit();
+                                            forces[0].FindElement(By.XPath("form")).Submit();
                                             PrevUsedForce = Force.Weak;
                                             break;
                                     }
@@ -1158,7 +1207,7 @@ namespace gcard_macro
                                 //弱のみ
                                 case ForcePattern.WeakWeak:
                                     Log?.Invoke(this, "弱フォース使用");
-                                    forces[0].FindElement(By.TagName("form")).Submit();
+                                    forces[0].FindElement(By.XPath("form")).Submit();
                                     PrevUsedForce = Force.Weak;
                                     break;
                                 default:
@@ -1168,7 +1217,7 @@ namespace gcard_macro
                         else
                         {
                             Log?.Invoke(this, "弱フォース使用");
-                            forces[0].FindElement(By.TagName("form")).Submit();
+                            forces[0].FindElement(By.XPath("form")).Submit();
                             PrevUsedForce = Force.Weak;
                         }
                     }
@@ -1180,7 +1229,7 @@ namespace gcard_macro
                         if (forceCount[1] > 0 && StrategyAreaForcePattern != ForcePattern.WeakWeak)
                         {
                             Log?.Invoke(this, "探索フォース使用");
-                            forces[2].FindElement(By.TagName("form")).Submit();
+                            forces[2].FindElement(By.XPath("//form")).Submit();
                             return;
                         }
                         else
@@ -1192,7 +1241,10 @@ namespace gcard_macro
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
             }
             catch { }
         }

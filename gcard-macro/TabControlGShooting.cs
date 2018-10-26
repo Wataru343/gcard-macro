@@ -53,6 +53,7 @@ namespace gcard_macro
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+#if !DEBUG
             //シリアルキーチェック
             if (Properties.Settings.Default.AccessKey != KeyGenerator.Hash.GenerateHash(UserName))
             {
@@ -69,6 +70,7 @@ namespace gcard_macro
                 Properties.Settings.Default.AccessKey = str;
                 Properties.Settings.Default.Save();
             }
+#endif
 
             if (!Uri.IsWellFormedUriString(textBoxURL.Text, UriKind.Absolute))
             {
@@ -160,7 +162,7 @@ namespace gcard_macro
                 }
             }
         }
-        
+
         public void SaveSetting()
         {
             Properties.Settings.Default.GShootingURL = textBoxURL.Text;

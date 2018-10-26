@@ -27,18 +27,18 @@ namespace gcard_macro.WebDriber
                 XPath
             }
 
-            private HtmlNode HtmlNode_ { get; set; }
+            public HtmlNode HtmlNode { get; set; }
             private HtmlAgilityPackDriver Driver_ { get; set; }
 
             public HtmlAgilityPackElement(HtmlNode node, HtmlAgilityPackDriver driver)
             {
-                HtmlNode_ = node;
+                HtmlNode = node;
                 Driver_ = driver;
             }
 
             public HtmlAgilityPackElement(Command command, string path, HtmlNode node, HtmlAgilityPackDriver driver)
             {
-                HtmlNode_ = GetNode(command, path, node);
+                HtmlNode = GetNode(command, path, node);
                 Driver_ = driver;
             }
 
@@ -46,11 +46,11 @@ namespace gcard_macro.WebDriber
 
             public static IEnumerable<HtmlAgilityPackElement> CreateElements(Command command, string path, HtmlNode node, HtmlAgilityPackDriver driver) => GetNodes(command, path, node).Select(e => new HtmlAgilityPackElement(e, driver));
 
-            public string TagName => HtmlNode_.Name;
+            public string TagName => HtmlNode.Name;
 
-            public string Text => HtmlNode_.InnerHtml.Trim(new char[] { ' ' });
+            public string Text => RemoveTag(HtmlNode.InnerHtml);
 
-            public bool Enabled => HtmlNode_ != null;
+            public bool Enabled => HtmlNode != null;
 
             public bool Selected => throw new NotImplementedException();
 
@@ -73,19 +73,21 @@ namespace gcard_macro.WebDriber
             public IWebElement FindElement(By by)
             {
                 (Command command, string path) = ParseCommand(by);
-                IWebElement element = CreateElement(command, path, HtmlNode_, Driver_);
+                IWebElement element = CreateElement(command, path, HtmlNode, Driver_);
                 return element.Enabled ? element : throw new NoSuchElementException();
             }
 
             public ReadOnlyCollection<IWebElement> FindElements(By by)
             {
                 (Command command, string path) = ParseCommand(by);
-                return new ReadOnlyCollection<IWebElement>(CreateElements(command, path, HtmlNode_, Driver_).Select(e => e as IWebElement).ToList());
+                return new ReadOnlyCollection<IWebElement>(CreateElements(command, path, HtmlNode, Driver_).Select(e => e as IWebElement).ToList());
             }
 
             public string GetAttribute(string attributeName)
             {
-                string ret = HtmlNode_.GetAttributeValue(attributeName, "");
+                string ret = HtmlNode.GetAttributeValue(attributeName, "");
+
+                if (ret == "") return null;
 
                 if (attributeName == "href" || attributeName == "action") return string.Format("{0}/{1}", new Uri(Driver_.Url).GetLeftPart(UriPartial.Authority), ret.Replace("amp;", ""));
                 else return ret;
@@ -110,18 +112,18 @@ namespace gcard_macro.WebDriber
             public void Submit()
             {
                 string url = GetAttribute("action");
-                string method = GetAttribute("method");
+                string method = GetAttribute("method").ToUpper();
 
                 if (url != "")
                 {
-                    var nodes = HtmlNode_.Descendants("input").ToArray();
+                    var nodes = HtmlNode.Descendants("input").ToArray();
 
                     if (method == "" || method == WebRequestMethods.Http.Get)
                     {
                         url = nodes.Where(e => e.GetAttributeValue("type", "") == "hidden").Select(e => new { id = e.GetAttributeValue("name", ""), value = e.GetAttributeValue("value", "") }).Aggregate(url + "?", (n, e) => n + string.Format("{0}={1}&", e.id, e.value)).TrimEnd(new char[] { '&' });
                         (Driver_.Navigate() as HtmlAgilityPackNavigate).GoToUrlGet(url);
                     }
-                    else if(method == WebRequestMethods.Http.Post)
+                    else if (method == WebRequestMethods.Http.Post)
                     {
                         string param = nodes.Where(e => e.GetAttributeValue("type", "") == "hidden").Select(e => new { id = e.GetAttributeValue("name", ""), value = e.GetAttributeValue("value", "") }).Aggregate("", (n, e) => n + string.Format("{0}={1}&", e.id, e.value)).TrimEnd(new char[] { '&' });
                         byte[] data = Encoding.ASCII.GetBytes(param);
@@ -134,7 +136,7 @@ namespace gcard_macro.WebDriber
             {
                 switch (command)
                 {
-                    case Command.ClassName:
+                    case Command.ClassName: return node.SelectSingleNode(string.Format("//*[@class=\"{0}\"]", path));
                     case Command.CssSelector:
                     case Command.Id:
                     case Command.LinkText:

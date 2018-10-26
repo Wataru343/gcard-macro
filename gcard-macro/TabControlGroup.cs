@@ -59,8 +59,9 @@ namespace gcard_macro
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+#if !DEBUG
             //シリアルキーチェック
-            if(Properties.Settings.Default.AccessKey != KeyGenerator.Hash.GenerateHash(UserName))
+            if (Properties.Settings.Default.AccessKey != KeyGenerator.Hash.GenerateHash(UserName))
             {
 
                 string str = Microsoft.VisualBasic.Interaction.InputBox("", "シリアルキーを入力してください", "", -1, -1);
@@ -76,6 +77,7 @@ namespace gcard_macro
                 Properties.Settings.Default.AccessKey = str;
                 Properties.Settings.Default.Save();
             }
+#endif
 
             if (!Uri.IsWellFormedUriString(textBoxURL.Text, UriKind.Absolute))
             {
@@ -172,7 +174,7 @@ namespace gcard_macro
                 }
             }
         }
-        
+
         public void SaveSetting()
         {
             Properties.Settings.Default.GroupURL = textBoxURL.Text;
@@ -315,67 +317,6 @@ namespace gcard_macro
                 Log?.Invoke(sender, text);
             });
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBoxRecievePresent_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBoxOnlySearch_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBoxAutojobLevelUp_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBoxRecieveReword_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBoxUseBoost_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBoxFirstAttackBoss_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxPointDiff_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxRecieve_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBoxUseAttack20_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
-//http://gcc.sp.mbga.jp/_gcard_event299
                                        

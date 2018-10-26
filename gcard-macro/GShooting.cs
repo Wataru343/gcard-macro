@@ -155,20 +155,20 @@ namespace gcard_macro
 
                     Attacked = false;
                 }
-                //不正な画面遷移です
-                else if (IsError())
-                {
-                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
-                    CurrentState = State.Error;
-                    Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
-                }
                 //アクセスを制限
                 else if (IsAccessBlock())
                 {
                     Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                     CurrentState = State.AccessBlock;
                     Wait(WaitAccessBlock);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                //不正な画面遷移です
+                else if (IsError())
+                {
+                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
+                    CurrentState = State.Error;
+                    Wait(WaitMisc);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
                 //イベント終了
@@ -212,14 +212,14 @@ namespace gcard_macro
 
             Exec = SearchState;
         }
-                
+
 
         /// <summary>
         /// 敵一覧から戦闘へ
         /// </summary>
         private void MoveEnemyListToSearch()
         {
-            if(enemy_list_path_ == "")
+            if (enemy_list_path_ == "")
             {
                 enemy_list_path_ = driver_.Url;
             }
@@ -429,7 +429,8 @@ namespace gcard_macro
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//div[contains(text(), \"BE回復ミニカプセル\")]/span"));
-                if (MinicapCount != Convert.ToInt32(elm.Text)){
+                if (MinicapCount != Convert.ToInt32(elm.Text))
+                {
                     MinicapChanged?.Invoke(this, Convert.ToInt32(elm.Text));
                     MinicapCount = Convert.ToInt32(elm.Text);
                 }
@@ -530,16 +531,14 @@ namespace gcard_macro
                     if (ret.IndexOf("swf") < 0)
                     {
                         StateChanged?.Invoke(this, State.AccessBlock);
+                        Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                         Wait(WaitAccessBlock);
                         driver_.Navigate().GoToUrl(home_path_);
                         return;
                     }
 
                     AddEnemyId(driver_.Url);
-                    //driver_.Navigate().GoToUrl(elms.ElementAt(useBe).GetAttribute("href"));
-                    //driver_.Navigate().Back();
                     driver_.Navigate().Refresh();
-
                     Attacked = true;
                 }
             }

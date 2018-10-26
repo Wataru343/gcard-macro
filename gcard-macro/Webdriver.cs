@@ -18,7 +18,7 @@ namespace gcard_macro
         private const int SW_HIDE = 0;
 
         private static volatile IWebDriver driver_ = null;
-        
+
         private Webdriver()
         {
 
@@ -42,7 +42,7 @@ namespace gcard_macro
 
             try
             {
-                //ユーザデータフォルダ作成
+                //chromeのユーザデータフォルダ作成
                 string path = Path.Combine(System.Environment.CurrentDirectory, "userdata");
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
@@ -65,9 +65,9 @@ namespace gcard_macro
                     new FormLogin() { driver = driver_ }.ShowDialog();
                 }
 
-                #if !CHROME
+#if !CHROME
                 var cookies = driver_.Manage().Cookies.AllCookies;
-
+                driver_.Close();
                 driver_.Quit();
 
                 driver_ = new HtmlAgilityPackDriver("Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
@@ -81,7 +81,7 @@ namespace gcard_macro
                     catch { }
                 }
                 driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
-                #endif
+#endif
 
                 IsBooting = false;
 

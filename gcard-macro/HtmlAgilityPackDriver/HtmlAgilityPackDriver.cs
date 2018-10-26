@@ -53,8 +53,9 @@ namespace gcard_macro.WebDriber
         public IWebElement FindElement(By by)
         {
             (HtmlAgilityPackElement.Command command, string path) = ParseCommand(by);
-
-            return HtmlAgilityPackElement.CreateElement(command, path, HtmlDoc_.DocumentNode, this);
+            HtmlAgilityPackElement element = HtmlAgilityPackElement.CreateElement(command, path, HtmlDoc_.DocumentNode, this);
+            if (element.HtmlNode == null) throw new Exception();
+            return element;
         }
 
         public ReadOnlyCollection<IWebElement> FindElements(By by)
@@ -84,7 +85,7 @@ namespace gcard_macro.WebDriber
             request.Headers[HttpRequestHeader.Cookie] = string.Join("; ", Manage().Cookies.AllCookies.Select(c => string.Format("{0}={1}", c.Name, c.Value)));
             request.UserAgent = UserAgent_;
             request.AllowAutoRedirect = true;
-
+  
             Download(request);
         }
 
@@ -110,7 +111,7 @@ namespace gcard_macro.WebDriber
         private bool Download(HttpWebRequest request)
         {
             try
-            {                
+            {
                 using (WebResponse response = request.GetResponse())
                 using (Stream stream = response.GetResponseStream())
                 using (StreamReader reader = new StreamReader(stream))
@@ -199,11 +200,9 @@ namespace gcard_macro.WebDriber
                 HtmlAgilityPackElement.Command command = HtmlAgilityPackElement.Command.XPath;
                 switch (commandStr)
                 {
-                    case "XPath":
-                        command = HtmlAgilityPackElement.Command.XPath;
-                        break;
-                    default:
-                        break;
+                    case "ClassName[Contains]": command = HtmlAgilityPackElement.Command.ClassName; break;
+                    case "XPath": command = HtmlAgilityPackElement.Command.XPath; break;
+                    default: break;
                 }
 
                 return (command, path);
@@ -212,6 +211,20 @@ namespace gcard_macro.WebDriber
             {
                 throw new NoSuchElementException();
             }
+        }
+
+        private static string RemoveTag(string hrml)
+        {
+            Regex r = new Regex(@"(<.*?>)+");
+            MatchCollection mc = r.Matches(hrml);
+            StringBuilder sb = new StringBuilder(hrml);
+
+            foreach (Match m in mc)
+                for (int i = 0; i < m.Groups.Count; i++)
+                    for (int j = 0; j < m.Groups[i].Captures.Count; j++)
+                        sb.Replace(m.Groups[i].Captures[j].Value, "");
+
+            return sb.ToString().Trim(new char[] { ' ', '\n', '\r', '\t' });
         }
     }
 }

@@ -17,7 +17,7 @@ namespace gcard_macro
         private IWebDriver driver_ { get; set; }
         private string UserName { get; set; }
         private string AppTitle { get; set; }
-        
+
         public FormMain()
         {
             InitializeComponent();
@@ -44,7 +44,7 @@ namespace gcard_macro
             tabControlGTactics.Log += onLog;
 
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.3";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.9";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -73,7 +73,14 @@ namespace gcard_macro
                 try
                 {
                     driver_.Navigate().GoToUrl(driver_.FindElement(By.XPath("//a[@class=\"profile\"]")).GetAttribute("href"));
-                    UserName = driver_.FindElement(By.XPath("//div[@class=\"name-and-rank\"]")).Text.Split(new string[] { "<br>", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries)[0].Trim(new char[] { ' ' });
+                    UserName = driver_.FindElement(By.XPath("//div[@class=\"name-and-rank\"]")).Text.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries)[0];
+
+                    try
+                    {
+                        UserName = UserName.Substring(0, UserName.LastIndexOf(' ')).Trim(new char[] { ' ' });
+                    }
+                    catch { }
+
                     this.Text = string.Format("{0} - {1}", UserName, AppTitle);
 
                     onLog(this, string.Format("ユーザー名取得({0})", UserName));
@@ -121,7 +128,7 @@ namespace gcard_macro
         private void timerWatchBrowser_Tick(object sender, EventArgs e)
         {
             var driver = Webdriver.Instance;
-            if(driver != null)
+            if (driver != null)
             {
                 Task.Run(() =>
                 {
@@ -318,7 +325,7 @@ namespace gcard_macro
 
         private void onLog(object sender, string text)
         {
-            
+
             textBoxLog.AppendText(string.Format("{0}: {1}{2}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff"), text, Environment.NewLine));
         }
 

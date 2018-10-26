@@ -81,7 +81,7 @@
             this.buttonRunBrowser.Name = "buttonRunBrowser";
             this.buttonRunBrowser.Size = new System.Drawing.Size(165, 45);
             this.buttonRunBrowser.TabIndex = 0;
-            this.buttonRunBrowser.Text = "ブラウザ起動";
+            this.buttonRunBrowser.Text = "ログイン";
             this.buttonRunBrowser.UseVisualStyleBackColor = true;
             this.buttonRunBrowser.Click += new System.EventHandler(this.buttonRunBrowser_Click);
             // 
@@ -93,7 +93,7 @@
             this.buttonStopBrowser.Name = "buttonStopBrowser";
             this.buttonStopBrowser.Size = new System.Drawing.Size(166, 45);
             this.buttonStopBrowser.TabIndex = 1;
-            this.buttonStopBrowser.Text = "ブラウザ停止";
+            this.buttonStopBrowser.Text = "ログアウト";
             this.buttonStopBrowser.UseVisualStyleBackColor = true;
             this.buttonStopBrowser.Click += new System.EventHandler(this.buttonStopBrowser_Click);
             // 
@@ -132,6 +132,7 @@
             this.tabControlRaid.Name = "tabControlRaid";
             this.tabControlRaid.Size = new System.Drawing.Size(675, 606);
             this.tabControlRaid.TabIndex = 0;
+            this.tabControlRaid.UserName = null;
             this.tabControlRaid.WaitAccessBlock = 0D;
             this.tabControlRaid.WaitAttack = 0D;
             this.tabControlRaid.WaitBattle = 0D;
@@ -159,6 +160,7 @@
             this.tabControlGroup.Name = "tabControlGroup";
             this.tabControlGroup.Size = new System.Drawing.Size(675, 619);
             this.tabControlGroup.TabIndex = 0;
+            this.tabControlGroup.UserName = null;
             this.tabControlGroup.WaitAccessBlock = 0D;
             this.tabControlGroup.WaitAttack = 0D;
             this.tabControlGroup.WaitBattle = 0D;
@@ -185,6 +187,7 @@
             this.tabControlGShooting.Name = "tabControlGShooting";
             this.tabControlGShooting.Size = new System.Drawing.Size(675, 619);
             this.tabControlGShooting.TabIndex = 0;
+            this.tabControlGShooting.UserName = null;
             this.tabControlGShooting.WaitAccessBlock = 0D;
             this.tabControlGShooting.WaitAttack = 0D;
             this.tabControlGShooting.WaitBattle = 0D;
@@ -212,6 +215,7 @@
             this.tabControlPromotion.Name = "tabControlPromotion";
             this.tabControlPromotion.Size = new System.Drawing.Size(675, 619);
             this.tabControlPromotion.TabIndex = 0;
+            this.tabControlPromotion.UserName = null;
             this.tabControlPromotion.WaitAccessBlock = 0D;
             this.tabControlPromotion.WaitAttack = 0D;
             this.tabControlPromotion.WaitBattle = 0D;
@@ -239,6 +243,7 @@
             this.tabControlGTactics.Name = "tabControlGTactics";
             this.tabControlGTactics.Size = new System.Drawing.Size(675, 619);
             this.tabControlGTactics.TabIndex = 0;
+            this.tabControlGTactics.UserName = null;
             this.tabControlGTactics.WaitAccessBlock = 0D;
             this.tabControlGTactics.WaitAttack = 0D;
             this.tabControlGTactics.WaitBattle = 0D;
@@ -329,9 +334,9 @@
             this.checkBoxAutoRun.AutoSize = true;
             this.checkBoxAutoRun.Location = new System.Drawing.Point(7, 198);
             this.checkBoxAutoRun.Name = "checkBoxAutoRun";
-            this.checkBoxAutoRun.Size = new System.Drawing.Size(108, 16);
+            this.checkBoxAutoRun.Size = new System.Drawing.Size(84, 16);
             this.checkBoxAutoRun.TabIndex = 7;
-            this.checkBoxAutoRun.Text = "ブラウザ自動起動";
+            this.checkBoxAutoRun.Text = "自動ログイン";
             this.checkBoxAutoRun.UseVisualStyleBackColor = true;
             // 
             // groupBox2

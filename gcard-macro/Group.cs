@@ -67,7 +67,7 @@ namespace gcard_macro
                     }
                     else
                     {
-                        if(CurrentState != State.Interval)
+                        if (CurrentState != State.Interval)
                             Log?.Invoke(this, "ページ移動：インターバル画面");
 
                         CurrentState = State.Interval;
@@ -148,7 +148,7 @@ namespace gcard_macro
                     Log?.Invoke(this, "ページ移動：BOOST使用画面");
                     CurrentState = State.GroupUseBoost;
                     Wait(WaitMisc);
-                    Exec = UseBoostItem;                    
+                    Exec = UseBoostItem;
                 }
                 //レベルアップ
                 else if (IsLevelUp())
@@ -188,16 +188,8 @@ namespace gcard_macro
                     {
                         driver_.Navigate().GoToUrl(home_path_);
                     }
-                    
+
                     Attacked = false;
-                }
-                //不正な画面遷移です
-                else if (IsError())
-                {
-                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
-                    CurrentState = State.Error;
-                    Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
                 }
                 //アクセスを制限
                 else if (IsAccessBlock())
@@ -205,6 +197,14 @@ namespace gcard_macro
                     Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                     CurrentState = State.AccessBlock;
                     Wait(WaitAccessBlock);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                //不正な画面遷移です
+                else if (IsError())
+                {
+                    Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
+                    CurrentState = State.Error;
+                    Wait(WaitMisc);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
                 //イベント終了
@@ -229,7 +229,7 @@ namespace gcard_macro
             return;
         }
 
-        
+
         /// <summary>
         /// ジョブ選択画面判定
         /// </summary>
@@ -242,7 +242,7 @@ namespace gcard_macro
         /// <returns></returns>
         private bool IsUseBoost() => driver_.PageSource.IndexOf("ブースターパック") >= 0;
 
-        
+
         /// <summary>
         /// イベントのホームから探索へ
         /// </summary>
@@ -303,7 +303,7 @@ namespace gcard_macro
 
             Log?.Invoke(this, "全ジョブレベル最大");
 
-            
+
 
             Exec = SearchState;
             return;
@@ -317,7 +317,7 @@ namespace gcard_macro
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"使用する\"]"));
-                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));   
+                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 Log?.Invoke(this, "BOOSTを使用");
             }
             catch
@@ -338,7 +338,7 @@ namespace gcard_macro
         /// </summary>
         private void MoveEnemyListToSearch()
         {
-            if(enemy_list_path_ == "")
+            if (enemy_list_path_ == "")
             {
                 enemy_list_path_ = driver_.Url;
             }
@@ -526,7 +526,7 @@ namespace gcard_macro
                 //一度しか攻撃しない場合
                 if (Mode == AttackMode.OneAttack)
                 {
-                    for(int i = 0; i < enemys.Count(); i++)
+                    for (int i = 0; i < enemys.Count(); i++)
                     {
                         try
                         {
@@ -534,7 +534,7 @@ namespace gcard_macro
                             {
                                 Log?.Invoke(this, "攻撃： " + enemys[i].Item2.Text);
                                 driver_.Navigate().GoToUrl(enemys[i].Item1.GetAttribute("href"));
-                                Exec = SearchState;                                
+                                Exec = SearchState;
                                 return;
                             }
                         }
@@ -686,7 +686,8 @@ namespace gcard_macro
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//div[contains(text(), \"BE回復ミニカプセル\")]/span"));
-                if (MinicapCount != Convert.ToInt32(elm.Text)){
+                if (MinicapCount != Convert.ToInt32(elm.Text))
+                {
                     MinicapChanged?.Invoke(this, Convert.ToInt32(elm.Text));
                     MinicapCount = Convert.ToInt32(elm.Text);
                 }
@@ -752,17 +753,25 @@ namespace gcard_macro
                         var be = driver_.FindElements(By.XPath("//*[@class=\"mt4\"]/a"));
                         Log?.Invoke(this, "BEx5 10倍攻撃使用");
 
-                        var wc = GetWebClient().DownloadString(be.ElementAt(0).GetAttribute("href"));
-                        if (wc.IndexOf("swf") < 0)
+                        string ret = "";
+
+                        try
                         {
-                            Wait(WaitAccessBlock);
+                            ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                        }
+                        catch { }
+
+                        if (ret.IndexOf("swf") < 0)
+                        {
                             StateChanged?.Invoke(this, State.AccessBlock);
+                            Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                            Wait(WaitAccessBlock);
                             driver_.Navigate().GoToUrl(home_path_);
+                            return;
                         }
 
                         AddEnemyId(driver_.Url);
                         driver_.Navigate().Refresh();
-
                         Attacked = true;
                     }
                     catch { }
@@ -776,17 +785,25 @@ namespace gcard_macro
                         var be = driver_.FindElements(By.XPath("//*[@class=\"flex txt-c\"]/a"));
                         Log?.Invoke(this, "BEx3 20倍攻撃使用");
 
-                        var wc = GetWebClient().DownloadString(be.ElementAt(1).GetAttribute("href"));
-                        if (wc.IndexOf("swf") < 0)
+                        string ret = "";
+
+                        try
                         {
-                            Wait(WaitAccessBlock);
+                            ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                        }
+                        catch { }
+
+                        if (ret.IndexOf("swf") < 0)
+                        {
                             StateChanged?.Invoke(this, State.AccessBlock);
+                            Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                            Wait(WaitAccessBlock);
                             driver_.Navigate().GoToUrl(home_path_);
+                            return;
                         }
 
                         AddEnemyId(driver_.Url);
                         driver_.Navigate().Refresh();
-
                         Attacked = true;
                     }
                     catch { }
@@ -810,20 +827,25 @@ namespace gcard_macro
                     Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     useBe--;
 
-                    var wc = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
-                    if (wc.IndexOf("swf") < 0)
+                    string ret = "";
+
+                    try
                     {
-                        Wait(WaitAccessBlock);
+                        ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                    }
+                    catch { }
+
+                    if (ret.IndexOf("swf") < 0)
+                    {
                         StateChanged?.Invoke(this, State.AccessBlock);
+                        Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                        Wait(WaitAccessBlock);
                         driver_.Navigate().GoToUrl(home_path_);
                         return;
                     }
 
                     AddEnemyId(driver_.Url);
-                    //driver_.Navigate().GoToUrl(elms.ElementAt(useBe).GetAttribute("href"));
-                    //driver_.Navigate().Back();
                     driver_.Navigate().Refresh();
-
                     Attacked = true;
                 }
             }
