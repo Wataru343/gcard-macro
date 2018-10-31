@@ -21,9 +21,6 @@ namespace gcard_macro
 
         public int WatchRank { get; set; }
         public int SallyCount { get; set; }
-        public DateTime SallyStart { get; set; }
-        public DateTime SallyEnd { get; set; }
-
         public bool SallyUnlimited { get; set; }
         private DateTime prevTime { get; set; }
         private int BaseSallyCount { get; set; }
@@ -56,6 +53,18 @@ namespace gcard_macro
 
             try
             {
+                //稼働時間外
+                if (IsOutOfTimeRange())
+                {
+                    if (CurrentState != State.None)
+                    {
+                        Log?.Invoke(this, "稼働時間外");
+                        driver_.Navigate().GoToUrl(home_path_);
+                    }
+                    CurrentState = State.None;
+                    Wait(1);
+                }
+                else
                 //イベントホーム
                 if (IsHome())
                 {
@@ -257,47 +266,27 @@ namespace gcard_macro
                 }
                 catch { }
 
-                TimeSpan now = DateTime.Now.TimeOfDay;
-                TimeSpan start = SallyStart.TimeOfDay;
-                TimeSpan end = SallyEnd.TimeOfDay;
 
-                if (start >= end)
+                try
                 {
-                    end += TimeSpan.FromDays(1);
-
-                    if (start > now)
-                        now += TimeSpan.FromDays(1);
+                    IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"sally now\"]"));
+                    driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 }
-
-                if (now >= start && now < end)
+                catch
                 {
-                    try
+                    if (SallyUnlimited || SallyCount > 0)
                     {
-                        IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"sally now\"]"));
+                        IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"sally\" or @class=\"sally now\" or @class=\"sally ticket\"]"));
                         driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                        Log?.Invoke(this, "出撃");
+                        SallyCount--;
                     }
-                    catch
+                    else
                     {
-                        if (SallyUnlimited || SallyCount > 0)
-                        {
-                            IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"sally\" or @class=\"sally now\" or @class=\"sally ticket\"]"));
-                            driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-                            Log?.Invoke(this, "出撃");
-                            SallyCount--;
-                        }
-                        else
-                        {
-                            Wait(5);
-                            Exec = SearchState;
-                            return;
-                        }
+                        Wait(5);
+                        Exec = SearchState;
+                        return;
                     }
-                }
-                else
-                {
-                    Wait(5);
-                    Exec = SearchState;
-                    return;
                 }
             }
             catch

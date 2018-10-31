@@ -37,10 +37,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.dateTimePickerSallyTimeEnd = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerTimeEnd = new System.Windows.Forms.DateTimePicker();
             this.textBoxSallyCount = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.dateTimePickerSallyTimeStart = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerTimeStart = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.textBoxWatchRank = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -116,10 +116,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.dateTimePickerSallyTimeEnd);
+            this.groupBox1.Controls.Add(this.dateTimePickerTimeEnd);
             this.groupBox1.Controls.Add(this.textBoxSallyCount);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.dateTimePickerSallyTimeStart);
+            this.groupBox1.Controls.Add(this.dateTimePickerTimeStart);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.textBoxWatchRank);
             this.groupBox1.Controls.Add(this.label7);
@@ -146,18 +146,18 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(14, 173);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 12);
+            this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 29;
-            this.label3.Text = "出撃可能時間";
+            this.label3.Text = "稼働時間";
             // 
-            // dateTimePickerSallyTimeEnd
+            // dateTimePickerTimeEnd
             // 
-            this.dateTimePickerSallyTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePickerSallyTimeEnd.Location = new System.Drawing.Point(127, 195);
-            this.dateTimePickerSallyTimeEnd.Name = "dateTimePickerSallyTimeEnd";
-            this.dateTimePickerSallyTimeEnd.ShowUpDown = true;
-            this.dateTimePickerSallyTimeEnd.Size = new System.Drawing.Size(78, 19);
-            this.dateTimePickerSallyTimeEnd.TabIndex = 28;
+            this.dateTimePickerTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePickerTimeEnd.Location = new System.Drawing.Point(127, 195);
+            this.dateTimePickerTimeEnd.Name = "dateTimePickerTimeEnd";
+            this.dateTimePickerTimeEnd.ShowUpDown = true;
+            this.dateTimePickerTimeEnd.Size = new System.Drawing.Size(78, 19);
+            this.dateTimePickerTimeEnd.TabIndex = 28;
             // 
             // textBoxSallyCount
             // 
@@ -179,14 +179,14 @@
             this.label2.TabIndex = 26;
             this.label2.Text = "出撃回数(0で無制限)";
             // 
-            // dateTimePickerSallyTimeStart
+            // dateTimePickerTimeStart
             // 
-            this.dateTimePickerSallyTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePickerSallyTimeStart.Location = new System.Drawing.Point(14, 195);
-            this.dateTimePickerSallyTimeStart.Name = "dateTimePickerSallyTimeStart";
-            this.dateTimePickerSallyTimeStart.ShowUpDown = true;
-            this.dateTimePickerSallyTimeStart.Size = new System.Drawing.Size(78, 19);
-            this.dateTimePickerSallyTimeStart.TabIndex = 25;
+            this.dateTimePickerTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePickerTimeStart.Location = new System.Drawing.Point(14, 195);
+            this.dateTimePickerTimeStart.Name = "dateTimePickerTimeStart";
+            this.dateTimePickerTimeStart.ShowUpDown = true;
+            this.dateTimePickerTimeStart.Size = new System.Drawing.Size(78, 19);
+            this.dateTimePickerTimeStart.TabIndex = 25;
             // 
             // label8
             // 
@@ -467,10 +467,10 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label labelMiniCap;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dateTimePickerSallyTimeEnd;
+        private System.Windows.Forms.DateTimePicker dateTimePickerTimeEnd;
         private System.Windows.Forms.TextBox textBoxSallyCount;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dateTimePickerSallyTimeStart;
+        private System.Windows.Forms.DateTimePicker dateTimePickerTimeStart;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label labelSallyCount;
         private System.Windows.Forms.Label labelStateWithdrawalConfirmation;

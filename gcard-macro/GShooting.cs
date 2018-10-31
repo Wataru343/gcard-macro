@@ -40,6 +40,18 @@ namespace gcard_macro
         {
             try
             {
+                //稼働時間外
+                if (IsOutOfTimeRange())
+                {
+                    if (CurrentState != State.None)
+                    {
+                        Log?.Invoke(this, "稼働時間外");
+                        driver_.Navigate().GoToUrl(home_path_);
+                    }
+                    CurrentState = State.None;
+                    Wait(1);
+                }
+                else
                 //イベントホーム
                 if (IsHome())
                 {
@@ -178,6 +190,14 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
                     //IsRun = false;
+                }
+                //燃料不足
+                else if (IsFuelShortage())
+                {
+                    Log?.Invoke(this, "警告：燃料不足");
+                    CurrentState = State.Home;
+                    Wait(10);
+                    driver_.Navigate().GoToUrl(home_path_);
                 }
                 else
                 {
@@ -386,10 +406,29 @@ namespace gcard_macro
                 {
                     IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"探索する\"]"));
                     Log?.Invoke(this, "探索開始");
-                    if (SearchEnemy(elm.GetAttribute("href")))
+
+                    switch (SearchEnemy(elm.GetAttribute("href")))
                     {
-                        MoveEnemyListToSearch();
-                        return;
+                        case SearchResult.Found:
+                            MoveEnemyListToSearch();
+                            Exec = SearchState;
+                            return;
+                        case SearchResult.Card:
+                            Exec = SearchState;
+                            return;
+                        case SearchResult.Error:
+                            StateChanged?.Invoke(this, State.AccessBlock);
+                            Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                            Wait(WaitAccessBlock);
+                            Exec = SearchState;
+                            return;
+                        case SearchResult.FuelShortage:
+                            Log?.Invoke(this, "警告：燃料不足");
+                            Wait(10);
+                            Exec = SearchState;
+                            return;
+                        default:
+                            break;
                     }
                 }
             }

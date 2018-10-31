@@ -44,10 +44,15 @@ namespace gcard_macro
 
             try
             {
-                dateTimePickerSallyTimeStart.Value = Properties.Settings.Default.PromotionTimeStart;
-                dateTimePickerSallyTimeEnd.Value = Properties.Settings.Default.PromotionTimeEnd;
+                dateTimePickerTimeStart.Value = Properties.Settings.Default.PromotionTimeStart;
+                dateTimePickerTimeEnd.Value = Properties.Settings.Default.PromotionTimeEnd;
             }
-            catch { }
+            catch
+            {
+                dateTimePickerTimeStart.Value = dateTimePickerTimeStart.MinDate;
+                dateTimePickerTimeEnd.Value = dateTimePickerTimeEnd.MinDate;
+            }
+
             CurrentState = labelStateHome;
         }
 
@@ -104,8 +109,8 @@ namespace gcard_macro
                     WatchRank = Convert.ToInt32(textBoxWatchRank.Text),
                     SallyCount = Convert.ToInt32(textBoxSallyCount.Text),
                     SallyUnlimited = Convert.ToInt32(textBoxSallyCount.Text) == 0 ? true : false,
-                    SallyStart = dateTimePickerSallyTimeStart.Value,
-                    SallyEnd = dateTimePickerSallyTimeEnd.Value
+                    StartTime = dateTimePickerTimeStart.Value,
+                    EndTime = dateTimePickerTimeEnd.Value
                 };
 
                 Promotion.StateChanged += StateChanged;
@@ -170,8 +175,8 @@ namespace gcard_macro
             Properties.Settings.Default.PromotionWatchRank = Convert.ToInt32(textBoxWatchRank.Text);
             Properties.Settings.Default.PromotionAttackMode = comboBoxAttackMode.SelectedIndex;
             Properties.Settings.Default.PromotionSallyCount = Convert.ToInt32(textBoxSallyCount.Text);
-            Properties.Settings.Default.PromotionTimeStart = dateTimePickerSallyTimeStart.Value;
-            Properties.Settings.Default.PromotionTimeEnd = dateTimePickerSallyTimeEnd.Value;
+            Properties.Settings.Default.PromotionTimeStart = dateTimePickerTimeStart.Value;
+            Properties.Settings.Default.PromotionTimeEnd = dateTimePickerTimeEnd.Value;
             Properties.Settings.Default.Save();
         }
 
@@ -205,6 +210,8 @@ namespace gcard_macro
 
                     switch (state)
                     {
+                        case Event.State.None:
+                            break;
                         case Event.State.Home:
                             labelStateHome.BackColor = Color.Yellow;
                             CurrentState = labelStateHome;

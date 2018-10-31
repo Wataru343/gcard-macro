@@ -112,13 +112,13 @@ namespace gcard_macro.WebDriber
             public void Submit()
             {
                 string url = GetAttribute("action");
-                string method = GetAttribute("method").ToUpper();
+                string method = GetAttribute("method")?.ToUpper();
 
                 if (url != "")
                 {
                     var nodes = HtmlNode.Descendants("input").ToArray();
 
-                    if (method == "" || method == WebRequestMethods.Http.Get)
+                    if (method == WebRequestMethods.Http.Get || method == null || method == "")
                     {
                         url = nodes.Where(e => e.GetAttributeValue("type", "") == "hidden").Select(e => new { id = e.GetAttributeValue("name", ""), value = e.GetAttributeValue("value", "") }).Aggregate(url + "?", (n, e) => n + string.Format("{0}={1}&", e.id, e.value)).TrimEnd(new char[] { '&' });
                         (Driver_.Navigate() as HtmlAgilityPackNavigate).GoToUrlGet(url);

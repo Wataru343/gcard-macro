@@ -40,10 +40,13 @@ namespace gcard_macro
         virtual public bool ReceiveReword { get; set; }
         virtual public bool ReceivePresent { get; set; }
         virtual public bool OnlySearch { get; set; }
+        virtual public DateTime StartTime { get; set; }
+        virtual public DateTime EndTime { get; set; }
 
 
         public enum State
         {
+            None,
             Home,
             EventHome,
             Battle,
@@ -94,12 +97,20 @@ namespace gcard_macro
             攻撃力割るMS数が低い敵を攻撃HP20パーセント以下で撤退
         }
 
+        protected enum SearchResult
+        {
+            Found,
+            Card,
+            Error,
+            FuelShortage
+        }
+
         public Event(IWebDriver driver, string home_path)
         {
             driver_ = driver;
             home_path_ = home_path;
             enemy_list_path_ = "";
-            CurrentState = State.Home;
+            CurrentState = State.None;
             Exec = SearchState;
             WaitSearch = 0.0;
             WaitBattle = 0.0;
@@ -256,6 +267,12 @@ namespace gcard_macro
         virtual protected bool IsEventFinished() => driver_.PageSource.IndexOf("イベントは終了しました") >= 0;
 
         /// <summary>
+        /// 燃料不足画面判定
+        /// </summary>
+        /// <returns></returns>
+        virtual protected bool IsFuelShortage() => driver_.PageSource.IndexOf("燃料不足") >= 0;
+
+        /// <summary>
         /// 探索時のFlashをクリックする
         /// </summary>
         virtual protected void EmulateClickFlash()
@@ -266,9 +283,9 @@ namespace gcard_macro
                 string swfUrl = GetSwfURL(driver_.PageSource);
                 string swf = new string(GetSwfBinary(swfUrl, 1024 * 1024));
 
-                //WebClient wc = GetWebClient();
-                //wc.DownloadFile(swfUrl, string.Format(@"11.swf", DateTime.Now.ToLongTimeString()));
-                //wc.Dispose();
+                WebClient wc = GetWebClient();
+                wc.DownloadFile(swfUrl, string.Format(@"11.swf", DateTime.Now.ToLongTimeString()));
+                wc.Dispose();
 
                 //探索演出
                 if (swfUrl.IndexOf("gcard_mission_effect") > 0)
@@ -277,29 +294,47 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(home_path_);
                 }
                 //カードゲットチャンス
-                else if (swfUrl.IndexOf("lucky_effectt") > 0)
+                else if (swfUrl.IndexOf("lucky_effect") >= 0)
                 {
                     SearchEnemy(driver_.Url);
                 }
                 //クエストクリア演出
-                else if (swfUrl.IndexOf("quest_clear_effect") > 0)
+                else if (swfUrl.IndexOf("quest_clear_effect") >= 0)
                 {
-                    //http://gcc.sp.mbga.jp/_gcard_event310_raid_boss_receive_multi_result?l_boss_eids=&p_q_ss=1&c_q_ids=3&r_boss_eids=1106723%2C1108205%2C1108461%2C1108716%2C1108974
-                    string l_boss_eids = new string(swf.Substring(swf.IndexOf("l_boss_eids", 16 * 3000) + 16, 2).Where(c => char.IsNumber(c)).ToArray());
-                    string p_q_ss = new string(swf.Substring(swf.IndexOf("p_q_ss", 16 * 3000) + 11, 3).Where(c => char.IsNumber(c)).ToArray());
-                    string c_q_ids = new string(swf.Substring(swf.IndexOf("c_q_ids", 16 * 3000) + 12, 3).Where(c => char.IsNumber(c)).ToArray());
-                    string r_boss_eids = FilterNumComma(swf.Substring(swf.IndexOf("r_boss_eids") + 16));
+                    switch (this)
+                    {
+                        case Raid r:
+                            {
+                                string sk = new string(swf.Substring(swf.LastIndexOf("sk") + 7, 8).Where(c => char.IsNumber(c)).ToArray());
+                                string resultURL = @"http://gcc.sp.mbga.jp/_gcard_event311_raid_boss_receive_result" +
+                                    "?sk=" + sk;
+                                driver_.Navigate().GoToUrl(resultURL);
+                                break;
+                            }
+                        case Group g: driver_.Navigate().GoToUrl(home_path_); break;
+                        case Promotion p: driver_.Navigate().GoToUrl(home_path_); break;
+                        case GShooting s: driver_.Navigate().GoToUrl(home_path_); break;
+                        case GTactics t:
+                            {
+                                //http://gcc.sp.mbga.jp/_gcard_event310_raid_boss_receive_multi_result?l_boss_eids=&p_q_ss=1&c_q_ids=3&r_boss_eids=1106723%2C1108205%2C1108461%2C1108716%2C1108974
+                                string l_boss_eids = new string(swf.Substring(swf.IndexOf("l_boss_eids", 16 * 3000) + 16, 2).Where(c => char.IsNumber(c)).ToArray());
+                                string p_q_ss = new string(swf.Substring(swf.IndexOf("p_q_ss", 16 * 3000) + 11, 3).Where(c => char.IsNumber(c)).ToArray());
+                                string c_q_ids = new string(swf.Substring(swf.IndexOf("c_q_ids", 16 * 3000) + 12, 3).Where(c => char.IsNumber(c)).ToArray());
+                                string r_boss_eids = FilterNumComma(swf.Substring(swf.IndexOf("r_boss_eids") + 16));
 
-                    string resultURL = @"http://gcc.sp.mbga.jp/_gcard_event310_raid_boss_receive_multi_result" +
-                        "?l_boss_eids=" + l_boss_eids +
-                        "&p_q_ss=" + p_q_ss +
-                        "&c_q_ids=" + c_q_ids +
-                        "&r_boss_eids=" + r_boss_eids;
-
-                    driver_.Navigate().GoToUrl(resultURL);
+                                string resultURL = @"http://gcc.sp.mbga.jp/_gcard_event310_raid_boss_receive_multi_result" +
+                                    "?l_boss_eids=" + l_boss_eids +
+                                    "&p_q_ss=" + p_q_ss +
+                                    "&c_q_ids=" + c_q_ids +
+                                    "&r_boss_eids=" + r_boss_eids;
+                                driver_.Navigate().GoToUrl(resultURL);
+                                break;
+                            }
+                    }                    
+                    
                 }
                 //レベルアップ演出
-                else if (swfUrl.IndexOf("lvup_effect") > 0)
+                else if (swfUrl.IndexOf("lvup_effect") >= 0)
                 {
                     string resultUrl = swfUrl.Replace("effect", "result");
                     driver_.Navigate().GoToUrl(resultUrl);
@@ -482,7 +517,7 @@ namespace gcard_macro
         /// </summary>
         /// <param name="url">探索FlashページのURL</param>
         /// <returns>成否</returns>
-        protected bool SearchEnemy(string url)
+        protected SearchResult SearchEnemy(string url)
         {
             try
             {
@@ -505,9 +540,9 @@ namespace gcard_macro
                             string token = GetLuckyToken(swf);
                             resultURL = (@"http://gcc.sp.mbga.jp/_gcard_mission_lucky_lot" + "?token=" + token + "&card=1&mekuru=0");
                             driver_.Navigate().GoToUrl(resultURL);
-                            return false;
+                            return SearchResult.Card;
                         }
-                        else
+                        else if (swfUrl.IndexOf("mission") >= 0)
                         {
                             string tid = GetTid(swf);
                             string mid = GetMid(swf);
@@ -523,21 +558,25 @@ namespace gcard_macro
                                 resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
                             }
                         }
+                        else if (pageSource.IndexOf("燃料不足") >= 0)
+                        {
+                            return SearchResult.FuelShortage;
+                        }
 
                         using (WebClient clientGet = GetWebClient())
                         {
                             string respons = clientGet.DownloadString(resultURL);
-
+                            
                             driver_.Navigate().Refresh();
-
-                            return true;
+                            //敵発見Flashかどうか
+                            return respons.IndexOf("http://gcc-a.sp.mbga.jp/smart/gcard/js/vendor/screener.min.js") >= 0 ? SearchResult.Found : SearchResult.Error;
                         }
                     }
                 }
             }
             catch
             {
-                return false;
+                return SearchResult.Error;
             }
         }
 
@@ -739,6 +778,23 @@ namespace gcard_macro
             MatchCollection mc = r.Matches(url);
 
             return mc.Count > 0 ? mc[0].Groups["id"].Value : "";
+        }
+
+        virtual protected bool IsOutOfTimeRange()
+        {
+            TimeSpan now = DateTime.Now.TimeOfDay;
+            TimeSpan start = StartTime.TimeOfDay;
+            TimeSpan end = EndTime.TimeOfDay;
+
+            if (start >= end)
+            {
+                end += TimeSpan.FromDays(1);
+
+                if (start > now)
+                    now += TimeSpan.FromDays(1);
+            }
+
+            return now < start || now >= end;
         }
     }
 }

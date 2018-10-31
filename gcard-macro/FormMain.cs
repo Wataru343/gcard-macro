@@ -44,7 +44,7 @@ namespace gcard_macro
             tabControlGTactics.Log += onLog;
 
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.9";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.11";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -258,12 +258,12 @@ namespace gcard_macro
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.WaitSearch = Convert.ToDouble(textBoxWaitSearch.Text);
-            Properties.Settings.Default.WaitBattle = Convert.ToDouble(textBoxWaitBattle.Text);
-            Properties.Settings.Default.WaitAttack = Convert.ToDouble(textBoxWaitAttack.Text);
-            Properties.Settings.Default.WaitReceive = Convert.ToDouble(textBoxWaitReceive.Text);
-            Properties.Settings.Default.WaitAccessBlock = Convert.ToDouble(textBoxWaitAccessBlock.Text);
-            Properties.Settings.Default.WaitMisc = Convert.ToDouble(textBoxWaitMisc.Text);
+            Properties.Settings.Default.WaitSearch = Utils.ToDouble(textBoxWaitSearch.Text);
+            Properties.Settings.Default.WaitBattle = Utils.ToDouble(textBoxWaitBattle.Text);
+            Properties.Settings.Default.WaitAttack = Utils.ToDouble(textBoxWaitAttack.Text);
+            Properties.Settings.Default.WaitReceive = Utils.ToDouble(textBoxWaitReceive.Text);
+            Properties.Settings.Default.WaitAccessBlock = Utils.ToDouble(textBoxWaitAccessBlock.Text);
+            Properties.Settings.Default.WaitMisc = Utils.ToDouble(textBoxWaitMisc.Text);
             Properties.Settings.Default.AutoRun = checkBoxAutoRun.Checked;
             Properties.Settings.Default.Save();
 

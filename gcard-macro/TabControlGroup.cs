@@ -53,6 +53,17 @@ namespace gcard_macro
             checkBoxOnlySearch.Checked = Properties.Settings.Default.GroupOnlySearch;
             comboBoxFinalJob.SelectedIndex = Properties.Settings.Default.GroupFinalJob;
 
+            try
+            {
+                dateTimePickerTimeStart.Value = Properties.Settings.Default.GroupTimeStart;
+                dateTimePickerTimeEnd.Value = Properties.Settings.Default.GroupTimeEnd;
+            }
+            catch
+            {
+                dateTimePickerTimeStart.Value = dateTimePickerTimeStart.MinDate;
+                dateTimePickerTimeEnd.Value = dateTimePickerTimeEnd.MinDate;
+            }
+
             CurrentState = labelStateHome;
         }
 
@@ -105,9 +116,9 @@ namespace gcard_macro
                     WaitReceive = WaitReceive,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
-                    BaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text),
-                    EnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text),
-                    PointDiff = Convert.ToUInt64(textBoxPointDiff.Text),
+                    BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),
+                    EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text),
+                    PointDiff = Utils.ToUlong(textBoxPointDiff.Text),
                     Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
                     ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
                     UseAttack10 = checkBoxUseAttack10.Checked,
@@ -118,7 +129,9 @@ namespace gcard_macro
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     AutojobLevelUp = checkBoxAutojobLevelUp.Checked,
                     OnlySearch = checkBoxOnlySearch.Checked,
-                    FinalJob = comboBoxFinalJob.SelectedIndex
+                    FinalJob = comboBoxFinalJob.SelectedIndex,
+                    StartTime = dateTimePickerTimeStart.Value,
+                    EndTime = dateTimePickerTimeEnd.Value
                 };
 
                 Group.StateChanged += StateChanged;
@@ -178,9 +191,9 @@ namespace gcard_macro
         public void SaveSetting()
         {
             Properties.Settings.Default.GroupURL = textBoxURL.Text;
-            Properties.Settings.Default.GroupBaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text);
-            Properties.Settings.Default.GroupPointDiff = Convert.ToUInt64(textBoxPointDiff.Text);
-            Properties.Settings.Default.GroupEnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text);
+            Properties.Settings.Default.GroupBaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
+            Properties.Settings.Default.GroupPointDiff = Utils.ToUlong(textBoxPointDiff.Text);
+            Properties.Settings.Default.GroupEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
             Properties.Settings.Default.GroupAttackMode = comboBoxAttackMode.SelectedIndex;
             Properties.Settings.Default.GroupReceiveCount = comboBoxRecieve.SelectedIndex;
             Properties.Settings.Default.GroupUseAttack10 = checkBoxUseAttack10.Checked;
@@ -192,6 +205,8 @@ namespace gcard_macro
             Properties.Settings.Default.GroupAutoJobLevelUp = checkBoxAutojobLevelUp.Checked;
             Properties.Settings.Default.GroupOnlySearch = checkBoxOnlySearch.Checked;
             Properties.Settings.Default.GroupFinalJob = comboBoxFinalJob.SelectedIndex;
+            Properties.Settings.Default.GroupTimeStart = dateTimePickerTimeStart.Value;
+            Properties.Settings.Default.GroupTimeEnd = dateTimePickerTimeEnd.Value;
             Properties.Settings.Default.Save();
         }
 
@@ -226,6 +241,8 @@ namespace gcard_macro
 
                     switch (state)
                     {
+                        case Event.State.None:
+                            break;
                         case Event.State.Home:
                             labelStateHome.BackColor = Color.Yellow;
                             CurrentState = labelStateHome;

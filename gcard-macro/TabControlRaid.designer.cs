@@ -35,6 +35,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerWatchWebdriver = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.dateTimePickerTimeEnd = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerTimeStart = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
             this.textBoxWaitAtackBattleShip = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -60,12 +64,13 @@
             this.checkBoxUseAssaultBE = new System.Windows.Forms.CheckBox();
             this.labelMiniCap = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelStateLevelUp = new System.Windows.Forms.Label();
+            this.labelStateAssaultOperationRequestFaild = new System.Windows.Forms.Label();
             this.labelStateAssaultOperationWin = new System.Windows.Forms.Label();
             this.labelStateAssaultOperationRequestComplete = new System.Windows.Forms.Label();
             this.labelStateAssaultOperationRequestSubmit = new System.Windows.Forms.Label();
             this.labelStateGetCard = new System.Windows.Forms.Label();
             this.labelStateHome = new System.Windows.Forms.Label();
-            this.labelStateLevelUp = new System.Windows.Forms.Label();
             this.labelStateUnknown = new System.Windows.Forms.Label();
             this.labelStateAssaultOperationHome = new System.Windows.Forms.Label();
             this.labelStateEventFinished = new System.Windows.Forms.Label();
@@ -81,7 +86,6 @@
             this.labelStateBattleAssaultOperation = new System.Windows.Forms.Label();
             this.labelStateReceive = new System.Windows.Forms.Label();
             this.labelStatePresentList = new System.Windows.Forms.Label();
-            this.labelStateAssaultOperationRequestFaild = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -89,7 +93,7 @@
             // buttonStart
             // 
             this.buttonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonStart.Location = new System.Drawing.Point(363, 562);
+            this.buttonStart.Location = new System.Drawing.Point(363, 580);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(81, 42);
             this.buttonStart.TabIndex = 6;
@@ -100,7 +104,7 @@
             // buttonStop
             // 
             this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonStop.Location = new System.Drawing.Point(450, 562);
+            this.buttonStop.Location = new System.Drawing.Point(450, 580);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 42);
             this.buttonStop.TabIndex = 0;
@@ -135,6 +139,10 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.dateTimePickerTimeEnd);
+            this.groupBox1.Controls.Add(this.dateTimePickerTimeStart);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.textBoxWaitAtackBattleShip);
             this.groupBox1.Controls.Add(this.label10);
@@ -160,16 +168,52 @@
             this.groupBox1.Controls.Add(this.checkBoxUseAssaultBE);
             this.groupBox1.Location = new System.Drawing.Point(19, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(506, 506);
+            this.groupBox1.Size = new System.Drawing.Size(506, 524);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(99, 88);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(17, 12);
+            this.label11.TabIndex = 45;
+            this.label11.Text = "～";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(10, 65);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 44;
+            this.label12.Text = "稼働時間";
+            // 
+            // dateTimePickerTimeEnd
+            // 
+            this.dateTimePickerTimeEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePickerTimeEnd.Location = new System.Drawing.Point(123, 85);
+            this.dateTimePickerTimeEnd.Name = "dateTimePickerTimeEnd";
+            this.dateTimePickerTimeEnd.ShowUpDown = true;
+            this.dateTimePickerTimeEnd.Size = new System.Drawing.Size(78, 19);
+            this.dateTimePickerTimeEnd.TabIndex = 43;
+            // 
+            // dateTimePickerTimeStart
+            // 
+            this.dateTimePickerTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePickerTimeStart.Location = new System.Drawing.Point(10, 85);
+            this.dateTimePickerTimeStart.Name = "dateTimePickerTimeStart";
+            this.dateTimePickerTimeStart.ShowUpDown = true;
+            this.dateTimePickerTimeStart.Size = new System.Drawing.Size(78, 19);
+            this.dateTimePickerTimeStart.TabIndex = 42;
             // 
             // label9
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(470, 399);
+            this.label9.Location = new System.Drawing.Point(470, 449);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(17, 12);
             this.label9.TabIndex = 41;
@@ -179,7 +223,7 @@
             // 
             this.textBoxWaitAtackBattleShip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWaitAtackBattleShip.Location = new System.Drawing.Point(10, 394);
+            this.textBoxWaitAtackBattleShip.Location = new System.Drawing.Point(10, 444);
             this.textBoxWaitAtackBattleShip.Name = "textBoxWaitAtackBattleShip";
             this.textBoxWaitAtackBattleShip.Size = new System.Drawing.Size(454, 19);
             this.textBoxWaitAtackBattleShip.TabIndex = 40;
@@ -187,7 +231,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(10, 376);
+            this.label10.Location = new System.Drawing.Point(10, 426);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(155, 12);
             this.label10.TabIndex = 39;
@@ -197,7 +241,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(470, 440);
+            this.label5.Location = new System.Drawing.Point(470, 490);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(17, 12);
             this.label5.TabIndex = 38;
@@ -207,7 +251,7 @@
             // 
             this.textBoxWaitRecieveAssult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWaitRecieveAssult.Location = new System.Drawing.Point(10, 437);
+            this.textBoxWaitRecieveAssult.Location = new System.Drawing.Point(10, 487);
             this.textBoxWaitRecieveAssult.Name = "textBoxWaitRecieveAssult";
             this.textBoxWaitRecieveAssult.Size = new System.Drawing.Size(454, 19);
             this.textBoxWaitRecieveAssult.TabIndex = 37;
@@ -217,7 +261,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 419);
+            this.label6.Location = new System.Drawing.Point(10, 469);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(173, 12);
             this.label6.TabIndex = 36;
@@ -226,7 +270,7 @@
             // checkBoxOnlyAttackAssultBoss
             // 
             this.checkBoxOnlyAttackAssultBoss.AutoSize = true;
-            this.checkBoxOnlyAttackAssultBoss.Location = new System.Drawing.Point(10, 354);
+            this.checkBoxOnlyAttackAssultBoss.Location = new System.Drawing.Point(10, 404);
             this.checkBoxOnlyAttackAssultBoss.Name = "checkBoxOnlyAttackAssultBoss";
             this.checkBoxOnlyAttackAssultBoss.Size = new System.Drawing.Size(199, 16);
             this.checkBoxOnlyAttackAssultBoss.TabIndex = 35;
@@ -236,7 +280,7 @@
             // checkBoxRecievePresent
             // 
             this.checkBoxRecievePresent.AutoSize = true;
-            this.checkBoxRecievePresent.Location = new System.Drawing.Point(10, 197);
+            this.checkBoxRecievePresent.Location = new System.Drawing.Point(10, 247);
             this.checkBoxRecievePresent.Name = "checkBoxRecievePresent";
             this.checkBoxRecievePresent.Size = new System.Drawing.Size(121, 16);
             this.checkBoxRecievePresent.TabIndex = 34;
@@ -246,7 +290,7 @@
             // checkBoxOnlySearch
             // 
             this.checkBoxOnlySearch.AutoSize = true;
-            this.checkBoxOnlySearch.Location = new System.Drawing.Point(10, 151);
+            this.checkBoxOnlySearch.Location = new System.Drawing.Point(10, 201);
             this.checkBoxOnlySearch.Name = "checkBoxOnlySearch";
             this.checkBoxOnlySearch.Size = new System.Drawing.Size(69, 16);
             this.checkBoxOnlySearch.TabIndex = 33;
@@ -256,7 +300,7 @@
             // checkBoxRecieveReword
             // 
             this.checkBoxRecieveReword.AutoSize = true;
-            this.checkBoxRecieveReword.Location = new System.Drawing.Point(10, 174);
+            this.checkBoxRecieveReword.Location = new System.Drawing.Point(10, 224);
             this.checkBoxRecieveReword.Name = "checkBoxRecieveReword";
             this.checkBoxRecieveReword.Size = new System.Drawing.Size(100, 16);
             this.checkBoxRecieveReword.TabIndex = 32;
@@ -266,7 +310,7 @@
             // checkBoxAimMVP
             // 
             this.checkBoxAimMVP.AutoSize = true;
-            this.checkBoxAimMVP.Location = new System.Drawing.Point(10, 288);
+            this.checkBoxAimMVP.Location = new System.Drawing.Point(10, 338);
             this.checkBoxAimMVP.Name = "checkBoxAimMVP";
             this.checkBoxAimMVP.Size = new System.Drawing.Size(142, 16);
             this.checkBoxAimMVP.TabIndex = 31;
@@ -277,7 +321,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(393, 85);
+            this.label8.Location = new System.Drawing.Point(393, 44);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(94, 12);
             this.label8.TabIndex = 30;
@@ -287,7 +331,7 @@
             // 
             this.textBoxEnemyCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxEnemyCount.Location = new System.Drawing.Point(10, 79);
+            this.textBoxEnemyCount.Location = new System.Drawing.Point(10, 38);
             this.textBoxEnemyCount.Name = "textBoxEnemyCount";
             this.textBoxEnemyCount.Size = new System.Drawing.Size(377, 19);
             this.textBoxEnemyCount.TabIndex = 29;
@@ -297,7 +341,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 60);
+            this.label7.Location = new System.Drawing.Point(10, 19);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(72, 12);
             this.label7.TabIndex = 28;
@@ -320,7 +364,7 @@
             "8",
             "9",
             "10"});
-            this.comboBoxRecieve.Location = new System.Drawing.Point(10, 239);
+            this.comboBoxRecieve.Location = new System.Drawing.Point(10, 289);
             this.comboBoxRecieve.Name = "comboBoxRecieve";
             this.comboBoxRecieve.Size = new System.Drawing.Size(479, 20);
             this.comboBoxRecieve.TabIndex = 27;
@@ -328,7 +372,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 105);
+            this.label4.Location = new System.Drawing.Point(10, 156);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(57, 12);
             this.label4.TabIndex = 26;
@@ -337,7 +381,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 220);
+            this.label3.Location = new System.Drawing.Point(10, 270);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 12);
             this.label3.TabIndex = 25;
@@ -353,7 +397,7 @@
             "無制限に攻撃する",
             "コンボのみ狙う",
             "一発だけ攻撃する"});
-            this.comboBoxAttackMode.Location = new System.Drawing.Point(10, 124);
+            this.comboBoxAttackMode.Location = new System.Drawing.Point(10, 174);
             this.comboBoxAttackMode.Name = "comboBoxAttackMode";
             this.comboBoxAttackMode.Size = new System.Drawing.Size(479, 20);
             this.comboBoxAttackMode.TabIndex = 24;
@@ -362,7 +406,7 @@
             // 
             this.textBoxBaseDamage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxBaseDamage.Location = new System.Drawing.Point(10, 34);
+            this.textBoxBaseDamage.Location = new System.Drawing.Point(10, 129);
             this.textBoxBaseDamage.Name = "textBoxBaseDamage";
             this.textBoxBaseDamage.Size = new System.Drawing.Size(477, 19);
             this.textBoxBaseDamage.TabIndex = 11;
@@ -372,7 +416,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 15);
+            this.label2.Location = new System.Drawing.Point(10, 111);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(115, 12);
             this.label2.TabIndex = 10;
@@ -381,7 +425,7 @@
             // checkBoxJoinAssault
             // 
             this.checkBoxJoinAssault.AutoSize = true;
-            this.checkBoxJoinAssault.Location = new System.Drawing.Point(10, 310);
+            this.checkBoxJoinAssault.Location = new System.Drawing.Point(10, 360);
             this.checkBoxJoinAssault.Name = "checkBoxJoinAssault";
             this.checkBoxJoinAssault.Size = new System.Drawing.Size(124, 16);
             this.checkBoxJoinAssault.TabIndex = 0;
@@ -392,7 +436,7 @@
             // checkBoxRequest
             // 
             this.checkBoxRequest.AutoSize = true;
-            this.checkBoxRequest.Location = new System.Drawing.Point(10, 265);
+            this.checkBoxRequest.Location = new System.Drawing.Point(10, 315);
             this.checkBoxRequest.Name = "checkBoxRequest";
             this.checkBoxRequest.Size = new System.Drawing.Size(103, 16);
             this.checkBoxRequest.TabIndex = 2;
@@ -403,7 +447,7 @@
             // checkBoxUseAssaultBE
             // 
             this.checkBoxUseAssaultBE.AutoSize = true;
-            this.checkBoxUseAssaultBE.Location = new System.Drawing.Point(10, 332);
+            this.checkBoxUseAssaultBE.Location = new System.Drawing.Point(10, 382);
             this.checkBoxUseAssaultBE.Name = "checkBoxUseAssaultBE";
             this.checkBoxUseAssaultBE.Size = new System.Drawing.Size(132, 16);
             this.checkBoxUseAssaultBE.TabIndex = 1;
@@ -449,10 +493,32 @@
             this.groupBox2.Controls.Add(this.labelStatePresentList);
             this.groupBox2.Location = new System.Drawing.Point(536, 75);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(190, 529);
+            this.groupBox2.Size = new System.Drawing.Size(190, 547);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "画面遷移";
+            // 
+            // labelStateLevelUp
+            // 
+            this.labelStateLevelUp.BackColor = System.Drawing.Color.White;
+            this.labelStateLevelUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelStateLevelUp.Location = new System.Drawing.Point(96, 327);
+            this.labelStateLevelUp.Name = "labelStateLevelUp";
+            this.labelStateLevelUp.Size = new System.Drawing.Size(85, 46);
+            this.labelStateLevelUp.TabIndex = 23;
+            this.labelStateLevelUp.Text = "レベルアップ";
+            this.labelStateLevelUp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelStateAssaultOperationRequestFaild
+            // 
+            this.labelStateAssaultOperationRequestFaild.BackColor = System.Drawing.Color.White;
+            this.labelStateAssaultOperationRequestFaild.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelStateAssaultOperationRequestFaild.Location = new System.Drawing.Point(12, 327);
+            this.labelStateAssaultOperationRequestFaild.Name = "labelStateAssaultOperationRequestFaild";
+            this.labelStateAssaultOperationRequestFaild.Size = new System.Drawing.Size(85, 46);
+            this.labelStateAssaultOperationRequestFaild.TabIndex = 28;
+            this.labelStateAssaultOperationRequestFaild.Text = "強襲作戦エラー";
+            this.labelStateAssaultOperationRequestFaild.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelStateAssaultOperationWin
             // 
@@ -508,17 +574,6 @@
             this.labelStateHome.TabIndex = 7;
             this.labelStateHome.Text = "ホーム";
             this.labelStateHome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelStateLevelUp
-            // 
-            this.labelStateLevelUp.BackColor = System.Drawing.Color.White;
-            this.labelStateLevelUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateLevelUp.Location = new System.Drawing.Point(96, 327);
-            this.labelStateLevelUp.Name = "labelStateLevelUp";
-            this.labelStateLevelUp.Size = new System.Drawing.Size(85, 46);
-            this.labelStateLevelUp.TabIndex = 23;
-            this.labelStateLevelUp.Text = "レベルアップ";
-            this.labelStateLevelUp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelStateUnknown
             // 
@@ -685,17 +740,6 @@
             this.labelStatePresentList.Text = "プレゼント一覧";
             this.labelStatePresentList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelStateAssaultOperationRequestFaild
-            // 
-            this.labelStateAssaultOperationRequestFaild.BackColor = System.Drawing.Color.White;
-            this.labelStateAssaultOperationRequestFaild.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelStateAssaultOperationRequestFaild.Location = new System.Drawing.Point(12, 327);
-            this.labelStateAssaultOperationRequestFaild.Name = "labelStateAssaultOperationRequestFaild";
-            this.labelStateAssaultOperationRequestFaild.Size = new System.Drawing.Size(85, 46);
-            this.labelStateAssaultOperationRequestFaild.TabIndex = 28;
-            this.labelStateAssaultOperationRequestFaild.Text = "強襲作戦エラー";
-            this.labelStateAssaultOperationRequestFaild.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // TabControlRaid
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -708,7 +752,7 @@
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
             this.Name = "TabControlRaid";
-            this.Size = new System.Drawing.Size(743, 621);
+            this.Size = new System.Drawing.Size(743, 639);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -772,5 +816,9 @@
         private System.Windows.Forms.TextBox textBoxWaitAtackBattleShip;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label labelStateAssaultOperationRequestFaild;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.DateTimePicker dateTimePickerTimeEnd;
+        private System.Windows.Forms.DateTimePicker dateTimePickerTimeStart;
     }
 }

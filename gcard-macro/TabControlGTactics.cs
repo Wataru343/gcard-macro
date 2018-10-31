@@ -61,6 +61,19 @@ namespace gcard_macro
             comboBoxPriority.SelectedIndex = Properties.Settings.Default.GTacticsPriority;
             textBoxPointDiff.Text = Properties.Settings.Default.GTacticsPointDiff.ToString();
             checkBoxStandby.Checked = Properties.Settings.Default.GTacticsStandby;
+            textBoxWaitForce.Text = Properties.Settings.Default.GTacticsWaitForce.ToString();
+
+            try
+            {
+                dateTimePickerTimeStart.Value = Properties.Settings.Default.GTacticsTimeStart;
+                dateTimePickerTimeEnd.Value = Properties.Settings.Default.GTacticsTimeEnd;
+            }
+            catch
+            {
+                dateTimePickerTimeStart.Value = dateTimePickerTimeStart.MinDate;
+                dateTimePickerTimeEnd.Value = dateTimePickerTimeEnd.MinDate;
+            }
+
             CurrentState = labelStateHome;
         }
 
@@ -113,8 +126,8 @@ namespace gcard_macro
                     WaitReceive = WaitReceive,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
-                    BaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text),
-                    EnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text),
+                    BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),
+                    EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text),
                     Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
                     ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
                     ReceiveReword = checkBoxRecieveReword.Checked,
@@ -136,8 +149,11 @@ namespace gcard_macro
                     UseForce = checkBoxUseForce.Checked,
                     ForceCharge = checkBoxForceCharge.Checked,
                     StrategyAreaForcePattern = (GTactics.ForcePattern)comboBoxForcePattern.SelectedIndex,
-                    PointDiff = Convert.ToInt64(textBoxPointDiff.Text),
-                    Standby = checkBoxStandby.Checked
+                    PointDiff = Utils.ToLong(textBoxPointDiff.Text),
+                    Standby = checkBoxStandby.Checked,
+                    WaitForce = Utils.ToDouble(textBoxWaitForce.Text),
+                    StartTime = dateTimePickerTimeStart.Value,
+                    EndTime = dateTimePickerTimeEnd.Value
                 };
 
                 GTactics.StateChanged += StateChanged;
@@ -201,8 +217,8 @@ namespace gcard_macro
         public void SaveSetting()
         {
             Properties.Settings.Default.GTacticsURL = textBoxURL.Text;
-            Properties.Settings.Default.GTacticsBaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text);
-            Properties.Settings.Default.GTacticsEnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text);
+            Properties.Settings.Default.GTacticsBaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
+            Properties.Settings.Default.GTacticsEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
             Properties.Settings.Default.GTacticsAttackMode = comboBoxAttackMode.SelectedIndex;
             Properties.Settings.Default.GTacticsReceiveCount = comboBoxRecieve.SelectedIndex;
             Properties.Settings.Default.GTacticsReceiveReword = checkBoxRecieveReword.Checked;
@@ -222,9 +238,11 @@ namespace gcard_macro
             Properties.Settings.Default.GTacticsUseForce = checkBoxUseForce.Checked;
             Properties.Settings.Default.GTacticsForceCharge = checkBoxForceCharge.Checked;
             Properties.Settings.Default.GTacticsForcePattern = comboBoxForcePattern.SelectedIndex;
-            Properties.Settings.Default.GTacticsPointDiff = Convert.ToUInt64(textBoxPointDiff.Text);
+            Properties.Settings.Default.GTacticsPointDiff = Utils.ToUlong(textBoxPointDiff.Text);
             Properties.Settings.Default.GTacticsStandby = checkBoxStandby.Checked;
-
+            Properties.Settings.Default.GTacticsWaitForce = Utils.ToDouble(textBoxWaitForce.Text);
+            Properties.Settings.Default.GTacticsTimeStart = dateTimePickerTimeStart.Value;
+            Properties.Settings.Default.GTacticsTimeEnd = dateTimePickerTimeEnd.Value;
             Properties.Settings.Default.Save();
         }
 
@@ -259,6 +277,8 @@ namespace gcard_macro
 
                 switch (state)
                 {
+                    case Event.State.None:
+                        break;
                     case Event.State.Home:
                         labelStateHome.BackColor = Color.Yellow;
                         CurrentState = labelStateHome;

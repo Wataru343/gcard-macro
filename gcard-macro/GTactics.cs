@@ -27,6 +27,7 @@ namespace gcard_macro
         public ForcePattern StrategyAreaForcePattern { get; set; }
         public long PointDiff { get; set; }
         public bool Standby { get; set; }
+        public double WaitForce { get; set; }
 
         private bool IsAreaBattle { get; set; }
         private string CurrentArea { get; set; }
@@ -87,12 +88,25 @@ namespace gcard_macro
             AttackCount = 0;
             TargetAllClear = false;
             ShieldClear = false;
+            WaitForce = 0.0;
         }
 
         override protected void SearchState()
         {
             try
             {
+                //稼働時間外
+                if (IsOutOfTimeRange())
+                {
+                    if (CurrentState != State.None)
+                    {
+                        Log?.Invoke(this, "稼働時間外");
+                        driver_.Navigate().GoToUrl(home_path_);
+                    }
+                    CurrentState = State.None;
+                    Wait(1);
+                }
+                else
                 //イベントホーム
                 if (IsHome())
                 {
@@ -236,6 +250,14 @@ namespace gcard_macro
                     Wait(WaitMisc);
                     Exec = StrategicAreaBattle;
                 }
+                //燃料不足
+                else if (IsFuelShortage())
+                {
+                    Log?.Invoke(this, "警告：燃料不足");
+                    CurrentState = State.Home;
+                    Wait(10);
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
                 else
                 {
                     Log?.Invoke(this, "ページ移動：不明な画面");
@@ -309,7 +331,6 @@ namespace gcard_macro
                             string level = shelterStr[2].Substring(0, 1);
                             levels.Add(Convert.ToInt32(level));
                             areaNames.Add(button[i].Text);
-                            Shield[button[i].Text] = Convert.ToInt32(level);
                         }
                         catch
                         {
@@ -432,6 +453,7 @@ namespace gcard_macro
                             break;
                     }
 
+                    //シェルターレベルクリア
                     ShieldClear = true;
 
                     if (PointDiff > (OurPoint - EnemyPoint))
@@ -444,7 +466,6 @@ namespace gcard_macro
                             return;
                         }
                         catch { }
-
                     }
 
                     //シェルターレベル、点数差全てクリア
@@ -605,7 +626,7 @@ namespace gcard_macro
                     //既定のシールドレベル以上なら移動
                     if (Shield[area] <= (int)shield)
                     {
-                        if (TargetAllClear)
+                        if (ShieldClear)
                         {
                             if (AttackCount > 10)
                             {
@@ -614,7 +635,7 @@ namespace gcard_macro
                                 return;
                             }
                         }
-                        else if(!ShieldClear)
+                        else
                         {
                             driver_.Navigate().GoToUrl(home_path_);
                             Exec = SearchState;
@@ -723,8 +744,29 @@ namespace gcard_macro
                                 IWebElement elm = driver_.FindElement(By.XPath("//a[contains(text(), \"敵を\")]"));
                                 Log?.Invoke(this, "探索開始");
                                 SearchEnemy(elm.GetAttribute("href"));
-                                MoveEnemyListToSearch();
-                                return;
+                                switch (SearchEnemy(elm.GetAttribute("href")))
+                                {
+                                    case SearchResult.Found:
+                                        MoveEnemyListToSearch();
+                                        Exec = SearchState;
+                                        return;
+                                    case SearchResult.Card:
+                                        Exec = SearchState;
+                                        return;
+                                    case SearchResult.Error:
+                                        StateChanged?.Invoke(this, State.AccessBlock);
+                                        Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                                        Wait(WaitAccessBlock);
+                                        Exec = SearchState;
+                                        return;
+                                    case SearchResult.FuelShortage:
+                                        Log?.Invoke(this, "警告：燃料不足");
+                                        Wait(10);
+                                        Exec = SearchState;
+                                        return;
+                                    default:
+                                        break;
+                                }
                             }
                             catch { }
                         }
@@ -870,10 +912,29 @@ namespace gcard_macro
                 {
                     IWebElement elm = driver_.FindElement(By.XPath("//a[contains(text(), \"敵を\")]"));
                     Log?.Invoke(this, "探索開始");
-                    if (SearchEnemy(elm.GetAttribute("href")))
+
+                    switch (SearchEnemy(elm.GetAttribute("href")))
                     {
-                        MoveEnemyListToSearch();
-                        return;
+                        case SearchResult.Found:
+                            MoveEnemyListToSearch();
+                            Exec = SearchState;
+                            return;
+                        case SearchResult.Card:
+                            Exec = SearchState;
+                            return;
+                        case SearchResult.Error:
+                            StateChanged?.Invoke(this, State.AccessBlock);
+                            Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                            Wait(WaitAccessBlock);
+                            Exec = SearchState;
+                            return;
+                        case SearchResult.FuelShortage:
+                            Log?.Invoke(this, "警告：燃料不足");
+                            Wait(10);
+                            Exec = SearchState;
+                            return;
+                        default:
+                            break;
                     }
                 }
             }
@@ -1121,6 +1182,7 @@ namespace gcard_macro
                     {
                         if (forceCount[0] > 0)
                         {
+                            Wait(WaitForce);
                             switch (StrategyAreaForcePattern)
                             {
                                 //攻撃回数最適化

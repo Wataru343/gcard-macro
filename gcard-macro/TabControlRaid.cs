@@ -52,6 +52,18 @@ namespace gcard_macro
             checkBoxOnlyAttackAssultBoss.Checked = Properties.Settings.Default.RaidOnlyAttackAssultBoss;
             textBoxWaitRecieveAssult.Text = Properties.Settings.Default.RaidWaitRecieveAssult.ToString();
             textBoxWaitAtackBattleShip.Text = Properties.Settings.Default.RaidWaitAtackBattleShip.ToString();
+
+            try
+            {
+                dateTimePickerTimeStart.Value = Properties.Settings.Default.RaidTimeStart;
+                dateTimePickerTimeEnd.Value = Properties.Settings.Default.RaidTimeEnd;
+            }
+            catch
+            {
+                dateTimePickerTimeStart.Value = dateTimePickerTimeStart.MinDate;
+                dateTimePickerTimeEnd.Value = dateTimePickerTimeEnd.MinDate;
+            }
+
             CurrentState = labelStateHome;
         }
 
@@ -107,8 +119,8 @@ namespace gcard_macro
                     JoinAssault = checkBoxJoinAssault.Checked,
                     UseAssaultBE = checkBoxUseAssaultBE.Checked,
                     Request = checkBoxRequest.Checked,
-                    BaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text),
-                    EnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text),
+                    BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),
+                    EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text),
                     Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
                     ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
                     OnlySearch = checkBoxOnlySearch.Checked,
@@ -116,7 +128,9 @@ namespace gcard_macro
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     AimMVP = checkBoxAimMVP.Checked,
                     OnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked,
-                    WaitRecieveAssult = Convert.ToDouble(textBoxWaitRecieveAssult.Text)
+                    WaitRecieveAssult = Utils.ToDouble(textBoxWaitRecieveAssult.Text),
+                    StartTime = dateTimePickerTimeStart.Value,
+                    EndTime = dateTimePickerTimeEnd.Value
                 };
 
                 Raid.StateChanged += StateChanged;
@@ -181,8 +195,8 @@ namespace gcard_macro
             Properties.Settings.Default.RaidJoinAssault = checkBoxJoinAssault.Checked;
             Properties.Settings.Default.RaidUseAssaultBE = checkBoxUseAssaultBE.Checked;
             Properties.Settings.Default.RaidRequest = checkBoxRequest.Checked;
-            Properties.Settings.Default.RaidBaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text);
-            Properties.Settings.Default.RaidEnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text);
+            Properties.Settings.Default.RaidBaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
+            Properties.Settings.Default.RaidEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
             Properties.Settings.Default.RaidAttackMode = comboBoxAttackMode.SelectedIndex;
             Properties.Settings.Default.RaidReceiveCount = comboBoxRecieve.SelectedIndex;
             Properties.Settings.Default.RaidOnlySearch = checkBoxOnlySearch.Checked;
@@ -190,8 +204,10 @@ namespace gcard_macro
             Properties.Settings.Default.RaidReceivePresent = checkBoxRecievePresent.Checked;
             Properties.Settings.Default.RaidAimMVP = checkBoxAimMVP.Checked;
             Properties.Settings.Default.RaidOnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked;
-            Properties.Settings.Default.RaidWaitRecieveAssult = Convert.ToDouble(textBoxWaitRecieveAssult.Text);
-            Properties.Settings.Default.RaidWaitAtackBattleShip = Convert.ToDouble(textBoxWaitAtackBattleShip.Text);
+            Properties.Settings.Default.RaidWaitRecieveAssult = Utils.ToDouble(textBoxWaitRecieveAssult.Text);
+            Properties.Settings.Default.RaidWaitAtackBattleShip = Utils.ToDouble(textBoxWaitAtackBattleShip.Text);
+            Properties.Settings.Default.RaidTimeStart = dateTimePickerTimeStart.Value;
+            Properties.Settings.Default.RaidTimeEnd = dateTimePickerTimeEnd.Value;
             Properties.Settings.Default.Save();
         }
 
@@ -240,6 +256,8 @@ namespace gcard_macro
 
                 switch (state)
                 {
+                    case Event.State.None:
+                        break;
                     case Event.State.Home:
                         labelStateHome.BackColor = Color.Yellow;
                         CurrentState = labelStateHome;

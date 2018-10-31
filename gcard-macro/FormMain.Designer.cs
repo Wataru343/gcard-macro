@@ -109,7 +109,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(679, 628);
+            this.tabControl1.Size = new System.Drawing.Size(679, 719);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPageRaid
@@ -119,7 +119,7 @@
             this.tabPageRaid.Location = new System.Drawing.Point(4, 22);
             this.tabPageRaid.Name = "tabPageRaid";
             this.tabPageRaid.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageRaid.Size = new System.Drawing.Size(671, 602);
+            this.tabPageRaid.Size = new System.Drawing.Size(671, 693);
             this.tabPageRaid.TabIndex = 1;
             this.tabPageRaid.Text = "レイド";
             // 
@@ -130,7 +130,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlRaid.Location = new System.Drawing.Point(0, 0);
             this.tabControlRaid.Name = "tabControlRaid";
-            this.tabControlRaid.Size = new System.Drawing.Size(675, 606);
+            this.tabControlRaid.Size = new System.Drawing.Size(675, 697);
             this.tabControlRaid.TabIndex = 0;
             this.tabControlRaid.UserName = null;
             this.tabControlRaid.WaitAccessBlock = 0D;
@@ -147,7 +147,7 @@
             this.tabPageGroup.Location = new System.Drawing.Point(4, 22);
             this.tabPageGroup.Name = "tabPageGroup";
             this.tabPageGroup.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGroup.Size = new System.Drawing.Size(671, 602);
+            this.tabPageGroup.Size = new System.Drawing.Size(671, 693);
             this.tabPageGroup.TabIndex = 2;
             this.tabPageGroup.Text = "部隊戦";
             // 
@@ -158,7 +158,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlGroup.Location = new System.Drawing.Point(0, 0);
             this.tabControlGroup.Name = "tabControlGroup";
-            this.tabControlGroup.Size = new System.Drawing.Size(675, 619);
+            this.tabControlGroup.Size = new System.Drawing.Size(675, 697);
             this.tabControlGroup.TabIndex = 0;
             this.tabControlGroup.UserName = null;
             this.tabControlGroup.WaitAccessBlock = 0D;
@@ -174,7 +174,7 @@
             this.tabPage1.Controls.Add(this.tabControlGShooting);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(671, 602);
+            this.tabPage1.Size = new System.Drawing.Size(671, 693);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "G-Shooting";
             // 
@@ -185,7 +185,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlGShooting.Location = new System.Drawing.Point(0, 0);
             this.tabControlGShooting.Name = "tabControlGShooting";
-            this.tabControlGShooting.Size = new System.Drawing.Size(675, 619);
+            this.tabControlGShooting.Size = new System.Drawing.Size(675, 697);
             this.tabControlGShooting.TabIndex = 0;
             this.tabControlGShooting.UserName = null;
             this.tabControlGShooting.WaitAccessBlock = 0D;
@@ -202,7 +202,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(671, 602);
+            this.tabPage2.Size = new System.Drawing.Size(671, 693);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "昇格戦";
             // 
@@ -213,7 +213,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlPromotion.Location = new System.Drawing.Point(0, 0);
             this.tabControlPromotion.Name = "tabControlPromotion";
-            this.tabControlPromotion.Size = new System.Drawing.Size(675, 619);
+            this.tabControlPromotion.Size = new System.Drawing.Size(675, 697);
             this.tabControlPromotion.TabIndex = 0;
             this.tabControlPromotion.UserName = null;
             this.tabControlPromotion.WaitAccessBlock = 0D;
@@ -230,7 +230,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(671, 602);
+            this.tabPage3.Size = new System.Drawing.Size(671, 693);
             this.tabPage3.TabIndex = 4;
             this.tabPage3.Text = "G-Tactics";
             // 
@@ -241,7 +241,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlGTactics.Location = new System.Drawing.Point(0, 0);
             this.tabControlGTactics.Name = "tabControlGTactics";
-            this.tabControlGTactics.Size = new System.Drawing.Size(675, 619);
+            this.tabControlGTactics.Size = new System.Drawing.Size(675, 697);
             this.tabControlGTactics.TabIndex = 0;
             this.tabControlGTactics.UserName = null;
             this.tabControlGTactics.WaitAccessBlock = 0D;
@@ -266,7 +266,7 @@
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Location = new System.Drawing.Point(705, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(356, 616);
+            this.groupBox1.Size = new System.Drawing.Size(356, 707);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "共通設定";
@@ -282,7 +282,7 @@
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxLog.Size = new System.Drawing.Size(334, 268);
+            this.textBoxLog.Size = new System.Drawing.Size(334, 359);
             this.textBoxLog.TabIndex = 10;
             this.textBoxLog.WordWrap = false;
             // 
@@ -297,7 +297,7 @@
             this.tableLayoutPanel1.Controls.Add(this.buttonRemoveCookie, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonStopBrowser, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonSave, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 496);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 587);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -492,7 +492,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1073, 640);
+            this.ClientSize = new System.Drawing.Size(1073, 731);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormMain";

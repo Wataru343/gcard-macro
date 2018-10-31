@@ -944,5 +944,105 @@ namespace gcard_macro.Properties {
                 this["AccessKey"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double GTacticsWaitForce {
+            get {
+                return ((double)(this["GTacticsWaitForce"]));
+            }
+            set {
+                this["GTacticsWaitForce"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime RaidTimeStart {
+            get {
+                return ((global::System.DateTime)(this["RaidTimeStart"]));
+            }
+            set {
+                this["RaidTimeStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime RaidTimeEnd {
+            get {
+                return ((global::System.DateTime)(this["RaidTimeEnd"]));
+            }
+            set {
+                this["RaidTimeEnd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime GroupTimeStart {
+            get {
+                return ((global::System.DateTime)(this["GroupTimeStart"]));
+            }
+            set {
+                this["GroupTimeStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime GroupTimeEnd {
+            get {
+                return ((global::System.DateTime)(this["GroupTimeEnd"]));
+            }
+            set {
+                this["GroupTimeEnd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime GShootingTimeStart {
+            get {
+                return ((global::System.DateTime)(this["GShootingTimeStart"]));
+            }
+            set {
+                this["GShootingTimeStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime GShootingTimeEnd {
+            get {
+                return ((global::System.DateTime)(this["GShootingTimeEnd"]));
+            }
+            set {
+                this["GShootingTimeEnd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime GTacticsTimeStart {
+            get {
+                return ((global::System.DateTime)(this["GTacticsTimeStart"]));
+            }
+            set {
+                this["GTacticsTimeStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime GTacticsTimeEnd {
+            get {
+                return ((global::System.DateTime)(this["GTacticsTimeEnd"]));
+            }
+            set {
+                this["GTacticsTimeEnd"] = value;
+            }
+        }
     }
 }

@@ -47,6 +47,17 @@ namespace gcard_macro
             checkBoxOnlySearch.Checked = Properties.Settings.Default.GShootingOnlySearch;
             checkBoxRequest.Checked = Properties.Settings.Default.GShootingRequest;
 
+            try
+            {
+                dateTimePickerTimeStart.Value = Properties.Settings.Default.GShootingTimeStart;
+                dateTimePickerTimeEnd.Value = Properties.Settings.Default.GShootingTimeEnd;
+            }
+            catch
+            {
+                dateTimePickerTimeStart.Value = dateTimePickerTimeStart.MinDate;
+                dateTimePickerTimeEnd.Value = dateTimePickerTimeEnd.MinDate;
+            }
+
             CurrentState = labelStateHome;
         }
 
@@ -98,14 +109,16 @@ namespace gcard_macro
                     WaitReceive = WaitReceive,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
-                    BaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text),
-                    EnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text),
+                    BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),
+                    EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text),
                     Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
                     ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
                     ReceiveReword = checkBoxRecieveReword.Checked,
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     OnlySearch = checkBoxOnlySearch.Checked,
-                    Request = checkBoxRequest.Checked
+                    Request = checkBoxRequest.Checked,
+                    StartTime = dateTimePickerTimeStart.Value,
+                    EndTime = dateTimePickerTimeEnd.Value
                 };
 
                 GShooting.StateChanged += StateChanged;
@@ -166,14 +179,16 @@ namespace gcard_macro
         public void SaveSetting()
         {
             Properties.Settings.Default.GShootingURL = textBoxURL.Text;
-            Properties.Settings.Default.GShootingBaseDamage = Convert.ToUInt64(textBoxBaseDamage.Text);
-            Properties.Settings.Default.GShootingEnemyCount = Convert.ToUInt64(textBoxEnemyCount.Text);
+            Properties.Settings.Default.GShootingBaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
+            Properties.Settings.Default.GShootingEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
             Properties.Settings.Default.GShootingAttackMode = comboBoxAttackMode.SelectedIndex;
             Properties.Settings.Default.GShootingReceiveCount = comboBoxRecieve.SelectedIndex;
             Properties.Settings.Default.GShootingReceiveReword = checkBoxRecieveReword.Checked;
             Properties.Settings.Default.GShootingReceivePresent = checkBoxRecievePresent.Checked;
             Properties.Settings.Default.GShootingOnlySearch = checkBoxOnlySearch.Checked;
             Properties.Settings.Default.GShootingRequest = checkBoxRequest.Checked;
+            Properties.Settings.Default.GShootingTimeStart = dateTimePickerTimeStart.Value;
+            Properties.Settings.Default.GShootingTimeEnd = dateTimePickerTimeEnd.Value;
             Properties.Settings.Default.Save();
         }
 
@@ -206,6 +221,8 @@ namespace gcard_macro
 
                     switch (state)
                     {
+                        case Event.State.None:
+                            break;
                         case Event.State.Home:
                             labelStateHome.BackColor = Color.Yellow;
                             CurrentState = labelStateHome;
