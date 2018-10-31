@@ -20,6 +20,7 @@ namespace gcard_macro
         public double WaitBattle { get; set; }
         public double WaitAttack { get; set; }
         public double WaitReceive { get; set; }
+        public double WaitContinueSearch { get; set; }
         public double WaitAccessBlock { get; set; }
         public double WaitMisc { get; set; }
         public string UserName { get; set; }
@@ -114,6 +115,7 @@ namespace gcard_macro
                     WaitBattle = WaitBattle,
                     WaitAttack = WaitAttack,
                     WaitReceive = WaitReceive,
+                    WaitContinueSearch = WaitContinueSearch,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
                     BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),

@@ -32,6 +32,7 @@ namespace gcard_macro
         virtual public double WaitBattle { get; set; }
         virtual public double WaitAttack { get; set; }
         virtual public double WaitReceive { get; set; }
+        virtual public double WaitContinueSearch { get; set; }
         virtual public double WaitAccessBlock { get; set; }
         virtual public double WaitMisc { get; set; }
         virtual public ulong BaseDamage { get; set; }
@@ -116,6 +117,7 @@ namespace gcard_macro
             WaitBattle = 0.0;
             WaitAttack = 0.0;
             WaitReceive = 0.0;
+            WaitContinueSearch = 0.0;
             WaitAccessBlock = 0.0;
             WaitMisc = 0.0;
             BaseDamage = 0;
@@ -283,9 +285,9 @@ namespace gcard_macro
                 string swfUrl = GetSwfURL(driver_.PageSource);
                 string swf = new string(GetSwfBinary(swfUrl, 1024 * 1024));
 
-                WebClient wc = GetWebClient();
-                wc.DownloadFile(swfUrl, string.Format(@"11.swf", DateTime.Now.ToLongTimeString()));
-                wc.Dispose();
+                //WebClient wc = GetWebClient();
+                //wc.DownloadFile(swfUrl, string.Format(@"11.swf", DateTime.Now.ToLongTimeString()));
+                //wc.Dispose();
 
                 //探索演出
                 if (swfUrl.IndexOf("gcard_mission_effect") > 0)
@@ -566,10 +568,24 @@ namespace gcard_macro
                         using (WebClient clientGet = GetWebClient())
                         {
                             string respons = clientGet.DownloadString(resultURL);
-                            
-                            driver_.Navigate().Refresh();
-                            //敵発見Flashかどうか
-                            return respons.IndexOf("http://gcc-a.sp.mbga.jp/smart/gcard/js/vendor/screener.min.js") >= 0 ? SearchResult.Found : SearchResult.Error;
+
+                            if (respons.IndexOf("boss_appear") >= 0)
+                            {
+                                driver_.Navigate().Refresh();
+                                //敵発見Flash
+                                return  SearchResult.Found;
+                            }
+                            else if(respons.IndexOf("lucky") >= 0 || respons.IndexOf("mission") >= 0)
+                            {
+                                //探索続行
+                                Wait(WaitContinueSearch);
+                                return SearchResult.Found;
+                            }
+                            else
+                            {
+                                //アクセス規制
+                                return SearchResult.Error;
+                            }
                         }
                     }
                 }

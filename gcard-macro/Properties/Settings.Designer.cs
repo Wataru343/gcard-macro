@@ -1044,5 +1044,17 @@ namespace gcard_macro.Properties {
                 this["GTacticsTimeEnd"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double WaitContinueSearch {
+            get {
+                return ((double)(this["WaitContinueSearch"]));
+            }
+            set {
+                this["WaitContinueSearch"] = value;
+            }
+        }
     }
 }

@@ -50,6 +50,8 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.checkBoxAutoRun = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBoxWaitContinueSearch = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.textBoxWaitMisc = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBoxWaitAccessBlock = new System.Windows.Forms.TextBox();
@@ -277,12 +279,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxLog.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxLog.Location = new System.Drawing.Point(7, 222);
+            this.textBoxLog.Location = new System.Drawing.Point(7, 246);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxLog.Size = new System.Drawing.Size(334, 359);
+            this.textBoxLog.Size = new System.Drawing.Size(334, 335);
             this.textBoxLog.TabIndex = 10;
             this.textBoxLog.WordWrap = false;
             // 
@@ -332,7 +334,7 @@
             // checkBoxAutoRun
             // 
             this.checkBoxAutoRun.AutoSize = true;
-            this.checkBoxAutoRun.Location = new System.Drawing.Point(7, 198);
+            this.checkBoxAutoRun.Location = new System.Drawing.Point(7, 223);
             this.checkBoxAutoRun.Name = "checkBoxAutoRun";
             this.checkBoxAutoRun.Size = new System.Drawing.Size(84, 16);
             this.checkBoxAutoRun.TabIndex = 7;
@@ -343,6 +345,8 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.textBoxWaitContinueSearch);
+            this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.textBoxWaitMisc);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.textBoxWaitAccessBlock);
@@ -357,16 +361,37 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(7, 18);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(334, 174);
+            this.groupBox2.Size = new System.Drawing.Size(334, 195);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Wait(秒)";
+            // 
+            // textBoxWaitContinueSearch
+            // 
+            this.textBoxWaitContinueSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxWaitContinueSearch.Location = new System.Drawing.Point(118, 116);
+            this.textBoxWaitContinueSearch.Name = "textBoxWaitContinueSearch";
+            this.textBoxWaitContinueSearch.Size = new System.Drawing.Size(210, 19);
+            this.textBoxWaitContinueSearch.TabIndex = 13;
+            this.textBoxWaitContinueSearch.TextChanged += new System.EventHandler(this.textBoxWaitContinueSearch_TextChanged);
+            this.textBoxWaitContinueSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitContinueSearch_KeyPress);
+            this.textBoxWaitContinueSearch.Validated += new System.EventHandler(this.textBoxWaitContinueSearch_Validated);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 119);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "探索続行時";
             // 
             // textBoxWaitMisc
             // 
             this.textBoxWaitMisc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWaitMisc.Location = new System.Drawing.Point(118, 141);
+            this.textBoxWaitMisc.Location = new System.Drawing.Point(118, 166);
             this.textBoxWaitMisc.Name = "textBoxWaitMisc";
             this.textBoxWaitMisc.Size = new System.Drawing.Size(209, 19);
             this.textBoxWaitMisc.TabIndex = 11;
@@ -377,7 +402,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 144);
+            this.label9.Location = new System.Drawing.Point(7, 169);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(36, 12);
             this.label9.TabIndex = 10;
@@ -387,7 +412,7 @@
             // 
             this.textBoxWaitAccessBlock.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWaitAccessBlock.Location = new System.Drawing.Point(118, 116);
+            this.textBoxWaitAccessBlock.Location = new System.Drawing.Point(118, 141);
             this.textBoxWaitAccessBlock.Name = "textBoxWaitAccessBlock";
             this.textBoxWaitAccessBlock.Size = new System.Drawing.Size(210, 19);
             this.textBoxWaitAccessBlock.TabIndex = 9;
@@ -398,7 +423,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 119);
+            this.label8.Location = new System.Drawing.Point(8, 144);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(77, 12);
             this.label8.TabIndex = 8;
@@ -548,6 +573,8 @@
         private System.Windows.Forms.Button buttonRemoveCookie;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox textBoxLog;
+        private System.Windows.Forms.TextBox textBoxWaitContinueSearch;
+        private System.Windows.Forms.Label label1;
     }
 }
 
