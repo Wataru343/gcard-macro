@@ -24,11 +24,11 @@ namespace gcard_macro
         public double WaitAccessBlock { get; set; }
         public double WaitMisc { get; set; }
         public string UserName { get; set; }
+        public uint OptimizedWaitEnemyCount { get; set; }
 
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
-        public delegate void LogHandler(object sender, string text);
-        public event LogHandler Log;
+        public event Event.LogHandler Log;
 
         public TabControlGTactics()
         {
@@ -155,13 +155,15 @@ namespace gcard_macro
                     Standby = checkBoxStandby.Checked,
                     WaitForce = Utils.ToDouble(textBoxWaitForce.Text),
                     StartTime = dateTimePickerTimeStart.Value,
-                    EndTime = dateTimePickerTimeEnd.Value
+                    EndTime = dateTimePickerTimeEnd.Value,
+                    SampleCount = OptimizedWaitEnemyCount
                 };
 
                 GTactics.StateChanged += StateChanged;
                 GTactics.MinicapChanged += MiniCapChanged;
                 GTactics.AreaChanged += AreaChanged;
                 GTactics.Log += OnLog;
+                GTactics.SpeedCounter += OnSpeedCount;
 
                 Log?.Invoke(this, "マクロ初期化完了");
             }
@@ -376,6 +378,14 @@ namespace gcard_macro
             Invoke((MethodInvoker)delegate
             {
                 Log?.Invoke(sender, text);
+            });
+        }
+
+        private void OnSpeedCount(object sender, int count)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                labelSpm.Text = "1分間の敵発見数：" + count.ToString() + "体";
             });
         }
     }

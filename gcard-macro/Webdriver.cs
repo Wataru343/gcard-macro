@@ -43,7 +43,7 @@ namespace gcard_macro
             try
             {
                 //chromeのユーザデータフォルダ作成
-                string path = Path.Combine(System.Environment.CurrentDirectory, "userdata");
+                string path = Path.Combine(System.Environment.CurrentDirectory, "userdatac");
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
                 ChromeDriverService driverService = ChromeDriverService.CreateDefaultService();

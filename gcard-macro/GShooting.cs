@@ -10,12 +10,9 @@ namespace gcard_macro
 {
     class GShooting : Event
     {
-        public delegate void StateChangedHandler(object sender, State state);
-        public event StateChangedHandler StateChanged;
-        public delegate void MinicapChangedHandler(object sender, int count);
-        public event MinicapChangedHandler MinicapChanged;
-        public delegate void LogHandler(object sender, string text);
-        public event LogHandler Log;
+        override public event StateChangedHandler StateChanged;
+        override public event MinicapChangedHandler MinicapChanged;
+        override public event LogHandler Log;
 
         public bool Request { get; set; }
 
@@ -34,6 +31,10 @@ namespace gcard_macro
             WaitAccessBlock = 0.0;
             WaitMisc = 0.0;
             BaseDamage = 0;
+
+            base.StateChanged += StateChangedBase;
+            base.MinicapChanged += MiniCapChangedBase;
+            base.Log += OnLogBase;
         }
 
         override protected void SearchState()
@@ -225,6 +226,12 @@ namespace gcard_macro
         {
             try
             {
+                if (enemy_list_path_ != "")
+                {
+                    driver_.Navigate().GoToUrl(enemy_list_path_);
+                    return;
+                }
+
                 IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"search\" or @class=\"attack\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
@@ -407,28 +414,39 @@ namespace gcard_macro
                     IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"探索する\"]"));
                     Log?.Invoke(this, "探索開始");
 
-                    switch (SearchEnemy(elm.GetAttribute("href")))
+                    string url = elm.GetAttribute("href");
+
+                    if (url != null)
                     {
-                        case SearchResult.Found:
-                            MoveEnemyListToSearch();
-                            Exec = SearchState;
-                            return;
-                        case SearchResult.Card:
-                            Exec = SearchState;
-                            return;
-                        case SearchResult.Error:
-                            StateChanged?.Invoke(this, State.AccessBlock);
-                            Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
-                            Wait(WaitAccessBlock);
-                            Exec = SearchState;
-                            return;
-                        case SearchResult.FuelShortage:
-                            Log?.Invoke(this, "警告：燃料不足");
-                            Wait(10);
-                            Exec = SearchState;
-                            return;
-                        default:
-                            break;
+                        switch (SearchEnemy(url))
+                        {
+                            case SearchResult.Found:
+                                MoveEnemyListToSearch();
+                                Exec = SearchState;
+                                return;
+                            case SearchResult.Card:
+                                Exec = SearchState;
+                                return;
+                            case SearchResult.Error:
+                                StateChanged?.Invoke(this, State.AccessBlock);
+                                Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                                Wait(WaitAccessBlock);
+                                Exec = SearchState;
+                                return;
+                            case SearchResult.FuelShortage:
+                                Log?.Invoke(this, "警告：燃料不足");
+                                Wait(10);
+                                Exec = SearchState;
+                                return;
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Log?.Invoke(this, "敵出現数最大");
+                        Exec = SearchState;
+                        return;
                     }
                 }
             }
@@ -585,5 +603,26 @@ namespace gcard_macro
 
             IsCombo = false;
         }
+
+        /// <summary>
+        /// StateChanged伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="state">状態ID</param>
+        private void StateChangedBase(object sender, Event.State state) => this.StateChanged?.Invoke(this, CurrentState);
+
+        /// <summary>
+        /// MiniCapChanged伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="count">ミニカプ数</param>
+        private void MiniCapChangedBase(object sender, int count) => this.MinicapChanged?.Invoke(this, count);
+
+        /// <summary>
+        /// OnLog伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="text">テキスト</param>
+        private void OnLogBase(object sender, string text) => this?.Log(this, text);
     }
 }

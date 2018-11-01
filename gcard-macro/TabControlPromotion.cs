@@ -27,8 +27,7 @@ namespace gcard_macro
 
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
-        public delegate void LogHandler(object sender, string text);
-        public event LogHandler Log;
+        public event Event.LogHandler Log;
 
         public TabControlPromotion()
         {

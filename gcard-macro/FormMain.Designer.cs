@@ -64,6 +64,10 @@
             this.textBoxWaitSearch = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.checkBoxOptimizedWait = new System.Windows.Forms.CheckBox();
+            this.numericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.labelOptimizedWait2 = new System.Windows.Forms.Label();
+            this.labelOptimizedWait1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageRaid.SuspendLayout();
             this.tabPageGroup.SuspendLayout();
@@ -73,6 +77,7 @@
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonRunBrowser
@@ -138,6 +143,7 @@
             this.tabControlRaid.WaitAccessBlock = 0D;
             this.tabControlRaid.WaitAttack = 0D;
             this.tabControlRaid.WaitBattle = 0D;
+            this.tabControlRaid.WaitContinueSearch = 0D;
             this.tabControlRaid.WaitMisc = 0D;
             this.tabControlRaid.WaitReceive = 0D;
             this.tabControlRaid.WaitSearch = 0D;
@@ -166,6 +172,7 @@
             this.tabControlGroup.WaitAccessBlock = 0D;
             this.tabControlGroup.WaitAttack = 0D;
             this.tabControlGroup.WaitBattle = 0D;
+            this.tabControlGroup.WaitContinueSearch = 0D;
             this.tabControlGroup.WaitMisc = 0D;
             this.tabControlGroup.WaitReceive = 0D;
             this.tabControlGroup.WaitSearch = 0D;
@@ -193,6 +200,7 @@
             this.tabControlGShooting.WaitAccessBlock = 0D;
             this.tabControlGShooting.WaitAttack = 0D;
             this.tabControlGShooting.WaitBattle = 0D;
+            this.tabControlGShooting.WaitContinueSearch = 0D;
             this.tabControlGShooting.WaitMisc = 0D;
             this.tabControlGShooting.WaitReceive = 0D;
             this.tabControlGShooting.WaitSearch = 0D;
@@ -221,6 +229,7 @@
             this.tabControlPromotion.WaitAccessBlock = 0D;
             this.tabControlPromotion.WaitAttack = 0D;
             this.tabControlPromotion.WaitBattle = 0D;
+            this.tabControlPromotion.WaitContinueSearch = 0D;
             this.tabControlPromotion.WaitMisc = 0D;
             this.tabControlPromotion.WaitReceive = 0D;
             this.tabControlPromotion.WaitSearch = 0D;
@@ -249,6 +258,7 @@
             this.tabControlGTactics.WaitAccessBlock = 0D;
             this.tabControlGTactics.WaitAttack = 0D;
             this.tabControlGTactics.WaitBattle = 0D;
+            this.tabControlGTactics.WaitContinueSearch = 0D;
             this.tabControlGTactics.WaitMisc = 0D;
             this.tabControlGTactics.WaitReceive = 0D;
             this.tabControlGTactics.WaitSearch = 0D;
@@ -262,6 +272,10 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.labelOptimizedWait1);
+            this.groupBox1.Controls.Add(this.labelOptimizedWait2);
+            this.groupBox1.Controls.Add(this.numericUpDown);
+            this.groupBox1.Controls.Add(this.checkBoxOptimizedWait);
             this.groupBox1.Controls.Add(this.textBoxLog);
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Controls.Add(this.checkBoxAutoRun);
@@ -279,12 +293,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxLog.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxLog.Location = new System.Drawing.Point(7, 246);
+            this.textBoxLog.Location = new System.Drawing.Point(7, 289);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxLog.Size = new System.Drawing.Size(334, 335);
+            this.textBoxLog.Size = new System.Drawing.Size(340, 292);
             this.textBoxLog.TabIndex = 10;
             this.textBoxLog.WordWrap = false;
             // 
@@ -334,7 +348,7 @@
             // checkBoxAutoRun
             // 
             this.checkBoxAutoRun.AutoSize = true;
-            this.checkBoxAutoRun.Location = new System.Drawing.Point(7, 223);
+            this.checkBoxAutoRun.Location = new System.Drawing.Point(7, 267);
             this.checkBoxAutoRun.Name = "checkBoxAutoRun";
             this.checkBoxAutoRun.Size = new System.Drawing.Size(84, 16);
             this.checkBoxAutoRun.TabIndex = 7;
@@ -361,7 +375,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(7, 18);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(334, 195);
+            this.groupBox2.Size = new System.Drawing.Size(343, 195);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Wait(秒)";
@@ -372,7 +386,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitContinueSearch.Location = new System.Drawing.Point(118, 116);
             this.textBoxWaitContinueSearch.Name = "textBoxWaitContinueSearch";
-            this.textBoxWaitContinueSearch.Size = new System.Drawing.Size(210, 19);
+            this.textBoxWaitContinueSearch.Size = new System.Drawing.Size(219, 19);
             this.textBoxWaitContinueSearch.TabIndex = 13;
             this.textBoxWaitContinueSearch.TextChanged += new System.EventHandler(this.textBoxWaitContinueSearch_TextChanged);
             this.textBoxWaitContinueSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitContinueSearch_KeyPress);
@@ -393,7 +407,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitMisc.Location = new System.Drawing.Point(118, 166);
             this.textBoxWaitMisc.Name = "textBoxWaitMisc";
-            this.textBoxWaitMisc.Size = new System.Drawing.Size(209, 19);
+            this.textBoxWaitMisc.Size = new System.Drawing.Size(218, 19);
             this.textBoxWaitMisc.TabIndex = 11;
             this.textBoxWaitMisc.TextChanged += new System.EventHandler(this.textBoxWaitMisc_TextChanged);
             this.textBoxWaitMisc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitMisc_KeyPress);
@@ -414,7 +428,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitAccessBlock.Location = new System.Drawing.Point(118, 141);
             this.textBoxWaitAccessBlock.Name = "textBoxWaitAccessBlock";
-            this.textBoxWaitAccessBlock.Size = new System.Drawing.Size(210, 19);
+            this.textBoxWaitAccessBlock.Size = new System.Drawing.Size(219, 19);
             this.textBoxWaitAccessBlock.TabIndex = 9;
             this.textBoxWaitAccessBlock.TextChanged += new System.EventHandler(this.textBoxWaitAccessBlock_TextChanged);
             this.textBoxWaitAccessBlock.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitAccessBlock_KeyPress);
@@ -435,7 +449,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitReceive.Location = new System.Drawing.Point(118, 91);
             this.textBoxWaitReceive.Name = "textBoxWaitReceive";
-            this.textBoxWaitReceive.Size = new System.Drawing.Size(210, 19);
+            this.textBoxWaitReceive.Size = new System.Drawing.Size(219, 19);
             this.textBoxWaitReceive.TabIndex = 7;
             this.textBoxWaitReceive.TextChanged += new System.EventHandler(this.textBoxWaitReceive_TextChanged);
             this.textBoxWaitReceive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitReceive_KeyPress);
@@ -456,7 +470,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitAttack.Location = new System.Drawing.Point(118, 66);
             this.textBoxWaitAttack.Name = "textBoxWaitAttack";
-            this.textBoxWaitAttack.Size = new System.Drawing.Size(210, 19);
+            this.textBoxWaitAttack.Size = new System.Drawing.Size(219, 19);
             this.textBoxWaitAttack.TabIndex = 5;
             this.textBoxWaitAttack.TextChanged += new System.EventHandler(this.textBoxWaitAttack_TextChanged);
             this.textBoxWaitAttack.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitAttack_KeyPress);
@@ -477,7 +491,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitBattle.Location = new System.Drawing.Point(118, 41);
             this.textBoxWaitBattle.Name = "textBoxWaitBattle";
-            this.textBoxWaitBattle.Size = new System.Drawing.Size(210, 19);
+            this.textBoxWaitBattle.Size = new System.Drawing.Size(219, 19);
             this.textBoxWaitBattle.TabIndex = 3;
             this.textBoxWaitBattle.TextChanged += new System.EventHandler(this.textBoxWaitBattle_TextChanged);
             this.textBoxWaitBattle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitBattle_KeyPress);
@@ -489,7 +503,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitSearch.Location = new System.Drawing.Point(118, 16);
             this.textBoxWaitSearch.Name = "textBoxWaitSearch";
-            this.textBoxWaitSearch.Size = new System.Drawing.Size(210, 19);
+            this.textBoxWaitSearch.Size = new System.Drawing.Size(219, 19);
             this.textBoxWaitSearch.TabIndex = 1;
             this.textBoxWaitSearch.TextChanged += new System.EventHandler(this.textBoxWaitSearch_TextChanged);
             this.textBoxWaitSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitSearch_KeyPress);
@@ -513,6 +527,58 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "探索前";
             // 
+            // checkBoxOptimizedWait
+            // 
+            this.checkBoxOptimizedWait.AutoSize = true;
+            this.checkBoxOptimizedWait.Location = new System.Drawing.Point(7, 221);
+            this.checkBoxOptimizedWait.Name = "checkBoxOptimizedWait";
+            this.checkBoxOptimizedWait.Size = new System.Drawing.Size(148, 16);
+            this.checkBoxOptimizedWait.TabIndex = 11;
+            this.checkBoxOptimizedWait.Text = "待機時間を自動調整する";
+            this.checkBoxOptimizedWait.UseVisualStyleBackColor = true;
+            this.checkBoxOptimizedWait.CheckedChanged += new System.EventHandler(this.checkBoxOptimizedWait_CheckedChanged);
+            // 
+            // numericUpDown
+            // 
+            this.numericUpDown.Location = new System.Drawing.Point(133, 242);
+            this.numericUpDown.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.numericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown.Name = "numericUpDown";
+            this.numericUpDown.Size = new System.Drawing.Size(39, 19);
+            this.numericUpDown.TabIndex = 12;
+            this.numericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            // 
+            // labelOptimizedWait2
+            // 
+            this.labelOptimizedWait2.AutoSize = true;
+            this.labelOptimizedWait2.Location = new System.Drawing.Point(179, 245);
+            this.labelOptimizedWait2.Name = "labelOptimizedWait2";
+            this.labelOptimizedWait2.Size = new System.Drawing.Size(113, 12);
+            this.labelOptimizedWait2.TabIndex = 13;
+            this.labelOptimizedWait2.Text = "体になるように調整する";
+            // 
+            // labelOptimizedWait1
+            // 
+            this.labelOptimizedWait1.AutoSize = true;
+            this.labelOptimizedWait1.Location = new System.Drawing.Point(27, 245);
+            this.labelOptimizedWait1.Name = "labelOptimizedWait1";
+            this.labelOptimizedWait1.Size = new System.Drawing.Size(103, 12);
+            this.labelOptimizedWait1.TabIndex = 14;
+            this.labelOptimizedWait1.Text = "1分間の敵発見数が";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -534,6 +600,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -575,6 +642,10 @@
         private System.Windows.Forms.TextBox textBoxLog;
         private System.Windows.Forms.TextBox textBoxWaitContinueSearch;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelOptimizedWait1;
+        private System.Windows.Forms.Label labelOptimizedWait2;
+        private System.Windows.Forms.NumericUpDown numericUpDown;
+        private System.Windows.Forms.CheckBox checkBoxOptimizedWait;
     }
 }
 

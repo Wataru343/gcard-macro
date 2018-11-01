@@ -95,6 +95,22 @@ namespace gcard_macro
             }
         }
 
+        static public uint ToUInt(string val)
+        {
+            try
+            {
+                return Convert.ToUInt32(val);
+            }
+            catch (FormatException)
+            {
+                return 0;
+            }
+            catch (OverflowException)
+            {
+                return uint.MaxValue;
+            }
+        }
+
         static public double ToDouble(string val)
         {
             try

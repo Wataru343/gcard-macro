@@ -10,14 +10,12 @@ namespace gcard_macro
 {
     class Promotion : Event
     {
-        public delegate void StateChangedHandler(object sender, State state);
-        public event StateChangedHandler StateChanged;
-        public delegate void MinicapChangedHandler(object sender, int count);
-        public event MinicapChangedHandler MinicapChanged;
+        override public event StateChangedHandler StateChanged;
+        override public event MinicapChangedHandler MinicapChanged;
+        override public event LogHandler Log;
         public delegate void SllayCountChangedHandler(object sender, int count);
         public event SllayCountChangedHandler SallyCountChanged;
-        public delegate void LogHandler(object sender, string text);
-        public event LogHandler Log;
+
 
         public int WatchRank { get; set; }
         public int SallyCount { get; set; }
@@ -42,6 +40,10 @@ namespace gcard_macro
             SallyUnlimited = SallyCount == 0 ? true : false;
             prevTime = DateTime.Now;
             BaseSallyCount = -1;
+
+            base.StateChanged += StateChangedBase;
+            base.MinicapChanged += MiniCapChangedBase;
+            base.Log += OnLogBase;
         }
 
         override protected void SearchState()
@@ -505,5 +507,26 @@ namespace gcard_macro
 
             Exec = SearchState;
         }
+
+        /// <summary>
+        /// StateChanged伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="state">状態ID</param>
+        private void StateChangedBase(object sender, Event.State state) => this.StateChanged?.Invoke(this, CurrentState);
+
+        /// <summary>
+        /// MiniCapChanged伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="count">ミニカプ数</param>
+        private void MiniCapChangedBase(object sender, int count) => this.MinicapChanged?.Invoke(this, count);
+
+        /// <summary>
+        /// OnLog伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="text">テキスト</param>
+        private void OnLogBase(object sender, string text) => this?.Log(this, text);
     }
 }

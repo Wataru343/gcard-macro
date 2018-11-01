@@ -1056,5 +1056,29 @@ namespace gcard_macro.Properties {
                 this["WaitContinueSearch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OptimizedWaitEnable {
+            get {
+                return ((bool)(this["OptimizedWaitEnable"]));
+            }
+            set {
+                this["OptimizedWaitEnable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public uint OptimizedWaitEnemyCount {
+            get {
+                return ((uint)(this["OptimizedWaitEnemyCount"]));
+            }
+            set {
+                this["OptimizedWaitEnemyCount"] = value;
+            }
+        }
     }
 }

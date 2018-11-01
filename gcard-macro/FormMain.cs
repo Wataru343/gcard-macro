@@ -30,6 +30,11 @@ namespace gcard_macro
             textBoxWaitAccessBlock.Text = Properties.Settings.Default.WaitAccessBlock.ToString();
             textBoxWaitMisc.Text = Properties.Settings.Default.WaitMisc.ToString();
             checkBoxAutoRun.Checked = Properties.Settings.Default.AutoRun;
+            checkBoxOptimizedWait.Checked = Properties.Settings.Default.OptimizedWaitEnable;
+            numericUpDown.Value = Properties.Settings.Default.OptimizedWaitEnemyCount;
+
+            EnableOptimizedWait(checkBoxOptimizedWait.Checked);
+
             timerWatchBrowser.Start();
 
             tabControlRaid.BotActived += macroActivated;
@@ -45,7 +50,7 @@ namespace gcard_macro
             tabControlGTactics.Log += onLog;
 
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.12";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.13";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -281,6 +286,8 @@ namespace gcard_macro
             Properties.Settings.Default.WaitAccessBlock = Utils.ToDouble(textBoxWaitAccessBlock.Text);
             Properties.Settings.Default.WaitMisc = Utils.ToDouble(textBoxWaitMisc.Text);
             Properties.Settings.Default.AutoRun = checkBoxAutoRun.Checked;
+            Properties.Settings.Default.OptimizedWaitEnable = checkBoxOptimizedWait.Checked;
+            Properties.Settings.Default.OptimizedWaitEnemyCount = Utils.ToUInt(numericUpDown.Value.ToString());
             Properties.Settings.Default.Save();
 
             tabControlRaid.SaveSetting();
@@ -364,5 +371,16 @@ namespace gcard_macro
                 }
             }
         }
+
+        private void checkBoxOptimizedWait_CheckedChanged(object sender, EventArgs e) => EnableOptimizedWait((sender as CheckBox).Checked);
+
+        private void EnableOptimizedWait(bool enable)
+        {
+            labelOptimizedWait1.Enabled = enable;
+            labelOptimizedWait2.Enabled = enable;
+            numericUpDown.Enabled = enable;
+        }
+
+        private void numericUpDown_ValueChanged(object sender, EventArgs e) => tabControlRaid.OptimizedWaitEnemyCount = tabControlGroup.OptimizedWaitEnemyCount = tabControlGShooting.OptimizedWaitEnemyCount = tabControlGTactics.OptimizedWaitEnemyCount = Utils.ToUInt((sender as NumericUpDown).Value.ToString());
     }
 }

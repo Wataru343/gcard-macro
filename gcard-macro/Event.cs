@@ -11,40 +11,183 @@ using System.IO;
 
 namespace gcard_macro
 {
-    class Event
+    /// <summary>
+    /// 各イベントの基底クラス
+    /// </summary>
+    public class Event
     {
+        /// <summary>
+        /// webdriver
+        /// </summary>
         virtual protected IWebDriver driver_ { get; set; }
+
+        /// <summary>
+        /// イベントのホームのパス
+        /// </summary>
         virtual protected string home_path_ { get; set; }
+
+        /// <summary>
+        /// 敵一覧画面のパス
+        /// </summary>
         virtual protected string enemy_list_path_ { get; set; }
+
+        /// <summary>
+        /// ワーカースレッド
+        /// </summary>
         virtual protected System.Threading.Thread worker_thread { get; set; }
+
+        /// <summary>
+        /// IsRunのロックオブジェクト
+        /// </summary>
         virtual protected object RunObj { get; set; }
+
+        /// <summary>
+        /// 攻撃済みフラグ
+        /// </summary>
         virtual protected bool Attacked { get; set; }
+
+        /// <summary>
+        /// コンボ中フラグ
+        /// </summary>
         virtual protected bool IsCombo { get; set; }
+
+        /// <summary>
+        /// 敵IDのリスト
+        /// </summary>
         virtual protected List<string> AttackedEnemyId { get; set; }
+
+        /// <summary>
+        /// ミニカプのカウント
+        /// </summary>
         virtual protected int MinicapCount { get; set; }
 
+        /// <summary>
+        /// 敵発見時刻のリスト
+        /// </summary>
+        virtual protected List<DateTime> EnemyFoundTime { get; set; }
+
+        /// <summary>
+        /// 実行オブジェクト
+        /// </summary>
         internal Action Exec;
 
+        /// <summary>
+        /// 現在の状態
+        /// </summary>
         virtual public State CurrentState { get; protected set; }
+
+        /// <summary>
+        /// 攻撃モード
+        /// </summary>
         virtual public AttackMode Mode { get; set; }
+
+        /// <summary>
+        /// スレッド動作中
+        /// </summary>
         virtual public bool IsRun { get; set; }
+
+        /// <summary>
+        /// 探索前Wait
+        /// </summary>
         virtual public double WaitSearch { get; set; }
+
+        /// <summary>
+        /// 戦闘前Wait
+        /// </summary>
         virtual public double WaitBattle { get; set; }
+
+        /// <summary>
+        /// 攻撃前Wait
+        /// </summary>
         virtual public double WaitAttack { get; set; }
+
+        /// <summary>
+        /// 報酬受け取り前Wait
+        /// </summary>
         virtual public double WaitReceive { get; set; }
+
+        /// <summary>
+        /// 探索続行時Wait
+        /// </summary>
         virtual public double WaitContinueSearch { get; set; }
+
+        /// <summary>
+        /// アクセス制限時Wait
+        /// </summary>
         virtual public double WaitAccessBlock { get; set; }
+
+        /// <summary>
+        /// その他の画面でのWait
+        /// </summary>
         virtual public double WaitMisc { get; set; }
+
+        /// <summary>
+        /// BEx1のとき敵に与えられるダメージ
+        /// </summary>
         virtual public ulong BaseDamage { get; set; }
+
+        /// <summary>
+        /// 敵数がこの値以下なら探索する
+        /// </summary>
         virtual public ulong EnemyCount { get; set; }
+
+        /// <summary>
+        /// 未受け取り報酬がこの値以上なら受け取る
+        /// </summary>
         virtual public int ReceiveCount { get; set; }
+
+        /// <summary>
+        /// 報酬を受け取る
+        /// </summary>
         virtual public bool ReceiveReword { get; set; }
+
+        /// <summary>
+        /// プレゼントを受け取る
+        /// </summary>
         virtual public bool ReceivePresent { get; set; }
+
+        /// <summary>
+        /// 探索のみ
+        /// </summary>
         virtual public bool OnlySearch { get; set; }
+
+        /// <summary>
+        /// 稼働開始時間
+        /// </summary>
         virtual public DateTime StartTime { get; set; }
+
+        /// <summary>
+        /// 稼働停止時間
+        /// </summary>
         virtual public DateTime EndTime { get; set; }
 
+        /// <summary>
+        /// 分間平均探索数の基準値
+        /// </summary>
+        virtual public uint SampleCount { get; set; }
 
+        /// <summary>
+        /// 可変Wait
+        /// </summary>
+        private double WaitVariable { get; set; }
+
+        /// <summary>
+        /// 敵発見フラグ
+        /// </summary>
+        protected bool EnemyFound { get; set; }
+
+        public delegate void StateChangedHandler(object sender, State state);
+        virtual public event StateChangedHandler StateChanged;
+        public delegate void MinicapChangedHandler(object sender, int count);
+        virtual public event MinicapChangedHandler MinicapChanged;
+        public delegate void LogHandler(object sender, string text);
+        virtual public event LogHandler Log;
+        public delegate void SpeedCounterHandler(object sender, int spm);
+        virtual public event SpeedCounterHandler SpeedCounter;
+
+        /// <summary>
+        /// 状態ID
+        /// </summary>
         public enum State
         {
             None,
@@ -85,6 +228,9 @@ namespace gcard_macro
             GTacticsStrategicArea
         }
 
+        /// <summary>
+        /// 攻撃モード
+        /// </summary>
         public enum AttackMode
         {
             Unlimited,
@@ -98,6 +244,9 @@ namespace gcard_macro
             攻撃力割るMS数が低い敵を攻撃HP20パーセント以下で撤退
         }
 
+        /// <summary>
+        /// 探索の結果
+        /// </summary>
         protected enum SearchResult
         {
             Found,
@@ -106,12 +255,18 @@ namespace gcard_macro
             FuelShortage
         }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="driver">WebDriver</param>
+        /// <param name="home_path">イベントホームのパス</param>
         public Event(IWebDriver driver, string home_path)
         {
             driver_ = driver;
             home_path_ = home_path;
             enemy_list_path_ = "";
             CurrentState = State.None;
+            RunObj = new object();
             Exec = SearchState;
             WaitSearch = 0.0;
             WaitBattle = 0.0;
@@ -122,31 +277,58 @@ namespace gcard_macro
             WaitMisc = 0.0;
             BaseDamage = 0;
             AttackedEnemyId = new List<string>();
+            EnemyFoundTime = new List<DateTime>();
+            SampleCount = 0;
+            WaitVariable = 0.0;
+
+            //警告消し
+            StateChanged?.Invoke(this, State.None);
+            MinicapChanged?.Invoke(this, 0);
+            Log?.Invoke(this, "");
+            SpeedCounter?.Invoke(this, 0);
         }
 
+        /// <summary>
+        /// スレッドを生成する
+        /// </summary>
         virtual public void CreateThread()
         {
             worker_thread = new System.Threading.Thread(SeleniumThread);
-            IsRun = true;
+            lock (RunObj)
+                IsRun = true;
             worker_thread.Start();
         }
 
+        /// <summary>
+        /// スレッドを終了する
+        /// </summary>
         virtual public void KillThread()
         {
             lock (RunObj)
                 IsRun = false;
         }
 
+        /// <summary>
+        /// メインループ
+        /// </summary>
         virtual protected void SeleniumThread()
         {
             driver_.Navigate().GoToUrl(home_path_);
-            while (IsRun)
+            while (true)
             {
                 System.Threading.Thread.Sleep(1);
                 Exec();
+
+                lock (RunObj)
+                    if (!IsRun)
+                        break;
             }
         }
 
+        /// <summary>
+        /// 指定秒数待機する
+        /// </summary>
+        /// <param name="second">待機秒数</param>
         virtual protected void Wait(double second)
         {
             if (second * 1000 > 0)
@@ -155,6 +337,9 @@ namespace gcard_macro
             }
         }
 
+        /// <summary>
+        /// 現在の状態を検索する
+        /// </summary>
         virtual protected void SearchState()
         {
         }
@@ -439,6 +624,11 @@ namespace gcard_macro
             Exec = SearchState;
         }
 
+        /// <summary>
+        /// FlashのURLを取得する
+        /// </summary>
+        /// <param name="PageSource">ページのソース</param>
+        /// <returns>FlashのURL</returns>
         protected string GetSwfURL(string PageSource)
         {
             //var swf = '_gcard_event309_raid_boss_supply_boss_appear_effect?sk=91124';
@@ -448,6 +638,11 @@ namespace gcard_macro
             return url;
         }
 
+        /// <summary>
+        /// 先頭から数値とカンマを抽出しURLエンコードする
+        /// </summary>
+        /// <param name="SwfBinary">探索Flashのバイナリ</param>
+        /// <returns>出力値</returns>
         protected string FilterNumComma(string SwfBinary)
         {
             string ret = "";
@@ -464,19 +659,48 @@ namespace gcard_macro
             return System.Web.HttpUtility.UrlEncode(ret);
         }
 
+        /// <summary>
+        /// 探索Flashからt_idを抽出する
+        /// </summary>
+        /// <param name="SwfBinary">探索Flashのバイナリ</param>
+        /// <returns>t_id値</returns>
         protected string GetTid(string SwfBinary)
         {
             return FilterNumComma(SwfBinary.Substring(SwfBinary.IndexOf("t_id") + 9));
         }
 
+        /// <summary>
+        /// 探索Flashからm_idを抽出する
+        /// </summary>
+        /// <param name="SwfBinary">探索Flashのバイナリ</param>
+        /// <returns>m_id値</returns>
         protected string GetMid(string SwfBinary) => SwfBinary.Substring(SwfBinary.IndexOf("m_id") + 9, 8);
 
+        /// <summary>
+        /// 探索Flashからtokenを抽出する
+        /// </summary>
+        /// <param name="SwfBinary">探索Flashのバイナリ</param>
+        /// <returns>token値</returns>
         protected string GetToken(string SwfBinary) => new string(SwfBinary.Substring(SwfBinary.IndexOf("token") + 10, 6).Where(c => char.IsNumber(c)).ToArray());
 
+        /// <summary>
+        /// 探索Flashからカードチャンスのtokenを抽出する
+        /// </summary>
+        /// <param name="SwfBinary">探索Flashのバイナリ</param>
+        /// <returns>カードチャンスのtoken値値</returns>
         protected string GetLuckyToken(string SwfBinary) => new string(SwfBinary.Substring(SwfBinary.IndexOf("token") + 6, 8).Where(c => char.IsNumber(c)).ToArray());
 
+        /// <summary>
+        /// 探索Flashからtypeを抽出する
+        /// </summary>
+        /// <param name="SwfBinary">探索Flashのバイナリ</param>
+        /// <returns>type値</returns>
         protected string GetType(string SwfBinary) => SwfBinary.Substring(SwfBinary.IndexOf("type") + 9, 1)[0] == 'c' ? "chance" : "return";
 
+        /// <summary>
+        /// WebClientを取得する
+        /// </summary>
+        /// <returns></returns>
         protected WebClient GetWebClient()
         {
             WebClient client = new WebClient();
@@ -572,6 +796,8 @@ namespace gcard_macro
                             if (respons.IndexOf("boss_appear") >= 0)
                             {
                                 driver_.Navigate().Refresh();
+                                EnemyFound = true;
+
                                 //敵発見Flash
                                 return  SearchResult.Found;
                             }
@@ -596,6 +822,42 @@ namespace gcard_macro
             }
         }
 
+        /// <summary>
+        /// アクセス制限向け調整用待機
+        /// </summary>
+        virtual protected void WaitForAccessLimit()
+        {
+            //分間平均発見数のために発見時刻を記録する
+            DateTime now = DateTime.Now;
+            EnemyFoundTime.Add(now);
+            EnemyFoundTime = EnemyFoundTime.Where(e => (now - e) < TimeSpan.FromMinutes(1)).ToList();
+
+            List<TimeSpan> searchTime = new List<TimeSpan>(EnemyFoundTime.Count);
+            for (int i = 1; i < EnemyFoundTime.Count; i++)
+            {
+                searchTime.Add(EnemyFoundTime[i] - EnemyFoundTime[i - 1]);
+            }
+
+            if (searchTime.Count > 0 && SampleCount > 0)
+            {
+                var values = searchTime.Select(e => e.TotalSeconds);
+                double averageSearchTime = WeightedAverage(values);
+
+                WaitVariable += 60.0 / SampleCount - averageSearchTime;
+
+                if (WaitVariable <= 0)
+                {
+                    WaitVariable = 0;
+
+                }
+                else
+                {
+                    Log?.Invoke(this, string.Format("時間調整：{0:f2}秒待機", WaitVariable));
+                    Wait(WaitVariable);
+                }
+                SpeedCounter?.Invoke(this, values.Count());
+            }
+        }
 
         /// <summary>
         /// 戦闘中のFlashをクリックする
@@ -782,12 +1044,30 @@ namespace gcard_macro
             Exec = SearchState;
         }
 
+        /// <summary>
+        /// 戦闘画面のurlの敵IDが攻撃済みか判定
+        /// </summary>
+        /// <param name="url">戦闘画面のurl</param>
+        /// <returns>攻撃済み</returns>
         virtual protected bool IsAttacked(string url) => AttackedEnemyId.LastIndexOf(GetEnemyId(url)) >= 0;
 
+        /// <summary>
+        /// 戦闘画面のurlから敵IDを追加
+        /// </summary>
+        /// <param name="url">戦闘画面のurl</param>
         virtual protected void AddEnemyId(string url) => AttackedEnemyId.Add(GetEnemyId(url));
 
+        /// <summary>
+        /// 戦闘画面のurlから敵IDを削除
+        /// </summary>
+        /// <param name="url">戦闘画面のurl</param>
         virtual protected void RemoveEnemyId(string url) => AttackedEnemyId.RemoveAll(elm => elm == GetEnemyId(url));
 
+        /// <summary>
+        /// 戦闘画面のurlから敵IDを抽出
+        /// </summary>
+        /// <param name="url">戦闘画面のurl</param>
+        /// <returns>敵ID</returns>
         virtual protected string GetEnemyId(string url)
         {
             Regex r = new Regex(@"id=(?<id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -796,6 +1076,10 @@ namespace gcard_macro
             return mc.Count > 0 ? mc[0].Groups["id"].Value : "";
         }
 
+        /// <summary>
+        /// 時間外判定
+        /// </summary>
+        /// <returns>時間外</returns>
         virtual protected bool IsOutOfTimeRange()
         {
             TimeSpan now = DateTime.Now.TimeOfDay;
@@ -811,6 +1095,21 @@ namespace gcard_macro
             }
 
             return now < start || now >= end;
+        }
+
+        /// <summary>
+        /// 加重平均計算
+        /// </summary>
+        /// <param name="values">入力値</param>
+        /// <returns>加重平均</returns>
+        private double WeightedAverage(IEnumerable<double> values)
+        {
+            int weight = 0;
+
+            double sum = values.Sum(e => e * (++weight));
+            double ave = sum / ((2 + (values.Count() - 1)) * values.Count() * 0.5);
+
+            return ave;
         }
     }
 }

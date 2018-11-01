@@ -9,6 +9,10 @@ namespace gcard_macro
 {
     class Raid : Event
     {
+        override public event StateChangedHandler StateChanged;
+        override public event MinicapChangedHandler MinicapChanged;
+        override public event LogHandler Log;
+
         public bool JoinAssault { get; set; }
         public bool UseAssaultBE { get; set; }
         public bool Request { get; set; }
@@ -16,13 +20,6 @@ namespace gcard_macro
         public bool OnlyAttackAssultBoss { get; set; }
         public double WaitRecieveAssult { get; set; }
         public double WaitAtackBattleShip { get; set; }
-
-        public delegate void StateChangedHandler(object sender, State state);
-        public event StateChangedHandler StateChanged;
-        public delegate void MinicapChangedHandler(object sender, int count);
-        public event MinicapChangedHandler MinicapChanged;
-        public delegate void LogHandler(object sender, string text);
-        public event LogHandler Log;
 
         private bool AssaultOperations { get; set; }
         private bool AssaultOperationsRequest { get; set; }
@@ -33,6 +30,7 @@ namespace gcard_macro
         private bool IsRareBoss { get; set; }
         private bool IsAssaultBEEnded { get; set; }
         private bool IsBattleShip { get; set; }
+        private string AssaultOperationPath { get; set; }
 
         public Raid(IWebDriver driver, string home_path) : base(driver, home_path)
         {
@@ -61,9 +59,12 @@ namespace gcard_macro
             AssaultOperations = false;
             AssaultOperationsRequest = false;
             AssaultOperationsRequest2 = false;
+            AssaultOperationPath = "";
             FoundAssaultOperations = false;
 
-            Log?.Invoke(this, "マクロ初期化");
+            base.StateChanged += StateChangedBase;
+            base.MinicapChanged += MiniCapChangedBase;
+            base.Log += OnLogBase;
         }
 
         override public void CreateThread()
@@ -192,6 +193,12 @@ namespace gcard_macro
                         CurrentState = State.EnemyList;
                         Wait(WaitSearch);
                         Exec = MoveEnemyListToSearch;
+
+                        if (EnemyFound)
+                        {
+                            WaitForAccessLimit();
+                            EnemyFound = false;
+                        }
                     }
                 }
                 //戦闘リザルト
@@ -292,7 +299,15 @@ namespace gcard_macro
                     Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
                     CurrentState = State.FightAlreadyFinished;
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(enemy_list_path_);
+
+                    if (!AssaultOperations)
+                    {
+                        driver_.Navigate().GoToUrl(enemy_list_path_);
+                    }
+                    else
+                    {
+                        driver_.Navigate().GoToUrl(AssaultOperationPath);
+                    }
                     Attacked = false;
                 }
                 //強襲作戦参加依頼失敗
@@ -489,9 +504,14 @@ namespace gcard_macro
 
             try
             {
+                if(enemy_list_path_ != "")
+                {
+                    driver_.Navigate().GoToUrl(enemy_list_path_);
+                    return;
+                }
+
                 IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"search\" or @class=\"attack\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-                return;
             }
             catch { }
 
@@ -690,28 +710,40 @@ namespace gcard_macro
                     IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"敵を見つける\"]"));
                     Log?.Invoke(this, "探索開始");
 
-                    switch (SearchEnemy(elm.GetAttribute("href")))
-                    {                        
-                        case SearchResult.Found:
-                            MoveEnemyListToSearch();
-                            Exec = SearchState;
-                            return;
-                        case SearchResult.Card:
-                            Exec = SearchState;
-                            return;
-                        case SearchResult.Error:
-                            StateChanged?.Invoke(this, State.AccessBlock);
-                            Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
-                            Wait(WaitAccessBlock);
-                            Exec = SearchState;
-                            return;
-                        case SearchResult.FuelShortage:
-                            Log?.Invoke(this, "警告：燃料不足");
-                            Wait(10);
-                            Exec = SearchState;
-                            return;
-                        default:
-                            break;
+                    string url = elm.GetAttribute("href");
+
+                    if (url != null)
+                    {
+                        switch (SearchEnemy(url))
+                        {
+                            case SearchResult.Found:
+                                MoveEnemyListToSearch();
+                                Exec = SearchState;
+                                return;
+                            case SearchResult.Card:
+                                Exec = SearchState;
+                                return;
+                            case SearchResult.Error:
+                                StateChanged?.Invoke(this, State.AccessBlock);
+                                Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                                Wait(WaitAccessBlock);
+                                Exec = SearchState;
+                                return;
+                            case SearchResult.FuelShortage:
+                                Log?.Invoke(this, "警告：燃料不足");
+                                Wait(10);
+                                Exec = SearchState;
+                                return;
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Log?.Invoke(this, "敵出現数最大");
+                        Wait(2);
+                        Exec = SearchState;
+                        return;
                     }
                 }
             }
@@ -941,7 +973,7 @@ namespace gcard_macro
         /// </summary>
         private void MoveAssaultOperationHomeToAssaultOperationBattle()
         {
-            enemy_list_path_ = driver_.Url;
+            AssaultOperationPath = driver_.Url;
             IsBattleShip = false;
 
             if (Request)
@@ -1217,7 +1249,7 @@ namespace gcard_macro
 
                 if (UseAssaultBE && Convert.ToInt32(elm.Text) == 0)
                 {
-                    driver_.Navigate().GoToUrl(enemy_list_path_);
+                    driver_.Navigate().GoToUrl(AssaultOperationPath);
                     IsAssaultBEEnded = true;
                     Exec = SearchState;
                     return;
@@ -1227,7 +1259,7 @@ namespace gcard_macro
             {
                 if (UseAssaultBE)
                 {
-                    driver_.Navigate().GoToUrl(enemy_list_path_);
+                    driver_.Navigate().GoToUrl(AssaultOperationPath);
                     IsAssaultBEEnded = true;
                     Exec = SearchState;
                     return;
@@ -1336,5 +1368,26 @@ namespace gcard_macro
 
             IsCombo = false;
         }
+
+        /// <summary>
+        /// StateChanged伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="state">状態ID</param>
+        private void StateChangedBase(object sender, Event.State state) => this.StateChanged?.Invoke(this, CurrentState);
+
+        /// <summary>
+        /// MiniCapChanged伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="count">ミニカプ数</param>
+        private void MiniCapChangedBase(object sender, int count) => this.MinicapChanged?.Invoke(this, count);
+
+        /// <summary>
+        /// OnLog伝搬用
+        /// </summary>
+        /// <param name="sender">送信元クラス</param>
+        /// <param name="text">テキスト</param>
+        private void OnLogBase(object sender, string text) => this?.Log(this, text);
     }
 }
