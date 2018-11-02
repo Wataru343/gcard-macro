@@ -379,8 +379,20 @@ namespace gcard_macro
             labelOptimizedWait1.Enabled = enable;
             labelOptimizedWait2.Enabled = enable;
             numericUpDown.Enabled = enable;
+
+            numericUpDown_ValueChanged(numericUpDown, null);
         }
 
-        private void numericUpDown_ValueChanged(object sender, EventArgs e) => tabControlRaid.OptimizedWaitEnemyCount = tabControlGroup.OptimizedWaitEnemyCount = tabControlGShooting.OptimizedWaitEnemyCount = tabControlGTactics.OptimizedWaitEnemyCount = Utils.ToUInt((sender as NumericUpDown).Value.ToString());
+        private void numericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (checkBoxOptimizedWait.Checked)
+            {
+                tabControlRaid.OptimizedWaitEnemyCount = tabControlGroup.OptimizedWaitEnemyCount = tabControlGShooting.OptimizedWaitEnemyCount = tabControlGTactics.OptimizedWaitEnemyCount = Utils.ToUInt((sender as NumericUpDown).Value.ToString());
+            }
+            else
+            {
+                tabControlRaid.OptimizedWaitEnemyCount = tabControlGroup.OptimizedWaitEnemyCount = tabControlGShooting.OptimizedWaitEnemyCount = tabControlGTactics.OptimizedWaitEnemyCount = 0;
+            }
+        }
     }
 }

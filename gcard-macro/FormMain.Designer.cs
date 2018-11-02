@@ -33,15 +33,10 @@
             this.buttonStopBrowser = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageRaid = new System.Windows.Forms.TabPage();
-            this.tabControlRaid = new gcard_macro.TabControlRaid();
             this.tabPageGroup = new System.Windows.Forms.TabPage();
-            this.tabControlGroup = new gcard_macro.TabControlGroup();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabControlGShooting = new gcard_macro.TabControlGShooting();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabControlPromotion = new gcard_macro.TabControlPromotion();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabControlGTactics = new gcard_macro.TabControlGTactics();
             this.timerWatchBrowser = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBoxLog = new System.Windows.Forms.TextBox();
@@ -68,6 +63,11 @@
             this.numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.labelOptimizedWait2 = new System.Windows.Forms.Label();
             this.labelOptimizedWait1 = new System.Windows.Forms.Label();
+            this.tabControlRaid = new gcard_macro.TabControlRaid();
+            this.tabControlGroup = new gcard_macro.TabControlGroup();
+            this.tabControlGShooting = new gcard_macro.TabControlGShooting();
+            this.tabControlPromotion = new gcard_macro.TabControlPromotion();
+            this.tabControlGTactics = new gcard_macro.TabControlGTactics();
             this.tabControl1.SuspendLayout();
             this.tabPageRaid.SuspendLayout();
             this.tabPageGroup.SuspendLayout();
@@ -117,7 +117,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(679, 719);
-            this.tabControl1.TabIndex = 2;
+            this.tabControl1.TabIndex = 0;
             // 
             // tabPageRaid
             // 
@@ -130,24 +130,6 @@
             this.tabPageRaid.TabIndex = 1;
             this.tabPageRaid.Text = "レイド";
             // 
-            // tabControlRaid
-            // 
-            this.tabControlRaid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControlRaid.Location = new System.Drawing.Point(0, 0);
-            this.tabControlRaid.Name = "tabControlRaid";
-            this.tabControlRaid.Size = new System.Drawing.Size(675, 697);
-            this.tabControlRaid.TabIndex = 0;
-            this.tabControlRaid.UserName = null;
-            this.tabControlRaid.WaitAccessBlock = 0D;
-            this.tabControlRaid.WaitAttack = 0D;
-            this.tabControlRaid.WaitBattle = 0D;
-            this.tabControlRaid.WaitContinueSearch = 0D;
-            this.tabControlRaid.WaitMisc = 0D;
-            this.tabControlRaid.WaitReceive = 0D;
-            this.tabControlRaid.WaitSearch = 0D;
-            // 
             // tabPageGroup
             // 
             this.tabPageGroup.BackColor = System.Drawing.SystemColors.Control;
@@ -159,24 +141,6 @@
             this.tabPageGroup.TabIndex = 2;
             this.tabPageGroup.Text = "部隊戦";
             // 
-            // tabControlGroup
-            // 
-            this.tabControlGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControlGroup.Location = new System.Drawing.Point(0, 0);
-            this.tabControlGroup.Name = "tabControlGroup";
-            this.tabControlGroup.Size = new System.Drawing.Size(675, 697);
-            this.tabControlGroup.TabIndex = 0;
-            this.tabControlGroup.UserName = null;
-            this.tabControlGroup.WaitAccessBlock = 0D;
-            this.tabControlGroup.WaitAttack = 0D;
-            this.tabControlGroup.WaitBattle = 0D;
-            this.tabControlGroup.WaitContinueSearch = 0D;
-            this.tabControlGroup.WaitMisc = 0D;
-            this.tabControlGroup.WaitReceive = 0D;
-            this.tabControlGroup.WaitSearch = 0D;
-            // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
@@ -186,24 +150,6 @@
             this.tabPage1.Size = new System.Drawing.Size(671, 693);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "G-Shooting";
-            // 
-            // tabControlGShooting
-            // 
-            this.tabControlGShooting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControlGShooting.Location = new System.Drawing.Point(0, 0);
-            this.tabControlGShooting.Name = "tabControlGShooting";
-            this.tabControlGShooting.Size = new System.Drawing.Size(675, 697);
-            this.tabControlGShooting.TabIndex = 0;
-            this.tabControlGShooting.UserName = null;
-            this.tabControlGShooting.WaitAccessBlock = 0D;
-            this.tabControlGShooting.WaitAttack = 0D;
-            this.tabControlGShooting.WaitBattle = 0D;
-            this.tabControlGShooting.WaitContinueSearch = 0D;
-            this.tabControlGShooting.WaitMisc = 0D;
-            this.tabControlGShooting.WaitReceive = 0D;
-            this.tabControlGShooting.WaitSearch = 0D;
             // 
             // tabPage2
             // 
@@ -216,24 +162,6 @@
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "昇格戦";
             // 
-            // tabControlPromotion
-            // 
-            this.tabControlPromotion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControlPromotion.Location = new System.Drawing.Point(0, 0);
-            this.tabControlPromotion.Name = "tabControlPromotion";
-            this.tabControlPromotion.Size = new System.Drawing.Size(675, 697);
-            this.tabControlPromotion.TabIndex = 0;
-            this.tabControlPromotion.UserName = null;
-            this.tabControlPromotion.WaitAccessBlock = 0D;
-            this.tabControlPromotion.WaitAttack = 0D;
-            this.tabControlPromotion.WaitBattle = 0D;
-            this.tabControlPromotion.WaitContinueSearch = 0D;
-            this.tabControlPromotion.WaitMisc = 0D;
-            this.tabControlPromotion.WaitReceive = 0D;
-            this.tabControlPromotion.WaitSearch = 0D;
-            // 
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
@@ -244,24 +172,6 @@
             this.tabPage3.Size = new System.Drawing.Size(671, 693);
             this.tabPage3.TabIndex = 4;
             this.tabPage3.Text = "G-Tactics";
-            // 
-            // tabControlGTactics
-            // 
-            this.tabControlGTactics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControlGTactics.Location = new System.Drawing.Point(0, 0);
-            this.tabControlGTactics.Name = "tabControlGTactics";
-            this.tabControlGTactics.Size = new System.Drawing.Size(675, 697);
-            this.tabControlGTactics.TabIndex = 0;
-            this.tabControlGTactics.UserName = null;
-            this.tabControlGTactics.WaitAccessBlock = 0D;
-            this.tabControlGTactics.WaitAttack = 0D;
-            this.tabControlGTactics.WaitBattle = 0D;
-            this.tabControlGTactics.WaitContinueSearch = 0D;
-            this.tabControlGTactics.WaitMisc = 0D;
-            this.tabControlGTactics.WaitReceive = 0D;
-            this.tabControlGTactics.WaitSearch = 0D;
             // 
             // timerWatchBrowser
             // 
@@ -283,7 +193,7 @@
             this.groupBox1.Location = new System.Drawing.Point(705, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(356, 707);
-            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "共通設定";
             // 
@@ -299,7 +209,7 @@
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxLog.Size = new System.Drawing.Size(340, 292);
-            this.textBoxLog.TabIndex = 10;
+            this.textBoxLog.TabIndex = 6;
             this.textBoxLog.WordWrap = false;
             // 
             // tableLayoutPanel1
@@ -319,7 +229,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(343, 103);
-            this.tableLayoutPanel1.TabIndex = 9;
+            this.tableLayoutPanel1.TabIndex = 7;
             // 
             // buttonRemoveCookie
             // 
@@ -328,7 +238,7 @@
             this.buttonRemoveCookie.Location = new System.Drawing.Point(174, 54);
             this.buttonRemoveCookie.Name = "buttonRemoveCookie";
             this.buttonRemoveCookie.Size = new System.Drawing.Size(166, 46);
-            this.buttonRemoveCookie.TabIndex = 8;
+            this.buttonRemoveCookie.TabIndex = 3;
             this.buttonRemoveCookie.Text = "Cookie削除";
             this.buttonRemoveCookie.UseVisualStyleBackColor = true;
             this.buttonRemoveCookie.Click += new System.EventHandler(this.buttonRemoveCookie_Click);
@@ -340,7 +250,7 @@
             this.buttonSave.Location = new System.Drawing.Point(3, 54);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(165, 46);
-            this.buttonSave.TabIndex = 6;
+            this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "設定保存";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -351,7 +261,7 @@
             this.checkBoxAutoRun.Location = new System.Drawing.Point(7, 267);
             this.checkBoxAutoRun.Name = "checkBoxAutoRun";
             this.checkBoxAutoRun.Size = new System.Drawing.Size(84, 16);
-            this.checkBoxAutoRun.TabIndex = 7;
+            this.checkBoxAutoRun.TabIndex = 5;
             this.checkBoxAutoRun.Text = "自動ログイン";
             this.checkBoxAutoRun.UseVisualStyleBackColor = true;
             // 
@@ -376,7 +286,7 @@
             this.groupBox2.Location = new System.Drawing.Point(7, 18);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(343, 195);
-            this.groupBox2.TabIndex = 5;
+            this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Wait(秒)";
             // 
@@ -387,7 +297,7 @@
             this.textBoxWaitContinueSearch.Location = new System.Drawing.Point(118, 116);
             this.textBoxWaitContinueSearch.Name = "textBoxWaitContinueSearch";
             this.textBoxWaitContinueSearch.Size = new System.Drawing.Size(219, 19);
-            this.textBoxWaitContinueSearch.TabIndex = 13;
+            this.textBoxWaitContinueSearch.TabIndex = 9;
             this.textBoxWaitContinueSearch.TextChanged += new System.EventHandler(this.textBoxWaitContinueSearch_TextChanged);
             this.textBoxWaitContinueSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitContinueSearch_KeyPress);
             this.textBoxWaitContinueSearch.Validated += new System.EventHandler(this.textBoxWaitContinueSearch_Validated);
@@ -398,7 +308,7 @@
             this.label1.Location = new System.Drawing.Point(8, 119);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 12);
-            this.label1.TabIndex = 12;
+            this.label1.TabIndex = 8;
             this.label1.Text = "探索続行時";
             // 
             // textBoxWaitMisc
@@ -408,7 +318,7 @@
             this.textBoxWaitMisc.Location = new System.Drawing.Point(118, 166);
             this.textBoxWaitMisc.Name = "textBoxWaitMisc";
             this.textBoxWaitMisc.Size = new System.Drawing.Size(218, 19);
-            this.textBoxWaitMisc.TabIndex = 11;
+            this.textBoxWaitMisc.TabIndex = 13;
             this.textBoxWaitMisc.TextChanged += new System.EventHandler(this.textBoxWaitMisc_TextChanged);
             this.textBoxWaitMisc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitMisc_KeyPress);
             this.textBoxWaitMisc.Validated += new System.EventHandler(this.textBoxWaitMisc_Validated);
@@ -419,7 +329,7 @@
             this.label9.Location = new System.Drawing.Point(7, 169);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(36, 12);
-            this.label9.TabIndex = 10;
+            this.label9.TabIndex = 12;
             this.label9.Text = "その他";
             // 
             // textBoxWaitAccessBlock
@@ -429,7 +339,7 @@
             this.textBoxWaitAccessBlock.Location = new System.Drawing.Point(118, 141);
             this.textBoxWaitAccessBlock.Name = "textBoxWaitAccessBlock";
             this.textBoxWaitAccessBlock.Size = new System.Drawing.Size(219, 19);
-            this.textBoxWaitAccessBlock.TabIndex = 9;
+            this.textBoxWaitAccessBlock.TabIndex = 11;
             this.textBoxWaitAccessBlock.TextChanged += new System.EventHandler(this.textBoxWaitAccessBlock_TextChanged);
             this.textBoxWaitAccessBlock.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitAccessBlock_KeyPress);
             this.textBoxWaitAccessBlock.Validated += new System.EventHandler(this.textBoxWaitAccessBlock_Validated);
@@ -440,7 +350,7 @@
             this.label8.Location = new System.Drawing.Point(8, 144);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(77, 12);
-            this.label8.TabIndex = 8;
+            this.label8.TabIndex = 10;
             this.label8.Text = "アクセス制限中";
             // 
             // textBoxWaitReceive
@@ -533,7 +443,7 @@
             this.checkBoxOptimizedWait.Location = new System.Drawing.Point(7, 221);
             this.checkBoxOptimizedWait.Name = "checkBoxOptimizedWait";
             this.checkBoxOptimizedWait.Size = new System.Drawing.Size(148, 16);
-            this.checkBoxOptimizedWait.TabIndex = 11;
+            this.checkBoxOptimizedWait.TabIndex = 1;
             this.checkBoxOptimizedWait.Text = "待機時間を自動調整する";
             this.checkBoxOptimizedWait.UseVisualStyleBackColor = true;
             this.checkBoxOptimizedWait.CheckedChanged += new System.EventHandler(this.checkBoxOptimizedWait_CheckedChanged);
@@ -553,7 +463,7 @@
             0});
             this.numericUpDown.Name = "numericUpDown";
             this.numericUpDown.Size = new System.Drawing.Size(39, 19);
-            this.numericUpDown.TabIndex = 12;
+            this.numericUpDown.TabIndex = 3;
             this.numericUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -567,7 +477,7 @@
             this.labelOptimizedWait2.Location = new System.Drawing.Point(179, 245);
             this.labelOptimizedWait2.Name = "labelOptimizedWait2";
             this.labelOptimizedWait2.Size = new System.Drawing.Size(113, 12);
-            this.labelOptimizedWait2.TabIndex = 13;
+            this.labelOptimizedWait2.TabIndex = 4;
             this.labelOptimizedWait2.Text = "体になるように調整する";
             // 
             // labelOptimizedWait1
@@ -576,8 +486,102 @@
             this.labelOptimizedWait1.Location = new System.Drawing.Point(27, 245);
             this.labelOptimizedWait1.Name = "labelOptimizedWait1";
             this.labelOptimizedWait1.Size = new System.Drawing.Size(103, 12);
-            this.labelOptimizedWait1.TabIndex = 14;
+            this.labelOptimizedWait1.TabIndex = 2;
             this.labelOptimizedWait1.Text = "1分間の敵発見数が";
+            // 
+            // tabControlRaid
+            // 
+            this.tabControlRaid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlRaid.Location = new System.Drawing.Point(0, 0);
+            this.tabControlRaid.Name = "tabControlRaid";
+            this.tabControlRaid.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlRaid.Size = new System.Drawing.Size(675, 697);
+            this.tabControlRaid.TabIndex = 0;
+            this.tabControlRaid.UserName = null;
+            this.tabControlRaid.WaitAccessBlock = 0D;
+            this.tabControlRaid.WaitAttack = 0D;
+            this.tabControlRaid.WaitBattle = 0D;
+            this.tabControlRaid.WaitContinueSearch = 0D;
+            this.tabControlRaid.WaitMisc = 0D;
+            this.tabControlRaid.WaitReceive = 0D;
+            this.tabControlRaid.WaitSearch = 0D;
+            // 
+            // tabControlGroup
+            // 
+            this.tabControlGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlGroup.Location = new System.Drawing.Point(0, 0);
+            this.tabControlGroup.Name = "tabControlGroup";
+            this.tabControlGroup.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlGroup.Size = new System.Drawing.Size(675, 697);
+            this.tabControlGroup.TabIndex = 0;
+            this.tabControlGroup.UserName = null;
+            this.tabControlGroup.WaitAccessBlock = 0D;
+            this.tabControlGroup.WaitAttack = 0D;
+            this.tabControlGroup.WaitBattle = 0D;
+            this.tabControlGroup.WaitContinueSearch = 0D;
+            this.tabControlGroup.WaitMisc = 0D;
+            this.tabControlGroup.WaitReceive = 0D;
+            this.tabControlGroup.WaitSearch = 0D;
+            // 
+            // tabControlGShooting
+            // 
+            this.tabControlGShooting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlGShooting.Location = new System.Drawing.Point(0, 0);
+            this.tabControlGShooting.Name = "tabControlGShooting";
+            this.tabControlGShooting.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlGShooting.Size = new System.Drawing.Size(675, 697);
+            this.tabControlGShooting.TabIndex = 0;
+            this.tabControlGShooting.UserName = null;
+            this.tabControlGShooting.WaitAccessBlock = 0D;
+            this.tabControlGShooting.WaitAttack = 0D;
+            this.tabControlGShooting.WaitBattle = 0D;
+            this.tabControlGShooting.WaitContinueSearch = 0D;
+            this.tabControlGShooting.WaitMisc = 0D;
+            this.tabControlGShooting.WaitReceive = 0D;
+            this.tabControlGShooting.WaitSearch = 0D;
+            // 
+            // tabControlPromotion
+            // 
+            this.tabControlPromotion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlPromotion.Location = new System.Drawing.Point(0, 0);
+            this.tabControlPromotion.Name = "tabControlPromotion";
+            this.tabControlPromotion.Size = new System.Drawing.Size(675, 697);
+            this.tabControlPromotion.TabIndex = 0;
+            this.tabControlPromotion.UserName = null;
+            this.tabControlPromotion.WaitAccessBlock = 0D;
+            this.tabControlPromotion.WaitAttack = 0D;
+            this.tabControlPromotion.WaitBattle = 0D;
+            this.tabControlPromotion.WaitContinueSearch = 0D;
+            this.tabControlPromotion.WaitMisc = 0D;
+            this.tabControlPromotion.WaitReceive = 0D;
+            this.tabControlPromotion.WaitSearch = 0D;
+            // 
+            // tabControlGTactics
+            // 
+            this.tabControlGTactics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlGTactics.Location = new System.Drawing.Point(0, 0);
+            this.tabControlGTactics.Name = "tabControlGTactics";
+            this.tabControlGTactics.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlGTactics.Size = new System.Drawing.Size(675, 697);
+            this.tabControlGTactics.TabIndex = 0;
+            this.tabControlGTactics.UserName = null;
+            this.tabControlGTactics.WaitAccessBlock = 0D;
+            this.tabControlGTactics.WaitAttack = 0D;
+            this.tabControlGTactics.WaitBattle = 0D;
+            this.tabControlGTactics.WaitContinueSearch = 0D;
+            this.tabControlGTactics.WaitMisc = 0D;
+            this.tabControlGTactics.WaitReceive = 0D;
+            this.tabControlGTactics.WaitSearch = 0D;
             // 
             // FormMain
             // 
