@@ -28,6 +28,8 @@ namespace gcard_macro
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
         public event Event.LogHandler Log;
+        public delegate void SettingChangedHandler(object sender, EventArgs e);
+        public event SettingChangedHandler SettingChanged;
 
         public TabControlPromotion()
         {
@@ -289,6 +291,8 @@ namespace gcard_macro
                 Log?.Invoke(sender, text);
             });
         }
+
+        private void ValueChanged(object sender, EventArgs e) => SettingChanged?.Invoke(this, e);
     }
 }
                                        

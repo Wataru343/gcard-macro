@@ -18,6 +18,7 @@ namespace gcard_macro
         public bool Request { get; set; }
         public bool AimMVP { get; set; }
         public bool OnlyAttackAssultBoss { get; set; }
+        public bool OnlyAttackAssultEnemy { get; set; }
         public double WaitRecieveAssult { get; set; }
         public double WaitAtackBattleShip { get; set; }
 
@@ -25,12 +26,15 @@ namespace gcard_macro
         private bool AssaultOperationsRequest { get; set; }
         private bool AssaultOperationsRequest2 { get; set; }
         private bool FoundAssaultOperations { get; set; }
-        System.Threading.Thread WatchThread { get; set; }
+        private bool FoundAssaultOperationsReword { get; set; }
+        private System.Threading.Thread WatchThread { get; set; }
         private bool OneAttack { get; set; }
         private bool IsRareBoss { get; set; }
         private bool IsAssaultBEEnded { get; set; }
         private bool IsBattleShip { get; set; }
         private string AssaultOperationPath { get; set; }
+        private bool RecieveAssaultOperationReword { get; set; }
+        private List<string> MVPEnemyId { get; set; }
 
         public Raid(IWebDriver driver, string home_path) : base(driver, home_path)
         {
@@ -49,6 +53,9 @@ namespace gcard_macro
             JoinAssault = false;
             UseAssaultBE = false;
             Request = false;
+            AimMVP = false;
+            OnlyAttackAssultBoss = false;
+            OnlyAttackAssultEnemy = false;
             BaseDamage = 0;
             OneAttack = false;
             IsRareBoss = false;
@@ -61,6 +68,9 @@ namespace gcard_macro
             AssaultOperationsRequest2 = false;
             AssaultOperationPath = "";
             FoundAssaultOperations = false;
+            FoundAssaultOperationsReword = false;
+            RecieveAssaultOperationReword = false;
+            MVPEnemyId = new List<string>();
 
             base.StateChanged += StateChangedBase;
             base.MinicapChanged += MiniCapChangedBase;
@@ -92,9 +102,17 @@ namespace gcard_macro
                     CurrentState = State.None;
                     Wait(1);
                 }
-                else
+                //強襲の報酬を発見したら
+                else if (FoundAssaultOperationsReword)
+                {
+                    driver_.Navigate().GoToUrl(home_path_ + "_assault_operation");
+                    Log?.Invoke(this, "ページ移動：強襲作戦参TOP画面");
+                    CurrentState = State.AssaultOperationRequestSubmit;
+                    Wait(WaitMisc);
+                    Exec = MoveAssaultOperationRequestToAssaultOperationRequestSubmit;
+                }
                 //強襲作戦に参加していたら
-                if (!AssaultOperations && FoundAssaultOperations)
+                else if (!AssaultOperations && FoundAssaultOperations)
                 {
                     driver_.Navigate().GoToUrl(home_path_);
                     AssaultOperations = true;
@@ -228,7 +246,8 @@ namespace gcard_macro
                 //強襲作戦ホーム
                 else if (IsAssaultOperationHome())
                 {
-                    Log?.Invoke(this, "ページ移動：強襲作戦ホーム画面");
+                    if (CurrentState != State.AssaultOperationHome)
+                        Log?.Invoke(this, "ページ移動：強襲作戦ホーム画面");
                     CurrentState = State.AssaultOperationHome;
                     Wait(WaitMisc);
                     Exec = MoveAssaultOperationHomeToAssaultOperationBattle;
@@ -236,7 +255,7 @@ namespace gcard_macro
                 //強襲作戦参加
                 else if (IsAssaultOperationRequestSubmit())
                 {
-                    Log?.Invoke(this, "ページ移動：強襲作戦参加同意画面");
+                    Log?.Invoke(this, "ページ移動：強襲作戦参TOP画面");
                     CurrentState = State.AssaultOperationRequestSubmit;
                     Wait(WaitMisc);
                     Exec = MoveAssaultOperationRequestToAssaultOperationRequestSubmit;
@@ -326,6 +345,12 @@ namespace gcard_macro
                     Wait(WaitMisc);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
+                //受信クエスト一覧
+                else if (IsRecievedQuestlist())
+                {
+                    Wait(WaitMisc);
+                    Exec = MoveQuestListToEnemyList;                    
+                }
                 //アクセスを制限
                 else if (IsAccessBlock())
                 {
@@ -357,6 +382,12 @@ namespace gcard_macro
                     CurrentState = State.Home;
                     Wait(10);
                     driver_.Navigate().GoToUrl(home_path_);
+                }
+                //サーバーエラー
+                else if (IsServerError())
+                {
+                    KillThread();
+                    Log?.Invoke(this, "サーバーエラー");
                 }
                 else
                 {
@@ -391,12 +422,18 @@ namespace gcard_macro
                         {
                             FoundAssaultOperations = true;
                         }
+
+                        if (source.IndexOf("未受取報酬を受け取る") > -1)
+                        {
+                            FoundAssaultOperationsReword = true;
+                        }
                     }
                 }
                 catch
                 {
                     Wait(2.5);
                 }
+                Wait(10);
             }
         }
 
@@ -413,7 +450,7 @@ namespace gcard_macro
         /// 敵一覧画面(強襲作戦依頼)判定
         /// </summary>
         /// <returns></returns>
-        private bool IsAssaultOperationRequest() => driver_.PageSource.IndexOf("敵一覧") >= 0 && driver_.PageSource.IndexOf("作戦参加依頼") >= 0;
+        private bool IsAssaultOperationRequest() => driver_.PageSource.IndexOf("敵一覧") >= 0 && (driver_.PageSource.IndexOf("作戦参加依頼") >= 0 || driver_.PageSource.IndexOf("参加中の作戦へ戻る") >= 0);
 
         /// <summary>
         /// ホーム画面に参加中の強襲作戦が出ているかどうか判定
@@ -458,10 +495,16 @@ namespace gcard_macro
         private bool IsAssaultOperationRequestComplete() => driver_.PageSource.IndexOf("作戦参加依頼完了") >= 0 && driver_.PageSource.IndexOf("強襲作戦") >= 0;
 
         /// <summary>
-        /// 強襲作戦未受取報酬一覧画面判定
+        /// 強襲作戦報酬一覧画面判定
         /// </summary>
         /// <returns></returns>
         private bool IsAssaultOperationPresentList() => driver_.PageSource.IndexOf("強襲作戦未受取報酬一覧") >= 0;
+
+        /// <summary>
+        /// 強襲作戦未受取報酬一覧画面判定
+        /// </summary>
+        /// <returns></returns>
+        private bool IsAssaultOperationReceive() => driver_.PageSource.IndexOf("強襲作戦未受取報酬一覧") >= 0 && driver_.PageSource.IndexOf("報酬を受け取る") >= 0;
 
         /// <summary>
         /// 強襲作戦に参加していません画面判定
@@ -474,6 +517,12 @@ namespace gcard_macro
         /// </summary>
         /// <returns></returns>
         private bool IsFaildJoinRequestAssaultOperationt() => driver_.PageSource.IndexOf("作戦参加依頼を送信できません") >= 0;
+
+        /// <summary>
+        /// 受信クエスト一覧画面判定
+        /// </summary>
+        /// <returns></returns>
+        private bool IsRecievedQuestlist() => driver_.PageSource.IndexOf("連携クエストに挑戦しました") >= 0;
 
 
         /// <summary>
@@ -504,13 +553,13 @@ namespace gcard_macro
 
             try
             {
-                if(enemy_list_path_ != "")
+                if(enemy_list_path_.IndexOf("raid_boss") >= 0)
                 {
                     driver_.Navigate().GoToUrl(enemy_list_path_);
                     return;
                 }
 
-                IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"search\" or @class=\"attack\"]"));
+                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"強襲作戦TOP\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
             catch { }
@@ -580,9 +629,11 @@ namespace gcard_macro
                         //レアボスなら攻撃する
                         if (enemy.Item2.Text.IndexOf("ﾚｱﾎﾞｽ") >= 0)
                         {
-                            if (AttackedEnemyId.IndexOf(GetEnemyId(enemy.Item1.GetAttribute("href"))) < 0)
+                            string url = enemy.Item1.GetAttribute("href");
+                            if (!IsGotMVP(url) && !IsAttacked(url))
                             {
-                                driver_.Navigate().GoToUrl(enemy.Item1.GetAttribute("href"));
+                                Log?.Invoke(this, "攻撃： " + enemy.Item2.Text);
+                                driver_.Navigate().GoToUrl(url);
                                 Exec = SearchState;
                                 IsRareBoss = true;
                                 return;
@@ -705,45 +756,41 @@ namespace gcard_macro
 
             try
             {
-                if (enemys.Count() <= (int)EnemyCount)
+                if (!NoSearch)
                 {
-                    IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"敵を見つける\"]"));
-                    Log?.Invoke(this, "探索開始");
-
-                    string url = elm.GetAttribute("href");
-
-                    if (url != null)
+                    if (enemys.Count() <= (int)EnemyCount)
                     {
-                        switch (SearchEnemy(url))
+                        IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"敵を見つける\"]"));
+                        Log?.Invoke(this, "探索開始");
+
+                        string url = elm.GetAttribute("href");
+
+                        if (url != null)
                         {
-                            case SearchResult.Found:
-                                MoveEnemyListToSearch();
-                                Exec = SearchState;
-                                return;
-                            case SearchResult.Card:
-                                Exec = SearchState;
-                                return;
-                            case SearchResult.Error:
-                                StateChanged?.Invoke(this, State.AccessBlock);
-                                Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
-                                Wait(WaitAccessBlock);
-                                Exec = SearchState;
-                                return;
-                            case SearchResult.FuelShortage:
-                                Log?.Invoke(this, "警告：燃料不足");
-                                Wait(10);
-                                Exec = SearchState;
-                                return;
-                            default:
-                                break;
+                            switch (SearchEnemy(url))
+                            {
+                                case SearchResult.Found:
+                                    MoveEnemyListToSearch();
+                                    Exec = SearchState;
+                                    return;
+                                case SearchResult.Card:
+                                    Exec = SearchState;
+                                    return;
+                                case SearchResult.Error:
+                                    StateChanged?.Invoke(this, State.AccessBlock);
+                                    Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                                    Wait(WaitAccessBlock);
+                                    Exec = SearchState;
+                                    return;
+                                case SearchResult.FuelShortage:
+                                    Log?.Invoke(this, "警告：燃料不足");
+                                    Wait(10);
+                                    Exec = SearchState;
+                                    return;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        Log?.Invoke(this, "敵出現数最大");
-                        Wait(2);
-                        Exec = SearchState;
-                        return;
                     }
                 }
             }
@@ -805,6 +852,22 @@ namespace gcard_macro
         {
             Exec = SearchState;
 
+
+            if (RecieveAssaultOperationReword)
+            {
+                try
+                {
+                    var elms = driver_.FindElements(By.XPath("//input[@value=\"報酬を受け取る\"]/.."));
+                    foreach (var e in elms)
+                    {
+                        e.Submit();
+                        RecieveAssaultOperationReword = false;
+                        return;
+                    }
+                }
+                catch { }
+            }
+
             try
             {
                 //var elms = driver_.FindElements(By.XPath("//input[@value=\"報酬を受け取る\"]");
@@ -836,6 +899,21 @@ namespace gcard_macro
         }
 
         /// <summary>
+        /// 受信クエスト一覧から敵一覧へ
+        /// </summary>
+        private void MoveQuestListToEnemyList()
+        {
+            try
+            {
+                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"敵一覧\"]"));
+                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+            }
+            catch { }
+
+            Exec = SearchState;
+        }
+
+        /// <summary>
         /// 戦闘画面から強襲作戦参加依頼画面へ
         /// </summary>
         private void MoveBattleToAssaultOperationRequest()
@@ -857,7 +935,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"依頼確認\"]"));
+                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"依頼確認\" or text()=\"参加中の作戦へ戻る\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
             catch { }
@@ -873,8 +951,10 @@ namespace gcard_macro
         {
             try
             {
+                FoundAssaultOperationsReword = false;
                 IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"未受取報酬を受け取る\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                RecieveAssaultOperationReword = true;
                 Exec = SearchState;
                 return;
             }
@@ -892,7 +972,10 @@ namespace gcard_macro
 
             try
             {
-                driver_.Navigate().GoToUrl(home_path_);
+                IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"敵一覧へ\"]"));
+                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                Exec = SearchState;
+                return;
             }
             catch { }
 
@@ -1003,7 +1086,7 @@ namespace gcard_macro
                 try
                 {
                     var rewords = driver_.FindElements(By.XPath("//*[text()=\"報酬を受け取る\"]"));
-                    if (rewords.Count() >= 5)
+                    if (rewords.Count() >= ReceiveCount)
                     {
                         IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"報酬をまとめて受け取る\"]"));
                         Wait(WaitRecieveAssult);
@@ -1025,15 +1108,18 @@ namespace gcard_macro
                 return;
             }
 
-            try
+            if (!OnlyAttackAssultEnemy)
             {
-                IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"btn-attack_not\"]"));
-                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
-                IsBattleShip = true;
-                Exec = SearchState;
-                return;
+                try
+                {
+                    IWebElement elm = driver_.FindElement(By.XPath("//a[@class=\"btn-attack_not\"]"));
+                    driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                    IsBattleShip = true;
+                    Exec = SearchState;
+                    return;
+                }
+                catch { }
             }
-            catch { }
 
             if (!OnlyAttackAssultBoss)
             {
@@ -1105,6 +1191,7 @@ namespace gcard_macro
                 {
                     if (hp < myDamage * 2)
                     {
+                        AddMVPId(driver_.Url);
                         AddEnemyId(driver_.Url);
                         driver_.Navigate().GoToUrl(enemy_list_path_);
                         return;
@@ -1234,14 +1321,17 @@ namespace gcard_macro
             catch { }
 
             //強襲作戦大ボスが出ていれば移動する
-            try
+            if (!OnlyAttackAssultEnemy)
             {
-                var assultBtn = driver_.FindElements(By.XPath("//div[@class=\"assault-btn\"]/a"));
-                driver_.Navigate().GoToUrl(assultBtn.ElementAt(1).GetAttribute("href"));
-                IsBattleShip = true;
-                return;
+                try
+                {
+                    var assultBtn = driver_.FindElements(By.XPath("//div[@class=\"assault-btn\"]/a"));
+                    driver_.Navigate().GoToUrl(assultBtn.ElementAt(1).GetAttribute("href"));
+                    IsBattleShip = true;
+                    return;
+                }
+                catch { }
             }
-            catch { }
 
             try
             {
@@ -1368,6 +1458,19 @@ namespace gcard_macro
 
             IsCombo = false;
         }
+
+        /// <summary>
+        /// 戦闘画面のurlから敵IDを追加
+        /// </summary>
+        /// <param name="url">戦闘画面のurl</param>
+        private void AddMVPId(string url) => MVPEnemyId.Add(GetEnemyId(url));
+
+        /// <summary>
+        /// 戦闘画面のurlの敵IDが攻撃済みか判定
+        /// </summary>
+        /// <param name="url">戦闘画面のurl</param>
+        /// <returns>攻撃済み</returns>
+        private bool IsGotMVP(string url) => MVPEnemyId.LastIndexOf(GetEnemyId(url)) >= 0;
 
         /// <summary>
         /// StateChanged伝搬用

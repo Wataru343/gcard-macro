@@ -29,6 +29,8 @@ namespace gcard_macro
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
         public event Event.LogHandler Log;
+        public delegate void SettingChangedHandler(object sender, EventArgs e);
+        public event SettingChangedHandler SettingChanged;
 
         public TabControlGroup()
         {
@@ -52,6 +54,7 @@ namespace gcard_macro
             checkBoxRecievePresent.Checked = Properties.Settings.Default.GroupReceivePresent;
             checkBoxAutojobLevelUp.Checked = Properties.Settings.Default.GroupAutoJobLevelUp;
             checkBoxOnlySearch.Checked = Properties.Settings.Default.GroupOnlySearch;
+            checkBoxNoSearch.Checked = Properties.Settings.Default.GroupNoSearch;
             comboBoxFinalJob.SelectedIndex = Properties.Settings.Default.GroupFinalJob;
 
             try
@@ -131,6 +134,7 @@ namespace gcard_macro
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     AutojobLevelUp = checkBoxAutojobLevelUp.Checked,
                     OnlySearch = checkBoxOnlySearch.Checked,
+                    NoSearch = checkBoxNoSearch.Checked,
                     FinalJob = comboBoxFinalJob.SelectedIndex,
                     StartTime = dateTimePickerTimeStart.Value,
                     EndTime = dateTimePickerTimeEnd.Value,
@@ -208,6 +212,7 @@ namespace gcard_macro
             Properties.Settings.Default.GroupReceivePresent = checkBoxRecievePresent.Checked;
             Properties.Settings.Default.GroupAutoJobLevelUp = checkBoxAutojobLevelUp.Checked;
             Properties.Settings.Default.GroupOnlySearch = checkBoxOnlySearch.Checked;
+            Properties.Settings.Default.GroupNoSearch = checkBoxNoSearch.Checked;
             Properties.Settings.Default.GroupFinalJob = comboBoxFinalJob.SelectedIndex;
             Properties.Settings.Default.GroupTimeStart = dateTimePickerTimeStart.Value;
             Properties.Settings.Default.GroupTimeEnd = dateTimePickerTimeEnd.Value;
@@ -346,6 +351,8 @@ namespace gcard_macro
                 labelSpm.Text = "1分間の敵発見数：" + count.ToString() + "体";
             });
         }
+
+        private void ValueChanged(object sender, EventArgs e) => SettingChanged?.Invoke(this, e);
     }
 }
                                        

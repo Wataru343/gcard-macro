@@ -29,6 +29,8 @@ namespace gcard_macro
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
         public event Event.LogHandler Log;
+        public delegate void SettingChangedHandler(object sender, EventArgs e);
+        public event SettingChangedHandler SettingChanged;
 
         public TabControlGShooting()
         {
@@ -46,6 +48,7 @@ namespace gcard_macro
             checkBoxRecieveReword.Checked = Properties.Settings.Default.GShootingReceiveReword;
             checkBoxRecievePresent.Checked = Properties.Settings.Default.GShootingReceivePresent;
             checkBoxOnlySearch.Checked = Properties.Settings.Default.GShootingOnlySearch;
+            checkBoxNoSearch.Checked = Properties.Settings.Default.GShootingNoSearch;
             checkBoxRequest.Checked = Properties.Settings.Default.GShootingRequest;
 
             try
@@ -118,6 +121,7 @@ namespace gcard_macro
                     ReceiveReword = checkBoxRecieveReword.Checked,
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     OnlySearch = checkBoxOnlySearch.Checked,
+                    NoSearch = checkBoxNoSearch.Checked,
                     Request = checkBoxRequest.Checked,
                     StartTime = dateTimePickerTimeStart.Value,
                     EndTime = dateTimePickerTimeEnd.Value,
@@ -190,6 +194,8 @@ namespace gcard_macro
             Properties.Settings.Default.GShootingReceiveReword = checkBoxRecieveReword.Checked;
             Properties.Settings.Default.GShootingReceivePresent = checkBoxRecievePresent.Checked;
             Properties.Settings.Default.GShootingOnlySearch = checkBoxOnlySearch.Checked;
+            Properties.Settings.Default.GShootingNoSearch = checkBoxNoSearch.Checked;
+            Properties.Settings.Default.GShootingNoSearch = checkBoxNoSearch.Checked;
             Properties.Settings.Default.GShootingRequest = checkBoxRequest.Checked;
             Properties.Settings.Default.GShootingTimeStart = dateTimePickerTimeStart.Value;
             Properties.Settings.Default.GShootingTimeEnd = dateTimePickerTimeEnd.Value;
@@ -318,5 +324,7 @@ namespace gcard_macro
                 labelSpm.Text = "1分間の敵発見数：" + count.ToString() + "体";
             });
         }
+
+        private void ValueChanged(object sender, EventArgs e) => SettingChanged?.Invoke(this, e);
     }
 }

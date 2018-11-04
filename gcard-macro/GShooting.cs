@@ -200,6 +200,12 @@ namespace gcard_macro
                     Wait(10);
                     driver_.Navigate().GoToUrl(home_path_);
                 }
+                //サーバーエラー
+                else if (IsServerError())
+                {
+                    KillThread();
+                    Log?.Invoke(this, "サーバーエラー");
+                }
                 else
                 {
                     Log?.Invoke(this, "ページ移動：不明な画面");
@@ -409,44 +415,41 @@ namespace gcard_macro
 
             try
             {
-                if (enemys.Count() <= (int)EnemyCount)
+                if (!NoSearch)
                 {
-                    IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"探索する\"]"));
-                    Log?.Invoke(this, "探索開始");
-
-                    string url = elm.GetAttribute("href");
-
-                    if (url != null)
+                    if (enemys.Count() <= (int)EnemyCount)
                     {
-                        switch (SearchEnemy(url))
+                        IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"探索する\"]"));
+                        Log?.Invoke(this, "探索開始");
+
+                        string url = elm.GetAttribute("href");
+
+                        if (url != null)
                         {
-                            case SearchResult.Found:
-                                MoveEnemyListToSearch();
-                                Exec = SearchState;
-                                return;
-                            case SearchResult.Card:
-                                Exec = SearchState;
-                                return;
-                            case SearchResult.Error:
-                                StateChanged?.Invoke(this, State.AccessBlock);
-                                Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
-                                Wait(WaitAccessBlock);
-                                Exec = SearchState;
-                                return;
-                            case SearchResult.FuelShortage:
-                                Log?.Invoke(this, "警告：燃料不足");
-                                Wait(10);
-                                Exec = SearchState;
-                                return;
-                            default:
-                                break;
+                            switch (SearchEnemy(url))
+                            {
+                                case SearchResult.Found:
+                                    MoveEnemyListToSearch();
+                                    Exec = SearchState;
+                                    return;
+                                case SearchResult.Card:
+                                    Exec = SearchState;
+                                    return;
+                                case SearchResult.Error:
+                                    StateChanged?.Invoke(this, State.AccessBlock);
+                                    Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                                    Wait(WaitAccessBlock);
+                                    Exec = SearchState;
+                                    return;
+                                case SearchResult.FuelShortage:
+                                    Log?.Invoke(this, "警告：燃料不足");
+                                    Wait(10);
+                                    Exec = SearchState;
+                                    return;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        Log?.Invoke(this, "敵出現数最大");
-                        Exec = SearchState;
-                        return;
                     }
                 }
             }

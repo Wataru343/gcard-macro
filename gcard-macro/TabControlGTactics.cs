@@ -29,6 +29,8 @@ namespace gcard_macro
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
         public event Event.LogHandler Log;
+        public delegate void SettingChangedHandler(object sender, EventArgs e);
+        public event SettingChangedHandler SettingChanged;
 
         public TabControlGTactics()
         {
@@ -388,5 +390,7 @@ namespace gcard_macro
                 labelSpm.Text = "1分間の敵発見数：" + count.ToString() + "体";
             });
         }
+
+        private void ValueChanged(object sender, EventArgs e) => SettingChanged?.Invoke(this, e);
     }
 }

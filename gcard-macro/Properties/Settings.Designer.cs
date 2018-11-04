@@ -1080,5 +1080,65 @@ namespace gcard_macro.Properties {
                 this["OptimizedWaitEnemyCount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RaidOnlyAttackAssultEnemy {
+            get {
+                return ((bool)(this["RaidOnlyAttackAssultEnemy"]));
+            }
+            set {
+                this["RaidOnlyAttackAssultEnemy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RaidNoSearch {
+            get {
+                return ((bool)(this["RaidNoSearch"]));
+            }
+            set {
+                this["RaidNoSearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupNoSearch {
+            get {
+                return ((bool)(this["GroupNoSearch"]));
+            }
+            set {
+                this["GroupNoSearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GShootingNoSearch {
+            get {
+                return ((bool)(this["GShootingNoSearch"]));
+            }
+            set {
+                this["GShootingNoSearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsNoSearch {
+            get {
+                return ((bool)(this["GTacticsNoSearch"]));
+            }
+            set {
+                this["GTacticsNoSearch"] = value;
+            }
+        }
     }
 }

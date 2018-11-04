@@ -35,6 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timerWatchWebdriver = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxNoSearch = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.dateTimePickerTimeEnd = new System.Windows.Forms.DateTimePicker();
@@ -105,6 +106,7 @@
             this.textBoxURL.Name = "textBoxURL";
             this.textBoxURL.Size = new System.Drawing.Size(589, 19);
             this.textBoxURL.TabIndex = 1;
+            this.textBoxURL.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label1
             // 
@@ -124,6 +126,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.checkBoxNoSearch);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.dateTimePickerTimeEnd);
@@ -148,6 +151,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
             // 
+            // checkBoxNoSearch
+            // 
+            this.checkBoxNoSearch.AutoSize = true;
+            this.checkBoxNoSearch.Location = new System.Drawing.Point(16, 235);
+            this.checkBoxNoSearch.Name = "checkBoxNoSearch";
+            this.checkBoxNoSearch.Size = new System.Drawing.Size(77, 16);
+            this.checkBoxNoSearch.TabIndex = 12;
+            this.checkBoxNoSearch.Text = "探索しない";
+            this.checkBoxNoSearch.UseVisualStyleBackColor = true;
+            this.checkBoxNoSearch.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -160,7 +174,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(14, 69);
+            this.label11.Location = new System.Drawing.Point(16, 69);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(53, 12);
             this.label11.TabIndex = 3;
@@ -174,55 +188,61 @@
             this.dateTimePickerTimeEnd.ShowUpDown = true;
             this.dateTimePickerTimeEnd.Size = new System.Drawing.Size(78, 19);
             this.dateTimePickerTimeEnd.TabIndex = 6;
+            this.dateTimePickerTimeEnd.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // dateTimePickerTimeStart
             // 
             this.dateTimePickerTimeStart.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePickerTimeStart.Location = new System.Drawing.Point(14, 89);
+            this.dateTimePickerTimeStart.Location = new System.Drawing.Point(16, 89);
             this.dateTimePickerTimeStart.Name = "dateTimePickerTimeStart";
             this.dateTimePickerTimeStart.ShowUpDown = true;
             this.dateTimePickerTimeStart.Size = new System.Drawing.Size(78, 19);
             this.dateTimePickerTimeStart.TabIndex = 4;
+            this.dateTimePickerTimeStart.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // checkBoxRecievePresent
             // 
             this.checkBoxRecievePresent.AutoSize = true;
-            this.checkBoxRecievePresent.Location = new System.Drawing.Point(16, 264);
+            this.checkBoxRecievePresent.Location = new System.Drawing.Point(16, 281);
             this.checkBoxRecievePresent.Name = "checkBoxRecievePresent";
             this.checkBoxRecievePresent.Size = new System.Drawing.Size(121, 16);
-            this.checkBoxRecievePresent.TabIndex = 13;
+            this.checkBoxRecievePresent.TabIndex = 14;
             this.checkBoxRecievePresent.Text = "プレゼントを受け取る";
             this.checkBoxRecievePresent.UseVisualStyleBackColor = true;
+            this.checkBoxRecievePresent.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // checkBoxRequest
             // 
             this.checkBoxRequest.AutoSize = true;
-            this.checkBoxRequest.Location = new System.Drawing.Point(14, 336);
+            this.checkBoxRequest.Location = new System.Drawing.Point(16, 350);
             this.checkBoxRequest.Name = "checkBoxRequest";
             this.checkBoxRequest.Size = new System.Drawing.Size(103, 16);
-            this.checkBoxRequest.TabIndex = 16;
+            this.checkBoxRequest.TabIndex = 17;
             this.checkBoxRequest.Text = "応援依頼を出す";
             this.checkBoxRequest.UseVisualStyleBackColor = true;
+            this.checkBoxRequest.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // checkBoxOnlySearch
             // 
             this.checkBoxOnlySearch.AutoSize = true;
-            this.checkBoxOnlySearch.Location = new System.Drawing.Point(16, 216);
+            this.checkBoxOnlySearch.Location = new System.Drawing.Point(16, 212);
             this.checkBoxOnlySearch.Name = "checkBoxOnlySearch";
             this.checkBoxOnlySearch.Size = new System.Drawing.Size(69, 16);
             this.checkBoxOnlySearch.TabIndex = 11;
             this.checkBoxOnlySearch.Text = "探索のみ";
             this.checkBoxOnlySearch.UseVisualStyleBackColor = true;
+            this.checkBoxOnlySearch.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // checkBoxRecieveReword
             // 
             this.checkBoxRecieveReword.AutoSize = true;
-            this.checkBoxRecieveReword.Location = new System.Drawing.Point(16, 240);
+            this.checkBoxRecieveReword.Location = new System.Drawing.Point(16, 258);
             this.checkBoxRecieveReword.Name = "checkBoxRecieveReword";
             this.checkBoxRecieveReword.Size = new System.Drawing.Size(100, 16);
-            this.checkBoxRecieveReword.TabIndex = 12;
+            this.checkBoxRecieveReword.TabIndex = 13;
             this.checkBoxRecieveReword.Text = "報酬を受け取る";
             this.checkBoxRecieveReword.UseVisualStyleBackColor = true;
+            this.checkBoxRecieveReword.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label8
             // 
@@ -238,17 +258,18 @@
             // 
             this.textBoxEnemyCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxEnemyCount.Location = new System.Drawing.Point(14, 39);
+            this.textBoxEnemyCount.Location = new System.Drawing.Point(16, 39);
             this.textBoxEnemyCount.Name = "textBoxEnemyCount";
             this.textBoxEnemyCount.Size = new System.Drawing.Size(384, 19);
             this.textBoxEnemyCount.TabIndex = 1;
+            this.textBoxEnemyCount.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxEnemyCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxEnemyCount_KeyPress);
             this.textBoxEnemyCount.Validated += new System.EventHandler(this.textBoxEnemyCount_Validated);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 19);
+            this.label7.Location = new System.Drawing.Point(16, 19);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(72, 12);
             this.label7.TabIndex = 0;
@@ -264,15 +285,16 @@
             "無制限に攻撃する",
             "コンボのみ狙う",
             "一発だけ攻撃する"});
-            this.comboBoxAttackMode.Location = new System.Drawing.Point(14, 141);
+            this.comboBoxAttackMode.Location = new System.Drawing.Point(16, 140);
             this.comboBoxAttackMode.Name = "comboBoxAttackMode";
             this.comboBoxAttackMode.Size = new System.Drawing.Size(486, 20);
             this.comboBoxAttackMode.TabIndex = 8;
+            this.comboBoxAttackMode.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 121);
+            this.label4.Location = new System.Drawing.Point(16, 121);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(57, 12);
             this.label4.TabIndex = 7;
@@ -281,10 +303,10 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 288);
+            this.label3.Location = new System.Drawing.Point(16, 304);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 12);
-            this.label3.TabIndex = 14;
+            this.label3.TabIndex = 15;
             this.label3.Text = "報酬をまとめて受け取る個数";
             // 
             // comboBoxRecieve
@@ -304,26 +326,28 @@
             "8",
             "9",
             "10"});
-            this.comboBoxRecieve.Location = new System.Drawing.Point(14, 308);
+            this.comboBoxRecieve.Location = new System.Drawing.Point(16, 323);
             this.comboBoxRecieve.Name = "comboBoxRecieve";
             this.comboBoxRecieve.Size = new System.Drawing.Size(486, 20);
-            this.comboBoxRecieve.TabIndex = 15;
+            this.comboBoxRecieve.TabIndex = 16;
+            this.comboBoxRecieve.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
             // textBoxBaseDamage
             // 
             this.textBoxBaseDamage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxBaseDamage.Location = new System.Drawing.Point(14, 189);
+            this.textBoxBaseDamage.Location = new System.Drawing.Point(16, 186);
             this.textBoxBaseDamage.Name = "textBoxBaseDamage";
             this.textBoxBaseDamage.Size = new System.Drawing.Size(486, 19);
             this.textBoxBaseDamage.TabIndex = 10;
+            this.textBoxBaseDamage.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxBaseDamage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBaseDamage_KeyPress);
             this.textBoxBaseDamage.Validated += new System.EventHandler(this.textBoxBaseDamage_Validated);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 169);
+            this.label2.Location = new System.Drawing.Point(16, 167);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(115, 12);
             this.label2.TabIndex = 9;
@@ -495,7 +519,7 @@
             this.groupBox2.Location = new System.Drawing.Point(536, 97);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(190, 422);
-            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "画面遷移";
             // 
@@ -549,7 +573,7 @@
             this.labelSpm.Location = new System.Drawing.Point(534, 70);
             this.labelSpm.Name = "labelSpm";
             this.labelSpm.Size = new System.Drawing.Size(99, 12);
-            this.labelSpm.TabIndex = 9;
+            this.labelSpm.TabIndex = 6;
             this.labelSpm.Text = "1分間の敵発見数：";
             // 
             // TabControlGShooting
@@ -618,5 +642,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePickerTimeEnd;
         private System.Windows.Forms.DateTimePicker dateTimePickerTimeStart;
         private System.Windows.Forms.Label labelSpm;
+        private System.Windows.Forms.CheckBox checkBoxNoSearch;
     }
 }

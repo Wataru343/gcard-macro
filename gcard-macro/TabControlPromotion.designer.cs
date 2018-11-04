@@ -95,6 +95,7 @@
             this.textBoxURL.Name = "textBoxURL";
             this.textBoxURL.Size = new System.Drawing.Size(589, 19);
             this.textBoxURL.TabIndex = 1;
+            this.textBoxURL.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label1
             // 
@@ -158,6 +159,7 @@
             this.dateTimePickerTimeEnd.ShowUpDown = true;
             this.dateTimePickerTimeEnd.Size = new System.Drawing.Size(78, 19);
             this.dateTimePickerTimeEnd.TabIndex = 10;
+            this.dateTimePickerTimeEnd.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // textBoxSallyCount
             // 
@@ -167,6 +169,7 @@
             this.textBoxSallyCount.Name = "textBoxSallyCount";
             this.textBoxSallyCount.Size = new System.Drawing.Size(486, 19);
             this.textBoxSallyCount.TabIndex = 6;
+            this.textBoxSallyCount.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxSallyCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSallyCount_KeyPress);
             this.textBoxSallyCount.Leave += new System.EventHandler(this.textBoxSallyCount_Leave);
             // 
@@ -187,6 +190,7 @@
             this.dateTimePickerTimeStart.ShowUpDown = true;
             this.dateTimePickerTimeStart.Size = new System.Drawing.Size(78, 19);
             this.dateTimePickerTimeStart.TabIndex = 8;
+            this.dateTimePickerTimeStart.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label8
             // 
@@ -206,6 +210,7 @@
             this.textBoxWatchRank.Name = "textBoxWatchRank";
             this.textBoxWatchRank.Size = new System.Drawing.Size(384, 19);
             this.textBoxWatchRank.TabIndex = 1;
+            this.textBoxWatchRank.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxWatchRank.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWatchRank_KeyPress);
             this.textBoxWatchRank.Leave += new System.EventHandler(this.textBoxWatchRank_Leave);
             // 
@@ -235,6 +240,7 @@
             this.comboBoxAttackMode.Name = "comboBoxAttackMode";
             this.comboBoxAttackMode.Size = new System.Drawing.Size(486, 20);
             this.comboBoxAttackMode.TabIndex = 4;
+            this.comboBoxAttackMode.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label4
             // 

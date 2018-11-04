@@ -85,7 +85,8 @@ namespace gcard_macro.WebDriber
             request.Headers[HttpRequestHeader.Cookie] = string.Join("; ", Manage().Cookies.AllCookies.Select(c => string.Format("{0}={1}", c.Name, c.Value)));
             request.UserAgent = UserAgent_;
             request.AllowAutoRedirect = true;
-  
+            request.Credentials = System.Net.CredentialCache.DefaultCredentials;
+
             Download(request);
         }
 
@@ -133,6 +134,7 @@ namespace gcard_macro.WebDriber
             }
             catch
             {
+                PageSource = "Access error occurred";
                 return false;
             }
         }

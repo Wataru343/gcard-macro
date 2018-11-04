@@ -49,8 +49,25 @@ namespace gcard_macro
             tabControlPromotion.Log += onLog;
             tabControlGTactics.Log += onLog;
 
+            tabControlRaid.SettingChanged += onSettingChanged;
+            tabControlGroup.SettingChanged += onSettingChanged;
+            tabControlGShooting.SettingChanged += onSettingChanged;
+            tabControlPromotion.SettingChanged += onSettingChanged;
+            tabControlGTactics.SettingChanged += onSettingChanged;
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.13";
+            textBoxWaitSearch.TextChanged += onSettingChanged;
+            textBoxWaitBattle.TextChanged += onSettingChanged;
+            textBoxWaitAttack.TextChanged += onSettingChanged;
+            textBoxWaitReceive.TextChanged += onSettingChanged;
+            textBoxWaitContinueSearch.TextChanged += onSettingChanged;
+            textBoxWaitAccessBlock.TextChanged += onSettingChanged;
+            textBoxWaitMisc.TextChanged += onSettingChanged;
+            checkBoxOptimizedWait.CheckedChanged += onSettingChanged;
+            numericUpDown.ValueChanged += onSettingChanged;
+
+            buttonSave.Enabled = false;
+
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.16";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -295,6 +312,8 @@ namespace gcard_macro
             tabControlGShooting.SaveSetting();
             tabControlPromotion.SaveSetting();
             tabControlGTactics.SaveSetting();
+
+            buttonSave.Enabled = false;
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -394,5 +413,7 @@ namespace gcard_macro
                 tabControlRaid.OptimizedWaitEnemyCount = tabControlGroup.OptimizedWaitEnemyCount = tabControlGShooting.OptimizedWaitEnemyCount = tabControlGTactics.OptimizedWaitEnemyCount = 0;
             }
         }
+
+        private void onSettingChanged(object sender, EventArgs e) => buttonSave.Enabled = true;
     }
 }

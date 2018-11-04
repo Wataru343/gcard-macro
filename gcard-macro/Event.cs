@@ -152,6 +152,11 @@ namespace gcard_macro
         virtual public bool OnlySearch { get; set; }
 
         /// <summary>
+        /// 探索しない
+        /// </summary>
+        virtual public bool NoSearch { get; set; }
+
+        /// <summary>
         /// 稼働開始時間
         /// </summary>
         virtual public DateTime StartTime { get; set; }
@@ -280,6 +285,8 @@ namespace gcard_macro
             EnemyFoundTime = new List<DateTime>();
             SampleCount = 0;
             WaitVariable = 0.0;
+            OnlySearch = false;
+            NoSearch = false;
 
             //警告消し
             StateChanged?.Invoke(this, State.None);
@@ -460,11 +467,16 @@ namespace gcard_macro
         virtual protected bool IsFuelShortage() => driver_.PageSource.IndexOf("燃料不足") >= 0;
 
         /// <summary>
+        /// サーバーエラー判定
+        /// </summary>
+        /// <returns></returns>
+        virtual protected bool IsServerError() => driver_.PageSource == null || driver_.PageSource == "Access error occurred";
+
+        /// <summary>
         /// 探索時のFlashをクリックする
         /// </summary>
         virtual protected void EmulateClickFlash()
         {
-
             try
             {
                 string swfUrl = GetSwfURL(driver_.PageSource);
@@ -493,7 +505,7 @@ namespace gcard_macro
                         case Raid r:
                             {
                                 string sk = new string(swf.Substring(swf.LastIndexOf("sk") + 7, 8).Where(c => char.IsNumber(c)).ToArray());
-                                string resultURL = @"http://gcc.sp.mbga.jp/_gcard_event311_raid_boss_receive_result" +
+                                string resultURL = home_path_ + @"_raid_boss_receive_result" +
                                     "?sk=" + sk;
                                 driver_.Navigate().GoToUrl(resultURL);
                                 break;
@@ -509,7 +521,7 @@ namespace gcard_macro
                                 string c_q_ids = new string(swf.Substring(swf.IndexOf("c_q_ids", 16 * 3000) + 12, 3).Where(c => char.IsNumber(c)).ToArray());
                                 string r_boss_eids = FilterNumComma(swf.Substring(swf.IndexOf("r_boss_eids") + 16));
 
-                                string resultURL = @"http://gcc.sp.mbga.jp/_gcard_event310_raid_boss_receive_multi_result" +
+                                string resultURL = home_path_ + @"_raid_boss_receive_multi_result" +
                                     "?l_boss_eids=" + l_boss_eids +
                                     "&p_q_ss=" + p_q_ss +
                                     "&c_q_ids=" + c_q_ids +
@@ -537,7 +549,7 @@ namespace gcard_macro
                     string can_r = new string(swf.Substring(swf.IndexOf("can_r") + 10, 2).Where(c => char.IsNumber(c)).ToArray());
                     string g_point = new string(swf.Substring(swf.IndexOf("g_point", 8000) + 12, 10).Where(c => char.IsNumber(c)).ToArray());
 
-                    string resultURL = @"http://gcc.sp.mbga.jp/_gcard_event309_raid_boss_receive_multi_result" +
+                    string resultURL = home_path_ + @"_raid_boss_receive_multi_result" +
                         "?a_point=" + a_point +
                         "&b_point=" + b_point +
                         "&boss_eids=" + boss_eids +
@@ -610,6 +622,15 @@ namespace gcard_macro
                 else if (swfUrl.IndexOf("field_occupy_strategic_area_effect") >= 0)
                 {
                     driver_.Navigate().GoToUrl(enemy_list_path_);
+                }
+                //強襲作戦結果(レイド)
+                else if(swfUrl.IndexOf("assault_operation_result_effec") >= 0)
+                {
+                    string sk = new string(swf.Substring(swf.IndexOf("sk") + 7, 8).Where(c => char.IsNumber(c)).ToArray());
+
+                    string resultURL = home_path_ + @"_assault_operation_result?" +
+                        "sk=" + sk;
+                    driver_.Navigate().GoToUrl(resultURL);
                 }
                 else
                 {
@@ -1023,7 +1044,14 @@ namespace gcard_macro
                     IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"敵一覧\"]"));
                     driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 }
-                catch { }
+                catch
+                {
+                    try
+                    {
+                        driver_.Navigate().GoToUrl(home_path_);
+                    }
+                    catch { }
+                }
             }
 
             Exec = SearchState;

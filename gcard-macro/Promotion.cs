@@ -190,6 +190,12 @@ namespace gcard_macro
                     CurrentState = State.EventFinished;
                     //IsRun = false;
                 }
+                //サーバーエラー
+                else if (IsServerError())
+                {
+                    KillThread();
+                    Log?.Invoke(this, "サーバーエラー");
+                }
                 else
                 {
                     Log?.Invoke(this, "ページ移動：不明な画面");

@@ -29,6 +29,8 @@ namespace gcard_macro
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
         public event Event.LogHandler Log;
+        public delegate void SettingChangedHandler(object sender, EventArgs e);
+        public event SettingChangedHandler SettingChanged;
 
         public TabControlRaid()
         {
@@ -47,10 +49,12 @@ namespace gcard_macro
             comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.RaidAttackMode;
             comboBoxRecieve.SelectedIndex = Properties.Settings.Default.RaidReceiveCount;
             checkBoxOnlySearch.Checked = Properties.Settings.Default.RaidOnlySearch;
+            checkBoxNoSearch.Checked = Properties.Settings.Default.RaidNoSearch;
             checkBoxRecieveReword.Checked = Properties.Settings.Default.RaidReceiveReword;
             checkBoxRecievePresent.Checked = Properties.Settings.Default.RaidReceivePresent;
             checkBoxAimMVP.Checked = Properties.Settings.Default.RaidAimMVP;
             checkBoxOnlyAttackAssultBoss.Checked = Properties.Settings.Default.RaidOnlyAttackAssultBoss;
+            checkBoxOnlyAttackAssultEnemy.Checked = Properties.Settings.Default.RaidOnlyAttackAssultEnemy;
             textBoxWaitRecieveAssult.Text = Properties.Settings.Default.RaidWaitRecieveAssult.ToString();
             textBoxWaitAtackBattleShip.Text = Properties.Settings.Default.RaidWaitAtackBattleShip.ToString();
 
@@ -126,10 +130,12 @@ namespace gcard_macro
                     Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
                     ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
                     OnlySearch = checkBoxOnlySearch.Checked,
+                    NoSearch = checkBoxNoSearch.Checked,
                     ReceiveReword = checkBoxRecieveReword.Checked,
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     AimMVP = checkBoxAimMVP.Checked,
                     OnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked,
+                    OnlyAttackAssultEnemy = checkBoxOnlyAttackAssultEnemy.Checked,
                     WaitRecieveAssult = Utils.ToDouble(textBoxWaitRecieveAssult.Text),
                     StartTime = dateTimePickerTimeStart.Value,
                     EndTime = dateTimePickerTimeEnd.Value,
@@ -204,31 +210,17 @@ namespace gcard_macro
             Properties.Settings.Default.RaidAttackMode = comboBoxAttackMode.SelectedIndex;
             Properties.Settings.Default.RaidReceiveCount = comboBoxRecieve.SelectedIndex;
             Properties.Settings.Default.RaidOnlySearch = checkBoxOnlySearch.Checked;
+            Properties.Settings.Default.RaidNoSearch = checkBoxNoSearch.Checked;
             Properties.Settings.Default.RaidReceiveReword = checkBoxRecieveReword.Checked;
             Properties.Settings.Default.RaidReceivePresent = checkBoxRecievePresent.Checked;
             Properties.Settings.Default.RaidAimMVP = checkBoxAimMVP.Checked;
             Properties.Settings.Default.RaidOnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked;
+            Properties.Settings.Default.RaidOnlyAttackAssultEnemy = checkBoxOnlyAttackAssultEnemy.Checked;
             Properties.Settings.Default.RaidWaitRecieveAssult = Utils.ToDouble(textBoxWaitRecieveAssult.Text);
             Properties.Settings.Default.RaidWaitAtackBattleShip = Utils.ToDouble(textBoxWaitAtackBattleShip.Text);
             Properties.Settings.Default.RaidTimeStart = dateTimePickerTimeStart.Value;
             Properties.Settings.Default.RaidTimeEnd = dateTimePickerTimeEnd.Value;
             Properties.Settings.Default.Save();
-        }
-
-
-        private void checkBoxJoinAssault_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Raid != null) Raid.JoinAssault = (sender as CheckBox).Checked;
-        }
-
-        private void checkBoxUseAssaultBE_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Raid != null) Raid.UseAssaultBE = (sender as CheckBox).Checked;
-        }
-
-        private void checkBoxRequest_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Raid != null) Raid.Request = (sender as CheckBox).Checked;
         }
 
         private void textBoxBaseDamage_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
@@ -237,12 +229,15 @@ namespace gcard_macro
 
         private void textBoxWaitRecieveAssult_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
 
+        private void textBoxWaitAtackBattleShip_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
+
         private void textBoxBaseDamage_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void textBoxEnemyCount_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void textBoxWaitRecieveAssult_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
+        private void textBoxWaitAtackBattleShip_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void MiniCapChanged(object sender, int count)
         {
@@ -379,6 +374,8 @@ namespace gcard_macro
                 labelSpm.Text = "1分間の敵発見数：" + count.ToString() + "体";
             });
         }
+
+        private void ValueChanged(object sender, EventArgs e) => SettingChanged?.Invoke(this, e);
     }
 }
 //http://gcc.sp.mbga.jp/_gcard_event299
