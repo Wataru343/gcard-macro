@@ -195,9 +195,9 @@
             this.checkBoxOnlyAttackAssultEnemy.AutoSize = true;
             this.checkBoxOnlyAttackAssultEnemy.Location = new System.Drawing.Point(10, 434);
             this.checkBoxOnlyAttackAssultEnemy.Name = "checkBoxOnlyAttackAssultEnemy";
-            this.checkBoxOnlyAttackAssultEnemy.Size = new System.Drawing.Size(182, 16);
+            this.checkBoxOnlyAttackAssultEnemy.Size = new System.Drawing.Size(197, 16);
             this.checkBoxOnlyAttackAssultEnemy.TabIndex = 22;
-            this.checkBoxOnlyAttackAssultEnemy.Text = "強襲作戦中は雑魚のみ攻撃する";
+            this.checkBoxOnlyAttackAssultEnemy.Text = "強襲作戦中は上のボスを攻撃しない";
             this.checkBoxOnlyAttackAssultEnemy.UseVisualStyleBackColor = true;
             this.checkBoxOnlyAttackAssultEnemy.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -306,9 +306,9 @@
             this.checkBoxOnlyAttackAssultBoss.AutoSize = true;
             this.checkBoxOnlyAttackAssultBoss.Location = new System.Drawing.Point(10, 412);
             this.checkBoxOnlyAttackAssultBoss.Name = "checkBoxOnlyAttackAssultBoss";
-            this.checkBoxOnlyAttackAssultBoss.Size = new System.Drawing.Size(199, 16);
+            this.checkBoxOnlyAttackAssultBoss.Size = new System.Drawing.Size(192, 16);
             this.checkBoxOnlyAttackAssultBoss.TabIndex = 21;
-            this.checkBoxOnlyAttackAssultBoss.Text = "強襲作戦中は上のボスのみ攻撃する";
+            this.checkBoxOnlyAttackAssultBoss.Text = "強襲作戦中は雑魚敵を攻撃しない";
             this.checkBoxOnlyAttackAssultBoss.UseVisualStyleBackColor = true;
             this.checkBoxOnlyAttackAssultBoss.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -328,9 +328,9 @@
             this.checkBoxOnlySearch.AutoSize = true;
             this.checkBoxOnlySearch.Location = new System.Drawing.Point(10, 192);
             this.checkBoxOnlySearch.Name = "checkBoxOnlySearch";
-            this.checkBoxOnlySearch.Size = new System.Drawing.Size(69, 16);
+            this.checkBoxOnlySearch.Size = new System.Drawing.Size(98, 16);
             this.checkBoxOnlySearch.TabIndex = 11;
-            this.checkBoxOnlySearch.Text = "探索のみ";
+            this.checkBoxOnlySearch.Text = "敵を攻撃しない";
             this.checkBoxOnlySearch.UseVisualStyleBackColor = true;
             this.checkBoxOnlySearch.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 

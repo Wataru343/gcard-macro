@@ -115,6 +115,7 @@ namespace gcard_macro
                 else if (!AssaultOperations && FoundAssaultOperations)
                 {
                     driver_.Navigate().GoToUrl(home_path_);
+                    FoundAssaultOperations = false;
                     AssaultOperations = true;
                     IsAssaultBEEnded = false;
                     AssaultOperationsRequest = false;
@@ -373,7 +374,7 @@ namespace gcard_macro
                     if (CurrentState != State.EventFinished)
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
-                    //IsRun = false;
+                    Wait(10);
                 }
                 //燃料不足
                 else if (IsFuelShortage())
@@ -417,16 +418,8 @@ namespace gcard_macro
                         wc.Encoding = Encoding.UTF8;
                         string source = wc.DownloadString(home_path_ + "_assault_operation");
 
-
-                        if (source.IndexOf("参加中の作戦へ戻る") > -1)
-                        {
-                            FoundAssaultOperations = true;
-                        }
-
-                        if (source.IndexOf("未受取報酬を受け取る") > -1)
-                        {
-                            FoundAssaultOperationsReword = true;
-                        }
+                        FoundAssaultOperations = source.IndexOf("参加中の作戦へ戻る") > -1;
+                        FoundAssaultOperationsReword = source.IndexOf("未受取報酬を受け取る") > -1;
                     }
                 }
                 catch
@@ -1030,7 +1023,14 @@ namespace gcard_macro
                 IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"報酬をまとめて受け取る\" or text()=\"強襲作戦未受取報酬一覧\" or text()=\"報酬を受け取る\"]"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
-            catch { }
+            catch
+            {
+                try
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                catch { }
+            }
 
             Exec = SearchState;
         }
@@ -1279,7 +1279,15 @@ namespace gcard_macro
                     }
                     catch { }
 
-                    if (ret.IndexOf("swf") < 0)
+                    if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
+                    {
+                        StateChanged?.Invoke(this, State.FightAlreadyFinished);
+                        Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
+                        Wait(WaitMisc);
+                        driver_.Navigate().GoToUrl(enemy_list_path_);
+                        return;
+                    }
+                    else if (ret.IndexOf("swf") < 0)
                     {
                         StateChanged?.Invoke(this, State.AccessBlock);
                         Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
@@ -1441,7 +1449,15 @@ namespace gcard_macro
                     }
                     catch { }
 
-                    if (ret.IndexOf("swf") < 0)
+                    if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
+                    {
+                        StateChanged?.Invoke(this, State.FightAlreadyFinished);
+                        Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
+                        Wait(WaitMisc);
+                        driver_.Navigate().GoToUrl(AssaultOperationPath);
+                        return;
+                    }
+                    else if (ret.IndexOf("swf") < 0)
                     {
                         StateChanged?.Invoke(this, State.AccessBlock);
                         Log?.Invoke(this, "ページ移動：アクセス制限通知画面");

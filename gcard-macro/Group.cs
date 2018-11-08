@@ -226,7 +226,7 @@ namespace gcard_macro
                     if (CurrentState != State.EventFinished)
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
-                    //IsRun = false;
+                    Wait(10);
                 }
                 //燃料不足
                 else if (IsFuelShortage())
@@ -892,7 +892,15 @@ namespace gcard_macro
                     }
                     catch { }
 
-                    if (ret.IndexOf("swf") < 0)
+                    if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
+                    {
+                        StateChanged?.Invoke(this, State.FightAlreadyFinished);
+                        Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
+                        Wait(WaitMisc);
+                        driver_.Navigate().GoToUrl(enemy_list_path_);
+                        return;
+                    }
+                    else if (ret.IndexOf("swf") < 0)
                     {
                         StateChanged?.Invoke(this, State.AccessBlock);
                         Log?.Invoke(this, "ページ移動：アクセス制限通知画面");

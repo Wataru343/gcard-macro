@@ -227,9 +227,9 @@
             this.checkBoxOnlySearch.AutoSize = true;
             this.checkBoxOnlySearch.Location = new System.Drawing.Point(16, 212);
             this.checkBoxOnlySearch.Name = "checkBoxOnlySearch";
-            this.checkBoxOnlySearch.Size = new System.Drawing.Size(69, 16);
+            this.checkBoxOnlySearch.Size = new System.Drawing.Size(98, 16);
             this.checkBoxOnlySearch.TabIndex = 11;
-            this.checkBoxOnlySearch.Text = "探索のみ";
+            this.checkBoxOnlySearch.Text = "敵を攻撃しない";
             this.checkBoxOnlySearch.UseVisualStyleBackColor = true;
             this.checkBoxOnlySearch.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 

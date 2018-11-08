@@ -232,7 +232,7 @@ namespace gcard_macro
                     if (CurrentState != State.EventFinished)
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
-                    //IsRun = false;
+                    Wait(10);
                 }
                 //フォース実行失敗
                 else if (IsForceFaild())
