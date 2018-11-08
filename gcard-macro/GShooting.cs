@@ -230,6 +230,8 @@ namespace gcard_macro
         /// </summary>
         private void MoveEventHomeToSearch()
         {
+            Exec = SearchState;
+
             try
             {
                 if (enemy_list_path_ != "")

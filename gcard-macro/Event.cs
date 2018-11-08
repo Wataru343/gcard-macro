@@ -510,7 +510,21 @@ namespace gcard_macro
                                 driver_.Navigate().GoToUrl(resultURL);
                                 break;
                             }
-                        case Group g: driver_.Navigate().GoToUrl(home_path_); break;
+                        case Group g:
+                            {
+                                string p_q_ss = new string(swf.Substring(swf.LastIndexOf("p_q_ss") + 11, 3).Where(c => char.IsNumber(c)).ToArray());
+                                string c_q_ids = new string(swf.Substring(swf.LastIndexOf("c_q_ids") + 12, 3).Where(c => char.IsNumber(c)).ToArray());
+                                string r_boss_eids = FilterNumComma(swf.Substring(swf.LastIndexOf("r_boss_eids") + 16));
+                                string s_boss_eids = new string(swf.Substring(swf.LastIndexOf("s_boss_eids") + 16, 4).Where(c => char.IsNumber(c)).ToArray());
+
+                                string resultURL = home_path_ + @"_raid_boss_receive_multi_result" +
+                                    "?p_q_ss=" + p_q_ss +
+                                    "&c_q_ids=" + c_q_ids +
+                                    "&r_boss_eids=" + r_boss_eids +
+                                    "&s_boss_eids=" + s_boss_eids;
+                                driver_.Navigate().GoToUrl(resultURL);
+                                break;
+                            }
                         case Promotion p: driver_.Navigate().GoToUrl(home_path_); break;
                         case GShooting s: driver_.Navigate().GoToUrl(home_path_); break;
                         case GTactics t:
@@ -529,8 +543,8 @@ namespace gcard_macro
                                 driver_.Navigate().GoToUrl(resultURL);
                                 break;
                             }
-                    }                    
-                    
+                    }
+
                 }
                 //レベルアップ演出
                 else if (swfUrl.IndexOf("lvup_effect") >= 0)
@@ -624,12 +638,27 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(enemy_list_path_);
                 }
                 //強襲作戦結果(レイド)
-                else if(swfUrl.IndexOf("assault_operation_result_effec") >= 0)
+                else if (swfUrl.IndexOf("assault_operation_result_effec") >= 0)
                 {
                     string sk = new string(swf.Substring(swf.IndexOf("sk") + 7, 8).Where(c => char.IsNumber(c)).ToArray());
 
                     string resultURL = home_path_ + @"_assault_operation_result?" +
                         "sk=" + sk;
+                    driver_.Navigate().GoToUrl(resultURL);
+                }
+                //ジョブレベルUP(部隊戦)
+                else if (swfUrl.IndexOf("job_level_up_effec") >= 0)
+                {
+                    string p_q_ss = new string(swf.Substring(swf.LastIndexOf("p_q_ss") + 11, 3).Where(c => char.IsNumber(c)).ToArray());
+                    string c_q_ids = new string(swf.Substring(swf.LastIndexOf("c_q_ids") + 12, 3).Where(c => char.IsNumber(c)).ToArray());
+                    string r_boss_eids = FilterNumComma(swf.Substring(swf.LastIndexOf("r_boss_eids") + 16));
+                    string s_boss_eids = new string(swf.Substring(swf.LastIndexOf("s_boss_eids") + 16, 4).Where(c => char.IsNumber(c)).ToArray());
+
+                    string resultURL = home_path_ + @"_raid_boss_receive_multi_result" +
+                        "?p_q_ss=" + p_q_ss +
+                        "&c_q_ids=" + c_q_ids +
+                        "&r_boss_eids=" + r_boss_eids +
+                        "&s_boss_eids=" + s_boss_eids;
                     driver_.Navigate().GoToUrl(resultURL);
                 }
                 else

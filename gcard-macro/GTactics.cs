@@ -301,6 +301,7 @@ namespace gcard_macro
         /// </summary>
         private void MoveEventHomeToSearch()
         {
+            Exec = SearchState;
             TargetAllClear = false;
             ShieldClear = false;
             AttackCount = 0;

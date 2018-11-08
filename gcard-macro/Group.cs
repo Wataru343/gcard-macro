@@ -275,6 +275,8 @@ namespace gcard_macro
         /// </summary>
         private void MoveEventHomeToSearch()
         {
+            Exec = SearchState;
+
             try
             {
                 if (enemy_list_path_ != "")
@@ -287,8 +289,6 @@ namespace gcard_macro
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
             }
             catch { }
-
-            Exec = SearchState;
         }
 
         /// <summary>
@@ -296,25 +296,27 @@ namespace gcard_macro
         /// </summary>
         private void SelectJobs()
         {
-            Log?.Invoke(this, "ジョブ選択");
             List<IWebElement> elms = null;
-            //var elms = driver_.FindElements(By.XPath("//p[@class=\"job-level\"]");
+
             try
             {
+                string[] jobs = new string[] { "attacker", "commander", "seeker", "master", "supporter" };
+                string[] jobnames = new string[] { "アタッカー", "コマンダー", "シーカー", "スーパーエース", "スーパーサポーター" };
+
                 elms = driver_.FindElements(By.XPath("//div[@class=\"job-select-box\"]")).ToList();
 
-                foreach (var box in elms)
+                for(int i = 0; i < jobs.Length; i++)
                 {
                     try
                     {
-                        string level = box.FindElement(By.ClassName("job-level")).Text;
+                        string level = driver_.FindElement(By.XPath(string.Format("//div[@class=\"job-select-box {0}\"]//p", jobs[i]))).Text;
                         string num = level.Replace("Lv.", "");
                         if (num.IndexOf("5") < 0)
                         {
-                            IWebElement selectButton = box.FindElement(By.ClassName("btn-select"));
+                            IWebElement selectButton = driver_.FindElement(By.XPath(string.Format("//div[@class=\"job-select-box {0}\"]//a", jobs[i])));
                             driver_.Navigate().GoToUrl(selectButton.GetAttribute("href"));
                             Exec = SearchState;
-                            Log?.Invoke(this, "ジョブ変更");
+                            Log?.Invoke(this, "ジョブ変更：" + jobnames[i]);
                             return;
                         }
                     }
@@ -323,8 +325,8 @@ namespace gcard_macro
 
                 try
                 {
-                    IWebElement selectButton = elms[FinalJob].FindElement(By.ClassName("btn-select"));
-                    driver_.Navigate().GoToUrl(selectButton.GetAttribute("href"));
+                    IWebElement button = driver_.FindElement(By.XPath(string.Format("//div[@class=\"job-select-box {0}\"]//a", jobs[FinalJob])));
+                    driver_.Navigate().GoToUrl(button.GetAttribute("href"));
                 }
                 catch { }
 
@@ -807,18 +809,26 @@ namespace gcard_macro
                 {
                     try
                     {
-                        var be = driver_.FindElements(By.XPath("//*[@class=\"mt4\"]/a"));
+                        var be = driver_.FindElement(By.XPath("//*[@class=\"mt4\"]/a"));
                         Log?.Invoke(this, "BEx5 10倍攻撃使用");
 
                         string ret = "";
 
                         try
                         {
-                            ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                            ret = GetWebClient().DownloadString(be.GetAttribute("href"));
                         }
                         catch { }
 
-                        if (ret.IndexOf("swf") < 0)
+                        if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
+                        {
+                            StateChanged?.Invoke(this, State.FightAlreadyFinished);
+                            Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
+                            Wait(WaitMisc);
+                            driver_.Navigate().GoToUrl(enemy_list_path_);
+                            return;
+                        }
+                        else if (ret.IndexOf("swf") < 0)
                         {
                             StateChanged?.Invoke(this, State.AccessBlock);
                             Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
@@ -830,6 +840,8 @@ namespace gcard_macro
                         AddEnemyId(driver_.Url);
                         driver_.Navigate().Refresh();
                         Attacked = true;
+                        IsCombo = false;
+                        return;
                     }
                     catch { }
                 }
@@ -839,18 +851,26 @@ namespace gcard_macro
                 {
                     try
                     {
-                        var be = driver_.FindElements(By.XPath("//*[@class=\"flex txt-c\"]/a"));
+                        var be = driver_.FindElement(By.XPath("//*[@class=\"flex txt-c\"]/a"));
                         Log?.Invoke(this, "BEx3 20倍攻撃使用");
 
                         string ret = "";
 
                         try
                         {
-                            ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                            ret = GetWebClient().DownloadString(be.GetAttribute("href"));
                         }
                         catch { }
 
-                        if (ret.IndexOf("swf") < 0)
+                        if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
+                        {
+                            StateChanged?.Invoke(this, State.FightAlreadyFinished);
+                            Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
+                            Wait(WaitMisc);
+                            driver_.Navigate().GoToUrl(enemy_list_path_);
+                            return;
+                        }
+                        else if (ret.IndexOf("swf") < 0)
                         {
                             StateChanged?.Invoke(this, State.AccessBlock);
                             Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
@@ -862,6 +882,8 @@ namespace gcard_macro
                         AddEnemyId(driver_.Url);
                         driver_.Navigate().Refresh();
                         Attacked = true;
+                        IsCombo = false;
+                        return;
                     }
                     catch { }
                 }
@@ -870,17 +892,10 @@ namespace gcard_macro
                 if (requiredRatio > 3) useBe = 3;
                 else if (requiredRatio > 1.2) useBe = 2;
                 else useBe = 1;
-
-                if (useBe > 1)
-                {
-                    AddEnemyId(driver_.Url);
-                    Attacked = true;
-                    IsCombo = false;
-                    return;
-                }
-
+                //useBe = 1;
                 if (useBe > 0)
                 {
+
                     Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     useBe--;
 
