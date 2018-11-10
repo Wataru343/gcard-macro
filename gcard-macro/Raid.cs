@@ -375,6 +375,7 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
                     Wait(10);
+                    driver_.Navigate().Refresh();
                 }
                 //燃料不足
                 else if (IsFuelShortage())
@@ -577,9 +578,9 @@ namespace gcard_macro
 
             try
             {
-                //全ボタン検索                
-                buttons = driver_.FindElements(By.XPath("//a[contains(@class,\"btn-raidboss-\")]")).ToList();
-                enemyNames = driver_.FindElements(By.XPath("//p[contains(@class,\"raidboss-name\")]")).ToList();
+                //全ボタン検索
+                buttons = driver_.FindElements(By.XPath("//a[contains(@class,\"btn-raidboss-\") and not(contains(@id,\"dummy\"))]")).ToList();
+                enemyNames = driver_.FindElements(By.XPath("//p[contains(@class,\"raidboss-name\")]")).Take(buttons.Count()).ToList();
 
                 enemys = buttons.Zip(enemyNames, (b, n) => new Tuple<IWebElement, IWebElement>(b, n)).OrderBy(i => Guid.NewGuid()).ToList();
 

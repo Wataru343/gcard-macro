@@ -33,6 +33,7 @@ namespace gcard_macro
             checkBoxOptimizedWait.Checked = Properties.Settings.Default.OptimizedWaitEnable;
             numericUpDown.Value = Properties.Settings.Default.OptimizedWaitEnemyCount;
 
+            buttonStopBrowser.Enabled = false;
             EnableOptimizedWait(checkBoxOptimizedWait.Checked);
 
             timerWatchBrowser.Start();
@@ -67,7 +68,7 @@ namespace gcard_macro
 
             buttonSave.Enabled = false;
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.19";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.20";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 

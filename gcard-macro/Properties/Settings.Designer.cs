@@ -1140,5 +1140,185 @@ namespace gcard_macro.Properties {
                 this["GTacticsNoSearch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupUseCombo30 {
+            get {
+                return ((bool)(this["GroupUseCombo30"]));
+            }
+            set {
+                this["GroupUseCombo30"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupUseBE1 {
+            get {
+                return ((bool)(this["GroupUseBE1"]));
+            }
+            set {
+                this["GroupUseBE1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupCombo30Normal {
+            get {
+                return ((bool)(this["GroupCombo30Normal"]));
+            }
+            set {
+                this["GroupCombo30Normal"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupCombo30Mira {
+            get {
+                return ((bool)(this["GroupCombo30Mira"]));
+            }
+            set {
+                this["GroupCombo30Mira"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupCombo30Boost {
+            get {
+                return ((bool)(this["GroupCombo30Boost"]));
+            }
+            set {
+                this["GroupCombo30Boost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupAttack20Normal {
+            get {
+                return ((bool)(this["GroupAttack20Normal"]));
+            }
+            set {
+                this["GroupAttack20Normal"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupAttack20Mira {
+            get {
+                return ((bool)(this["GroupAttack20Mira"]));
+            }
+            set {
+                this["GroupAttack20Mira"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupAttack20Boost {
+            get {
+                return ((bool)(this["GroupAttack20Boost"]));
+            }
+            set {
+                this["GroupAttack20Boost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupAttack10Normal {
+            get {
+                return ((bool)(this["GroupAttack10Normal"]));
+            }
+            set {
+                this["GroupAttack10Normal"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupAttack10Boost {
+            get {
+                return ((bool)(this["GroupAttack10Boost"]));
+            }
+            set {
+                this["GroupAttack10Boost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupBE1Mira {
+            get {
+                return ((bool)(this["GroupBE1Mira"]));
+            }
+            set {
+                this["GroupBE1Mira"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupBE1Normal {
+            get {
+                return ((bool)(this["GroupBE1Normal"]));
+            }
+            set {
+                this["GroupBE1Normal"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupCombo30FirstAttack {
+            get {
+                return ((bool)(this["GroupCombo30FirstAttack"]));
+            }
+            set {
+                this["GroupCombo30FirstAttack"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupAttack20RequiredRatio {
+            get {
+                return ((bool)(this["GroupAttack20RequiredRatio"]));
+            }
+            set {
+                this["GroupAttack20RequiredRatio"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GroupBE1RequiredRatio {
+            get {
+                return ((bool)(this["GroupBE1RequiredRatio"]));
+            }
+            set {
+                this["GroupBE1RequiredRatio"] = value;
+            }
+        }
     }
 }

@@ -16,18 +16,23 @@ namespace gcard_macro
         override public event MinicapChangedHandler MinicapChanged;
         override public event LogHandler Log;
 
-        public bool UseAttack20 { get; set; }
-        public bool UseAttack10 { get; set; }
         public bool FirstAttackBoss { get; set; }
         public bool UseBoost { get; set; }
         public ulong PointDiff { get; set; }
         public bool AutojobLevelUp { get; set; }
         public int FinalJob { get; set; }
+
+        public Combo30Button Combo30 { get; set; }
+        public Attack20Button Attack20 { get; set; }
+        public Attack10Button Attack10 { get; set; }
+        public BE1Button BE1 { get; set; }
+
         private bool IsMemorialBoss { get; set; }
         private bool BoostActivated { get; set; }
         private bool EnemyMirageColloidActivated { get; set; }
         private double AttackerJobRatio { get; set; }
         private bool AllJobLevelMax { get; set; }
+        
 
         public Group(IWebDriver driver, string home_path) : base(driver, home_path)
         {
@@ -45,7 +50,15 @@ namespace gcard_macro
             WaitMisc = 0.0;
             BaseDamage = 0;
             AttackerJobRatio = 0.0;
+            FirstAttackBoss = false;
+            UseBoost = false;
+            PointDiff = 0;
+            AutojobLevelUp = false;
             FinalJob = 0;
+            Combo30 = new Combo30Button();
+            Attack20 = new Attack20Button();
+            Attack10 = new Attack10Button();
+            BE1 = new BE1Button();
 
             base.StateChanged += StateChangedBase;
             base.MinicapChanged += MiniCapChangedBase;
@@ -227,6 +240,7 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
                     Wait(10);
+                    driver_.Navigate().Refresh();
                 }
                 //燃料不足
                 else if (IsFuelShortage())
@@ -386,8 +400,8 @@ namespace gcard_macro
             try
             {
                 //全ボタン検索                
-                buttons = driver_.FindElements(By.XPath("//div[contains(@id,\"raidboss\") and contains(@id,\"wrapper\")]//a")).ToList();
-                enemyNames = driver_.FindElements(By.XPath("//p[contains(@class,\"raidboss-name\")]")).ToList();
+                buttons = driver_.FindElements(By.XPath("//div[contains(@id,\"raidboss\") and contains(@id,\"wrapper\") and not(contains(@id,\"dummy\"))]//a")).ToList();
+                enemyNames = driver_.FindElements(By.XPath("//p[contains(@class,\"raidboss-name\")]")).Take(buttons.Count()).ToList();
 
                 enemys = buttons.Zip(enemyNames, (b, n) => new Tuple<IWebElement, IWebElement>(b, n)).OrderBy(i => Guid.NewGuid()).ToList();
 
@@ -719,7 +733,7 @@ namespace gcard_macro
                 Log?.Invoke(this, "待機中");
                 Wait(2);
                 Log?.Invoke(this, "ページ更新");
-
+                //AttackedEnemyId.Clear();
                 driver_.Navigate().Refresh();
                 Exec = SearchState;
                 return;
@@ -804,13 +818,15 @@ namespace gcard_macro
                 int useBe = 0;
                 if (requiredRatio == 0) requiredRatio = 1;
 
-                //BEx5使用10倍攻撃
-                if (UseAttack10 && requiredRatio > 5)
+
+
+                //攻撃処理
+                bool func(SpecialAttackButton b)
                 {
                     try
                     {
-                        var be = driver_.FindElement(By.XPath("//*[@class=\"mt4\"]/a"));
-                        Log?.Invoke(this, "BEx5 10倍攻撃使用");
+                        var be = driver_.FindElement(By.XPath(string.Format("//img[contains(@src,\"{0}\") or contains(@src,\"{1}\")]/..", b.LargeButtonName, b.SmallButtonName)));
+                        Log?.Invoke(this, string.Format("{0}使用", b.ToString()));
 
                         string ret = "";
 
@@ -826,7 +842,7 @@ namespace gcard_macro
                             Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
                             Wait(WaitMisc);
                             driver_.Navigate().GoToUrl(enemy_list_path_);
-                            return;
+                            return true;
                         }
                         else if (ret.IndexOf("swf") < 0)
                         {
@@ -834,58 +850,89 @@ namespace gcard_macro
                             Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                             Wait(WaitAccessBlock);
                             driver_.Navigate().GoToUrl(home_path_);
-                            return;
+                            return true;
                         }
 
                         AddEnemyId(driver_.Url);
                         driver_.Navigate().Refresh();
                         Attacked = true;
                         IsCombo = false;
-                        return;
+                        return true;
                     }
-                    catch { }
+                    catch
+                    {
+                        return false;
+                    }
                 }
 
-                //BEx3使用20倍攻撃
-                if (EnemyMirageColloidActivated && UseAttack20 && requiredRatio > 10)
+
+                //BEx1 1.2倍+30コンボ攻撃
+                if (Combo30.Use)
                 {
-                    try
+                    bool use = false;
+                    if (EnemyMirageColloidActivated && Combo30.Mira) use = true;
+                    else if (BoostActivated && Combo30.Boost) use = true;
+                    else if (!EnemyMirageColloidActivated && !BoostActivated && Combo30.Normal) use = true;
+
+                    if (Combo30.FirstAttack)
                     {
-                        var be = driver_.FindElement(By.XPath("//*[@class=\"flex txt-c\"]/a"));
-                        Log?.Invoke(this, "BEx3 20倍攻撃使用");
-
-                        string ret = "";
-
-                        try
-                        {
-                            ret = GetWebClient().DownloadString(be.GetAttribute("href"));
-                        }
-                        catch { }
-
-                        if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
-                        {
-                            StateChanged?.Invoke(this, State.FightAlreadyFinished);
-                            Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
-                            Wait(WaitMisc);
-                            driver_.Navigate().GoToUrl(enemy_list_path_);
-                            return;
-                        }
-                        else if (ret.IndexOf("swf") < 0)
-                        {
-                            StateChanged?.Invoke(this, State.AccessBlock);
-                            Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
-                            Wait(WaitAccessBlock);
-                            driver_.Navigate().GoToUrl(home_path_);
-                            return;
-                        }
-
-                        AddEnemyId(driver_.Url);
-                        driver_.Navigate().Refresh();
-                        Attacked = true;
-                        IsCombo = false;
-                        return;
+                        use = !IsAttacked(driver_.Url) && !IsCombo;
                     }
-                    catch { }
+
+                    if (use)
+                    {
+                        if (func(Combo30)) return;
+                    }
+                }
+
+                //BEx5 10倍攻撃
+                if (Attack10.Use && requiredRatio > 5)
+                {
+                    bool use = false;
+                    if (BoostActivated && Attack10.Boost) use = true;
+                    else if (!BoostActivated && Attack10.Normal) use = true;
+
+                    if (use)
+                    {
+                        if (func(Attack10)) return;
+                    }
+                }
+
+                //BEx3 20倍攻撃
+                if (Attack20.Use && requiredRatio > 5)
+                {
+                    bool use = false;
+                    if (EnemyMirageColloidActivated && Attack20.Mira) use = true;
+                    else if (BoostActivated && Attack20.Boost) use = true;
+                    else if (!BoostActivated && Attack20.Normal) use = true;
+
+                    if (Attack20.RequiredRatio)
+                    {
+                        use = requiredRatio >= 20;
+                    }
+
+                    if (use)
+                    {
+                        if (func(Attack20)) return;
+                    }
+                }
+
+                //BEx3 20倍攻撃
+                if (BE1.Use && requiredRatio > 5)
+                {
+                    bool use = false;
+                    if (EnemyMirageColloidActivated && BE1.Mira) use = true;
+                    else if (!EnemyMirageColloidActivated && BE1.Normal) use = true;
+
+                    if (BE1.RequiredRatio)
+                    {
+                        use = requiredRatio >= 20;
+                    }
+
+                    if (use)
+                    {
+                        if (func(BE1)) return;
+                    }
                 }
 
 
@@ -895,38 +942,40 @@ namespace gcard_macro
                 //useBe = 1;
                 if (useBe > 0)
                 {
+                    //if (useBe == 1)
+                    //{
+                        Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
+                        useBe--;
 
-                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
-                    useBe--;
+                        string ret = "";
 
-                    string ret = "";
+                        try
+                        {
+                            ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
+                        }
+                        catch { }
 
-                    try
-                    {
-                        ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
-                    }
-                    catch { }
+                        if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
+                        {
+                            StateChanged?.Invoke(this, State.FightAlreadyFinished);
+                            Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
+                            Wait(WaitMisc);
+                            driver_.Navigate().GoToUrl(enemy_list_path_);
+                            return;
+                        }
+                        else if (ret.IndexOf("swf") < 0)
+                        {
+                            StateChanged?.Invoke(this, State.AccessBlock);
+                            Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
+                            Wait(WaitAccessBlock);
+                            driver_.Navigate().GoToUrl(home_path_);
+                            return;
+                        }
 
-                    if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
-                    {
-                        StateChanged?.Invoke(this, State.FightAlreadyFinished);
-                        Log?.Invoke(this, "ページ移動：戦闘終了済み通知画面");
-                        Wait(WaitMisc);
-                        driver_.Navigate().GoToUrl(enemy_list_path_);
-                        return;
-                    }
-                    else if (ret.IndexOf("swf") < 0)
-                    {
-                        StateChanged?.Invoke(this, State.AccessBlock);
-                        Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
-                        Wait(WaitAccessBlock);
-                        driver_.Navigate().GoToUrl(home_path_);
-                        return;
-                    }
-
-                    AddEnemyId(driver_.Url);
-                    driver_.Navigate().Refresh();
-                    Attacked = true;
+                    //}
+                        AddEnemyId(driver_.Url);
+                        driver_.Navigate().Refresh();
+                        Attacked = true;
                 }
             }
             catch { }

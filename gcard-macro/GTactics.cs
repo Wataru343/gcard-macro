@@ -233,6 +233,7 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
                     Wait(10);
+                    driver_.Navigate().Refresh();
                 }
                 //フォース実行失敗
                 else if (IsForceFaild())

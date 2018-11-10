@@ -46,8 +46,6 @@ namespace gcard_macro
             textBoxPointDiff.Text = Properties.Settings.Default.GroupPointDiff.ToString();
             comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.GroupAttackMode;
             comboBoxRecieve.SelectedIndex = Properties.Settings.Default.GroupReceiveCount;
-            checkBoxUseAttack10.Checked = Properties.Settings.Default.GroupUseAttack10;
-            checkBoxUseAttack20.Checked = Properties.Settings.Default.GroupUseAttack20;
             checkBoxUseBoost.Checked = Properties.Settings.Default.GroupUseBoost;
             checkBoxFirstAttackBoss.Checked = Properties.Settings.Default.GroupFirstAttackBoss;
             checkBoxRecieveReword.Checked = Properties.Settings.Default.GroupReceiveReword;
@@ -56,6 +54,27 @@ namespace gcard_macro
             checkBoxOnlySearch.Checked = Properties.Settings.Default.GroupOnlySearch;
             checkBoxNoSearch.Checked = Properties.Settings.Default.GroupNoSearch;
             comboBoxFinalJob.SelectedIndex = Properties.Settings.Default.GroupFinalJob;
+
+            checkBoxUseCombo30.Checked = Properties.Settings.Default.GroupUseCombo30;
+            checkBoxCombo30Normal.Checked = Properties.Settings.Default.GroupCombo30Normal;
+            checkBoxCombo30Mira.Checked = Properties.Settings.Default.GroupCombo30Mira;
+            checkBoxCombo30Boost.Checked = Properties.Settings.Default.GroupCombo30Boost;
+            checkBoxCombo30FirstAttack.Checked = Properties.Settings.Default.GroupCombo30FirstAttack;
+
+            checkBoxUseAttack20.Checked = Properties.Settings.Default.GroupUseAttack20;
+            checkBoxAttack20Normal.Checked = Properties.Settings.Default.GroupAttack20Normal;
+            checkBoxAttack20Mira.Checked = Properties.Settings.Default.GroupAttack20Mira;
+            checkBoxAttack20Boost.Checked = Properties.Settings.Default.GroupAttack20Boost;
+            checkBoxAttack20RequiredRatio.Checked = Properties.Settings.Default.GroupAttack20RequiredRatio;
+
+            checkBoxUseAttack10.Checked = Properties.Settings.Default.GroupUseAttack10;
+            checkBoxAttack10Normal.Checked = Properties.Settings.Default.GroupAttack10Normal;
+            checkBoxAttack10Boost.Checked = Properties.Settings.Default.GroupAttack10Boost;
+
+            checkBoxUseBE1.Checked = Properties.Settings.Default.GroupUseBE1;
+            checkBoxBE1Normal.Checked = Properties.Settings.Default.GroupBE1Normal;
+            checkBoxBE1Mira.Checked = Properties.Settings.Default.GroupBE1Mira;
+            checkBoxBE1RequiredRatio.Checked = Properties.Settings.Default.GroupBE1RequiredRatio;
 
             try
             {
@@ -67,6 +86,11 @@ namespace gcard_macro
                 dateTimePickerTimeStart.Value = dateTimePickerTimeStart.MinDate;
                 dateTimePickerTimeEnd.Value = dateTimePickerTimeEnd.MinDate;
             }
+
+            checkBoxUseCombo30.CheckedChanged += ValueChanged;
+            checkBoxUseAttack20.CheckedChanged += ValueChanged;
+            checkBoxUseAttack10.CheckedChanged += ValueChanged;
+            checkBoxUseBE1.CheckedChanged += ValueChanged;
 
             CurrentState = labelStateHome;
         }
@@ -126,8 +150,6 @@ namespace gcard_macro
                     PointDiff = Utils.ToUlong(textBoxPointDiff.Text),
                     Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
                     ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
-                    UseAttack10 = checkBoxUseAttack10.Checked,
-                    UseAttack20 = checkBoxUseAttack20.Checked,
                     UseBoost = checkBoxUseBoost.Checked,
                     FirstAttackBoss = checkBoxFirstAttackBoss.Checked,
                     ReceiveReword = checkBoxRecieveReword.Checked,
@@ -138,7 +160,42 @@ namespace gcard_macro
                     FinalJob = comboBoxFinalJob.SelectedIndex,
                     StartTime = dateTimePickerTimeStart.Value,
                     EndTime = dateTimePickerTimeEnd.Value,
-                    SampleCount = OptimizedWaitEnemyCount
+                    SampleCount = OptimizedWaitEnemyCount,
+                    Combo30 = new Combo30Button()
+                    {
+                        Type = SpecialAttackButton.AttackType.Combo30,
+                        Use = checkBoxUseCombo30.Checked,
+                        Normal = checkBoxCombo30Normal.Checked,
+                        Mira = checkBoxCombo30Mira.Checked,
+                        FirstAttack = checkBoxCombo30FirstAttack.Checked,
+                        Boost = checkBoxCombo30Boost.Checked
+                    },
+                    Attack20 = new Attack20Button()
+                    {
+                        Type = SpecialAttackButton.AttackType.Attack20,
+                        Use = checkBoxUseAttack20.Checked,
+                        Normal = checkBoxAttack20Normal.Checked,
+                        Mira = checkBoxAttack20Mira.Checked,
+                        Boost = checkBoxAttack20Boost.Checked,
+                        RequiredRatio = checkBoxAttack20RequiredRatio.Checked
+                    },
+                    Attack10 = new Attack10Button()
+                    {
+                        Type = SpecialAttackButton.AttackType.Attack10,
+                        Use = checkBoxUseAttack10.Checked,
+                        Normal = checkBoxAttack10Normal.Checked,
+                        Mira = false,
+                        Boost = checkBoxAttack10Boost.Checked
+                    },
+                    BE1 = new BE1Button()
+                    {
+                        Type = SpecialAttackButton.AttackType.BE1,
+                        Use = checkBoxUseBE1.Checked,
+                        Normal = checkBoxBE1Normal.Checked,
+                        Mira = checkBoxBE1Mira.Checked,
+                        Boost = true,
+                        RequiredRatio = checkBoxBE1RequiredRatio.Checked
+                    }
                 };
 
                 Group.StateChanged += StateChanged;
@@ -204,8 +261,6 @@ namespace gcard_macro
             Properties.Settings.Default.GroupEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
             Properties.Settings.Default.GroupAttackMode = comboBoxAttackMode.SelectedIndex;
             Properties.Settings.Default.GroupReceiveCount = comboBoxRecieve.SelectedIndex;
-            Properties.Settings.Default.GroupUseAttack10 = checkBoxUseAttack10.Checked;
-            Properties.Settings.Default.GroupUseAttack20 = checkBoxUseAttack20.Checked;
             Properties.Settings.Default.GroupUseBoost = checkBoxUseBoost.Checked;
             Properties.Settings.Default.GroupFirstAttackBoss = checkBoxFirstAttackBoss.Checked;
             Properties.Settings.Default.GroupReceiveReword = checkBoxRecieveReword.Checked;
@@ -216,6 +271,23 @@ namespace gcard_macro
             Properties.Settings.Default.GroupFinalJob = comboBoxFinalJob.SelectedIndex;
             Properties.Settings.Default.GroupTimeStart = dateTimePickerTimeStart.Value;
             Properties.Settings.Default.GroupTimeEnd = dateTimePickerTimeEnd.Value;
+            Properties.Settings.Default.GroupUseCombo30 = checkBoxUseCombo30.Checked;
+            Properties.Settings.Default.GroupCombo30Normal = checkBoxCombo30Normal.Checked;
+            Properties.Settings.Default.GroupCombo30Mira = checkBoxCombo30Mira.Checked;
+            Properties.Settings.Default.GroupCombo30Boost = checkBoxCombo30Boost.Checked;
+            Properties.Settings.Default.GroupCombo30FirstAttack = checkBoxCombo30FirstAttack.Checked;
+            Properties.Settings.Default.GroupUseAttack20 = checkBoxUseAttack20.Checked;
+            Properties.Settings.Default.GroupAttack20Normal = checkBoxAttack20Normal.Checked;
+            Properties.Settings.Default.GroupAttack20Mira = checkBoxAttack20Mira.Checked;
+            Properties.Settings.Default.GroupAttack20Boost = checkBoxAttack20Boost.Checked;
+            Properties.Settings.Default.GroupAttack20RequiredRatio = checkBoxAttack20RequiredRatio.Checked;
+            Properties.Settings.Default.GroupUseAttack10 = checkBoxUseAttack10.Checked;
+            Properties.Settings.Default.GroupAttack10Normal = checkBoxAttack10Normal.Checked;
+            Properties.Settings.Default.GroupAttack10Boost = checkBoxAttack10Boost.Checked;
+            Properties.Settings.Default.GroupUseBE1 = checkBoxUseBE1.Checked;
+            Properties.Settings.Default.GroupBE1Normal = checkBoxBE1Normal.Checked;
+            Properties.Settings.Default.GroupBE1Mira = checkBoxBE1Mira.Checked;
+            Properties.Settings.Default.GroupBE1RequiredRatio = checkBoxBE1RequiredRatio.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -353,6 +425,24 @@ namespace gcard_macro
         }
 
         private void ValueChanged(object sender, EventArgs e) => SettingChanged?.Invoke(this, e);
+
+        private void checkBoxUseCombo30_CheckedChanged(object sender, EventArgs e) => checkBoxCombo30Normal.Enabled = checkBoxCombo30Mira.Enabled = checkBoxCombo30Boost.Enabled = checkBoxCombo30FirstAttack.Enabled = (sender as CheckBox).Checked;
+
+        private void checkBoxUseAttack20_CheckedChanged(object sender, EventArgs e) => checkBoxAttack20Normal.Enabled = checkBoxAttack20Mira.Enabled = checkBoxAttack20Boost.Enabled = checkBoxAttack20RequiredRatio.Enabled = (sender as CheckBox).Checked;
+
+        private void checkBoxUseAttack10_CheckedChanged(object sender, EventArgs e) => checkBoxAttack10Normal.Enabled = checkBoxAttack10Boost.Enabled = (sender as CheckBox).Checked;
+
+        private void checkBoxUseBE1_CheckedChanged(object sender, EventArgs e) => checkBoxBE1Normal.Enabled = checkBoxBE1Mira.Enabled = checkBoxBE1RequiredRatio.Enabled = (sender as CheckBox).Checked;
+
+        private void PaintFrameTopLeftRight(object sender, PaintEventArgs e) => PaintFrame(e, new Point[] { new Point(0, (sender as Control).Height - 1), new Point(0, 0), new Point((sender as Control).Width - 1, 0), new Point((sender as Control).Width - 1, (sender as Control).Height - 1) });
+
+        private void PaintFrameTopLeftRightBottom(object sender, PaintEventArgs e) => PaintFrame(e, new Point[] { new Point(0, (sender as Control).Height - 1), new Point(0, 0), new Point((sender as Control).Width - 1, 0), new Point((sender as Control).Width - 1, (sender as Control).Height - 1), new Point(0, (sender as Control).Height - 1) });
+
+        private void PaintFrameTopRight(object sender, PaintEventArgs e) => PaintFrame(e, new Point[] { new Point(0, 0), new Point((sender as Control).Size.Width - 1, 0), new Point((sender as Control).Size.Width - 1, (sender as Control).Size.Height - 1) });
+
+        private void PaintFrameTopRightBottom(object sender, PaintEventArgs e) => PaintFrame(e, new Point[] { new Point(0, 0), new Point((sender as Control).Size.Width - 1, 0), new Point((sender as Control).Size.Width - 1, (sender as Control).Size.Height - 1), new Point(0, (sender as Control).Size.Height - 1) });
+
+        private void PaintFrame(PaintEventArgs e, Point[] pt) => e.Graphics.DrawLines(new Pen(Color.Black, 1), pt);
     }
 }
                                        

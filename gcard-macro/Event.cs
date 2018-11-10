@@ -481,7 +481,6 @@ namespace gcard_macro
             {
                 string swfUrl = GetSwfURL(driver_.PageSource);
                 string swf = new string(GetSwfBinary(swfUrl, 1024 * 1024));
-
                 //WebClient wc = GetWebClient();
                 //wc.DownloadFile(swfUrl, string.Format(@"11.swf", DateTime.Now.ToLongTimeString()));
                 //wc.Dispose();
@@ -496,6 +495,19 @@ namespace gcard_macro
                 else if (swfUrl.IndexOf("lucky_effect") >= 0)
                 {
                     SearchEnemy(driver_.Url);
+                }
+                //カードクエストクリア(部隊戦)
+                else if(swfUrl.IndexOf("quest_clear_effect_for_combo") >= 0)
+                {
+                    string progress = new string(swf.Substring(swf.LastIndexOf("progress") + 13, 5).Where(c => char.IsNumber(c)).ToArray());
+                    string id = new string(swf.Substring(swf.LastIndexOf("id") + 7, 9).Where(c => char.IsNumber(c)).ToArray());
+                    string sk = new string(swf.Substring(swf.IndexOf("sk") + 7, 8).Where(c => char.IsNumber(c)).ToArray());
+
+                    string resultURL = home_path_ + @"_raid_boss" +
+                        "?progress=" + progress +
+                        "&id=" + id +
+                        "&sk=" + sk;
+                    driver_.Navigate().GoToUrl(resultURL);
                 }
                 //クエストクリア演出
                 else if (swfUrl.IndexOf("quest_clear_effect") >= 0)
