@@ -673,6 +673,10 @@ namespace gcard_macro
                         "&s_boss_eids=" + s_boss_eids;
                     driver_.Navigate().GoToUrl(resultURL);
                 }
+                else if(swfUrl.IndexOf("exec_boost_effect") >= 0)
+                {
+                    driver_.Navigate().GoToUrl(home_path_ + "_boost_result");
+                }
                 else
                 {
                     driver_.Navigate().GoToUrl(home_path_);
@@ -907,6 +911,7 @@ namespace gcard_macro
 
                 WaitVariable += 60.0 / SampleCount - averageSearchTime;
 
+                SpeedCounter?.Invoke(this, values.Count());
                 if (WaitVariable <= 0)
                 {
                     WaitVariable = 0;
@@ -917,7 +922,6 @@ namespace gcard_macro
                     Log?.Invoke(this, string.Format("時間調整：{0:f2}秒待機", WaitVariable));
                     Wait(WaitVariable);
                 }
-                SpeedCounter?.Invoke(this, values.Count());
             }
         }
 

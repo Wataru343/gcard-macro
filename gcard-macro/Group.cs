@@ -133,7 +133,12 @@ namespace gcard_macro
                     CurrentState = State.EnemyList;
                     Wait(WaitSearch);
                     Exec = MoveEnemyListToSearch;
-                    IsMemorialBoss = false;
+
+                    if (EnemyFound)
+                    {
+                        WaitForAccessLimit();
+                        EnemyFound = false;
+                    }
                 }
                 //戦闘画面
                 else if (IsBattle())
@@ -973,9 +978,9 @@ namespace gcard_macro
                         }
 
                     //}
-                        AddEnemyId(driver_.Url);
-                        driver_.Navigate().Refresh();
-                        Attacked = true;
+                    AddEnemyId(driver_.Url);
+                    driver_.Navigate().Refresh();
+                    Attacked = true;
                 }
             }
             catch { }

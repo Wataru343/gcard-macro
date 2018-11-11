@@ -152,6 +152,12 @@ namespace gcard_macro
                     CurrentState = State.EnemyList;
                     Wait(WaitSearch);
                     Exec = MoveEnemyListToSearch;
+
+                    if (EnemyFound)
+                    {
+                        WaitForAccessLimit();
+                        EnemyFound = false;
+                    }
                 }
                 //戦闘画面
                 else if (IsBattle())
