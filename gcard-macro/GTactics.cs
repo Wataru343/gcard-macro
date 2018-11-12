@@ -125,6 +125,7 @@ namespace gcard_macro
 
                         CurrentState = State.Interval;
                         Wait(10);
+                        driver_.Navigate().Refresh();
                     }
                 }
                 //探索フラッシュ
@@ -239,7 +240,6 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
                     Wait(10);
-                    driver_.Navigate().Refresh();
                 }
                 //フォース実行失敗
                 else if (IsForceFaild())
@@ -946,6 +946,11 @@ namespace gcard_macro
 
                         string url = elm.GetAttribute("href");
 
+                        if (url == null)
+                        {
+                            url = "http://gcc.sp.mbga.jp/" + elm.GetAttribute("data-mission-path");
+                        }
+
                         if (url != null)
                         {
                             switch (SearchEnemy(url))
@@ -1082,9 +1087,8 @@ namespace gcard_macro
 
                 if (useBe > 0)
                 {
-                    Log?.Invoke(this, "攻撃： " + name);
-                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     useBe--;
+                    Log?.Invoke(this, "攻撃： " + name);
 
                     string ret = "";
 
@@ -1103,6 +1107,7 @@ namespace gcard_macro
                         return;
                     }
 
+                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     AddEnemyId(driver_.Url);
                     driver_.Navigate().Refresh();
                     Attacked = true;

@@ -25,7 +25,7 @@ namespace gcard_macro
         {
             get
             {
-                return "";
+                return "NotImplemented";
             }
         }
 
@@ -33,7 +33,23 @@ namespace gcard_macro
         {
             get
             {
-                return "";
+                return "NotImplemented";
+            }
+        }
+
+        virtual public string DisableLargeButtonName
+        {
+            get
+            {
+                return "NotImplemented";
+            }
+        }
+
+        virtual public string DisableSmallButtonName
+        {
+            get
+            {
+                return "NotImplemented";
             }
         }
     }
@@ -58,6 +74,14 @@ namespace gcard_macro
             }
         }
 
+        override public string DisableLargeButtonName
+        {
+            get
+            {
+                return "s_c_1_n_sp.png";
+            }
+        }
+
         override public string ToString() { return "BEx1 1.2倍+30コンボ攻撃"; }
     }
 
@@ -78,6 +102,14 @@ namespace gcard_macro
             get
             {
                 return "s_m_a_3_sp.png";
+            }
+        }
+
+        override public string DisableLargeButtonName
+        {
+            get
+            {
+                return "s_a_3_n_sp.png";
             }
         }
 
@@ -122,6 +154,22 @@ namespace gcard_macro
             get
             {
                 return "s_b_l_3_sp.png";
+            }
+        }
+
+        override public string DisableLargeButtonName
+        {
+            get
+            {
+                return "b_l_3_n_sp.pngg";
+            }
+        }
+
+        override public string DisableSmallButtonName
+        {
+            get
+            {
+                return "s_b_l_3_n_sp.png";
             }
         }
 

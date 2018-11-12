@@ -98,6 +98,7 @@ namespace gcard_macro
 
                         CurrentState = State.Interval;
                         Wait(10);
+                        driver_.Navigate().Refresh();
                     }
                 }
                 //ジョブ選択
@@ -245,7 +246,6 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
                     Wait(10);
-                    driver_.Navigate().Refresh();
                 }
                 //燃料不足
                 else if (IsFuelShortage())
@@ -699,6 +699,11 @@ namespace gcard_macro
 
                         string url = elm.GetAttribute("href");
 
+                        if (url == null)
+                        {
+                            url = "http://gcc.sp.mbga.jp/" + elm.GetAttribute("data-mission-path");
+                        }
+
                         if (url != null)
                         {
                             switch (SearchEnemy(url))
@@ -830,16 +835,17 @@ namespace gcard_macro
                 {
                     try
                     {
-                        var be = driver_.FindElement(By.XPath(string.Format("//img[contains(@src,\"{0}\") or contains(@src,\"{1}\")]/..", b.LargeButtonName, b.SmallButtonName)));
-                        Log?.Invoke(this, string.Format("{0}使用", b.ToString()));
-
-                        string ret = "";
-
+                        IWebElement be = null;
                         try
                         {
-                            ret = GetWebClient().DownloadString(be.GetAttribute("href"));
+                            be = driver_.FindElement(By.XPath(string.Format("//img[contains(@src,\"{0}\") or contains(@src,\"{1}\")]/..", b.DisableLargeButtonName, b.DisableSmallButtonName)));
                         }
-                        catch { }
+                        catch 
+                        {
+                            be = driver_.FindElement(By.XPath(string.Format("//img[contains(@src,\"{0}\") or contains(@src,\"{1}\")]/..", b.LargeButtonName, b.SmallButtonName)));
+                        }
+                        
+                        string ret = GetWebClient().DownloadString(be.GetAttribute("href"));
 
                         if (ret.IndexOf("戦闘は終了") >= 0 || ret.IndexOf("このボスと") >= 0)
                         {
@@ -858,6 +864,7 @@ namespace gcard_macro
                             return true;
                         }
 
+                        Log?.Invoke(this, string.Format("{0}使用", b.ToString()));
                         AddEnemyId(driver_.Url);
                         driver_.Navigate().Refresh();
                         Attacked = true;
@@ -922,7 +929,7 @@ namespace gcard_macro
                     }
                 }
 
-                //BEx3 20倍攻撃
+                //BEカプセルx1 20倍攻撃
                 if (BE1.Use && requiredRatio > 5)
                 {
                     bool use = false;
@@ -949,7 +956,6 @@ namespace gcard_macro
                 {
                     //if (useBe == 1)
                     //{
-                        Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                         useBe--;
 
                         string ret = "";
@@ -976,8 +982,9 @@ namespace gcard_macro
                             driver_.Navigate().GoToUrl(home_path_);
                             return;
                         }
-
                     //}
+
+                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     AddEnemyId(driver_.Url);
                     driver_.Navigate().Refresh();
                     Attacked = true;

@@ -197,7 +197,6 @@ namespace gcard_macro
                         Log?.Invoke(this, "ページ移動：イベント終了画面");
                     CurrentState = State.EventFinished;
                     Wait(10);
-                    driver_.Navigate().Refresh();
                 }
                 //燃料不足
                 else if (IsFuelShortage())
@@ -433,6 +432,11 @@ namespace gcard_macro
 
                         string url = elm.GetAttribute("href");
 
+                        if (url == null)
+                        {
+                            url = "http://gcc.sp.mbga.jp/" + elm.GetAttribute("data-mission-path");
+                        }
+
                         if (url != null)
                         {
                             switch (SearchEnemy(url))
@@ -586,7 +590,6 @@ namespace gcard_macro
 
                 if (useBe > 0)
                 {
-                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     useBe--;
 
                     string ret = "";
@@ -614,6 +617,7 @@ namespace gcard_macro
                         return;
                     }
 
+                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
                     AddEnemyId(driver_.Url);
                     driver_.Navigate().Refresh();
                     Attacked = true;
