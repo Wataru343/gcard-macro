@@ -886,7 +886,7 @@ namespace gcard_macro
                     else if (BoostActivated && Combo30.Boost) use = true;
                     else if (!EnemyMirageColloidActivated && !BoostActivated && Combo30.Normal) use = true;
 
-                    if (Combo30.FirstAttack)
+                    if (use && Combo30.FirstAttack)
                     {
                         use = !IsAttacked(driver_.Url) && !IsCombo;
                     }

@@ -974,6 +974,7 @@ namespace gcard_macro
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"売却して探索する\"]"));
+                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
                 driver_.Navigate().GoToUrl(enemy_list_path_);
             }
             catch { }
