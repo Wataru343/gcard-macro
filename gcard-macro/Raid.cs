@@ -1305,7 +1305,7 @@ namespace gcard_macro
                         AddEnemyId(driver_.Url);
                     }
 
-                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
+                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe + 1));
                     driver_.Navigate().Refresh();
                     Attacked = true;
                 }
@@ -1470,7 +1470,7 @@ namespace gcard_macro
                         return;
                     }
 
-                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe));
+                    Log?.Invoke(this, string.Format("BEx{0}使用", useBe + 1));
                     driver_.Navigate().Refresh();
                     Attacked = true;
                 }
