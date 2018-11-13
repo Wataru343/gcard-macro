@@ -897,19 +897,6 @@ namespace gcard_macro
                     }
                 }
 
-                //BEx5 10倍攻撃
-                if (Attack10.Use && requiredRatio > 5)
-                {
-                    bool use = false;
-                    if (BoostActivated && Attack10.Boost) use = true;
-                    else if (!BoostActivated && Attack10.Normal) use = true;
-
-                    if (use)
-                    {
-                        if (func(Attack10)) return;
-                    }
-                }
-
                 //BEx3 20倍攻撃
                 if (Attack20.Use && requiredRatio > 5)
                 {
@@ -944,6 +931,19 @@ namespace gcard_macro
                     if (use)
                     {
                         if (func(BE1)) return;
+                    }
+                }
+
+                //BEx5 10倍攻撃
+                if (Attack10.Use && requiredRatio > 5)
+                {
+                    bool use = false;
+                    if (BoostActivated && Attack10.Boost) use = true;
+                    else if (!BoostActivated && Attack10.Normal) use = true;
+
+                    if (use)
+                    {
+                        if (func(Attack10)) return;
                     }
                 }
 
