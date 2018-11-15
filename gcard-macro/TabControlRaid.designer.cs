@@ -326,9 +326,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 511);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(173, 12);
+            this.label6.Size = new System.Drawing.Size(199, 12);
             this.label6.TabIndex = 26;
-            this.label6.Text = "強襲作戦の報酬受け取り時のWait";
+            this.label6.Text = "強襲作戦の報酬受け取り時の待機時間";
             // 
             // checkBoxNoSearch
             // 
@@ -348,9 +348,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(3, 461);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(155, 12);
+            this.label10.Size = new System.Drawing.Size(181, 12);
             this.label10.TabIndex = 23;
-            this.label10.Text = "強襲作戦の戦艦攻撃時のWait";
+            this.label10.Text = "強襲作戦の戦艦攻撃時の待機時間";
             // 
             // tableLayoutPanel3
             // 

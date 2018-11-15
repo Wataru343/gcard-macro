@@ -107,11 +107,6 @@ namespace gcard_macro
         virtual public double WaitReceive { get; set; }
 
         /// <summary>
-        /// 探索続行時Wait
-        /// </summary>
-        virtual public double WaitContinueSearch { get; set; }
-
-        /// <summary>
         /// アクセス制限時Wait
         /// </summary>
         virtual public double WaitAccessBlock { get; set; }
@@ -277,7 +272,6 @@ namespace gcard_macro
             WaitBattle = 0.0;
             WaitAttack = 0.0;
             WaitReceive = 0.0;
-            WaitContinueSearch = 0.0;
             WaitAccessBlock = 0.0;
             WaitMisc = 0.0;
             BaseDamage = 0;
@@ -811,6 +805,7 @@ namespace gcard_macro
         /// <returns>成否</returns>
         protected SearchResult SearchEnemy(string url)
         {
+            Wait(WaitSearch);
             try
             {
                 using (WebClient client = GetWebClient())
@@ -870,7 +865,6 @@ namespace gcard_macro
                             else if(respons.IndexOf("lucky") >= 0 || respons.IndexOf("mission") >= 0)
                             {
                                 //探索続行
-                                Wait(WaitContinueSearch);
                                 return SearchResult.Found;
                             }
                             else
@@ -1041,6 +1035,7 @@ namespace gcard_macro
         /// </summary>
         virtual protected void MoveReceiveToPresentList()
         {
+            Wait(WaitReceive);
             try
             {
                 if (ReceivePresent)
@@ -1066,6 +1061,7 @@ namespace gcard_macro
         /// </summary>
         virtual protected void MovePresentListToPresent()
         {
+            Wait(WaitReceive);
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//input[@value=\"プレゼントをまとめて受け取る\"]/../../../form"));

@@ -119,7 +119,6 @@ namespace gcard_macro
                     WaitBattle = WaitBattle,
                     WaitAttack = WaitAttack,
                     WaitReceive = WaitReceive,
-                    WaitContinueSearch = WaitContinueSearch,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
                     JoinAssault = checkBoxJoinAssault.Checked,

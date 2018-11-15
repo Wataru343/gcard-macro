@@ -73,7 +73,7 @@ namespace gcard_macro
                     if (CurrentState != State.Home)
                         Log?.Invoke(this, "ページ移動：イベントホーム画面");
                     CurrentState = State.Home;
-                    Wait(WaitSearch);
+                    Wait(WaitMisc);
                     Exec = MoveEventHomeToSearch;
                 }
                 //戦闘フラッシュ
@@ -82,7 +82,6 @@ namespace gcard_macro
                     if (CurrentState != State.BattleFlash)
                         Log?.Invoke(this, "ページ移動：戦闘演出画面");
                     CurrentState = State.BattleFlash;
-                    Wait(WaitAttack);
                     Exec = EmulateClickFlash;
                 }
                 //敵一覧
@@ -90,7 +89,6 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, "ページ移動：敵一覧画面");
                     CurrentState = State.EnemyList;
-                    Wait(WaitSearch);
                     Exec = MoveEnemyListToSearch;
                 }
                 //戦闘画面
@@ -98,7 +96,6 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, "ページ移動：戦闘画面");
                     CurrentState = State.Battle;
-                    Wait(WaitAttack);
                     Exec = Battle;
                 }
                 //戦闘リザルト
@@ -106,7 +103,7 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, "ページ移動：戦闘リザルト画面");
                     CurrentState = State.Result;
-                    Wait(WaitReceive);
+                    Wait(WaitMisc);
                     Exec = MoveResultToEnemyList;
                 }
                 //撤退確認画面
@@ -443,7 +440,7 @@ namespace gcard_macro
         private void Battle()
         {
             Exec = SearchState;
-
+            Wait(WaitBattle);
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//div[contains(text(), \"BE回復ミニカプセル\")]/span"));
@@ -464,6 +461,7 @@ namespace gcard_macro
                     elms = driver_.FindElements(By.XPath("//*[@class=\"ml8 fc-white f14 txt-c\"]/div/a"));
 
                 AddEnemyId(driver_.Url);
+                Wait(WaitAttack);
                 driver_.Navigate().GoToUrl(elms.ElementAt(2).GetAttribute("href"));
             }
             catch { }

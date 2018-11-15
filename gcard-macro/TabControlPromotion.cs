@@ -105,7 +105,6 @@ namespace gcard_macro
                     WaitBattle = WaitBattle,
                     WaitAttack = WaitAttack,
                     WaitReceive = WaitReceive,
-                    WaitContinueSearch = WaitContinueSearch,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
                     Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex + 3,

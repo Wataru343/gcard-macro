@@ -115,7 +115,7 @@ namespace gcard_macro
                     {
                         Log?.Invoke(this, "ページ移動：イベントホーム画面");
                         CurrentState = State.Home;
-                        Wait(WaitSearch);
+                        Wait(WaitMisc);
                         Exec = MoveEventHomeToSearch;
                     }
                     else
@@ -134,7 +134,7 @@ namespace gcard_macro
                     if (CurrentState != State.SearchFlash)
                         Log?.Invoke(this, "ページ移動：Flash画面");
                     CurrentState = State.SearchFlash;
-                    Wait(WaitBattle);
+                    Wait(WaitMisc);
                     Exec = EmulateClickFlash;
                 }
                 //戦闘フラッシュ
@@ -143,7 +143,7 @@ namespace gcard_macro
                     if (CurrentState != State.BattleFlash)
                         Log?.Invoke(this, "ページ移動：戦闘演出画面");
                     CurrentState = State.BattleFlash;
-                    Wait(WaitAttack);
+                    Wait(WaitMisc);
                     Exec = ClickBattleFlash;
                 }
                 //敵一覧
@@ -151,7 +151,6 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, "ページ移動：敵一覧画面");
                     CurrentState = State.EnemyList;
-                    Wait(WaitSearch);
                     Exec = MoveEnemyListToSearch;
 
                     if (EnemyFound)
@@ -165,7 +164,6 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, "ページ移動：戦闘画面");
                     CurrentState = State.Battle;
-                    Wait(WaitAttack);
                     Exec = Battle;
                 }
                 //戦闘リザルト
@@ -173,7 +171,7 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, "ページ移動：戦闘リザルト画面");
                     CurrentState = State.Result;
-                    Wait(WaitReceive);
+                    Wait(WaitMisc);
                     Exec = MoveResultToEnemyList;
                 }
                 //報酬受け取り
@@ -181,7 +179,6 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, "ページ移動：報酬受け取り画面");
                     CurrentState = State.Receive;
-                    Wait(WaitReceive);
                     Exec = MoveReceiveToPresentList;
                 }
                 //プレゼント一覧
@@ -189,7 +186,6 @@ namespace gcard_macro
                 {
                     Log?.Invoke(this, "ページ移動：プレゼント一覧画面");
                     CurrentState = State.PresentList;
-                    Wait(WaitReceive);
                     Exec = MovePresentListToPresent;
                 }
                 //レベルアップ
@@ -1012,11 +1008,12 @@ namespace gcard_macro
         private void Battle()
         {
             Exec = SearchState;
-
+            Wait(WaitBattle);
             try
             {
                 IWebElement elm = driver_.FindElement(By.XPath("//div[contains(text(), \"BE回復ミニカプセル\")]/span"));
-                if (MinicapCount != Convert.ToInt32(elm.Text)){
+                if (MinicapCount != Convert.ToInt32(elm.Text))
+                {
                     MinicapChanged?.Invoke(this, Convert.ToInt32(elm.Text));
                     MinicapCount = Convert.ToInt32(elm.Text);
                 }
@@ -1094,6 +1091,7 @@ namespace gcard_macro
 
                     try
                     {
+                        Wait(WaitAttack);
                         ret = GetWebClient().DownloadString(elms.ElementAt(useBe).GetAttribute("href"));
                     }
                     catch { }
@@ -1123,7 +1121,7 @@ namespace gcard_macro
         private void StrategicAreaBattle()
         {
             Exec = SearchState;
-
+            Wait(WaitBattle);
             if (CurrentArea != "戦略拠点")
             {
                 CurrentArea = "戦略拠点";

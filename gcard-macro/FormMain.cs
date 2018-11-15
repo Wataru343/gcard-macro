@@ -26,7 +26,6 @@ namespace gcard_macro
             textBoxWaitBattle.Text = Properties.Settings.Default.WaitBattle.ToString();
             textBoxWaitAttack.Text = Properties.Settings.Default.WaitAttack.ToString();
             textBoxWaitReceive.Text = Properties.Settings.Default.WaitReceive.ToString();
-            textBoxWaitContinueSearch.Text = Properties.Settings.Default.WaitContinueSearch.ToString();
             textBoxWaitAccessBlock.Text = Properties.Settings.Default.WaitAccessBlock.ToString();
             textBoxWaitMisc.Text = Properties.Settings.Default.WaitMisc.ToString();
             checkBoxAutoRun.Checked = Properties.Settings.Default.AutoRun;
@@ -60,7 +59,6 @@ namespace gcard_macro
             textBoxWaitBattle.TextChanged += onSettingChanged;
             textBoxWaitAttack.TextChanged += onSettingChanged;
             textBoxWaitReceive.TextChanged += onSettingChanged;
-            textBoxWaitContinueSearch.TextChanged += onSettingChanged;
             textBoxWaitAccessBlock.TextChanged += onSettingChanged;
             textBoxWaitMisc.TextChanged += onSettingChanged;
             checkBoxOptimizedWait.CheckedChanged += onSettingChanged;
@@ -68,7 +66,7 @@ namespace gcard_macro
 
             buttonSave.Enabled = false;
             
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.23";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.24";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -189,7 +187,6 @@ namespace gcard_macro
         private void textBoxWaitBattle_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
         private void textBoxWaitAttack_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
         private void textBoxWaitReceive_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
-        private void textBoxWaitContinueSearch_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
         private void textBoxWaitAccessBlock_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
         private void textBoxWaitMisc_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidDouble(sender as TextBox, e);
 
@@ -200,8 +197,6 @@ namespace gcard_macro
         private void textBoxWaitAttack_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void textBoxWaitReceive_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
-
-        private void textBoxWaitContinueSearch_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void textBoxWaitAccessBlock_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
@@ -300,7 +295,6 @@ namespace gcard_macro
             Properties.Settings.Default.WaitBattle = Utils.ToDouble(textBoxWaitBattle.Text);
             Properties.Settings.Default.WaitAttack = Utils.ToDouble(textBoxWaitAttack.Text);
             Properties.Settings.Default.WaitReceive = Utils.ToDouble(textBoxWaitReceive.Text);
-            Properties.Settings.Default.WaitContinueSearch = Utils.ToDouble(textBoxWaitContinueSearch.Text);
             Properties.Settings.Default.WaitAccessBlock = Utils.ToDouble(textBoxWaitAccessBlock.Text);
             Properties.Settings.Default.WaitMisc = Utils.ToDouble(textBoxWaitMisc.Text);
             Properties.Settings.Default.AutoRun = checkBoxAutoRun.Checked;

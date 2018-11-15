@@ -268,11 +268,11 @@
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tableLayoutPanel9.Controls.Add(this.textBoxPointDiff, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.label6, 1, 0);
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 750);
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 753);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 1;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(403, 27);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(425, 27);
             this.tableLayoutPanel9.TabIndex = 11;
             // 
             // textBoxPointDiff
@@ -280,7 +280,7 @@
             this.textBoxPointDiff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPointDiff.Location = new System.Drawing.Point(3, 4);
             this.textBoxPointDiff.Name = "textBoxPointDiff";
-            this.textBoxPointDiff.Size = new System.Drawing.Size(327, 19);
+            this.textBoxPointDiff.Size = new System.Drawing.Size(349, 19);
             this.textBoxPointDiff.TabIndex = 25;
             this.textBoxPointDiff.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxPointDiff.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPointDiff_KeyPress);
@@ -290,7 +290,7 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(337, 7);
+            this.label6.Location = new System.Drawing.Point(359, 7);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(63, 12);
             this.label6.TabIndex = 26;
@@ -300,7 +300,7 @@
             // 
             this.checkBoxNoSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxNoSearch.AutoSize = true;
-            this.checkBoxNoSearch.Location = new System.Drawing.Point(3, 618);
+            this.checkBoxNoSearch.Location = new System.Drawing.Point(3, 620);
             this.checkBoxNoSearch.Name = "checkBoxNoSearch";
             this.checkBoxNoSearch.Size = new System.Drawing.Size(77, 16);
             this.checkBoxNoSearch.TabIndex = 19;
@@ -312,7 +312,7 @@
             // 
             this.checkBoxRecievePresent.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxRecievePresent.AutoSize = true;
-            this.checkBoxRecievePresent.Location = new System.Drawing.Point(3, 662);
+            this.checkBoxRecievePresent.Location = new System.Drawing.Point(3, 664);
             this.checkBoxRecievePresent.Name = "checkBoxRecievePresent";
             this.checkBoxRecievePresent.Size = new System.Drawing.Size(121, 16);
             this.checkBoxRecievePresent.TabIndex = 21;
@@ -325,9 +325,9 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox3.Location = new System.Drawing.Point(3, 198);
+            this.groupBox3.Location = new System.Drawing.Point(3, 199);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(403, 280);
+            this.groupBox3.Size = new System.Drawing.Size(425, 280);
             this.groupBox3.TabIndex = 52;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "特殊攻撃関連";
@@ -347,7 +347,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(397, 262);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(419, 262);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // groupBox4
@@ -358,7 +358,7 @@
             this.groupBox4.Controls.Add(this.tableLayoutPanel5);
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(192, 133);
+            this.groupBox4.Size = new System.Drawing.Size(203, 133);
             this.groupBox4.TabIndex = 34;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "BEx1 1.2倍+30コンボ(緑)";
@@ -381,7 +381,7 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(186, 115);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(197, 115);
             this.tableLayoutPanel5.TabIndex = 11;
             // 
             // checkBoxCombo30FirstAttack
@@ -457,9 +457,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.tableLayoutPanel6);
-            this.groupBox5.Location = new System.Drawing.Point(201, 3);
+            this.groupBox5.Location = new System.Drawing.Point(212, 3);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(193, 133);
+            this.groupBox5.Size = new System.Drawing.Size(204, 133);
             this.groupBox5.TabIndex = 35;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "BEx3 20倍(赤)";
@@ -482,7 +482,7 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(187, 115);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(198, 115);
             this.tableLayoutPanel6.TabIndex = 12;
             // 
             // checkBoxAttack20RequiredRatio
@@ -560,7 +560,7 @@
             this.groupBox6.Controls.Add(this.tableLayoutPanel7);
             this.groupBox6.Location = new System.Drawing.Point(3, 142);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(192, 117);
+            this.groupBox6.Size = new System.Drawing.Size(203, 117);
             this.groupBox6.TabIndex = 36;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "BEx5 10倍(黄)";
@@ -580,7 +580,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(186, 99);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(197, 99);
             this.tableLayoutPanel7.TabIndex = 13;
             // 
             // checkBoxAttack10Boost
@@ -628,9 +628,9 @@
             // 
             this.groupBox7.Controls.Add(this.tableLayoutPanel8);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox7.Location = new System.Drawing.Point(201, 142);
+            this.groupBox7.Location = new System.Drawing.Point(212, 142);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(193, 117);
+            this.groupBox7.Size = new System.Drawing.Size(204, 117);
             this.groupBox7.TabIndex = 37;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "BEカプセルx1 20倍(紫)";
@@ -714,7 +714,7 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 731);
+            this.label5.Location = new System.Drawing.Point(3, 734);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 12);
             this.label5.TabIndex = 24;
@@ -724,7 +724,7 @@
             // 
             this.checkBoxRecieveReword.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxRecieveReword.AutoSize = true;
-            this.checkBoxRecieveReword.Location = new System.Drawing.Point(3, 640);
+            this.checkBoxRecieveReword.Location = new System.Drawing.Point(3, 642);
             this.checkBoxRecieveReword.Name = "checkBoxRecieveReword";
             this.checkBoxRecieveReword.Size = new System.Drawing.Size(100, 16);
             this.checkBoxRecieveReword.TabIndex = 20;
@@ -748,9 +748,9 @@
             "8",
             "9",
             "10"});
-            this.comboBoxRecieve.Location = new System.Drawing.Point(3, 704);
+            this.comboBoxRecieve.Location = new System.Drawing.Point(3, 706);
             this.comboBoxRecieve.Name = "comboBoxRecieve";
-            this.comboBoxRecieve.Size = new System.Drawing.Size(403, 20);
+            this.comboBoxRecieve.Size = new System.Drawing.Size(425, 20);
             this.comboBoxRecieve.TabIndex = 23;
             this.comboBoxRecieve.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -758,7 +758,7 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 685);
+            this.label3.Location = new System.Drawing.Point(3, 687);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 12);
             this.label3.TabIndex = 22;
@@ -770,7 +770,7 @@
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 285F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 307F));
             this.tableLayoutPanel4.Controls.Add(this.dateTimePickerTimeStart, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.label10, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.dateTimePickerTimeEnd, 2, 0);
@@ -778,7 +778,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(403, 24);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(425, 24);
             this.tableLayoutPanel4.TabIndex = 11;
             // 
             // dateTimePickerTimeStart
@@ -824,9 +824,9 @@
             "シーカー",
             "スーパーエース",
             "スーパーサポーター"});
-            this.comboBoxFinalJob.Location = new System.Drawing.Point(3, 570);
+            this.comboBoxFinalJob.Location = new System.Drawing.Point(3, 571);
             this.comboBoxFinalJob.Name = "comboBoxFinalJob";
-            this.comboBoxFinalJob.Size = new System.Drawing.Size(403, 20);
+            this.comboBoxFinalJob.Size = new System.Drawing.Size(425, 20);
             this.comboBoxFinalJob.TabIndex = 17;
             this.comboBoxFinalJob.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -834,7 +834,7 @@
             // 
             this.checkBoxOnlySearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxOnlySearch.AutoSize = true;
-            this.checkBoxOnlySearch.Location = new System.Drawing.Point(3, 596);
+            this.checkBoxOnlySearch.Location = new System.Drawing.Point(3, 598);
             this.checkBoxOnlySearch.Name = "checkBoxOnlySearch";
             this.checkBoxOnlySearch.Size = new System.Drawing.Size(98, 16);
             this.checkBoxOnlySearch.TabIndex = 18;
@@ -846,7 +846,7 @@
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 551);
+            this.label9.Location = new System.Drawing.Point(3, 552);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(54, 12);
             this.label9.TabIndex = 16;
@@ -874,7 +874,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(403, 24);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(425, 24);
             this.tableLayoutPanel3.TabIndex = 9;
             // 
             // textBoxEnemyCount
@@ -882,7 +882,7 @@
             this.textBoxEnemyCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxEnemyCount.Location = new System.Drawing.Point(3, 3);
             this.textBoxEnemyCount.Name = "textBoxEnemyCount";
-            this.textBoxEnemyCount.Size = new System.Drawing.Size(297, 19);
+            this.textBoxEnemyCount.Size = new System.Drawing.Size(319, 19);
             this.textBoxEnemyCount.TabIndex = 1;
             this.textBoxEnemyCount.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxEnemyCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxEnemyCount_KeyPress);
@@ -892,7 +892,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(306, 6);
+            this.label8.Location = new System.Drawing.Point(328, 6);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(94, 12);
             this.label8.TabIndex = 2;
@@ -922,7 +922,7 @@
             // 
             this.checkBoxAutojobLevelUp.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxAutojobLevelUp.AutoSize = true;
-            this.checkBoxAutojobLevelUp.Location = new System.Drawing.Point(3, 528);
+            this.checkBoxAutojobLevelUp.Location = new System.Drawing.Point(3, 529);
             this.checkBoxAutojobLevelUp.Name = "checkBoxAutojobLevelUp";
             this.checkBoxAutojobLevelUp.Size = new System.Drawing.Size(124, 16);
             this.checkBoxAutojobLevelUp.TabIndex = 15;
@@ -941,7 +941,7 @@
             "一発だけ攻撃する"});
             this.comboBoxAttackMode.Location = new System.Drawing.Point(3, 123);
             this.comboBoxAttackMode.Name = "comboBoxAttackMode";
-            this.comboBoxAttackMode.Size = new System.Drawing.Size(403, 20);
+            this.comboBoxAttackMode.Size = new System.Drawing.Size(425, 20);
             this.comboBoxAttackMode.TabIndex = 8;
             this.comboBoxAttackMode.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -949,7 +949,7 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 152);
+            this.label2.Location = new System.Drawing.Point(3, 153);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(115, 12);
             this.label2.TabIndex = 9;
@@ -959,7 +959,7 @@
             // 
             this.checkBoxUseBoost.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxUseBoost.AutoSize = true;
-            this.checkBoxUseBoost.Location = new System.Drawing.Point(3, 506);
+            this.checkBoxUseBoost.Location = new System.Drawing.Point(3, 507);
             this.checkBoxUseBoost.Name = "checkBoxUseBoost";
             this.checkBoxUseBoost.Size = new System.Drawing.Size(106, 16);
             this.checkBoxUseBoost.TabIndex = 14;
@@ -970,9 +970,9 @@
             // textBoxBaseDamage
             // 
             this.textBoxBaseDamage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxBaseDamage.Location = new System.Drawing.Point(3, 173);
+            this.textBoxBaseDamage.Location = new System.Drawing.Point(3, 174);
             this.textBoxBaseDamage.Name = "textBoxBaseDamage";
-            this.textBoxBaseDamage.Size = new System.Drawing.Size(403, 19);
+            this.textBoxBaseDamage.Size = new System.Drawing.Size(425, 19);
             this.textBoxBaseDamage.TabIndex = 10;
             this.textBoxBaseDamage.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxBaseDamage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBaseDamage_KeyPress);
@@ -982,7 +982,7 @@
             // 
             this.checkBoxFirstAttackBoss.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxFirstAttackBoss.AutoSize = true;
-            this.checkBoxFirstAttackBoss.Location = new System.Drawing.Point(3, 484);
+            this.checkBoxFirstAttackBoss.Location = new System.Drawing.Point(3, 485);
             this.checkBoxFirstAttackBoss.Name = "checkBoxFirstAttackBoss";
             this.checkBoxFirstAttackBoss.Size = new System.Drawing.Size(180, 16);
             this.checkBoxFirstAttackBoss.TabIndex = 13;

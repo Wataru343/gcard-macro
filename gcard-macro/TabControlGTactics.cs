@@ -127,7 +127,6 @@ namespace gcard_macro
                     WaitBattle = WaitBattle,
                     WaitAttack = WaitAttack,
                     WaitReceive = WaitReceive,
-                    WaitContinueSearch = WaitContinueSearch,
                     WaitAccessBlock = WaitAccessBlock,
                     WaitMisc = WaitMisc,
                     BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),

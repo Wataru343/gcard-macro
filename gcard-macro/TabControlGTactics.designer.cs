@@ -736,9 +736,9 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(3, 26);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(166, 12);
+            this.label22.Size = new System.Drawing.Size(192, 12);
             this.label22.TabIndex = 23;
-            this.label22.Text = "戦略拠点のフォース使用前のWait";
+            this.label22.Text = "戦略拠点のフォース使用前の待機時間";
             // 
             // tableLayoutPanel6
             // 
