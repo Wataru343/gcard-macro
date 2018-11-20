@@ -96,6 +96,7 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShootingRange.cs" />
     <Compile Include="GTactics.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HtmlAgilityPackDriver\HtmlAgilityPackCookieJar.cs" />
@@ -116,6 +117,12 @@
     </Compile>
     <Compile Include="Raid.cs" />
     <Compile Include="SpetialAttackButton.cs" />
+    <Compile Include="TabControlShootingRange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TabControlShootingRange.designer.cs">
+      <DependentUpon>TabControlShootingRange.cs</DependentUpon>
+    </Compile>
     <Compile Include="TabControlGTactics.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -158,6 +165,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabControlShootingRange.resx">
+      <DependentUpon>TabControlShootingRange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TabControlGTactics.resx">
       <DependentUpon>TabControlGTactics.cs</DependentUpon>

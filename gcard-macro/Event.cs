@@ -549,6 +549,7 @@ namespace gcard_macro
                                 driver_.Navigate().GoToUrl(resultURL);
                                 break;
                             }
+                        case ShootingRange t: driver_.Navigate().GoToUrl(home_path_); break;
                     }
 
                 }
@@ -667,9 +668,20 @@ namespace gcard_macro
                         "&s_boss_eids=" + s_boss_eids;
                     driver_.Navigate().GoToUrl(resultURL);
                 }
+                //Boost使用(部隊戦)
                 else if(swfUrl.IndexOf("exec_boost_effect") >= 0)
                 {
                     driver_.Navigate().GoToUrl(home_path_ + "_boost_result");
+                }
+                //フィーバー継続(射撃場)
+                else if (swfUrl.IndexOf("shooting_fever_next_level_lot_effect") >= 0)
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                //フィーバーチップ使用(射撃場)
+                else if (swfUrl.IndexOf("shooting_fever_chip_item_use_effect") >= 0)
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
                 }
                 else
                 {

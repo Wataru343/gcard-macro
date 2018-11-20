@@ -42,18 +42,21 @@ namespace gcard_macro
             tabControlGShooting.BotActived += macroActivated;
             tabControlPromotion.BotActived += macroActivated;
             tabControlGTactics.BotActived += macroActivated;
+            tabControlShootingRange.BotActived += macroActivated;
 
             tabControlRaid.Log += onLog;
             tabControlGroup.Log += onLog;
             tabControlGShooting.Log += onLog;
             tabControlPromotion.Log += onLog;
             tabControlGTactics.Log += onLog;
+            tabControlShootingRange.Log += onLog;
 
             tabControlRaid.SettingChanged += onSettingChanged;
             tabControlGroup.SettingChanged += onSettingChanged;
             tabControlGShooting.SettingChanged += onSettingChanged;
             tabControlPromotion.SettingChanged += onSettingChanged;
             tabControlGTactics.SettingChanged += onSettingChanged;
+            tabControlShootingRange.SettingChanged += onSettingChanged;
 
             textBoxWaitSearch.TextChanged += onSettingChanged;
             textBoxWaitBattle.TextChanged += onSettingChanged;
@@ -66,7 +69,7 @@ namespace gcard_macro
 
             buttonSave.Enabled = false;
             
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.1.24";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.0";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -213,7 +216,7 @@ namespace gcard_macro
             }
             catch { }
 
-            tabControlRaid.WaitSearch = tabControlGroup.WaitSearch = tabControlGShooting.WaitSearch = tabControlPromotion.WaitSearch = tabControlGTactics.WaitSearch = wait;
+            tabControlRaid.WaitSearch = tabControlGroup.WaitSearch = tabControlGShooting.WaitSearch = tabControlPromotion.WaitSearch = tabControlGTactics.WaitSearch = tabControlShootingRange.WaitSearch = wait;
         }
 
         private void textBoxWaitBattle_TextChanged(object sender, EventArgs e)
@@ -225,7 +228,7 @@ namespace gcard_macro
             }
             catch { }
 
-            tabControlRaid.WaitBattle = tabControlGroup.WaitBattle = tabControlGShooting.WaitBattle = tabControlPromotion.WaitBattle = tabControlGTactics.WaitBattle = wait;
+            tabControlRaid.WaitBattle = tabControlGroup.WaitBattle = tabControlGShooting.WaitBattle = tabControlPromotion.WaitBattle = tabControlGTactics.WaitBattle = tabControlShootingRange.WaitBattle = wait;
         }
 
         private void textBoxWaitAttack_TextChanged(object sender, EventArgs e)
@@ -237,7 +240,7 @@ namespace gcard_macro
             }
             catch { }
 
-            tabControlRaid.WaitAttack = tabControlGroup.WaitAttack = tabControlGShooting.WaitAttack = tabControlPromotion.WaitAttack = tabControlGTactics.WaitAttack = wait;
+            tabControlRaid.WaitAttack = tabControlGroup.WaitAttack = tabControlGShooting.WaitAttack = tabControlPromotion.WaitAttack = tabControlGTactics.WaitAttack = tabControlShootingRange.WaitAttack = wait;
         }
 
         private void textBoxWaitReceive_TextChanged(object sender, EventArgs e)
@@ -249,7 +252,7 @@ namespace gcard_macro
             }
             catch { }
 
-            tabControlRaid.WaitReceive = tabControlGroup.WaitReceive = tabControlGShooting.WaitReceive = tabControlPromotion.WaitReceive = tabControlGTactics.WaitReceive = wait;
+            tabControlRaid.WaitReceive = tabControlGroup.WaitReceive = tabControlGShooting.WaitReceive = tabControlPromotion.WaitReceive = tabControlGTactics.WaitReceive = tabControlShootingRange.WaitReceive = wait;
         }
 
         private void textBoxWaitContinueSearch_TextChanged(object sender, EventArgs e)
@@ -261,7 +264,7 @@ namespace gcard_macro
             }
             catch { }
 
-            tabControlRaid.WaitContinueSearch = tabControlGroup.WaitContinueSearch = tabControlGShooting.WaitContinueSearch = tabControlPromotion.WaitContinueSearch = tabControlGTactics.WaitContinueSearch = wait;
+            tabControlRaid.WaitContinueSearch = tabControlGroup.WaitContinueSearch = tabControlGShooting.WaitContinueSearch = tabControlPromotion.WaitContinueSearch = tabControlGTactics.WaitContinueSearch = tabControlShootingRange.WaitContinueSearch = wait;
         }
 
         private void textBoxWaitAccessBlock_TextChanged(object sender, EventArgs e)
@@ -273,7 +276,7 @@ namespace gcard_macro
             }
             catch { }
 
-            tabControlRaid.WaitAccessBlock = tabControlGroup.WaitAccessBlock = tabControlGShooting.WaitAccessBlock = tabControlPromotion.WaitAccessBlock = tabControlGTactics.WaitAccessBlock = wait;
+            tabControlRaid.WaitAccessBlock = tabControlGroup.WaitAccessBlock = tabControlGShooting.WaitAccessBlock = tabControlPromotion.WaitAccessBlock = tabControlGTactics.WaitAccessBlock = tabControlShootingRange.WaitAccessBlock = wait;
         }
 
         private void textBoxWaitMisc_TextChanged(object sender, EventArgs e)
@@ -285,7 +288,7 @@ namespace gcard_macro
             }
             catch { }
 
-            tabControlRaid.WaitMisc = tabControlGroup.WaitMisc = tabControlGShooting.WaitMisc = tabControlPromotion.WaitMisc = tabControlGTactics.WaitMisc = wait;
+            tabControlRaid.WaitMisc = tabControlGroup.WaitMisc = tabControlGShooting.WaitMisc = tabControlPromotion.WaitMisc = tabControlGTactics.WaitMisc = tabControlShootingRange.WaitMisc = wait;
         }
 
 
@@ -307,6 +310,7 @@ namespace gcard_macro
             tabControlGShooting.SaveSetting();
             tabControlPromotion.SaveSetting();
             tabControlGTactics.SaveSetting();
+            tabControlShootingRange.SaveSetting();
 
             buttonSave.Enabled = false;
         }
@@ -362,6 +366,10 @@ namespace gcard_macro
 
         private void onLog(object sender, string text)
         {
+            if (text.IndexOf("アクセス制限通知") >= 0)
+            {
+                textBoxLog.SelectionFont = new Font(textBoxLog.Font, FontStyle.Bold);
+            }
 
             textBoxLog.AppendText(string.Format("{0}: {1}{2}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff"), text, Environment.NewLine));
         }
