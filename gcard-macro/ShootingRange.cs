@@ -139,7 +139,7 @@ namespace gcard_macro
                     beampackNum = Convert.ToInt32(driver_.FindElement(By.XPath("//dt[contains(text(),\"ビームパック所持数\")]/../dd/span")).Text.Replace(",", ""));
 
                     //ビームパックが無くなったら終了
-                    if(beampackNum == 0)
+                    if(beampackNum < 5)
                     {
                         AutoStopped?.Invoke(this);
                         KillThread();
@@ -148,7 +148,7 @@ namespace gcard_macro
                 }
 
                 //クエスト全クリアで終了
-                if (AutoStop && driver_.PageSource.IndexOf("Challengeクエストクリア!!") >= 0)
+                if (AutoStop && driver_.PageSource.IndexOf("Challengeクエストクリア!!") >= 0 || driver_.PageSource.IndexOf("congratulations") >= 0)
                 {
                     AutoStopped?.Invoke(this);
                     KillThread();
@@ -199,11 +199,11 @@ namespace gcard_macro
 
                 if (IsFever)
                 {
-                    Log?.Invoke(this, string.Format("{0}(フィーバー中, 命中率:{1}", shotType, accuracyRate));
+                    Log?.Invoke(this, string.Format("{0}(フィーバー中, 命中率:{1})", shotType, accuracyRate));
                 }
                 else
                 {
-                    Log?.Invoke(this, string.Format("{0}(残ビームパック数:{1}個, 命中率:{2}", shotType, beampackNum, accuracyRate));
+                    Log?.Invoke(this, string.Format("{0}(残ビームパック数:{1}個, 命中率:{2})", shotType, beampackNum, accuracyRate));
                 }
             }
             catch

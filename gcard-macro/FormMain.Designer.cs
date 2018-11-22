@@ -678,6 +678,7 @@
             this.textBoxLog.Size = new System.Drawing.Size(346, 375);
             this.textBoxLog.TabIndex = 8;
             this.textBoxLog.Text = "";
+            this.textBoxLog.WordWrap = false;
             // 
             // FormMain
             // 

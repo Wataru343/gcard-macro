@@ -69,7 +69,7 @@ namespace gcard_macro
 
             buttonSave.Enabled = false;
             
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.0";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.1";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -115,6 +115,7 @@ namespace gcard_macro
                     tabControlGShooting.UserName = UserName;
                     tabControlPromotion.UserName = UserName;
                     tabControlGTactics.UserName = UserName;
+                    tabControlShootingRange.UserName = UserName;
                 }
                 catch
                 {
@@ -346,6 +347,7 @@ namespace gcard_macro
             var gshooting = tabControlGShooting;
             var promotion = tabControlPromotion;
             var gtactics = tabControlGTactics;
+            var shootingRange = tabControlShootingRange;
 
             switch (sender)
             {
@@ -354,6 +356,7 @@ namespace gcard_macro
                 case TabControlGShooting tab: gshooting = null; break;
                 case TabControlPromotion tab: promotion = null; break;
                 case TabControlGTactics tab: gtactics = null; break;
+                case TabControlShootingRange tab: shootingRange = null; break;
                 default: return;
             }
 
@@ -362,6 +365,7 @@ namespace gcard_macro
             gshooting?.EnableRunButton(!activated);
             promotion?.EnableRunButton(!activated);
             gtactics?.EnableRunButton(!activated);
+            shootingRange?.EnableRunButton(!activated);
         }
 
         private void onLog(object sender, string text)
@@ -372,6 +376,8 @@ namespace gcard_macro
             }
 
             textBoxLog.AppendText(string.Format("{0}: {1}{2}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff"), text, Environment.NewLine));
+            textBoxLog.SelectionStart = textBoxLog.Text.Length;
+            textBoxLog.ScrollToCaret();
         }
 
         private void buttonRemoveCookie_Click(object sender, EventArgs e)
