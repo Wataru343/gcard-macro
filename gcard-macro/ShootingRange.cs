@@ -148,7 +148,7 @@ namespace gcard_macro
                 }
 
                 //クエスト全クリアで終了
-                if (AutoStop && driver_.PageSource.IndexOf("Challengeクエストクリア!!") >= 0 || driver_.PageSource.IndexOf("congratulations") >= 0)
+                if (AutoStop && (driver_.PageSource.IndexOf("Challengeクエストクリア!!") >= 0 || driver_.PageSource.IndexOf("congratulations") >= 0))
                 {
                     AutoStopped?.Invoke(this);
                     KillThread();
