@@ -13,7 +13,7 @@ namespace gcard_macro
     public partial class TabControlGShooting : UserControl
     {
         private GShooting GShooting { get; set; }
-        private bool IsStart { get; set; }
+        public bool IsStart;
         private Label CurrentState { get; set; }
 
         public double WaitSearch { get; set; }
@@ -307,6 +307,8 @@ namespace gcard_macro
         }
 
         public void EnableRunButton(bool enabled) => buttonStart.Enabled = enabled;
+
+        public void RecievePresent() => GShooting?.SendRecievePresentRequest();
 
         private void OnLog(object sender, string text)
         {

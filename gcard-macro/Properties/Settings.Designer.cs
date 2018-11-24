@@ -1380,5 +1380,29 @@ namespace gcard_macro.Properties {
                 this["ShootingRangeAutoStop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseCycleReceive {
+            get {
+                return ((bool)(this["UseCycleReceive"]));
+            }
+            set {
+                this["UseCycleReceive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public uint CycleRecieveTime {
+            get {
+                return ((uint)(this["CycleRecieveTime"]));
+            }
+            set {
+                this["CycleRecieveTime"] = value;
+            }
+        }
     }
 }

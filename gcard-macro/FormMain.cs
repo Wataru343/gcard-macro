@@ -31,6 +31,8 @@ namespace gcard_macro
             checkBoxAutoRun.Checked = Properties.Settings.Default.AutoRun;
             checkBoxOptimizedWait.Checked = Properties.Settings.Default.OptimizedWaitEnable;
             numericUpDown.Value = Properties.Settings.Default.OptimizedWaitEnemyCount;
+            checkBoxCycleReceive.Checked = Properties.Settings.Default.UseCycleReceive;
+            numericUpDownCycleRecieveTime.Value = Properties.Settings.Default.CycleRecieveTime;
 
             buttonStopBrowser.Enabled = false;
             EnableOptimizedWait(checkBoxOptimizedWait.Checked);
@@ -66,9 +68,10 @@ namespace gcard_macro
             textBoxWaitMisc.TextChanged += onSettingChanged;
             checkBoxOptimizedWait.CheckedChanged += onSettingChanged;
             numericUpDown.ValueChanged += onSettingChanged;
-
+            checkBoxCycleReceive.CheckedChanged += onSettingChanged;
+            numericUpDownCycleRecieveTime.ValueChanged += onSettingChanged;
             buttonSave.Enabled = false;
-            
+
             AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.1";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
@@ -149,7 +152,6 @@ namespace gcard_macro
             buttonRemoveCookie.Enabled = true;
 
         }
-
 
         private void timerWatchBrowser_Tick(object sender, EventArgs e)
         {
@@ -304,6 +306,8 @@ namespace gcard_macro
             Properties.Settings.Default.AutoRun = checkBoxAutoRun.Checked;
             Properties.Settings.Default.OptimizedWaitEnable = checkBoxOptimizedWait.Checked;
             Properties.Settings.Default.OptimizedWaitEnemyCount = Utils.ToUInt(numericUpDown.Value.ToString());
+            Properties.Settings.Default.UseCycleReceive = checkBoxCycleReceive.Checked;
+            Properties.Settings.Default.CycleRecieveTime = Utils.ToUInt(numericUpDownCycleRecieveTime.Value.ToString());
             Properties.Settings.Default.Save();
 
             tabControlRaid.SaveSetting();
@@ -424,5 +428,33 @@ namespace gcard_macro
         }
 
         private void onSettingChanged(object sender, EventArgs e) => buttonSave.Enabled = true;
+
+        private void checkBoxCycleReceive_CheckedChanged(object sender, EventArgs e) => EnableCycleReceive((sender as CheckBox).Checked);
+
+        private void EnableCycleReceive(bool enable)
+        {
+            labelCycleRecieve.Enabled = enable;
+            numericUpDownCycleRecieveTime.Enabled = enable;
+
+            numericUpDownCycleRecieveTime_ValueChanged(numericUpDownCycleRecieveTime, null);
+        }
+
+        private void numericUpDownCycleRecieveTime_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonReceiveImmediately_Click(object sender, EventArgs e)
+        {
+            if (Webdriver.IsOoen())
+            {
+                if(tabControlRaid.IsStart) tabControlRaid.RecievePresent();
+                else if(tabControlGroup.IsStart) tabControlGroup.RecievePresent();
+                else if(tabControlPromotion.IsStart) tabControlPromotion.RecievePresent();
+                else if(tabControlGShooting.IsStart) tabControlGShooting.RecievePresent();
+                else if(tabControlShootingRange.IsStart) tabControlShootingRange.RecievePresent();
+                else if(tabControlGTactics.IsStart) tabControlGTactics.RecievePresent();
+            }
+        }
     }
 }

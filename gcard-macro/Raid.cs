@@ -91,8 +91,14 @@ namespace gcard_macro
         {
             try
             {
+                //プレゼント受け取りリクエスト
+                if (RecievePresentRequest)
+                {
+                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_gifts");
+                    RecievePresentRequest = false;
+                }
                 //稼働時間外
-                if (IsOutOfTimeRange())
+                else if (IsOutOfTimeRange())
                 {
                     if (CurrentState != State.None)
                     {

@@ -37,6 +37,7 @@ namespace gcard_macro
         private int AttackCount { get; set; }
         private bool TargetAllClear { get; set; }
         private bool ShieldClear { get; set; }
+        private System.Threading.Thread WatchThread { get; set; }
 
         public enum Force
         {
@@ -76,6 +77,8 @@ namespace gcard_macro
             WaitMisc = 0.0;
             BaseDamage = 0;
             Shield = new Dictionary<string, int>();
+            IsAreaBattle = false;
+            CurrentArea = "";
             StrongForceDamage = 0;
             WeakForceDamage = 0;
             PrevUsedForce = Force.None;
@@ -92,12 +95,25 @@ namespace gcard_macro
             base.Log += OnLogBase;
         }
 
+        override public void CreateThread()
+        {
+            base.CreateThread();
+            WatchThread = new System.Threading.Thread(WatchAreaThread);
+            WatchThread.Start();
+        }
+
         override protected void SearchState()
         {
             try
             {
+                //プレゼント受け取りリクエスト
+                if (RecievePresentRequest)
+                {
+                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_gifts");
+                    RecievePresentRequest = false;
+                }
                 //稼働時間外
-                if (IsOutOfTimeRange())
+                else if (IsOutOfTimeRange())
                 {
                     if (CurrentState != State.None)
                     {
@@ -282,6 +298,41 @@ namespace gcard_macro
         }
 
         /// <summary>
+        /// エリア監視
+        /// </summary>
+        private void WatchAreaThread()
+        {
+            var cookies = driver_.Manage().Cookies.AllCookies;
+            driver_.Close();
+            driver_.Quit();
+
+            driver_ = new WebDriber.HtmlAgilityPackDriver("Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
+
+            foreach (var c in cookies)
+            {
+                try
+                {
+                    driver_.Manage().Cookies.AddCookie(c);
+                }
+                catch { }
+            }
+            driver_.Navigate().GoToUrl(home_path_);
+
+            while (IsRun)
+            {
+                try
+                {
+
+                }
+                catch
+                {
+                    Wait(2.5);
+                }
+                Wait(10);
+            }
+        }
+
+        /// <summary>
         /// 敵一覧画面判定
         /// </summary>
         /// <returns></returns>
@@ -311,14 +362,10 @@ namespace gcard_macro
 
             try
             {
-                if (enemy_list_path_ != "")
-                {
-                    driver_.Navigate().GoToUrl(enemy_list_path_);
-                    return;
-                }
-
                 IWebElement elm = driver_.FindElement(By.XPath("//li[@class=\"search\" or @class=\"attack\"]/a"));
                 driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+
+                return;
             }
             catch
             {
@@ -516,8 +563,6 @@ namespace gcard_macro
                     catch { }
                 }
             }
-
-            Exec = SearchState;
         }
 
 
@@ -1170,7 +1215,7 @@ namespace gcard_macro
                     side = "even";
                 }
 
-                
+
 
 
                 if (Priority != AreaPriority.OnlyStrategyArea)

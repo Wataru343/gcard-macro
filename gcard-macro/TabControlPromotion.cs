@@ -13,7 +13,7 @@ namespace gcard_macro
     public partial class TabControlPromotion : UserControl
     {
         private Promotion Promotion { get; set; }
-        private bool IsStart { get; set; }
+        public bool IsStart { get; set; }
         private Label CurrentState { get; set; }
 
         public double WaitSearch { get; set; }
@@ -282,6 +282,8 @@ namespace gcard_macro
         }
 
         public void EnableRunButton(bool enabled) => buttonStart.Enabled = enabled;
+
+        public void RecievePresent() => Promotion?.SendRecievePresentRequest();
 
         private void OnLog(object sender, string text)
         {

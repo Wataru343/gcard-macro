@@ -64,14 +64,19 @@
             this.label7 = new System.Windows.Forms.Label();
             this.textBoxWaitBattle = new System.Windows.Forms.TextBox();
             this.textBoxWaitMisc = new System.Windows.Forms.TextBox();
+            this.textBoxLog = new System.Windows.Forms.RichTextBox();
+            this.checkBoxCycleReceive = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.labelCycleRecieve = new System.Windows.Forms.Label();
+            this.numericUpDownCycleRecieveTime = new System.Windows.Forms.NumericUpDown();
+            this.buttonReceiveImmediately = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControlRaid = new gcard_macro.TabControlRaid();
             this.tabControlGroup = new gcard_macro.TabControlGroup();
             this.tabControlGShooting = new gcard_macro.TabControlGShooting();
             this.tabControlShootingRange = new gcard_macro.TabControlShootingRange();
             this.tabControlPromotion = new gcard_macro.TabControlPromotion();
             this.tabControlGTactics = new gcard_macro.TabControlGTactics();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.textBoxLog = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPageRaid.SuspendLayout();
             this.tabPageGroup.SuspendLayout();
@@ -86,6 +91,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCycleRecieveTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -151,7 +158,7 @@
             this.tabPageGroup.Location = new System.Drawing.Point(4, 22);
             this.tabPageGroup.Name = "tabPageGroup";
             this.tabPageGroup.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGroup.Size = new System.Drawing.Size(666, 729);
+            this.tabPageGroup.Size = new System.Drawing.Size(668, 735);
             this.tabPageGroup.TabIndex = 2;
             this.tabPageGroup.Text = "部隊戦";
             // 
@@ -162,7 +169,7 @@
             this.tabPageGShooting.Location = new System.Drawing.Point(4, 22);
             this.tabPageGShooting.Name = "tabPageGShooting";
             this.tabPageGShooting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGShooting.Size = new System.Drawing.Size(666, 729);
+            this.tabPageGShooting.Size = new System.Drawing.Size(668, 735);
             this.tabPageGShooting.TabIndex = 0;
             this.tabPageGShooting.Text = "G-Shooting";
             // 
@@ -173,7 +180,7 @@
             this.tabPageShootingRange.Location = new System.Drawing.Point(4, 22);
             this.tabPageShootingRange.Name = "tabPageShootingRange";
             this.tabPageShootingRange.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageShootingRange.Size = new System.Drawing.Size(666, 729);
+            this.tabPageShootingRange.Size = new System.Drawing.Size(668, 735);
             this.tabPageShootingRange.TabIndex = 5;
             this.tabPageShootingRange.Text = "G-Shooting(射撃場)";
             // 
@@ -184,7 +191,7 @@
             this.tabPagePromotion.Location = new System.Drawing.Point(4, 22);
             this.tabPagePromotion.Name = "tabPagePromotion";
             this.tabPagePromotion.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePromotion.Size = new System.Drawing.Size(666, 729);
+            this.tabPagePromotion.Size = new System.Drawing.Size(668, 735);
             this.tabPagePromotion.TabIndex = 3;
             this.tabPagePromotion.Text = "昇格戦";
             // 
@@ -195,7 +202,7 @@
             this.tabPageGTactics.Location = new System.Drawing.Point(4, 22);
             this.tabPageGTactics.Name = "tabPageGTactics";
             this.tabPageGTactics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGTactics.Size = new System.Drawing.Size(666, 729);
+            this.tabPageGTactics.Size = new System.Drawing.Size(668, 735);
             this.tabPageGTactics.TabIndex = 4;
             this.tabPageGTactics.Text = "G-Tactics";
             // 
@@ -218,16 +225,20 @@
             // 
             this.tableLayoutPanel5.ColumnCount = 1;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel1, 0, 5);
+            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel1, 0, 7);
             this.tableLayoutPanel5.Controls.Add(this.checkBoxOptimizedWait, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel3, 0, 2);
-            this.tableLayoutPanel5.Controls.Add(this.checkBoxAutoRun, 0, 3);
+            this.tableLayoutPanel5.Controls.Add(this.checkBoxAutoRun, 0, 5);
             this.tableLayoutPanel5.Controls.Add(this.groupBox2, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.textBoxLog, 0, 4);
+            this.tableLayoutPanel5.Controls.Add(this.textBoxLog, 0, 6);
+            this.tableLayoutPanel5.Controls.Add(this.checkBoxCycleReceive, 0, 3);
+            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel4, 0, 4);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 15);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 6;
+            this.tableLayoutPanel5.RowCount = 8;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -363,7 +374,7 @@
             // 
             this.checkBoxAutoRun.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxAutoRun.AutoSize = true;
-            this.checkBoxAutoRun.Location = new System.Drawing.Point(3, 230);
+            this.checkBoxAutoRun.Location = new System.Drawing.Point(3, 282);
             this.checkBoxAutoRun.Name = "checkBoxAutoRun";
             this.checkBoxAutoRun.Size = new System.Drawing.Size(84, 16);
             this.checkBoxAutoRun.TabIndex = 5;
@@ -543,6 +554,118 @@
             this.textBoxWaitMisc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitMisc_KeyPress);
             this.textBoxWaitMisc.Validated += new System.EventHandler(this.textBoxWaitMisc_Validated);
             // 
+            // textBoxLog
+            // 
+            this.textBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxLog.BackColor = System.Drawing.Color.White;
+            this.textBoxLog.Location = new System.Drawing.Point(3, 304);
+            this.textBoxLog.MaxLength = 32767;
+            this.textBoxLog.Name = "textBoxLog";
+            this.textBoxLog.ReadOnly = true;
+            this.textBoxLog.Size = new System.Drawing.Size(346, 323);
+            this.textBoxLog.TabIndex = 8;
+            this.textBoxLog.Text = "";
+            this.textBoxLog.WordWrap = false;
+            // 
+            // checkBoxCycleReceive
+            // 
+            this.checkBoxCycleReceive.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxCycleReceive.AutoSize = true;
+            this.checkBoxCycleReceive.Checked = true;
+            this.checkBoxCycleReceive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxCycleReceive.Location = new System.Drawing.Point(3, 230);
+            this.checkBoxCycleReceive.Name = "checkBoxCycleReceive";
+            this.checkBoxCycleReceive.Size = new System.Drawing.Size(145, 16);
+            this.checkBoxCycleReceive.TabIndex = 9;
+            this.checkBoxCycleReceive.Text = "プレゼントを定期回収する";
+            this.checkBoxCycleReceive.UseVisualStyleBackColor = true;
+            this.checkBoxCycleReceive.CheckedChanged += new System.EventHandler(this.checkBoxCycleReceive_CheckedChanged);
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.ColumnCount = 4;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 182F));
+            this.tableLayoutPanel4.Controls.Add(this.labelCycleRecieve, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.numericUpDownCycleRecieveTime, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.buttonReceiveImmediately, 3, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 252);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(346, 24);
+            this.tableLayoutPanel4.TabIndex = 10;
+            // 
+            // labelCycleRecieve
+            // 
+            this.labelCycleRecieve.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelCycleRecieve.AutoSize = true;
+            this.labelCycleRecieve.Location = new System.Drawing.Point(68, 6);
+            this.labelCycleRecieve.Name = "labelCycleRecieve";
+            this.labelCycleRecieve.Size = new System.Drawing.Size(93, 12);
+            this.labelCycleRecieve.TabIndex = 1;
+            this.labelCycleRecieve.Text = "時間毎に回収する";
+            // 
+            // numericUpDownCycleRecieveTime
+            // 
+            this.numericUpDownCycleRecieveTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericUpDownCycleRecieveTime.Location = new System.Drawing.Point(23, 3);
+            this.numericUpDownCycleRecieveTime.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.numericUpDownCycleRecieveTime.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownCycleRecieveTime.Name = "numericUpDownCycleRecieveTime";
+            this.numericUpDownCycleRecieveTime.Size = new System.Drawing.Size(39, 19);
+            this.numericUpDownCycleRecieveTime.TabIndex = 4;
+            this.numericUpDownCycleRecieveTime.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownCycleRecieveTime.ValueChanged += new System.EventHandler(this.numericUpDownCycleRecieveTime_ValueChanged);
+            // 
+            // buttonReceiveImmediately
+            // 
+            this.buttonReceiveImmediately.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonReceiveImmediately.Location = new System.Drawing.Point(253, 0);
+            this.buttonReceiveImmediately.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonReceiveImmediately.Name = "buttonReceiveImmediately";
+            this.buttonReceiveImmediately.Size = new System.Drawing.Size(93, 23);
+            this.buttonReceiveImmediately.TabIndex = 5;
+            this.buttonReceiveImmediately.Text = "すぐに受け取る";
+            this.buttonReceiveImmediately.UseVisualStyleBackColor = true;
+            this.buttonReceiveImmediately.Click += new System.EventHandler(this.buttonReceiveImmediately_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel2.Margin = new System.Windows.Forms.Padding(3);
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.splitContainer1.Size = new System.Drawing.Size(1044, 761);
+            this.splitContainer1.SplitterDistance = 676;
+            this.splitContainer1.TabIndex = 3;
+            // 
             // tabControlRaid
             // 
             this.tabControlRaid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -567,7 +690,7 @@
             this.tabControlGroup.Location = new System.Drawing.Point(3, 3);
             this.tabControlGroup.Name = "tabControlGroup";
             this.tabControlGroup.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlGroup.Size = new System.Drawing.Size(660, 723);
+            this.tabControlGroup.Size = new System.Drawing.Size(662, 729);
             this.tabControlGroup.TabIndex = 0;
             this.tabControlGroup.UserName = null;
             this.tabControlGroup.WaitAccessBlock = 0D;
@@ -584,7 +707,7 @@
             this.tabControlGShooting.Location = new System.Drawing.Point(3, 3);
             this.tabControlGShooting.Name = "tabControlGShooting";
             this.tabControlGShooting.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlGShooting.Size = new System.Drawing.Size(660, 723);
+            this.tabControlGShooting.Size = new System.Drawing.Size(662, 729);
             this.tabControlGShooting.TabIndex = 0;
             this.tabControlGShooting.UserName = null;
             this.tabControlGShooting.WaitAccessBlock = 0D;
@@ -602,7 +725,7 @@
             this.tabControlShootingRange.Location = new System.Drawing.Point(3, 3);
             this.tabControlShootingRange.Name = "tabControlShootingRange";
             this.tabControlShootingRange.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlShootingRange.Size = new System.Drawing.Size(660, 723);
+            this.tabControlShootingRange.Size = new System.Drawing.Size(662, 729);
             this.tabControlShootingRange.TabIndex = 0;
             this.tabControlShootingRange.UserName = null;
             this.tabControlShootingRange.WaitAccessBlock = 0D;
@@ -618,7 +741,7 @@
             this.tabControlPromotion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlPromotion.Location = new System.Drawing.Point(3, 3);
             this.tabControlPromotion.Name = "tabControlPromotion";
-            this.tabControlPromotion.Size = new System.Drawing.Size(660, 723);
+            this.tabControlPromotion.Size = new System.Drawing.Size(662, 729);
             this.tabControlPromotion.TabIndex = 0;
             this.tabControlPromotion.UserName = null;
             this.tabControlPromotion.WaitAccessBlock = 0D;
@@ -635,7 +758,7 @@
             this.tabControlGTactics.Location = new System.Drawing.Point(3, 3);
             this.tabControlGTactics.Name = "tabControlGTactics";
             this.tabControlGTactics.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlGTactics.Size = new System.Drawing.Size(660, 723);
+            this.tabControlGTactics.Size = new System.Drawing.Size(662, 729);
             this.tabControlGTactics.TabIndex = 0;
             this.tabControlGTactics.UserName = null;
             this.tabControlGTactics.WaitAccessBlock = 0D;
@@ -645,40 +768,6 @@
             this.tabControlGTactics.WaitMisc = 0D;
             this.tabControlGTactics.WaitReceive = 0D;
             this.tabControlGTactics.WaitSearch = 0D;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer1.Panel2.Margin = new System.Windows.Forms.Padding(3);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(3, 6, 3, 3);
-            this.splitContainer1.Size = new System.Drawing.Size(1044, 761);
-            this.splitContainer1.SplitterDistance = 676;
-            this.splitContainer1.TabIndex = 3;
-            // 
-            // textBoxLog
-            // 
-            this.textBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxLog.BackColor = System.Drawing.Color.White;
-            this.textBoxLog.Location = new System.Drawing.Point(3, 252);
-            this.textBoxLog.MaxLength = 32767;
-            this.textBoxLog.Name = "textBoxLog";
-            this.textBoxLog.ReadOnly = true;
-            this.textBoxLog.Size = new System.Drawing.Size(346, 375);
-            this.textBoxLog.TabIndex = 8;
-            this.textBoxLog.Text = "";
-            this.textBoxLog.WordWrap = false;
             // 
             // FormMain
             // 
@@ -706,6 +795,9 @@
             this.groupBox2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCycleRecieveTime)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -759,6 +851,11 @@
         private TabControlShootingRange tabControlShootingRange;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.RichTextBox textBoxLog;
+        private System.Windows.Forms.CheckBox checkBoxCycleReceive;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Label labelCycleRecieve;
+        private System.Windows.Forms.NumericUpDown numericUpDownCycleRecieveTime;
+        private System.Windows.Forms.Button buttonReceiveImmediately;
     }
 }
 

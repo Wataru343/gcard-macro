@@ -169,12 +169,17 @@ namespace gcard_macro
         /// <summary>
         /// 可変Wait
         /// </summary>
-        private double WaitVariable { get; set; }
+        virtual protected double WaitVariable { get; set; }
 
         /// <summary>
         /// 敵発見フラグ
         /// </summary>
-        protected bool EnemyFound { get; set; }
+        virtual protected bool EnemyFound { get; set; }
+
+        /// <summary>
+        /// 即時プレゼント受け取り
+        /// </summary>
+        virtual protected bool RecievePresentRequest { get; set; }
 
         public delegate void StateChangedHandler(object sender, State state);
         virtual public event StateChangedHandler StateChanged;
@@ -307,6 +312,12 @@ namespace gcard_macro
         {
             lock (RunObj)
                 IsRun = false;
+        }
+
+        virtual public void SendRecievePresentRequest()
+        {
+            lock (RunObj)
+                RecievePresentRequest = true;
         }
 
         /// <summary>

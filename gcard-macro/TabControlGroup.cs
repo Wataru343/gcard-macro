@@ -13,7 +13,7 @@ namespace gcard_macro
     public partial class TabControlGroup : UserControl
     {
         private Group Group { get; set; }
-        private volatile bool IsStart;
+        public bool IsStart;
         private Label CurrentState { get; set; }
 
         public double WaitSearch { get; set; }
@@ -406,6 +406,8 @@ namespace gcard_macro
         }
 
         public void EnableRunButton(bool enabled) => buttonStart.Enabled = enabled;
+
+        public void RecievePresent() => Group?.SendRecievePresentRequest();
 
         private void OnLog(object sender, string text)
         {

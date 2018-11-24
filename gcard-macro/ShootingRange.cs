@@ -41,8 +41,14 @@ namespace gcard_macro
         {
             try
             {
+                //プレゼント受け取りリクエスト
+                if (RecievePresentRequest)
+                {
+                    driver_.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_gifts");
+                    RecievePresentRequest = false;
+                }
                 //フィーバー突入確認画面
-                if (IsUseFeverConfirmation())
+                else　if(IsUseFeverConfirmation())
                 {
                     Log?.Invoke(this, "ページ移動：フィーバー突入確認画面");
                     Wait(WaitMisc);
