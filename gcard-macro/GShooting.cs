@@ -436,7 +436,9 @@ namespace gcard_macro
 
                         if (url == null)
                         {
-                            url = "http://gcc.sp.mbga.jp/" + elm.GetAttribute("data-mission-path");
+                            string token = elm.GetAttribute("data-mission-path");
+                            if (token != "" && token != null)
+                                url = "http://gcc.sp.mbga.jp/" + elm.GetAttribute("data-mission-path");
                         }
 
                         if (url != null)
@@ -444,26 +446,34 @@ namespace gcard_macro
                             switch (SearchEnemy(url))
                             {
                                 case SearchResult.Found:
+                                    driver_.Navigate().Refresh();
                                     MoveEnemyListToSearch();
                                     Exec = SearchState;
-                                    return;
+                                    break;
                                 case SearchResult.Card:
                                     Exec = SearchState;
-                                    return;
+                                    break;
                                 case SearchResult.Error:
                                     StateChanged?.Invoke(this, State.AccessBlock);
                                     Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                                     Wait(WaitAccessBlock);
                                     Exec = SearchState;
-                                    return;
+                                    break;
                                 case SearchResult.FuelShortage:
                                     Log?.Invoke(this, "警告：燃料不足");
                                     Wait(10);
                                     Exec = SearchState;
-                                    return;
+                                    break;
                                 default:
                                     break;
                             }
+                            driver_.Navigate().Refresh();
+                            return;
+                        }
+                        else
+                        {
+                            Log?.Invoke(this, "探索失敗：敵出現数が上限に達しています");
+                            Wait(1);
                         }
                     }
                 }

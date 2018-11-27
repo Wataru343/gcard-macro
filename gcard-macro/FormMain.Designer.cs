@@ -33,11 +33,17 @@
             this.buttonStopBrowser = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageRaid = new System.Windows.Forms.TabPage();
+            this.tabControlRaid = new gcard_macro.TabControlRaid();
             this.tabPageGroup = new System.Windows.Forms.TabPage();
+            this.tabControlGroup = new gcard_macro.TabControlGroup();
             this.tabPageGShooting = new System.Windows.Forms.TabPage();
+            this.tabControlGShooting = new gcard_macro.TabControlGShooting();
             this.tabPageShootingRange = new System.Windows.Forms.TabPage();
+            this.tabControlShootingRange = new gcard_macro.TabControlShootingRange();
             this.tabPagePromotion = new System.Windows.Forms.TabPage();
+            this.tabControlPromotion = new gcard_macro.TabControlPromotion();
             this.tabPageGTactics = new System.Windows.Forms.TabPage();
+            this.tabControlGTactics = new gcard_macro.TabControlGTactics();
             this.timerWatchBrowser = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
@@ -71,12 +77,6 @@
             this.numericUpDownCycleRecieveTime = new System.Windows.Forms.NumericUpDown();
             this.buttonReceiveImmediately = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tabControlRaid = new gcard_macro.TabControlRaid();
-            this.tabControlGroup = new gcard_macro.TabControlGroup();
-            this.tabControlGShooting = new gcard_macro.TabControlGShooting();
-            this.tabControlShootingRange = new gcard_macro.TabControlShootingRange();
-            this.tabControlPromotion = new gcard_macro.TabControlPromotion();
-            this.tabControlGTactics = new gcard_macro.TabControlGTactics();
             this.tabControl1.SuspendLayout();
             this.tabPageRaid.SuspendLayout();
             this.tabPageGroup.SuspendLayout();
@@ -151,6 +151,25 @@
             this.tabPageRaid.TabIndex = 1;
             this.tabPageRaid.Text = "レイド";
             // 
+            // tabControlRaid
+            // 
+            this.tabControlRaid.CycleRecieveTime = System.TimeSpan.Parse("01:00:00");
+            this.tabControlRaid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlRaid.IsStart = false;
+            this.tabControlRaid.Location = new System.Drawing.Point(3, 3);
+            this.tabControlRaid.Name = "tabControlRaid";
+            this.tabControlRaid.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlRaid.Size = new System.Drawing.Size(662, 729);
+            this.tabControlRaid.TabIndex = 0;
+            this.tabControlRaid.UserName = null;
+            this.tabControlRaid.WaitAccessBlock = 0D;
+            this.tabControlRaid.WaitAttack = 0D;
+            this.tabControlRaid.WaitBattle = 0D;
+            this.tabControlRaid.WaitContinueSearch = 0D;
+            this.tabControlRaid.WaitMisc = 0D;
+            this.tabControlRaid.WaitReceive = 0D;
+            this.tabControlRaid.WaitSearch = 0D;
+            // 
             // tabPageGroup
             // 
             this.tabPageGroup.BackColor = System.Drawing.SystemColors.Control;
@@ -161,6 +180,25 @@
             this.tabPageGroup.Size = new System.Drawing.Size(668, 735);
             this.tabPageGroup.TabIndex = 2;
             this.tabPageGroup.Text = "部隊戦";
+            // 
+            // tabControlGroup
+            // 
+            this.tabControlGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tabControlGroup.CycleRecieveTime = System.TimeSpan.Parse("01:00:00");
+            this.tabControlGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlGroup.Location = new System.Drawing.Point(3, 3);
+            this.tabControlGroup.Name = "tabControlGroup";
+            this.tabControlGroup.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlGroup.Size = new System.Drawing.Size(662, 729);
+            this.tabControlGroup.TabIndex = 0;
+            this.tabControlGroup.UserName = null;
+            this.tabControlGroup.WaitAccessBlock = 0D;
+            this.tabControlGroup.WaitAttack = 0D;
+            this.tabControlGroup.WaitBattle = 0D;
+            this.tabControlGroup.WaitContinueSearch = 0D;
+            this.tabControlGroup.WaitMisc = 0D;
+            this.tabControlGroup.WaitReceive = 0D;
+            this.tabControlGroup.WaitSearch = 0D;
             // 
             // tabPageGShooting
             // 
@@ -173,6 +211,24 @@
             this.tabPageGShooting.TabIndex = 0;
             this.tabPageGShooting.Text = "G-Shooting";
             // 
+            // tabControlGShooting
+            // 
+            this.tabControlGShooting.CycleRecieveTime = System.TimeSpan.Parse("01:00:00");
+            this.tabControlGShooting.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlGShooting.Location = new System.Drawing.Point(3, 3);
+            this.tabControlGShooting.Name = "tabControlGShooting";
+            this.tabControlGShooting.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlGShooting.Size = new System.Drawing.Size(662, 729);
+            this.tabControlGShooting.TabIndex = 0;
+            this.tabControlGShooting.UserName = null;
+            this.tabControlGShooting.WaitAccessBlock = 0D;
+            this.tabControlGShooting.WaitAttack = 0D;
+            this.tabControlGShooting.WaitBattle = 0D;
+            this.tabControlGShooting.WaitContinueSearch = 0D;
+            this.tabControlGShooting.WaitMisc = 0D;
+            this.tabControlGShooting.WaitReceive = 0D;
+            this.tabControlGShooting.WaitSearch = 0D;
+            // 
             // tabPageShootingRange
             // 
             this.tabPageShootingRange.BackColor = System.Drawing.SystemColors.Control;
@@ -183,6 +239,26 @@
             this.tabPageShootingRange.Size = new System.Drawing.Size(668, 735);
             this.tabPageShootingRange.TabIndex = 5;
             this.tabPageShootingRange.Text = "G-Shooting(射撃場)";
+            // 
+            // tabControlShootingRange
+            // 
+            this.tabControlShootingRange.BackColor = System.Drawing.SystemColors.Control;
+            this.tabControlShootingRange.CycleRecieveTime = System.TimeSpan.Parse("01:00:00");
+            this.tabControlShootingRange.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlShootingRange.IsStart = false;
+            this.tabControlShootingRange.Location = new System.Drawing.Point(3, 3);
+            this.tabControlShootingRange.Name = "tabControlShootingRange";
+            this.tabControlShootingRange.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlShootingRange.Size = new System.Drawing.Size(662, 729);
+            this.tabControlShootingRange.TabIndex = 0;
+            this.tabControlShootingRange.UserName = null;
+            this.tabControlShootingRange.WaitAccessBlock = 0D;
+            this.tabControlShootingRange.WaitAttack = 0D;
+            this.tabControlShootingRange.WaitBattle = 0D;
+            this.tabControlShootingRange.WaitContinueSearch = 0D;
+            this.tabControlShootingRange.WaitMisc = 0D;
+            this.tabControlShootingRange.WaitReceive = 0D;
+            this.tabControlShootingRange.WaitSearch = 0D;
             // 
             // tabPagePromotion
             // 
@@ -195,6 +271,24 @@
             this.tabPagePromotion.TabIndex = 3;
             this.tabPagePromotion.Text = "昇格戦";
             // 
+            // tabControlPromotion
+            // 
+            this.tabControlPromotion.CycleRecieveTime = System.TimeSpan.Parse("01:00:00");
+            this.tabControlPromotion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPromotion.IsStart = false;
+            this.tabControlPromotion.Location = new System.Drawing.Point(3, 3);
+            this.tabControlPromotion.Name = "tabControlPromotion";
+            this.tabControlPromotion.Size = new System.Drawing.Size(662, 729);
+            this.tabControlPromotion.TabIndex = 0;
+            this.tabControlPromotion.UserName = null;
+            this.tabControlPromotion.WaitAccessBlock = 0D;
+            this.tabControlPromotion.WaitAttack = 0D;
+            this.tabControlPromotion.WaitBattle = 0D;
+            this.tabControlPromotion.WaitContinueSearch = 0D;
+            this.tabControlPromotion.WaitMisc = 0D;
+            this.tabControlPromotion.WaitReceive = 0D;
+            this.tabControlPromotion.WaitSearch = 0D;
+            // 
             // tabPageGTactics
             // 
             this.tabPageGTactics.BackColor = System.Drawing.SystemColors.Control;
@@ -205,6 +299,24 @@
             this.tabPageGTactics.Size = new System.Drawing.Size(668, 735);
             this.tabPageGTactics.TabIndex = 4;
             this.tabPageGTactics.Text = "G-Tactics";
+            // 
+            // tabControlGTactics
+            // 
+            this.tabControlGTactics.CycleRecieveTime = System.TimeSpan.Parse("01:00:00");
+            this.tabControlGTactics.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlGTactics.Location = new System.Drawing.Point(3, 3);
+            this.tabControlGTactics.Name = "tabControlGTactics";
+            this.tabControlGTactics.OptimizedWaitEnemyCount = ((uint)(0u));
+            this.tabControlGTactics.Size = new System.Drawing.Size(662, 729);
+            this.tabControlGTactics.TabIndex = 0;
+            this.tabControlGTactics.UserName = null;
+            this.tabControlGTactics.WaitAccessBlock = 0D;
+            this.tabControlGTactics.WaitAttack = 0D;
+            this.tabControlGTactics.WaitBattle = 0D;
+            this.tabControlGTactics.WaitContinueSearch = 0D;
+            this.tabControlGTactics.WaitMisc = 0D;
+            this.tabControlGTactics.WaitReceive = 0D;
+            this.tabControlGTactics.WaitSearch = 0D;
             // 
             // timerWatchBrowser
             // 
@@ -332,9 +444,9 @@
             this.labelOptimizedWait2.AutoSize = true;
             this.labelOptimizedWait2.Location = new System.Drawing.Point(177, 6);
             this.labelOptimizedWait2.Name = "labelOptimizedWait2";
-            this.labelOptimizedWait2.Size = new System.Drawing.Size(113, 12);
+            this.labelOptimizedWait2.Size = new System.Drawing.Size(137, 12);
             this.labelOptimizedWait2.TabIndex = 4;
-            this.labelOptimizedWait2.Text = "体になるように調整する";
+            this.labelOptimizedWait2.Text = "体以下になるように調整する";
             // 
             // labelOptimizedWait1
             // 
@@ -665,109 +777,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(1044, 761);
             this.splitContainer1.SplitterDistance = 676;
             this.splitContainer1.TabIndex = 3;
-            // 
-            // tabControlRaid
-            // 
-            this.tabControlRaid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlRaid.Location = new System.Drawing.Point(3, 3);
-            this.tabControlRaid.Name = "tabControlRaid";
-            this.tabControlRaid.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlRaid.Size = new System.Drawing.Size(662, 729);
-            this.tabControlRaid.TabIndex = 0;
-            this.tabControlRaid.UserName = null;
-            this.tabControlRaid.WaitAccessBlock = 0D;
-            this.tabControlRaid.WaitAttack = 0D;
-            this.tabControlRaid.WaitBattle = 0D;
-            this.tabControlRaid.WaitContinueSearch = 0D;
-            this.tabControlRaid.WaitMisc = 0D;
-            this.tabControlRaid.WaitReceive = 0D;
-            this.tabControlRaid.WaitSearch = 0D;
-            // 
-            // tabControlGroup
-            // 
-            this.tabControlGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tabControlGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlGroup.Location = new System.Drawing.Point(3, 3);
-            this.tabControlGroup.Name = "tabControlGroup";
-            this.tabControlGroup.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlGroup.Size = new System.Drawing.Size(662, 729);
-            this.tabControlGroup.TabIndex = 0;
-            this.tabControlGroup.UserName = null;
-            this.tabControlGroup.WaitAccessBlock = 0D;
-            this.tabControlGroup.WaitAttack = 0D;
-            this.tabControlGroup.WaitBattle = 0D;
-            this.tabControlGroup.WaitContinueSearch = 0D;
-            this.tabControlGroup.WaitMisc = 0D;
-            this.tabControlGroup.WaitReceive = 0D;
-            this.tabControlGroup.WaitSearch = 0D;
-            // 
-            // tabControlGShooting
-            // 
-            this.tabControlGShooting.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlGShooting.Location = new System.Drawing.Point(3, 3);
-            this.tabControlGShooting.Name = "tabControlGShooting";
-            this.tabControlGShooting.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlGShooting.Size = new System.Drawing.Size(662, 729);
-            this.tabControlGShooting.TabIndex = 0;
-            this.tabControlGShooting.UserName = null;
-            this.tabControlGShooting.WaitAccessBlock = 0D;
-            this.tabControlGShooting.WaitAttack = 0D;
-            this.tabControlGShooting.WaitBattle = 0D;
-            this.tabControlGShooting.WaitContinueSearch = 0D;
-            this.tabControlGShooting.WaitMisc = 0D;
-            this.tabControlGShooting.WaitReceive = 0D;
-            this.tabControlGShooting.WaitSearch = 0D;
-            // 
-            // tabControlShootingRange
-            // 
-            this.tabControlShootingRange.BackColor = System.Drawing.SystemColors.Control;
-            this.tabControlShootingRange.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlShootingRange.Location = new System.Drawing.Point(3, 3);
-            this.tabControlShootingRange.Name = "tabControlShootingRange";
-            this.tabControlShootingRange.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlShootingRange.Size = new System.Drawing.Size(662, 729);
-            this.tabControlShootingRange.TabIndex = 0;
-            this.tabControlShootingRange.UserName = null;
-            this.tabControlShootingRange.WaitAccessBlock = 0D;
-            this.tabControlShootingRange.WaitAttack = 0D;
-            this.tabControlShootingRange.WaitBattle = 0D;
-            this.tabControlShootingRange.WaitContinueSearch = 0D;
-            this.tabControlShootingRange.WaitMisc = 0D;
-            this.tabControlShootingRange.WaitReceive = 0D;
-            this.tabControlShootingRange.WaitSearch = 0D;
-            // 
-            // tabControlPromotion
-            // 
-            this.tabControlPromotion.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPromotion.Location = new System.Drawing.Point(3, 3);
-            this.tabControlPromotion.Name = "tabControlPromotion";
-            this.tabControlPromotion.Size = new System.Drawing.Size(662, 729);
-            this.tabControlPromotion.TabIndex = 0;
-            this.tabControlPromotion.UserName = null;
-            this.tabControlPromotion.WaitAccessBlock = 0D;
-            this.tabControlPromotion.WaitAttack = 0D;
-            this.tabControlPromotion.WaitBattle = 0D;
-            this.tabControlPromotion.WaitContinueSearch = 0D;
-            this.tabControlPromotion.WaitMisc = 0D;
-            this.tabControlPromotion.WaitReceive = 0D;
-            this.tabControlPromotion.WaitSearch = 0D;
-            // 
-            // tabControlGTactics
-            // 
-            this.tabControlGTactics.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlGTactics.Location = new System.Drawing.Point(3, 3);
-            this.tabControlGTactics.Name = "tabControlGTactics";
-            this.tabControlGTactics.OptimizedWaitEnemyCount = ((uint)(0u));
-            this.tabControlGTactics.Size = new System.Drawing.Size(662, 729);
-            this.tabControlGTactics.TabIndex = 0;
-            this.tabControlGTactics.UserName = null;
-            this.tabControlGTactics.WaitAccessBlock = 0D;
-            this.tabControlGTactics.WaitAttack = 0D;
-            this.tabControlGTactics.WaitBattle = 0D;
-            this.tabControlGTactics.WaitContinueSearch = 0D;
-            this.tabControlGTactics.WaitMisc = 0D;
-            this.tabControlGTactics.WaitReceive = 0D;
-            this.tabControlGTactics.WaitSearch = 0D;
             // 
             // FormMain
             // 

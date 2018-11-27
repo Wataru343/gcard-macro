@@ -96,6 +96,7 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="RecievePresent.cs" />
     <Compile Include="ShootingRange.cs" />
     <Compile Include="GTactics.cs" />
     <Compile Include="Hash.cs" />

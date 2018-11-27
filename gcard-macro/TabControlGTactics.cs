@@ -25,6 +25,7 @@ namespace gcard_macro
         public double WaitMisc { get; set; }
         public string UserName { get; set; }
         public uint OptimizedWaitEnemyCount { get; set; }
+        public TimeSpan CycleRecieveTime { get; set; }
 
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
@@ -36,6 +37,7 @@ namespace gcard_macro
         {
             InitializeComponent();
             timerWatchWebdriver.Start();
+
             GTactics = null;
             IsStart = false;
             buttonStop.Enabled = false;
@@ -78,6 +80,8 @@ namespace gcard_macro
             }
 
             CurrentState = labelStateHome;
+
+            CycleRecieveTime = TimeSpan.FromHours(1);
         }
 
 
@@ -136,6 +140,7 @@ namespace gcard_macro
                     ReceiveReword = checkBoxRecieveReword.Checked,
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     OnlySearch = checkBoxOnlySearch.Checked,
+                    NoSearch = checkBoxNoSearch.Checked,
                     Shield = new Dictionary<string, int> {
                         { "A1", comboBoxShieldA1.SelectedIndex },
                         { "A2", comboBoxShieldA2.SelectedIndex },
@@ -183,6 +188,12 @@ namespace gcard_macro
             IsStart = true;
 
             BotActived?.Invoke(this, true);
+
+            if ((int)CycleRecieveTime.TotalMilliseconds > 0)
+            {
+                timerRecievePresent.Interval = (int)CycleRecieveTime.TotalMilliseconds;
+                timerRecievePresent.Start();
+            }
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -192,6 +203,8 @@ namespace gcard_macro
 
             IsStart = false;
 
+            timerWatchWebdriver.Stop();
+            timerRecievePresent.Stop();
 
             GTactics?.KillThread();
             GTactics = null;
@@ -403,5 +416,10 @@ namespace gcard_macro
         private void PaintFrameTopRightBottom(object sender, PaintEventArgs e) => PaintFrame(e, new Point[] { new Point(0, 0), new Point((sender as Control).Size.Width - 1, 0), new Point((sender as Control).Size.Width - 1, (sender as Control).Size.Height - 1), new Point(0, (sender as Control).Size.Height - 1) });
 
         private void PaintFrame(PaintEventArgs e, Point[] pt) => e.Graphics.DrawLines(new Pen(Color.Black, 1), pt);
+
+        private void timerRecievePresent_Tick(object sender, EventArgs e)
+        {
+            GTactics?.SendRecievePresentRequest();
+        }
     }
 }

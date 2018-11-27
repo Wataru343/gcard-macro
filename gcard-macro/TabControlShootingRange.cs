@@ -25,6 +25,7 @@ namespace gcard_macro
         public double WaitMisc { get; set; }
         public string UserName { get; set; }
         public uint OptimizedWaitEnemyCount { get; set; }
+        public TimeSpan CycleRecieveTime { get; set; }
 
         public delegate void BotActiveHandler(object sender, bool actived);
         public event BotActiveHandler BotActived;
@@ -45,6 +46,8 @@ namespace gcard_macro
             checkBoxUseFocusShotDuringFever.Checked = Properties.Settings.Default.ShootingRangeUseFocusShotDuringFever;
             checkBoxUseFeverTip.Checked = Properties.Settings.Default.ShootingRangeUseFeverTip;
             checkBoxAutoStop.Checked = Properties.Settings.Default.ShootingRangeAutoStop;
+
+            CycleRecieveTime = TimeSpan.FromHours(1);
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -120,6 +123,12 @@ namespace gcard_macro
             buttonStop.Enabled = true;
             IsStart = true;
             BotActived?.Invoke(this, true);
+
+            if ((int)CycleRecieveTime.TotalMilliseconds > 0)
+            {
+                timerRecievePresent.Interval = (int)CycleRecieveTime.TotalMilliseconds;
+                timerRecievePresent.Start();
+            }
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -128,6 +137,9 @@ namespace gcard_macro
             buttonStop.Enabled = false;
 
             IsStart = false;
+
+            timerWatchWebdriver.Stop();
+            timerRecievePresent.Stop();
 
             ShootingRange?.KillThread();
             ShootingRange = null;
@@ -193,5 +205,10 @@ namespace gcard_macro
         }
 
         private void ValueChanged(object sender, EventArgs e) => SettingChanged?.Invoke(this, e);
+
+        private void timerRecievePresent_Tick(object sender, EventArgs e)
+        {
+            ShootingRange?.SendRecievePresentRequest();
+        }
     }
 }

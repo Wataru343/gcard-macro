@@ -48,6 +48,7 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.timerRecievePresent = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel9.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -63,7 +64,7 @@
             this.textBoxURL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxURL.Location = new System.Drawing.Point(122, 3);
             this.textBoxURL.Name = "textBoxURL";
-            this.textBoxURL.Size = new System.Drawing.Size(775, 19);
+            this.textBoxURL.Size = new System.Drawing.Size(781, 19);
             this.textBoxURL.TabIndex = 1;
             this.textBoxURL.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -92,6 +93,7 @@
             this.tableLayoutPanel9.Controls.Add(this.checkBoxAutoStop, 0, 5);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 15);
+            this.tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 6;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -101,14 +103,14 @@
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(882, 501);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(894, 525);
             this.tableLayoutPanel9.TabIndex = 18;
             // 
             // checkBoxUseFeverTip
             // 
             this.checkBoxUseFeverTip.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxUseFeverTip.AutoSize = true;
-            this.checkBoxUseFeverTip.Location = new System.Drawing.Point(3, 75);
+            this.checkBoxUseFeverTip.Location = new System.Drawing.Point(3, 69);
             this.checkBoxUseFeverTip.Name = "checkBoxUseFeverTip";
             this.checkBoxUseFeverTip.Size = new System.Drawing.Size(122, 16);
             this.checkBoxUseFeverTip.TabIndex = 20;
@@ -125,18 +127,19 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBoxThresholdFocusShot, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 23);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 20);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(876, 24);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(894, 24);
             this.tableLayoutPanel1.TabIndex = 21;
             // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(834, 6);
+            this.label3.Location = new System.Drawing.Point(852, 6);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 12);
             this.label3.TabIndex = 22;
@@ -147,7 +150,7 @@
             this.textBoxThresholdFocusShot.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxThresholdFocusShot.Location = new System.Drawing.Point(3, 3);
             this.textBoxThresholdFocusShot.Name = "textBoxThresholdFocusShot";
-            this.textBoxThresholdFocusShot.Size = new System.Drawing.Size(825, 19);
+            this.textBoxThresholdFocusShot.Size = new System.Drawing.Size(843, 19);
             this.textBoxThresholdFocusShot.TabIndex = 20;
             this.textBoxThresholdFocusShot.VisibleChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxThresholdFocusShot.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxThresholdFocusShot_KeyPress);
@@ -157,7 +160,7 @@
             // 
             this.checkBoxUseFocusShotDuringFever.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxUseFocusShotDuringFever.AutoSize = true;
-            this.checkBoxUseFocusShotDuringFever.Location = new System.Drawing.Point(3, 53);
+            this.checkBoxUseFocusShotDuringFever.Location = new System.Drawing.Point(3, 47);
             this.checkBoxUseFocusShotDuringFever.Name = "checkBoxUseFocusShotDuringFever";
             this.checkBoxUseFocusShotDuringFever.Size = new System.Drawing.Size(167, 16);
             this.checkBoxUseFocusShotDuringFever.TabIndex = 19;
@@ -178,7 +181,7 @@
             // checkBoxAutoStop
             // 
             this.checkBoxAutoStop.AutoSize = true;
-            this.checkBoxAutoStop.Location = new System.Drawing.Point(3, 97);
+            this.checkBoxAutoStop.Location = new System.Drawing.Point(3, 91);
             this.checkBoxAutoStop.Name = "checkBoxAutoStop";
             this.checkBoxAutoStop.Size = new System.Drawing.Size(166, 16);
             this.checkBoxAutoStop.TabIndex = 20;
@@ -194,12 +197,13 @@
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.textBoxURL, 1, 0);
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(900, 24);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(906, 24);
             this.tableLayoutPanel7.TabIndex = 21;
             // 
             // tableLayoutPanel10
@@ -213,17 +217,18 @@
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel10.Controls.Add(this.buttonStart, 1, 0);
             this.tableLayoutPanel10.Controls.Add(this.buttonStop, 2, 0);
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 570);
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(0, 573);
+            this.tableLayoutPanel10.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 1;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(900, 56);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(906, 56);
             this.tableLayoutPanel10.TabIndex = 19;
             // 
             // buttonStart
             // 
             this.buttonStart.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonStart.Location = new System.Drawing.Point(735, 7);
+            this.buttonStart.Location = new System.Drawing.Point(741, 7);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(81, 42);
             this.buttonStart.TabIndex = 3;
@@ -234,7 +239,7 @@
             // buttonStop
             // 
             this.buttonStop.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonStop.Location = new System.Drawing.Point(822, 7);
+            this.buttonStop.Location = new System.Drawing.Point(828, 7);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 42);
             this.buttonStop.TabIndex = 4;
@@ -251,6 +256,7 @@
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel7, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -265,11 +271,12 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 33);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 24);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(900, 531);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(906, 549);
             this.tableLayoutPanel4.TabIndex = 22;
             // 
             // tableLayoutPanel3
@@ -278,11 +285,12 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.groupBox1, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(894, 525);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(906, 549);
             this.tableLayoutPanel3.TabIndex = 21;
             // 
             // groupBox1
@@ -293,10 +301,14 @@
             this.groupBox1.Controls.Add(this.tableLayoutPanel9);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(888, 519);
+            this.groupBox1.Size = new System.Drawing.Size(900, 543);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
+            // 
+            // timerRecievePresent
+            // 
+            this.timerRecievePresent.Tick += new System.EventHandler(this.timerRecievePresent_Tick);
             // 
             // TabControlShootingRange
             // 
@@ -340,5 +352,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Timer timerRecievePresent;
     }
 }

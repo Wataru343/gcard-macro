@@ -72,7 +72,7 @@ namespace gcard_macro
             numericUpDownCycleRecieveTime.ValueChanged += onSettingChanged;
             buttonSave.Enabled = false;
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.1";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.5";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -441,19 +441,67 @@ namespace gcard_macro
 
         private void numericUpDownCycleRecieveTime_ValueChanged(object sender, EventArgs e)
         {
-
+            if (checkBoxCycleReceive.Checked)
+            {
+                tabControlRaid.CycleRecieveTime = tabControlGroup.CycleRecieveTime = tabControlGShooting.CycleRecieveTime = tabControlShootingRange.CycleRecieveTime = tabControlPromotion.CycleRecieveTime = tabControlGTactics.CycleRecieveTime = TimeSpan.FromHours(Convert.ToDouble(numericUpDownCycleRecieveTime.Value));
+            }
+            else
+            {
+                tabControlRaid.CycleRecieveTime = tabControlGroup.CycleRecieveTime = tabControlGShooting.CycleRecieveTime = tabControlShootingRange.CycleRecieveTime = tabControlPromotion.CycleRecieveTime = tabControlGTactics.CycleRecieveTime = TimeSpan.FromHours(0);
+            }
         }
 
         private void buttonReceiveImmediately_Click(object sender, EventArgs e)
         {
             if (Webdriver.IsOoen())
             {
-                if(tabControlRaid.IsStart) tabControlRaid.RecievePresent();
-                else if(tabControlGroup.IsStart) tabControlGroup.RecievePresent();
-                else if(tabControlPromotion.IsStart) tabControlPromotion.RecievePresent();
-                else if(tabControlGShooting.IsStart) tabControlGShooting.RecievePresent();
-                else if(tabControlShootingRange.IsStart) tabControlShootingRange.RecievePresent();
-                else if(tabControlGTactics.IsStart) tabControlGTactics.RecievePresent();
+                if (tabControlRaid.IsStart) tabControlRaid.RecievePresent();
+                else if (tabControlGroup.IsStart) tabControlGroup.RecievePresent();
+                else if (tabControlPromotion.IsStart) tabControlPromotion.RecievePresent();
+                else if (tabControlGShooting.IsStart) tabControlGShooting.RecievePresent();
+                else if (tabControlShootingRange.IsStart) tabControlShootingRange.RecievePresent();
+                else if (tabControlGTactics.IsStart) tabControlGTactics.RecievePresent();
+                else
+                {
+                    buttonReceiveImmediately.Enabled = false;
+
+                    Task.Run(() =>
+                    {
+                        var cookies = driver_.Manage().Cookies.AllCookies;
+
+                        IWebDriver driverPresent = new WebDriber.HtmlAgilityPackDriver("Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
+
+                        foreach (var c in cookies)
+                        {
+                            try
+                            {
+                                driverPresent.Manage().Cookies.AddCookie(c);
+                            }
+                            catch { }
+                        }
+                        driverPresent.Navigate().GoToUrl("http://gcc.sp.mbga.jp/_gcard_my_room");
+
+
+                        RecievePresent rp = new RecievePresent(driverPresent, "http://gcc.sp.mbga.jp/_gcard_my_room")
+                        {
+                            WaitReceive = tabControlRaid.WaitReceive,
+                            WaitMisc = tabControlRaid.WaitMisc,
+                        };
+                        rp.CreateThread();
+
+                        while (rp.IsRun)
+                            System.Threading.Thread.Sleep(300);
+
+                        Invoke((MethodInvoker)delegate
+                        {
+                            buttonReceiveImmediately.Enabled = true;
+                        });
+                    });
+                }
+            }
+            else
+            {
+                MessageBox.Show("先にログインしてください", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
