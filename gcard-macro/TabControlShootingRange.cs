@@ -206,9 +206,6 @@ namespace gcard_macro
 
         private void ValueChanged(object sender, EventArgs e) => SettingChanged?.Invoke(this, e);
 
-        private void timerRecievePresent_Tick(object sender, EventArgs e)
-        {
-            ShootingRange?.SendRecievePresentRequest();
-        }
+        private void timerRecievePresent_Tick(object sender, EventArgs e) => ShootingRange?.SendRecievePresentRequest();
     }
 }

@@ -567,6 +567,9 @@ namespace gcard_macro
         /// </summary>
         private void MoveEnemyListToSearch()
         {
+            if (!IsRun)
+                return;
+
             enemy_list_path_ = driver_.Url;
 
             IsRareBoss = false;
@@ -1072,6 +1075,9 @@ namespace gcard_macro
         /// </summary>
         private void MoveAssaultOperationHomeToAssaultOperationBattle()
         {
+            if (!IsRun)
+                return;
+
             AssaultOperationPath = driver_.Url;
             IsBattleShip = false;
 
@@ -1273,12 +1279,10 @@ namespace gcard_macro
 
 
                 //一撃で倒せる必要倍率を計算
-                int requiredRatio = Utils.CalcUseMiniCapsules(hp, BaseDamage, 1.0, combo);
+                double requiredRatio = Utils.CalcRequiredRatio(hp, BaseDamage, 1.0, combo);
                 int useBe = 0;
-                if (requiredRatio == 0) requiredRatio = 1;
 
-
-                if (requiredRatio > 3) useBe = 3;
+                if (requiredRatio > 3.0) useBe = 3;
                 else if (requiredRatio > 1.2) useBe = 2;
                 else useBe = 1;
 
@@ -1439,10 +1443,9 @@ namespace gcard_macro
 
 
                 //一撃で倒せる必要倍率を計算
-                int requiredRatio = Utils.CalcUseMiniCapsules(hp, BaseDamage, 1.0, combo);
+                double requiredRatio = Utils.CalcRequiredRatio(hp, BaseDamage, 1.0, combo);
                 int useBe = 0;
                 if (requiredRatio == 0) requiredRatio = 1;
-
 
                 if (requiredRatio > 3) useBe = 3;
                 else if (requiredRatio > 1.2) useBe = 2;

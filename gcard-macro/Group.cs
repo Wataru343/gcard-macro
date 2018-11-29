@@ -394,6 +394,9 @@ namespace gcard_macro
         /// </summary>
         private void MoveEnemyListToSearch()
         {
+            if (!IsRun)
+                return;
+
             if (enemy_list_path_ == "")
             {
                 enemy_list_path_ = driver_.Url;
@@ -837,10 +840,8 @@ namespace gcard_macro
 
                 //一撃で倒せる必要倍率を計算
                 double boost = BoostActivated ? 3.0 : AttackerJobRatio;
-                int requiredRatio = Utils.CalcUseMiniCapsules(hp, BaseDamage, boost, combo);
+                double requiredRatio = Utils.CalcRequiredRatio(hp, BaseDamage, boost, combo);
                 int useBe = 0;
-                if (requiredRatio == 0) requiredRatio = 1;
-
 
 
                 //攻撃処理

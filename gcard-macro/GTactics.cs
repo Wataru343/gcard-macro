@@ -17,7 +17,7 @@ namespace gcard_macro
         public delegate void AreaChangedHandler(object sender, string area);
         public event AreaChangedHandler AreaChanged;
 
-        public Dictionary<string, int> Shield { get; set; }
+        public List<Area> Shield { get; set; }
         public AreaPriority Priority { get; set; }
         public bool UseForce { get; set; }
         public bool ForceCharge { get; set; }
@@ -63,6 +63,12 @@ namespace gcard_macro
             OnlyStrategyArea
         }
 
+        public struct Area
+        {
+            public int Level { get; set; }
+            public bool Enable { get; set; }
+        }
+
 
         public GTactics(IWebDriver driver, string home_path) : base(driver, home_path)
         {
@@ -79,7 +85,7 @@ namespace gcard_macro
             WaitAccessBlock = 0.0;
             WaitMisc = 0.0;
             BaseDamage = 0;
-            Shield = new Dictionary<string, int>();
+            Shield = new List<Area>(10);
             IsAreaBattle = false;
             CurrentArea = "";
             StrongForceDamage = 0;
@@ -93,7 +99,7 @@ namespace gcard_macro
             ShieldClear = false;
             WaitForce = 0.0;
             ChangeArea = false;
-            ChangeAreaIdx = 0;
+            ChangeAreaIdx = -1;
             Gauge = 0;
 
             base.StateChanged += StateChangedBase;
@@ -348,7 +354,7 @@ namespace gcard_macro
                         //戦略拠点が先
                         if (Priority == AreaPriority.StrategyArea)
                         {
-                            if (Shield[areaNames[0]] > 0 && levels[0] == 0)
+                            if (Shield[0].Enable && Shield[0].Level > 0 && levels[0] == 0)
                             {
                                 ChangeArea = currentAreaIdx != 0;
                                 ChangeAreaIdx = 0;
@@ -362,7 +368,7 @@ namespace gcard_macro
                             string className = panel[i].GetAttribute("class");
                             if (className.IndexOf("own") < 0 && className.IndexOf("enemy") < 0)
                             {
-                                if (Shield[areaNames[i]] >= levels[i])
+                                if (Shield[i].Enable && Shield[i].Level >= levels[i])
                                 {
                                     ChangeArea = currentAreaIdx != i;
                                     ChangeAreaIdx = i;
@@ -374,7 +380,7 @@ namespace gcard_macro
                         //戦略拠点は後
                         if (Priority == AreaPriority.None)
                         {
-                            if (Shield[areaNames[0]] > 0 && levels[0] == 0)
+                            if (Shield[0].Enable && Shield[0].Level > 0 && levels[0] == 0)
                             {
                                 ChangeArea = currentAreaIdx != 0;
                                 ChangeAreaIdx = 0;
@@ -386,7 +392,7 @@ namespace gcard_macro
                         //次に敵エリアを優先する
                         if (Priority == AreaPriority.StrategyArea)
                         {
-                            if (levels[0] < 0)
+                            if (Shield[0].Enable && levels[0] < 0)
                             {
                                 ChangeArea = currentAreaIdx != 0;
                                 ChangeAreaIdx = 0;
@@ -398,7 +404,7 @@ namespace gcard_macro
                         for (int i = 1; i < panel.Count(); i++)
                         {
                             string className = panel[i].GetAttribute("class");
-                            if (className.IndexOf("enemy") >= 0)
+                            if (Shield[i].Enable && className.IndexOf("enemy") >= 0)
                             {
                                 ChangeArea = currentAreaIdx != i;
                                 ChangeAreaIdx = i;
@@ -408,7 +414,7 @@ namespace gcard_macro
 
                         if (Priority == AreaPriority.None)
                         {
-                            if (levels[0] < 0)
+                            if (Shield[0].Enable && levels[0] < 0)
                             {
                                 ChangeArea = currentAreaIdx != 0;
                                 ChangeAreaIdx = 0;
@@ -419,23 +425,26 @@ namespace gcard_macro
                         //最後に味方エリア
                         if (Priority == AreaPriority.StrategyArea)
                         {
-                            if (Shield[areaNames[0]] > levels[0])
+                            if (Shield[0].Enable)
                             {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
-                                goto EXIT;
-                            }
-                            else if (levels[0] == 3 && Gauge < 100)
-                            {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
-                                goto EXIT;
+                                if (Shield[0].Level > levels[0])
+                                {
+                                    ChangeArea = currentAreaIdx != 0;
+                                    ChangeAreaIdx = 0;
+                                    goto EXIT;
+                                }
+                                else if (levels[0] == 3 && Gauge < 100)
+                                {
+                                    ChangeArea = currentAreaIdx != 0;
+                                    ChangeAreaIdx = 0;
+                                    goto EXIT;
+                                }
                             }
                         }
 
                         for (int i = 1; i < panel.Count(); i++)
                         {
-                            if (Shield[areaNames[i]] > levels[i])
+                            if (Shield[i].Enable && Shield[i].Level > levels[i])
                             {
                                 ChangeArea = currentAreaIdx != i;
                                 ChangeAreaIdx = i;
@@ -445,22 +454,25 @@ namespace gcard_macro
 
                         if (Priority == AreaPriority.None)
                         {
-                            if (Shield[areaNames[0]] > levels[0] || (Gauge < 100 && currentAreaIdx == 0))
+                            if (Shield[0].Enable)
                             {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
-                                goto EXIT;
-                            }
-                            else if (levels[0] == 3 && Gauge < 100)
-                            {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
-                                goto EXIT;
+                                if (Shield[0].Level > levels[0])
+                                {
+                                    ChangeArea = currentAreaIdx != 0;
+                                    ChangeAreaIdx = 0;
+                                    goto EXIT;
+                                }
+                                else if (levels[0] == 3 && Gauge < 100)
+                                {
+                                    ChangeArea = currentAreaIdx != 0;
+                                    ChangeAreaIdx = 0;
+                                    goto EXIT;
+                                }
                             }
                         }
 
 
-                        if (PointDiff <= (OurPoint - EnemyPoint) && Standby)
+                        if (Standby && PointDiff <= (OurPoint - EnemyPoint))
                         {
                             ChangeArea = true;
                             ChangeAreaIdx = -1;
@@ -468,17 +480,51 @@ namespace gcard_macro
                         }
                         else
                         {
-                            ChangeArea = currentAreaIdx != 1;
-                            ChangeAreaIdx = 1;
+                            int cIdx = currentAreaIdx;
+
+                            if (cIdx <= 0)
+                            {
+                                //待機中の場合有効な列を探す
+                                cIdx = Shield.FindIndex(1, e => e.Enable);
+
+                                if (cIdx == -1)
+                                {
+                                    cIdx = Shield[0].Enable ? 0 : -1;
+                                }
+
+                                cIdx = cIdx == -1 ? -1 : cIdx;
+                            }
+
+                            if (cIdx == -1)
+                            {
+                                ChangeArea = true;
+                                ChangeAreaIdx = -1;
+                                goto EXIT;
+                            }
+                            else
+                            {
+                                //待機しない場合は有効な列の最上段を攻撃する
+                                //戦略拠点のみ有効の場合戦略拠点を攻撃する
+                                int upAreaIdx = cIdx > 0 ? (10 - (3 - (cIdx - 1) % 3)) : 0;
+                                ChangeArea = currentAreaIdx != upAreaIdx;
+                                ChangeAreaIdx = upAreaIdx;
+                            }
+
                             goto EXIT;
                         }
                     }
                     else
                     {
-                        //待機設定していない場合はノンストップ
+                        if (!Shield[0].Enable)
+                        {
+                            ChangeArea = true;
+                            ChangeAreaIdx = -1;
+                            goto EXIT;
+                        }
+
                         if (Standby)
                         {
-                            if (levels[0] >= Shield[areaNames[0]] && PointDiff <= (OurPoint - EnemyPoint))
+                            if (levels[0] >= Shield[0].Level && PointDiff <= (OurPoint - EnemyPoint))
                             {
                                 ChangeArea = true;
                                 ChangeAreaIdx = -1;
@@ -491,13 +537,20 @@ namespace gcard_macro
                                 goto EXIT;
                             }
                         }
+                        else
+                        {
+                            //待機設定していない場合はノンストップ
+                            ChangeArea = currentAreaIdx != 0;
+                            ChangeAreaIdx = 0;
+                            goto EXIT;
+                        }
                     }
 
                     EXIT:;
                 }
                 catch
                 {
-                    Wait(2.5);
+                    Wait(3);
                 }
                 Wait(1);
                 driverArea.Navigate().Refresh();
@@ -669,7 +722,10 @@ namespace gcard_macro
         /// </summary>
         private void MoveEnemyListToSearch()
         {
-            if(enemy_list_path_ == "")
+            if (!IsRun)
+                return;
+
+            if (enemy_list_path_ == "")
             {
                 enemy_list_path_ = driver_.Url;
             }
@@ -1122,7 +1178,7 @@ namespace gcard_macro
 
 
                 //一撃で倒せる必要倍率を計算
-                int requiredRatio = Utils.CalcUseMiniCapsules(hp, BaseDamage, boost, combo);
+                double requiredRatio = Utils.CalcRequiredRatio(hp, BaseDamage, boost, combo);
                 int useBe = 0;
                 if (requiredRatio == 0) requiredRatio = 1;
 
@@ -1174,9 +1230,44 @@ namespace gcard_macro
 
             try
             {
-                Gauge = Convert.ToInt32(driver_.FindElement(By.XPath("//div[@class=\"gauge-badge\"]")).GetAttribute("style").Substring(6).Replace("%;", ""));
+                Gauge = Convert.ToInt32(driver_.FindElement(By.XPath("//div[@class=\"gauge-badge\"]")).GetAttribute("style").Substring(6).Replace("%", "").Replace(";", ""));
+
+                string levelAtt = "";
+                string side = "";
+                int level = 0;
+                try
+                {
+                    IWebElement elm = driver_.FindElement(By.XPath("//div[contains(@class,\"level-\")]"));
+                    levelAtt = elm.GetAttribute("class");
+                    side = levelAtt.Split(new char[] { ' ' }).Last();
+
+                    level = Convert.ToInt32(levelAtt.Substring(levelAtt.IndexOf("level") + 6, 1));
+                }
+                catch
+                {
+                    level = 0;
+                    side = "even";
+                }
+
+
+
+
+                if (Priority != AreaPriority.OnlyStrategyArea)
+                {
+                    if (side != "enemy")
+                    {
+                        //既定の制圧レベル以上なら移動
+                        if (level == 3 && Gauge == 100)
+                        {
+                            Exec = SearchState;
+                            return;
+                        }
+                    }
+                }
             }
             catch { }
+
+
 
             if (CurrentArea != "戦略拠点")
             {
@@ -1306,9 +1397,18 @@ namespace gcard_macro
                                     switch (PrevUsedForce)
                                     {
                                         case Force.None:
-                                            Log?.Invoke(this, "強フォース使用");
-                                            forces[1].FindElement(By.XPath("form")).Submit();
-                                            PrevUsedForce = Force.Strong;
+                                            if (forceCount[0] > 0)
+                                            {
+                                                Log?.Invoke(this, "強フォース使用");
+                                                forces[1].FindElement(By.XPath("form")).Submit();
+                                                PrevUsedForce = Force.Strong;
+                                            }
+                                            else
+                                            {
+                                                Log?.Invoke(this, "弱フォース使用");
+                                                forces[0].FindElement(By.XPath("form")).Submit();
+                                                PrevUsedForce = Force.Weak;
+                                            }
                                             break;
                                         case Force.Weak:
                                             Log?.Invoke(this, "弱フォース使用");

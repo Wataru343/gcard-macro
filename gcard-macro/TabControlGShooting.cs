@@ -350,9 +350,6 @@ namespace gcard_macro
 
         private void PaintFrame(PaintEventArgs e, Point[] pt) => e.Graphics.DrawLines(new Pen(Color.Black, 1), pt);
 
-        private void timerRecievePresent_Tick(object sender, EventArgs e)
-        {
-            GShooting?.SendRecievePresentRequest();
-        }
+        private void timerRecievePresent_Tick(object sender, EventArgs e) => GShooting?.SendRecievePresentRequest();
     }
 }

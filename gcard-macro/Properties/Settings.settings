@@ -350,5 +350,14 @@
     <Setting Name="CycleRecieveTime" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="GTacticsEnableRightArea" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="GTacticsEnableCenterArea" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="GTacticsEnableLeftArea" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

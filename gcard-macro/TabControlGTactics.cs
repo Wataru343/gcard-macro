@@ -67,6 +67,9 @@ namespace gcard_macro
             textBoxPointDiff.Text = Properties.Settings.Default.GTacticsPointDiff.ToString();
             checkBoxStandby.Checked = Properties.Settings.Default.GTacticsStandby;
             textBoxWaitForce.Text = Properties.Settings.Default.GTacticsWaitForce.ToString();
+            checkBoxEnableRightArea.Checked = Properties.Settings.Default.GTacticsEnableRightArea;
+            checkBoxEnableCenterArea.Checked = Properties.Settings.Default.GTacticsEnableCenterArea;
+            checkBoxEnableLeftArea.Checked = Properties.Settings.Default.GTacticsEnableLeftArea;
 
             try
             {
@@ -78,6 +81,12 @@ namespace gcard_macro
                 dateTimePickerTimeStart.Value = dateTimePickerTimeStart.MinDate;
                 dateTimePickerTimeEnd.Value = dateTimePickerTimeEnd.MinDate;
             }
+
+            checkBoxStandby.CheckedChanged += ValueChanged;
+            checkBoxEnableLeftArea.CheckedChanged += ValueChanged;
+            checkBoxEnableCenterArea.CheckedChanged += ValueChanged;
+            checkBoxEnableRightArea.CheckedChanged += ValueChanged;
+            checkBoxEnableStrategyArea.CheckedChanged += ValueChanged;
 
             CurrentState = labelStateHome;
 
@@ -141,17 +150,17 @@ namespace gcard_macro
                     ReceivePresent = checkBoxRecievePresent.Checked,
                     OnlySearch = checkBoxOnlySearch.Checked,
                     NoSearch = checkBoxNoSearch.Checked,
-                    Shield = new Dictionary<string, int> {
-                        { "A1", comboBoxShieldA1.SelectedIndex },
-                        { "A2", comboBoxShieldA2.SelectedIndex },
-                        { "A3", comboBoxShieldA3.SelectedIndex },
-                        { "B1", comboBoxShieldB1.SelectedIndex },
-                        { "B2", comboBoxShieldB2.SelectedIndex },
-                        { "B3", comboBoxShieldB3.SelectedIndex },
-                        { "C1", comboBoxShieldC1.SelectedIndex },
-                        { "C2", comboBoxShieldC2.SelectedIndex },
-                        { "C3", comboBoxShieldC3.SelectedIndex },
-                        { "戦略拠点", comboBoxStrategicArea.SelectedIndex },
+                    Shield = new List<GTactics.Area>() {
+                        new GTactics.Area() { Level = comboBoxStrategicArea.SelectedIndex, Enable = checkBoxEnableStrategyArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldC3.SelectedIndex, Enable = checkBoxEnableRightArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldC2.SelectedIndex, Enable = checkBoxEnableCenterArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldC1.SelectedIndex, Enable = checkBoxEnableLeftArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldB3.SelectedIndex, Enable = checkBoxEnableRightArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldB2.SelectedIndex, Enable = checkBoxEnableCenterArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldB1.SelectedIndex, Enable = checkBoxEnableLeftArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldA3.SelectedIndex, Enable = checkBoxEnableRightArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldA2.SelectedIndex, Enable = checkBoxEnableCenterArea.Checked },
+                        new GTactics.Area() { Level = comboBoxShieldA1.SelectedIndex, Enable = checkBoxEnableLeftArea.Checked },
                     },
                     Priority = (GTactics.AreaPriority)comboBoxPriority.SelectedIndex,
                     UseForce = checkBoxUseForce.Checked,
@@ -261,6 +270,9 @@ namespace gcard_macro
             Properties.Settings.Default.GTacticsWaitForce = Utils.ToDouble(textBoxWaitForce.Text);
             Properties.Settings.Default.GTacticsTimeStart = dateTimePickerTimeStart.Value;
             Properties.Settings.Default.GTacticsTimeEnd = dateTimePickerTimeEnd.Value;
+            Properties.Settings.Default.GTacticsEnableRightArea = checkBoxEnableRightArea.Checked;
+            Properties.Settings.Default.GTacticsEnableCenterArea = checkBoxEnableCenterArea.Checked;
+            Properties.Settings.Default.GTacticsEnableLeftArea = checkBoxEnableLeftArea.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -417,9 +429,16 @@ namespace gcard_macro
 
         private void PaintFrame(PaintEventArgs e, Point[] pt) => e.Graphics.DrawLines(new Pen(Color.Black, 1), pt);
 
-        private void timerRecievePresent_Tick(object sender, EventArgs e)
-        {
-            GTactics?.SendRecievePresentRequest();
-        }
+        private void timerRecievePresent_Tick(object sender, EventArgs e) => GTactics?.SendRecievePresentRequest();
+
+        private void checkBoxStandby_CheckedChanged(object sender, EventArgs e) => textBoxPointDiff.Enabled = labelPointDiff.Enabled = (sender as CheckBox).Checked;
+
+        private void checkBoxEnableLeftArea_CheckedChanged(object sender, EventArgs e) => comboBoxShieldA1.Enabled = comboBoxShieldB1.Enabled = comboBoxShieldC1.Enabled = (sender as CheckBox).Checked;
+
+        private void checkBoxEnableCenterArea_CheckedChanged(object sender, EventArgs e) => comboBoxShieldA2.Enabled = comboBoxShieldB2.Enabled = comboBoxShieldC2.Enabled = (sender as CheckBox).Checked;
+
+        private void checkBoxEnableRightArea_CheckedChanged(object sender, EventArgs e) => comboBoxShieldA3.Enabled = comboBoxShieldB3.Enabled = comboBoxShieldC3.Enabled = (sender as CheckBox).Checked;
+
+        private void checkBoxEnableStrategyArea_CheckedChanged(object sender, EventArgs e) => comboBoxStrategicArea.Enabled = (sender as CheckBox).Checked;
     }
 }

@@ -1404,5 +1404,41 @@ namespace gcard_macro.Properties {
                 this["CycleRecieveTime"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsEnableRightArea {
+            get {
+                return ((bool)(this["GTacticsEnableRightArea"]));
+            }
+            set {
+                this["GTacticsEnableRightArea"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsEnableCenterArea {
+            get {
+                return ((bool)(this["GTacticsEnableCenterArea"]));
+            }
+            set {
+                this["GTacticsEnableCenterArea"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsEnableLeftArea {
+            get {
+                return ((bool)(this["GTacticsEnableLeftArea"]));
+            }
+            set {
+                this["GTacticsEnableLeftArea"] = value;
+            }
+        }
     }
 }

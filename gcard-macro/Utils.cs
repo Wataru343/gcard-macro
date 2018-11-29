@@ -45,7 +45,7 @@ namespace gcard_macro
             }
         }
 
-        static public int CalcUseMiniCapsules(ulong enemyHP, ulong damageUsed1BE, double boost, double combo) => (int)Math.Ceiling(enemyHP / ((damageUsed1BE / 1.2) * boost * combo));
+        static public double CalcRequiredRatio(ulong enemyHP, ulong damageUsed1BE, double boost, double combo) => enemyHP / (damageUsed1BE / 1.2 * boost * combo);
 
         static public ulong ToUlong(string val)
         {

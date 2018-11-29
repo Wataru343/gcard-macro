@@ -40,7 +40,7 @@
             this.checkBoxStandby = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxPointDiff = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
+            this.labelPointDiff = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.dateTimePickerTimeStart = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerTimeEnd = new System.Windows.Forms.DateTimePicker();
@@ -49,25 +49,19 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.comboBoxShieldC3 = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.comboBoxShieldC2 = new System.Windows.Forms.ComboBox();
             this.comboBoxStrategicArea = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldC1 = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.comboBoxShieldA1 = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldA2 = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldA3 = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldB3 = new System.Windows.Forms.ComboBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.comboBoxShieldB2 = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.comboBoxShieldB1 = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBoxForceCharge = new System.Windows.Forms.CheckBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -84,7 +78,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.checkBoxUseForce = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxAttackMode = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -122,6 +115,10 @@
             this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
             this.timerRecievePresent = new System.Windows.Forms.Timer(this.components);
+            this.checkBoxEnableLeftArea = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnableCenterArea = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnableRightArea = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnableStrategyArea = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -145,7 +142,7 @@
             // buttonStart
             // 
             this.buttonStart.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonStart.Location = new System.Drawing.Point(287, 3);
+            this.buttonStart.Location = new System.Drawing.Point(341, 3);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(81, 42);
             this.buttonStart.TabIndex = 3;
@@ -156,7 +153,7 @@
             // buttonStop
             // 
             this.buttonStop.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonStop.Location = new System.Drawing.Point(374, 3);
+            this.buttonStop.Location = new System.Drawing.Point(428, 3);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 42);
             this.buttonStop.TabIndex = 4;
@@ -169,7 +166,7 @@
             this.textBoxURL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxURL.Location = new System.Drawing.Point(122, 3);
             this.textBoxURL.Name = "textBoxURL";
-            this.textBoxURL.Size = new System.Drawing.Size(525, 19);
+            this.textBoxURL.Size = new System.Drawing.Size(579, 19);
             this.textBoxURL.TabIndex = 1;
             this.textBoxURL.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -195,7 +192,7 @@
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(446, 649);
+            this.groupBox1.Size = new System.Drawing.Size(500, 649);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
@@ -207,15 +204,13 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.checkBoxNoSearch, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxStandby, 0, 16);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 15);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 18);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 17);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxUseForce, 0, 17);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxUseForce, 0, 16);
             this.tableLayoutPanel1.Controls.Add(this.label24, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label20, 0, 14);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.comboBoxAttackMode, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 6);
@@ -225,6 +220,7 @@
             this.tableLayoutPanel1.Controls.Add(this.checkBoxRecievePresent, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 12);
             this.tableLayoutPanel1.Controls.Add(this.comboBoxRecieve, 0, 13);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxStandby, 0, 14);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 15);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -244,13 +240,13 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(440, 631);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(494, 631);
             this.tableLayoutPanel1.TabIndex = 9;
             // 
             // checkBoxNoSearch
@@ -269,27 +265,30 @@
             // 
             this.checkBoxStandby.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxStandby.AutoSize = true;
-            this.checkBoxStandby.Location = new System.Drawing.Point(3, 360);
+            this.checkBoxStandby.Checked = true;
+            this.checkBoxStandby.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxStandby.Location = new System.Drawing.Point(3, 316);
             this.checkBoxStandby.Name = "checkBoxStandby";
             this.checkBoxStandby.Size = new System.Drawing.Size(299, 16);
             this.checkBoxStandby.TabIndex = 20;
             this.checkBoxStandby.Text = "目標エリアレベル、敵部隊との点数差を満たしたら待機する";
             this.checkBoxStandby.UseVisualStyleBackColor = true;
-            this.checkBoxStandby.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            this.checkBoxStandby.CheckedChanged += new System.EventHandler(this.checkBoxStandby_CheckedChanged);
             // 
             // tableLayoutPanel4
             // 
+            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel4.ColumnCount = 2;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel4.Controls.Add(this.textBoxPointDiff, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label19, 1, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 333);
+            this.tableLayoutPanel4.Controls.Add(this.labelPointDiff, 1, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 335);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(200, 24);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(494, 24);
             this.tableLayoutPanel4.TabIndex = 10;
             // 
             // textBoxPointDiff
@@ -297,21 +296,21 @@
             this.textBoxPointDiff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPointDiff.Location = new System.Drawing.Point(3, 3);
             this.textBoxPointDiff.Name = "textBoxPointDiff";
-            this.textBoxPointDiff.Size = new System.Drawing.Size(125, 19);
+            this.textBoxPointDiff.Size = new System.Drawing.Size(419, 19);
             this.textBoxPointDiff.TabIndex = 18;
             this.textBoxPointDiff.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxPointDiff.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPointDiff_KeyPress);
             this.textBoxPointDiff.Validated += new System.EventHandler(this.textBoxPointDiff_Validated);
             // 
-            // label19
+            // labelPointDiff
             // 
-            this.label19.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(134, 6);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(63, 12);
-            this.label19.TabIndex = 19;
-            this.label19.Text = "以上で待機";
+            this.labelPointDiff.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelPointDiff.AutoSize = true;
+            this.labelPointDiff.Location = new System.Drawing.Point(428, 6);
+            this.labelPointDiff.Name = "labelPointDiff";
+            this.labelPointDiff.Size = new System.Drawing.Size(63, 12);
+            this.labelPointDiff.TabIndex = 19;
+            this.labelPointDiff.Text = "以上で待機";
             // 
             // tableLayoutPanel2
             // 
@@ -319,7 +318,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 304F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 322F));
             this.tableLayoutPanel2.Controls.Add(this.dateTimePickerTimeStart, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.dateTimePickerTimeEnd, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label23, 1, 0);
@@ -328,7 +327,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(440, 24);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(494, 24);
             this.tableLayoutPanel2.TabIndex = 10;
             // 
             // dateTimePickerTimeStart
@@ -369,71 +368,66 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel7.ColumnCount = 2;
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 217F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 219F));
             this.tableLayoutPanel7.Controls.Add(this.groupBox3, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.tableLayoutPanel5, 0, 0);
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 401);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 381);
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(440, 175);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(494, 175);
             this.tableLayoutPanel7.TabIndex = 13;
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.tableLayoutPanel8);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(226, 3);
+            this.groupBox3.Location = new System.Drawing.Point(278, 3);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(211, 172);
+            this.groupBox3.Size = new System.Drawing.Size(211, 125);
             this.groupBox3.TabIndex = 30;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "目標エリアレベル";
             // 
             // tableLayoutPanel8
             // 
-            this.tableLayoutPanel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel8.AutoSize = true;
-            this.tableLayoutPanel8.ColumnCount = 4;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31F));
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldC3, 2, 5);
-            this.tableLayoutPanel8.Controls.Add(this.label13, 2, 4);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldC2, 1, 5);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxStrategicArea, 3, 3);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldC1, 0, 5);
-            this.tableLayoutPanel8.Controls.Add(this.label16, 3, 2);
-            this.tableLayoutPanel8.Controls.Add(this.label14, 1, 4);
-            this.tableLayoutPanel8.Controls.Add(this.label5, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.label6, 1, 0);
-            this.tableLayoutPanel8.Controls.Add(this.label15, 0, 4);
-            this.tableLayoutPanel8.Controls.Add(this.label9, 2, 0);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldA1, 0, 1);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldA2, 1, 1);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldA3, 2, 1);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldB3, 2, 3);
-            this.tableLayoutPanel8.Controls.Add(this.label12, 0, 2);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldB2, 1, 3);
-            this.tableLayoutPanel8.Controls.Add(this.label11, 1, 2);
-            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldB1, 0, 3);
-            this.tableLayoutPanel8.Controls.Add(this.label10, 2, 2);
+            this.tableLayoutPanel8.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel8.ColumnCount = 5;
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxEnableStrategyArea, 4, 3);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldC3, 3, 2);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldC2, 2, 2);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxStrategicArea, 4, 1);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldC1, 1, 2);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldA1, 1, 0);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldA2, 2, 0);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldA3, 3, 0);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldB3, 3, 1);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldB2, 2, 1);
+            this.tableLayoutPanel8.Controls.Add(this.comboBoxShieldB1, 1, 1);
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxEnableLeftArea, 1, 3);
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxEnableCenterArea, 2, 3);
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxEnableRightArea, 3, 3);
+            this.tableLayoutPanel8.Controls.Add(this.label16, 4, 0);
+            this.tableLayoutPanel8.Controls.Add(this.label6, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.label11, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.label14, 0, 2);
+            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel8.Location = new System.Drawing.Point(3, 15);
             this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 6;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.15152F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.15152F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.15152F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(206, 151);
+            this.tableLayoutPanel8.RowCount = 4;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(205, 107);
             this.tableLayoutPanel8.TabIndex = 14;
             // 
             // comboBoxShieldC3
@@ -446,21 +440,11 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldC3.Location = new System.Drawing.Point(97, 125);
+            this.comboBoxShieldC3.Location = new System.Drawing.Point(114, 58);
             this.comboBoxShieldC3.Name = "comboBoxShieldC3";
-            this.comboBoxShieldC3.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldC3.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldC3.TabIndex = 19;
             this.comboBoxShieldC3.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // label13
-            // 
-            this.label13.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(97, 103);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(19, 12);
-            this.label13.TabIndex = 18;
-            this.label13.Text = "C3";
             // 
             // comboBoxShieldC2
             // 
@@ -472,9 +456,9 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldC2.Location = new System.Drawing.Point(50, 125);
+            this.comboBoxShieldC2.Location = new System.Drawing.Point(77, 58);
             this.comboBoxShieldC2.Name = "comboBoxShieldC2";
-            this.comboBoxShieldC2.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldC2.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldC2.TabIndex = 17;
             this.comboBoxShieldC2.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -488,9 +472,9 @@
             "1",
             "2",
             "3"});
-            this.comboBoxStrategicArea.Location = new System.Drawing.Point(144, 74);
+            this.comboBoxStrategicArea.Location = new System.Drawing.Point(151, 31);
             this.comboBoxStrategicArea.Name = "comboBoxStrategicArea";
-            this.comboBoxStrategicArea.Size = new System.Drawing.Size(59, 20);
+            this.comboBoxStrategicArea.Size = new System.Drawing.Size(53, 20);
             this.comboBoxStrategicArea.TabIndex = 13;
             this.comboBoxStrategicArea.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -504,9 +488,9 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldC1.Location = new System.Drawing.Point(3, 125);
+            this.comboBoxShieldC1.Location = new System.Drawing.Point(40, 58);
             this.comboBoxShieldC1.Name = "comboBoxShieldC1";
-            this.comboBoxShieldC1.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldC1.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldC1.TabIndex = 15;
             this.comboBoxShieldC1.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -514,7 +498,7 @@
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(144, 54);
+            this.label16.Location = new System.Drawing.Point(151, 8);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(53, 12);
             this.label16.TabIndex = 12;
@@ -524,51 +508,21 @@
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(50, 103);
+            this.label14.Location = new System.Drawing.Point(4, 62);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(19, 12);
+            this.label14.Size = new System.Drawing.Size(29, 12);
             this.label14.TabIndex = 16;
-            this.label14.Text = "C2";
-            // 
-            // label5
-            // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 5);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(19, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "A1";
+            this.label14.Text = "下段";
             // 
             // label6
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(50, 5);
+            this.label6.Location = new System.Drawing.Point(4, 8);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(19, 12);
+            this.label6.Size = new System.Drawing.Size(29, 12);
             this.label6.TabIndex = 2;
-            this.label6.Text = "A2";
-            // 
-            // label15
-            // 
-            this.label15.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 103);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(19, 12);
-            this.label15.TabIndex = 14;
-            this.label15.Text = "C1";
-            // 
-            // label9
-            // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(97, 5);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(19, 12);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "A3";
+            this.label6.Text = "上段";
             // 
             // comboBoxShieldA1
             // 
@@ -580,9 +534,9 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldA1.Location = new System.Drawing.Point(3, 25);
+            this.comboBoxShieldA1.Location = new System.Drawing.Point(40, 4);
             this.comboBoxShieldA1.Name = "comboBoxShieldA1";
-            this.comboBoxShieldA1.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldA1.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldA1.TabIndex = 1;
             this.comboBoxShieldA1.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -596,9 +550,9 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldA2.Location = new System.Drawing.Point(50, 25);
+            this.comboBoxShieldA2.Location = new System.Drawing.Point(77, 4);
             this.comboBoxShieldA2.Name = "comboBoxShieldA2";
-            this.comboBoxShieldA2.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldA2.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldA2.TabIndex = 3;
             this.comboBoxShieldA2.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -612,9 +566,9 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldA3.Location = new System.Drawing.Point(97, 25);
+            this.comboBoxShieldA3.Location = new System.Drawing.Point(114, 4);
             this.comboBoxShieldA3.Name = "comboBoxShieldA3";
-            this.comboBoxShieldA3.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldA3.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldA3.TabIndex = 5;
             this.comboBoxShieldA3.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -628,21 +582,11 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldB3.Location = new System.Drawing.Point(97, 74);
+            this.comboBoxShieldB3.Location = new System.Drawing.Point(114, 31);
             this.comboBoxShieldB3.Name = "comboBoxShieldB3";
-            this.comboBoxShieldB3.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldB3.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldB3.TabIndex = 11;
             this.comboBoxShieldB3.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // label12
-            // 
-            this.label12.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 54);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(19, 12);
-            this.label12.TabIndex = 6;
-            this.label12.Text = "B1";
             // 
             // comboBoxShieldB2
             // 
@@ -654,9 +598,9 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldB2.Location = new System.Drawing.Point(50, 74);
+            this.comboBoxShieldB2.Location = new System.Drawing.Point(77, 31);
             this.comboBoxShieldB2.Name = "comboBoxShieldB2";
-            this.comboBoxShieldB2.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldB2.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldB2.TabIndex = 9;
             this.comboBoxShieldB2.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -664,11 +608,11 @@
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(50, 54);
+            this.label11.Location = new System.Drawing.Point(4, 35);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(19, 12);
+            this.label11.Size = new System.Drawing.Size(29, 12);
             this.label11.TabIndex = 8;
-            this.label11.Text = "B2";
+            this.label11.Text = "中段";
             // 
             // comboBoxShieldB1
             // 
@@ -680,21 +624,11 @@
             "1",
             "2",
             "3"});
-            this.comboBoxShieldB1.Location = new System.Drawing.Point(3, 74);
+            this.comboBoxShieldB1.Location = new System.Drawing.Point(40, 31);
             this.comboBoxShieldB1.Name = "comboBoxShieldB1";
-            this.comboBoxShieldB1.Size = new System.Drawing.Size(41, 20);
+            this.comboBoxShieldB1.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldB1.TabIndex = 7;
             this.comboBoxShieldB1.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // label10
-            // 
-            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(97, 54);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(19, 12);
-            this.label10.TabIndex = 10;
-            this.label10.Text = "B3";
             // 
             // tableLayoutPanel5
             // 
@@ -722,7 +656,7 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(223, 175);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(275, 175);
             this.tableLayoutPanel5.TabIndex = 11;
             // 
             // checkBoxForceCharge
@@ -846,7 +780,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(440, 24);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(494, 24);
             this.tableLayoutPanel3.TabIndex = 11;
             // 
             // textBoxEnemyCount
@@ -854,7 +788,7 @@
             this.textBoxEnemyCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxEnemyCount.Location = new System.Drawing.Point(3, 3);
             this.textBoxEnemyCount.Name = "textBoxEnemyCount";
-            this.textBoxEnemyCount.Size = new System.Drawing.Size(334, 19);
+            this.textBoxEnemyCount.Size = new System.Drawing.Size(388, 19);
             this.textBoxEnemyCount.TabIndex = 1;
             this.textBoxEnemyCount.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxEnemyCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxEnemyCount_KeyPress);
@@ -864,7 +798,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(343, 6);
+            this.label8.Location = new System.Drawing.Point(397, 6);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(94, 12);
             this.label8.TabIndex = 2;
@@ -884,7 +818,7 @@
             // 
             this.checkBoxUseForce.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxUseForce.AutoSize = true;
-            this.checkBoxUseForce.Location = new System.Drawing.Point(3, 382);
+            this.checkBoxUseForce.Location = new System.Drawing.Point(3, 362);
             this.checkBoxUseForce.Name = "checkBoxUseForce";
             this.checkBoxUseForce.Size = new System.Drawing.Size(111, 16);
             this.checkBoxUseForce.TabIndex = 21;
@@ -901,16 +835,6 @@
             this.label24.Size = new System.Drawing.Size(53, 12);
             this.label24.TabIndex = 3;
             this.label24.Text = "稼働時間";
-            // 
-            // label20
-            // 
-            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 317);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(95, 12);
-            this.label20.TabIndex = 17;
-            this.label20.Text = "敵部隊との点数差";
             // 
             // label4
             // 
@@ -933,7 +857,7 @@
             "一発だけ攻撃する"});
             this.comboBoxAttackMode.Location = new System.Drawing.Point(3, 111);
             this.comboBoxAttackMode.Name = "comboBoxAttackMode";
-            this.comboBoxAttackMode.Size = new System.Drawing.Size(434, 20);
+            this.comboBoxAttackMode.Size = new System.Drawing.Size(488, 20);
             this.comboBoxAttackMode.TabIndex = 8;
             this.comboBoxAttackMode.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -952,7 +876,7 @@
             this.textBoxBaseDamage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBaseDamage.Location = new System.Drawing.Point(3, 157);
             this.textBoxBaseDamage.Name = "textBoxBaseDamage";
-            this.textBoxBaseDamage.Size = new System.Drawing.Size(434, 19);
+            this.textBoxBaseDamage.Size = new System.Drawing.Size(488, 19);
             this.textBoxBaseDamage.TabIndex = 10;
             this.textBoxBaseDamage.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxBaseDamage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBaseDamage_KeyPress);
@@ -1021,7 +945,7 @@
             "10"});
             this.comboBoxRecieve.Location = new System.Drawing.Point(3, 290);
             this.comboBoxRecieve.Name = "comboBoxRecieve";
-            this.comboBoxRecieve.Size = new System.Drawing.Size(434, 20);
+            this.comboBoxRecieve.Size = new System.Drawing.Size(488, 20);
             this.comboBoxRecieve.TabIndex = 16;
             this.comboBoxRecieve.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -1361,7 +1285,7 @@
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 1;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(452, 48);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(506, 48);
             this.tableLayoutPanel9.TabIndex = 15;
             // 
             // tableLayoutPanel10
@@ -1381,7 +1305,7 @@
             this.tableLayoutPanel10.RowCount = 2;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(452, 703);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(506, 703);
             this.tableLayoutPanel10.TabIndex = 16;
             // 
             // tableLayoutPanel12
@@ -1396,7 +1320,7 @@
             this.tableLayoutPanel12.Controls.Add(this.labelArea, 0, 1);
             this.tableLayoutPanel12.Controls.Add(this.labelSpm, 0, 2);
             this.tableLayoutPanel12.Controls.Add(this.groupBox2, 0, 3);
-            this.tableLayoutPanel12.Location = new System.Drawing.Point(452, 0);
+            this.tableLayoutPanel12.Location = new System.Drawing.Point(506, 0);
             this.tableLayoutPanel12.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel12.Name = "tableLayoutPanel12";
             this.tableLayoutPanel12.RowCount = 4;
@@ -1420,7 +1344,7 @@
             this.tableLayoutPanel14.Name = "tableLayoutPanel14";
             this.tableLayoutPanel14.RowCount = 1;
             this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel14.Size = new System.Drawing.Size(650, 24);
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(704, 24);
             this.tableLayoutPanel14.TabIndex = 20;
             // 
             // tableLayoutPanel16
@@ -1438,7 +1362,7 @@
             this.tableLayoutPanel16.Name = "tableLayoutPanel16";
             this.tableLayoutPanel16.RowCount = 1;
             this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel16.Size = new System.Drawing.Size(650, 703);
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(704, 703);
             this.tableLayoutPanel16.TabIndex = 22;
             // 
             // tableLayoutPanel17
@@ -1454,12 +1378,64 @@
             this.tableLayoutPanel17.RowCount = 2;
             this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel17.Size = new System.Drawing.Size(650, 727);
+            this.tableLayoutPanel17.Size = new System.Drawing.Size(704, 727);
             this.tableLayoutPanel17.TabIndex = 23;
             // 
             // timerRecievePresent
             // 
             this.timerRecievePresent.Tick += new System.EventHandler(this.timerRecievePresent_Tick);
+            // 
+            // checkBoxEnableLeftArea
+            // 
+            this.checkBoxEnableLeftArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.checkBoxEnableLeftArea.AutoSize = true;
+            this.checkBoxEnableLeftArea.Checked = true;
+            this.checkBoxEnableLeftArea.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnableLeftArea.Location = new System.Drawing.Point(47, 85);
+            this.checkBoxEnableLeftArea.Name = "checkBoxEnableLeftArea";
+            this.checkBoxEnableLeftArea.Size = new System.Drawing.Size(15, 18);
+            this.checkBoxEnableLeftArea.TabIndex = 20;
+            this.checkBoxEnableLeftArea.UseVisualStyleBackColor = true;
+            this.checkBoxEnableLeftArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableLeftArea_CheckedChanged);
+            // 
+            // checkBoxEnableCenterArea
+            // 
+            this.checkBoxEnableCenterArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.checkBoxEnableCenterArea.AutoSize = true;
+            this.checkBoxEnableCenterArea.Checked = true;
+            this.checkBoxEnableCenterArea.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnableCenterArea.Location = new System.Drawing.Point(84, 85);
+            this.checkBoxEnableCenterArea.Name = "checkBoxEnableCenterArea";
+            this.checkBoxEnableCenterArea.Size = new System.Drawing.Size(15, 18);
+            this.checkBoxEnableCenterArea.TabIndex = 21;
+            this.checkBoxEnableCenterArea.UseVisualStyleBackColor = true;
+            this.checkBoxEnableCenterArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableCenterArea_CheckedChanged);
+            // 
+            // checkBoxEnableRightArea
+            // 
+            this.checkBoxEnableRightArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.checkBoxEnableRightArea.AutoSize = true;
+            this.checkBoxEnableRightArea.Checked = true;
+            this.checkBoxEnableRightArea.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnableRightArea.Location = new System.Drawing.Point(121, 85);
+            this.checkBoxEnableRightArea.Name = "checkBoxEnableRightArea";
+            this.checkBoxEnableRightArea.Size = new System.Drawing.Size(15, 18);
+            this.checkBoxEnableRightArea.TabIndex = 22;
+            this.checkBoxEnableRightArea.UseVisualStyleBackColor = true;
+            this.checkBoxEnableRightArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableRightArea_CheckedChanged);
+            // 
+            // checkBoxEnableStrategyArea
+            // 
+            this.checkBoxEnableStrategyArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.checkBoxEnableStrategyArea.AutoSize = true;
+            this.checkBoxEnableStrategyArea.Checked = true;
+            this.checkBoxEnableStrategyArea.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnableStrategyArea.Location = new System.Drawing.Point(170, 85);
+            this.checkBoxEnableStrategyArea.Name = "checkBoxEnableStrategyArea";
+            this.checkBoxEnableStrategyArea.Size = new System.Drawing.Size(15, 18);
+            this.checkBoxEnableStrategyArea.TabIndex = 22;
+            this.checkBoxEnableStrategyArea.UseVisualStyleBackColor = true;
+            this.checkBoxEnableStrategyArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableStrategyArea_CheckedChanged);
             // 
             // TabControlGTactics
             // 
@@ -1467,7 +1443,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel17);
             this.Name = "TabControlGTactics";
-            this.Size = new System.Drawing.Size(650, 727);
+            this.Size = new System.Drawing.Size(704, 727);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -1535,9 +1511,8 @@
         private System.Windows.Forms.CheckBox checkBoxRecievePresent;
         private System.Windows.Forms.CheckBox checkBoxUseForce;
         private System.Windows.Forms.Label labelArea;
-        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label labelPointDiff;
         private System.Windows.Forms.TextBox textBoxPointDiff;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox checkBoxStandby;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
@@ -1575,28 +1550,26 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.ComboBox comboBoxShieldC3;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox comboBoxShieldC2;
         private System.Windows.Forms.ComboBox comboBoxStrategicArea;
         private System.Windows.Forms.ComboBox comboBoxShieldC1;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox comboBoxShieldA1;
         private System.Windows.Forms.ComboBox comboBoxShieldA2;
         private System.Windows.Forms.ComboBox comboBoxShieldA3;
         private System.Windows.Forms.ComboBox comboBoxShieldB3;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox comboBoxShieldB2;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox comboBoxShieldB1;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel17;
         private System.Windows.Forms.Timer timerRecievePresent;
+        private System.Windows.Forms.CheckBox checkBoxEnableStrategyArea;
+        private System.Windows.Forms.CheckBox checkBoxEnableLeftArea;
+        private System.Windows.Forms.CheckBox checkBoxEnableCenterArea;
+        private System.Windows.Forms.CheckBox checkBoxEnableRightArea;
     }
 }
