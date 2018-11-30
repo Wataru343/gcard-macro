@@ -72,7 +72,7 @@ namespace gcard_macro
             numericUpDownCycleRecieveTime.ValueChanged += onSettingChanged;
             buttonSave.Enabled = false;
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.8";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.9";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 

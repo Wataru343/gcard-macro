@@ -554,7 +554,15 @@ namespace gcard_macro
                 }
 
                 IWebElement elm = driver_.FindElement(By.XPath("//a[text()=\"強襲作戦TOP\"]"));
-                driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                if (elm.GetAttribute("class").IndexOf("disable") < 0)
+                {
+                    driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                }
+                else
+                {
+                    elm = driver_.FindElement(By.XPath("//a[@class=\"search\" or @class=\"attack\"]"));
+                    driver_.Navigate().GoToUrl(elm.GetAttribute("href"));
+                }
             }
             catch { }
 

@@ -339,6 +339,9 @@ namespace gcard_macro
             {
                 try
                 {
+                    if(driverArea.PageSource.IndexOf("quest_result_effect") >= 0)
+                        driverArea.Navigate().GoToUrl(home_path_);
+
                     IWebElement[] panel, link;
                     List<int> levels;
                     List<string> areaNames;
