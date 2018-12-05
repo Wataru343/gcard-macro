@@ -14,6 +14,11 @@ namespace gcard_macro
 {
     public partial class FormMain : Form
     {
+#if DEBUG
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")] // この行を追加
+        private static extern bool AllocConsole();
+#endif
+
         private IWebDriver driver_ { get; set; }
         private string UserName { get; set; }
         private string AppTitle { get; set; }
@@ -21,6 +26,9 @@ namespace gcard_macro
         public FormMain()
         {
             InitializeComponent();
+#if DEBUG
+            AllocConsole();
+#endif
 
             textBoxWaitSearch.Text = Properties.Settings.Default.WaitSearch.ToString();
             textBoxWaitBattle.Text = Properties.Settings.Default.WaitBattle.ToString();
@@ -72,7 +80,7 @@ namespace gcard_macro
             numericUpDownCycleRecieveTime.ValueChanged += onSettingChanged;
             buttonSave.Enabled = false;
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.9";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.10";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 

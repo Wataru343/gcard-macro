@@ -58,6 +58,7 @@ namespace gcard_macro
             checkBoxOnlyAttackAssultEnemy.Checked = Properties.Settings.Default.RaidOnlyAttackAssultEnemy;
             textBoxWaitRecieveAssult.Text = Properties.Settings.Default.RaidWaitRecieveAssult.ToString();
             textBoxWaitAtackBattleShip.Text = Properties.Settings.Default.RaidWaitAtackBattleShip.ToString();
+            checkBoxEnterAdditionalQuest.Checked = Properties.Settings.Default.RaidEnterAdditionalQuest;
 
             try
             {
@@ -141,7 +142,8 @@ namespace gcard_macro
                     WaitRecieveAssult = Utils.ToDouble(textBoxWaitRecieveAssult.Text),
                     StartTime = dateTimePickerTimeStart.Value,
                     EndTime = dateTimePickerTimeEnd.Value,
-                    SampleCount = OptimizedWaitEnemyCount
+                    SampleCount = OptimizedWaitEnemyCount,
+                    EnterAdditionalQuest = checkBoxEnterAdditionalQuest.Checked
                 };
 
                 Raid.StateChanged += StateChanged;
@@ -231,6 +233,7 @@ namespace gcard_macro
             Properties.Settings.Default.RaidWaitAtackBattleShip = Utils.ToDouble(textBoxWaitAtackBattleShip.Text);
             Properties.Settings.Default.RaidTimeStart = dateTimePickerTimeStart.Value;
             Properties.Settings.Default.RaidTimeEnd = dateTimePickerTimeEnd.Value;
+            Properties.Settings.Default.RaidEnterAdditionalQuest = checkBoxEnterAdditionalQuest.Checked;
             Properties.Settings.Default.Save();
         }
 

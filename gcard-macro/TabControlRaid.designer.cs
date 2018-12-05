@@ -102,6 +102,7 @@
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.timerRecievePresent = new System.Windows.Forms.Timer(this.components);
+            this.checkBoxEnterAdditionalQuest = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
@@ -181,22 +182,23 @@
             this.tableLayoutPanel1.AutoScroll = true;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 23);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 21);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxOnlyAttackAssultEnemy, 0, 19);
-            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 22);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxEnterAdditionalQuest, 0, 16);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 24);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 22);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxOnlyAttackAssultEnemy, 0, 20);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 23);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxNoSearch, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.label10, 0, 20);
+            this.tableLayoutPanel1.Controls.Add(this.label10, 0, 21);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label12, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.textBoxBaseDamage, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxOnlyAttackAssultBoss, 0, 18);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxOnlyAttackAssultBoss, 0, 19);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxUseAssaultBE, 0, 17);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxJoinAssault, 0, 16);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxUseAssaultBE, 0, 18);
+            this.tableLayoutPanel1.Controls.Add(this.checkBoxJoinAssault, 0, 17);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxAimMVP, 0, 15);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxRecievePresent, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.comboBoxRecieve, 0, 13);
@@ -209,7 +211,7 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 15);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 24;
+            this.tableLayoutPanel1.RowCount = 25;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -223,6 +225,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -246,7 +249,7 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.Controls.Add(this.label5, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.textBoxWaitRecieveAssult, 0, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 509);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 531);
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
@@ -283,7 +286,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel4.Controls.Add(this.label9, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.textBoxWaitAtackBattleShip, 0, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 465);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 487);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
@@ -316,7 +319,7 @@
             // 
             this.checkBoxOnlyAttackAssultEnemy.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxOnlyAttackAssultEnemy.AutoSize = true;
-            this.checkBoxOnlyAttackAssultEnemy.Location = new System.Drawing.Point(3, 426);
+            this.checkBoxOnlyAttackAssultEnemy.Location = new System.Drawing.Point(3, 448);
             this.checkBoxOnlyAttackAssultEnemy.Name = "checkBoxOnlyAttackAssultEnemy";
             this.checkBoxOnlyAttackAssultEnemy.Size = new System.Drawing.Size(197, 16);
             this.checkBoxOnlyAttackAssultEnemy.TabIndex = 22;
@@ -328,7 +331,7 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 493);
+            this.label6.Location = new System.Drawing.Point(3, 515);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(199, 12);
             this.label6.TabIndex = 26;
@@ -350,7 +353,7 @@
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 449);
+            this.label10.Location = new System.Drawing.Point(3, 471);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(181, 12);
             this.label10.TabIndex = 23;
@@ -488,7 +491,7 @@
             // 
             this.checkBoxOnlyAttackAssultBoss.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxOnlyAttackAssultBoss.AutoSize = true;
-            this.checkBoxOnlyAttackAssultBoss.Location = new System.Drawing.Point(3, 404);
+            this.checkBoxOnlyAttackAssultBoss.Location = new System.Drawing.Point(3, 426);
             this.checkBoxOnlyAttackAssultBoss.Name = "checkBoxOnlyAttackAssultBoss";
             this.checkBoxOnlyAttackAssultBoss.Size = new System.Drawing.Size(192, 16);
             this.checkBoxOnlyAttackAssultBoss.TabIndex = 21;
@@ -510,7 +513,7 @@
             // 
             this.checkBoxUseAssaultBE.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxUseAssaultBE.AutoSize = true;
-            this.checkBoxUseAssaultBE.Location = new System.Drawing.Point(3, 382);
+            this.checkBoxUseAssaultBE.Location = new System.Drawing.Point(3, 404);
             this.checkBoxUseAssaultBE.Name = "checkBoxUseAssaultBE";
             this.checkBoxUseAssaultBE.Size = new System.Drawing.Size(132, 16);
             this.checkBoxUseAssaultBE.TabIndex = 20;
@@ -522,7 +525,7 @@
             // 
             this.checkBoxJoinAssault.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.checkBoxJoinAssault.AutoSize = true;
-            this.checkBoxJoinAssault.Location = new System.Drawing.Point(3, 360);
+            this.checkBoxJoinAssault.Location = new System.Drawing.Point(3, 382);
             this.checkBoxJoinAssault.Name = "checkBoxJoinAssault";
             this.checkBoxJoinAssault.Size = new System.Drawing.Size(124, 16);
             this.checkBoxJoinAssault.TabIndex = 19;
@@ -1153,6 +1156,18 @@
             // 
             this.timerRecievePresent.Tick += new System.EventHandler(this.timerRecievePresent_Tick);
             // 
+            // checkBoxEnterAdditionalQuest
+            // 
+            this.checkBoxEnterAdditionalQuest.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxEnterAdditionalQuest.AutoSize = true;
+            this.checkBoxEnterAdditionalQuest.Location = new System.Drawing.Point(3, 360);
+            this.checkBoxEnterAdditionalQuest.Name = "checkBoxEnterAdditionalQuest";
+            this.checkBoxEnterAdditionalQuest.Size = new System.Drawing.Size(172, 16);
+            this.checkBoxEnterAdditionalQuest.TabIndex = 20;
+            this.checkBoxEnterAdditionalQuest.Text = "アディショナルクエストに突入する";
+            this.checkBoxEnterAdditionalQuest.UseVisualStyleBackColor = true;
+            this.checkBoxEnterAdditionalQuest.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            // 
             // TabControlRaid
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1260,5 +1275,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
         private System.Windows.Forms.Timer timerRecievePresent;
+        private System.Windows.Forms.CheckBox checkBoxEnterAdditionalQuest;
     }
 }

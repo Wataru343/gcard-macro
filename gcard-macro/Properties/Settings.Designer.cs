@@ -1440,5 +1440,17 @@ namespace gcard_macro.Properties {
                 this["GTacticsEnableLeftArea"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RaidEnterAdditionalQuest {
+            get {
+                return ((bool)(this["RaidEnterAdditionalQuest"]));
+            }
+            set {
+                this["RaidEnterAdditionalQuest"] = value;
+            }
+        }
     }
 }

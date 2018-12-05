@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using System.Net;
 using System.IO;
+using System.Diagnostics;
 
 namespace gcard_macro
 {
@@ -181,6 +182,8 @@ namespace gcard_macro
         /// </summary>
         virtual protected bool RecievePresentRequest { get; set; }
 
+        protected Stopwatch PTimer { get; set; }
+
         public delegate void StateChangedHandler(object sender, State state);
         virtual public event StateChangedHandler StateChanged;
         public delegate void MinicapChangedHandler(object sender, int count);
@@ -257,7 +260,8 @@ namespace gcard_macro
             Found,
             Card,
             Error,
-            FuelShortage
+            FuelShortage,
+            Continue
         }
 
         /// <summary>
@@ -292,6 +296,8 @@ namespace gcard_macro
             MinicapChanged?.Invoke(this, 0);
             Log?.Invoke(this, "");
             SpeedCounter?.Invoke(this, 0);
+
+            PTimer = new Stopwatch();
         }
 
         /// <summary>
@@ -385,7 +391,6 @@ namespace gcard_macro
         /// </summary>
         /// <returns></returns>
         virtual protected bool IsRequestComplete() => driver_.PageSource.IndexOf("応援依頼完了") >= 0;
-
 
         /// <summary>
         /// 探索時のFlash画面判定
@@ -840,60 +845,74 @@ namespace gcard_macro
                         string pageSource = sr.ReadToEnd();
                         string swfUrl = GetSwfURL(pageSource);
 
-                        string swf = new string(GetSwfBinary(swfUrl, 3000));
-                        string resultURL = "";
-
-
-                        //カードチャンスであれば
-                        if (swfUrl.IndexOf("lucky") >= 0)
+                        while (true)
                         {
-                            string token = GetLuckyToken(swf);
-                            resultURL = (@"http://gcc.sp.mbga.jp/_gcard_mission_lucky_lot" + "?token=" + token + "&card=1&mekuru=0");
-                            driver_.Navigate().GoToUrl(resultURL);
-                            return SearchResult.Card;
-                        }
-                        else if (swfUrl.IndexOf("mission") >= 0)
-                        {
-                            string tid = GetTid(swf);
-                            string mid = GetMid(swf);
-                            string token = GetToken(swf);
-                            string type = GetType(swf);
-                            string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
-                            if (type == "return")
-                            {
-                                resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
-                            }
-                            else
-                            {
-                                resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
-                            }
-                        }
-                        else if (pageSource.IndexOf("燃料不足") >= 0)
-                        {
-                            return SearchResult.FuelShortage;
-                        }
+                            string swf = new string(GetSwfBinary(swfUrl, 3000));
+                            string resultURL = "";
 
-                        using (WebClient clientGet = GetWebClient())
-                        {
-                            string respons = clientGet.DownloadString(resultURL);
 
-                            if (respons.IndexOf("boss_appear") >= 0)
+                            //カードチャンスであれば
+                            if (swfUrl.IndexOf("lucky") >= 0)
                             {
-                                driver_.Navigate().Refresh();
-                                EnemyFound = true;
+                                string token = GetLuckyToken(swf);
+                                resultURL = (@"http://gcc.sp.mbga.jp/_gcard_mission_lucky_lot" + "?token=" + token + "&card=1&mekuru=0");
+                                driver_.Navigate().GoToUrl(resultURL);
+                                return SearchResult.Card;
+                            }
+                            else if (swfUrl.IndexOf("mission") >= 0)
+                            {
+                                string tid = GetTid(swf);
+                                string mid = GetMid(swf);
+                                string token = GetToken(swf);
+                                string type = GetType(swf);
+                                string saveURL = @"http://gcc.sp.mbga.jp/_gcard_mission_save";
+                                if (type == "return")
+                                {
+                                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&token=" + token;
+                                }
+                                else
+                                {
+                                    resultURL = saveURL + "?t%5Fid=" + tid + "&m%5Fid=" + mid + "&type=" + type + "&token=" + token;
+                                }
+                            }
+                            else if (pageSource.IndexOf("燃料不足") >= 0)
+                            {
+                                return SearchResult.FuelShortage;
+                            }
 
-                                //敵発見Flash
-                                return  SearchResult.Found;
-                            }
-                            else if(respons.IndexOf("lucky") >= 0 || respons.IndexOf("mission") >= 0)
+                            using (WebClient clientGet = GetWebClient())
                             {
-                                //探索続行
-                                return SearchResult.Found;
-                            }
-                            else
-                            {
-                                //アクセス規制
-                                return SearchResult.Error;
+                                string respons = clientGet.DownloadString(resultURL);
+
+                                if (respons.IndexOf("boss_appear") >= 0)
+                                {
+                                    EnemyFound = true;
+
+                                    //敵発見Flash
+                                    Log?.Invoke(this, "敵発見");
+                                    return SearchResult.Found;
+                                }
+                                else if (respons.IndexOf("lucky") >= 0 || respons.IndexOf("mission") >= 0)
+                                {
+                                    //探索続行
+                                    Log?.Invoke(this, "探索続行");
+                                    Wait(WaitSearch);
+                                    swfUrl = GetSwfURL(respons);
+                                    continue;
+                                }
+                                else if (respons.IndexOf("comp") >= 0 || respons.IndexOf("lvup") >= 0)
+                                {
+                                    //探索続行
+                                    Log?.Invoke(this, "探索続行");
+                                    Wait(WaitSearch);
+                                    swfUrl = GetSwfURL(respons);
+                                    continue;
+                                }
+                                else
+                                {
+                                    //アクセス規制
+                                    return SearchResult.Error;
+                                }
                             }
                         }
                     }
@@ -1163,7 +1182,7 @@ namespace gcard_macro
         /// <returns>敵ID</returns>
         virtual protected string GetEnemyId(string url)
         {
-            Regex r = new Regex(@"id=(?<id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            Regex r = new Regex(@"[&\?]id=(?<id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             MatchCollection mc = r.Matches(url);
 
             return mc.Count > 0 ? mc[0].Groups["id"].Value : "";
