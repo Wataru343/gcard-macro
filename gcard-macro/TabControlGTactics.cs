@@ -70,6 +70,10 @@ namespace gcard_macro
             checkBoxEnableRightArea.Checked = Properties.Settings.Default.GTacticsEnableRightArea;
             checkBoxEnableCenterArea.Checked = Properties.Settings.Default.GTacticsEnableCenterArea;
             checkBoxEnableLeftArea.Checked = Properties.Settings.Default.GTacticsEnableLeftArea;
+            textBoxSearchForce.Text = Properties.Settings.Default.GTacticsSearchForce.ToString();
+            checkBoxSearchForceLeft.Checked = Properties.Settings.Default.GTacticsSearchForceLeft;
+            checkBoxSearchForceCenter.Checked = Properties.Settings.Default.GTacticsSearchForceCenter;
+            checkBoxSearchForceLRight.Checked = Properties.Settings.Default.GTacticsSearchForceRight;
 
             try
             {
@@ -171,7 +175,14 @@ namespace gcard_macro
                     WaitForce = Utils.ToDouble(textBoxWaitForce.Text),
                     StartTime = dateTimePickerTimeStart.Value,
                     EndTime = dateTimePickerTimeEnd.Value,
-                    SampleCount = OptimizedWaitEnemyCount
+                    SampleCount = OptimizedWaitEnemyCount,
+                    SearchForceEnemyCount = Utils.ToUlong(textBoxSearchForce.Text),
+                    SearchForcePlace = new List<bool>()
+                    {
+                        checkBoxSearchForceLeft.Checked,
+                        checkBoxSearchForceCenter.Checked,
+                        checkBoxSearchForceLRight.Checked,
+                    }
                 };
 
                 GTactics.StateChanged += StateChanged;
@@ -273,6 +284,10 @@ namespace gcard_macro
             Properties.Settings.Default.GTacticsEnableRightArea = checkBoxEnableRightArea.Checked;
             Properties.Settings.Default.GTacticsEnableCenterArea = checkBoxEnableCenterArea.Checked;
             Properties.Settings.Default.GTacticsEnableLeftArea = checkBoxEnableLeftArea.Checked;
+            Properties.Settings.Default.GTacticsSearchForce = Utils.ToUlong(textBoxSearchForce.Text);
+            Properties.Settings.Default.GTacticsSearchForceLeft = checkBoxSearchForceLeft.Checked;
+            Properties.Settings.Default.GTacticsSearchForceCenter = checkBoxSearchForceCenter.Checked;
+            Properties.Settings.Default.GTacticsSearchForceRight = checkBoxSearchForceLRight.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -283,12 +298,15 @@ namespace gcard_macro
 
         private void textBoxEnemyCount_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
 
+        private void textBoxSearchForce_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);
+
         private void textBoxEnemyCount_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void textBoxBaseDamage_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
         private void textBoxPointDiff_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
+        private void textBoxSearchForce_Validated(object sender, EventArgs e) => (sender as TextBox).Text = (sender as TextBox).Text == "" ? "0" : (sender as TextBox).Text;
 
 
         private void MiniCapChanged(object sender, int count)
@@ -413,7 +431,7 @@ namespace gcard_macro
         {
             Invoke((MethodInvoker)delegate
             {
-                labelSpm.Text = "1分間の敵発見数：" + count.ToString() + "体";
+                labelSpm.Text = "1分間の探索回数：" + count.ToString() + "回";
             });
         }
 

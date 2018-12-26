@@ -334,7 +334,7 @@ namespace gcard_macro
         {
             Invoke((MethodInvoker)delegate
             {
-                labelSpm.Text = "1分間の敵発見数：" + count.ToString() + "体";
+                labelSpm.Text = "1分間の探索回数：" + count.ToString() + "回";
             });
         }
 

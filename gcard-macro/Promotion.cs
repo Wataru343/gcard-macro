@@ -197,8 +197,11 @@ namespace gcard_macro
                 //サーバーエラー
                 else if (IsServerError())
                 {
-                    KillThread();
-                    Log?.Invoke(this, "サーバーエラー");
+                    if (CurrentState != State.Unknown)
+                        Log?.Invoke(this, "サーバーエラー");
+                    CurrentState = State.Unknown;
+                    Wait(5);
+                    driver_.Navigate().GoToUrl(home_path_);
                 }
                 else
                 {
@@ -208,7 +211,14 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(home_path_);
                 }
             }
-            catch { }
+            catch
+            {
+                try
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                catch { }
+            }
 
             StateChanged?.Invoke(this, CurrentState);
 
@@ -231,31 +241,31 @@ namespace gcard_macro
         /// 戦闘画面判定
         /// </summary>
         /// <returns></returns>
-        override protected bool IsBattle() => driver_.PageSource.IndexOf("バトルエネルギー") >= 0 && driver_.PageSource.IndexOf("今回使用するデッキ") >= 0;
+        override protected bool IsBattle() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("バトルエネルギー", 1536) >= 0 && driver_.PageSource.IndexOf("今回使用するデッキ", 1536) >= 0;
 
         /// <summary>
         /// リザルト画面判定
         /// </summary>
         /// <returns></returns>
-        override protected bool IsResult() => driver_.PageSource.IndexOf("次の対戦へ進む") >= 0 || driver_.PageSource.IndexOf("戦闘結果") >= 0;
+        override protected bool IsResult() => driver_.PageSource.Length > 1536 && (driver_.PageSource.IndexOf("次の対戦へ進む", 1536) >= 0 || driver_.PageSource.IndexOf("戦闘結果", 1536) >= 0);
 
         /// <summary>
         /// 撤退確認画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsWithdrawalConfirmation() => driver_.PageSource.IndexOf("撤退しますか") >= 0;
+        private bool IsWithdrawalConfirmation() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("撤退しますか", 1536) >= 0;
 
         /// <summary>
         /// 出撃確認画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsSallyConfirmation() => driver_.PageSource.IndexOf("出撃チケットを使って出撃しますか") >= 0;
+        private bool IsSallyConfirmation() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("出撃チケットを使って出撃しますか", 1536) >= 0;
 
         /// <summary>
         /// 撤退完了画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsWithdrawalCompletion() => driver_.PageSource.IndexOf("撤退しました") >= 0;
+        private bool IsWithdrawalCompletion() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("撤退しました", 1536) >= 0;
 
 
         /// <summary>
@@ -272,6 +282,7 @@ namespace gcard_macro
                     if (Convert.ToInt32(rank.Text) <= WatchRank)
                     {
                         Wait(5);
+                        driver_.Navigate().Refresh();
                         Exec = SearchState;
                         return;
                     }
@@ -380,7 +391,7 @@ namespace gcard_macro
                         break;
 
                     case AttackMode.攻撃力が低い敵を攻撃HP20パーセント以下で撤退:
-                        if (myHP <= maxHP * 0.2)
+                        if (myHP <= maxHP * 0.4)
                         {
                             IWebElement button = driver_.FindElement(By.XPath("//a[text()=\"撤退する\"]"));
                             driver_.Navigate().GoToUrl(button.GetAttribute("href"));
@@ -482,7 +493,7 @@ namespace gcard_macro
         {
             try
             {
-                IWebElement elm = driver_.FindElement(By.XPath("//input[@value=\"撤退する\"]"));
+                IWebElement elm = driver_.FindElement(By.XPath("//form[@action=\"_gcard_promotion_battle_cancel\"]"));
                 elm.Submit();
             }
             catch { }

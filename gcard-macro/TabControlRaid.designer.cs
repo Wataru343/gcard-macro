@@ -36,6 +36,7 @@
             this.timerWatchWebdriver = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBoxEnterAdditionalQuest = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxWaitRecieveAssult = new System.Windows.Forms.TextBox();
@@ -72,28 +73,28 @@
             this.labelMiniCap = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelStateUnknown = new System.Windows.Forms.Label();
-            this.labelStateGetCard = new System.Windows.Forms.Label();
-            this.labelStateEventFinished = new System.Windows.Forms.Label();
-            this.labelStateLevelUp = new System.Windows.Forms.Label();
-            this.labelStateAccessBlock = new System.Windows.Forms.Label();
             this.labelStateHome = new System.Windows.Forms.Label();
-            this.labelStateFightAlreadyFinished = new System.Windows.Forms.Label();
-            this.labelStateAssaultOperationRequestFaild = new System.Windows.Forms.Label();
-            this.labelStateError = new System.Windows.Forms.Label();
             this.labelStateSearch = new System.Windows.Forms.Label();
-            this.labelStateAssaultOperationWin = new System.Windows.Forms.Label();
             this.labelStateEnemyList = new System.Windows.Forms.Label();
-            this.labelStateAssaultOperationRequestComplete = new System.Windows.Forms.Label();
             this.labelStateBattle = new System.Windows.Forms.Label();
-            this.labelStateAssaultOperationRequestSubmit = new System.Windows.Forms.Label();
             this.labelStateBattleFlash = new System.Windows.Forms.Label();
             this.labelStateResult = new System.Windows.Forms.Label();
             this.labelStateReceive = new System.Windows.Forms.Label();
-            this.labelStateAssaultOperationHome = new System.Windows.Forms.Label();
             this.labelStatePresentList = new System.Windows.Forms.Label();
-            this.labelStateBattleAssaultOperation = new System.Windows.Forms.Label();
+            this.labelStateUnknown = new System.Windows.Forms.Label();
+            this.labelStateEventFinished = new System.Windows.Forms.Label();
+            this.labelStateAccessBlock = new System.Windows.Forms.Label();
+            this.labelStateFightAlreadyFinished = new System.Windows.Forms.Label();
+            this.labelStateError = new System.Windows.Forms.Label();
+            this.labelStateGetCard = new System.Windows.Forms.Label();
+            this.labelStateLevelUp = new System.Windows.Forms.Label();
+            this.labelStateAssaultOperationRequestFaild = new System.Windows.Forms.Label();
+            this.labelStateAssaultOperationWin = new System.Windows.Forms.Label();
+            this.labelStateAssaultOperationRequestComplete = new System.Windows.Forms.Label();
+            this.labelStateAssaultOperationRequestSubmit = new System.Windows.Forms.Label();
             this.labelStateAssaultOperationRequest = new System.Windows.Forms.Label();
+            this.labelStateBattleAssaultOperation = new System.Windows.Forms.Label();
+            this.labelStateAssaultOperationHome = new System.Windows.Forms.Label();
             this.labelSpm = new System.Windows.Forms.Label();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
@@ -102,7 +103,8 @@
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.timerRecievePresent = new System.Windows.Forms.Timer(this.components);
-            this.checkBoxEnterAdditionalQuest = new System.Windows.Forms.CheckBox();
+            this.labelStateRequest = new System.Windows.Forms.Label();
+            this.labelStateAdditional = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
@@ -239,6 +241,18 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(226, 583);
             this.tableLayoutPanel1.TabIndex = 8;
+            // 
+            // checkBoxEnterAdditionalQuest
+            // 
+            this.checkBoxEnterAdditionalQuest.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxEnterAdditionalQuest.AutoSize = true;
+            this.checkBoxEnterAdditionalQuest.Location = new System.Drawing.Point(3, 360);
+            this.checkBoxEnterAdditionalQuest.Name = "checkBoxEnterAdditionalQuest";
+            this.checkBoxEnterAdditionalQuest.Size = new System.Drawing.Size(172, 16);
+            this.checkBoxEnterAdditionalQuest.TabIndex = 20;
+            this.checkBoxEnterAdditionalQuest.Text = "アディショナルクエストに突入する";
+            this.checkBoxEnterAdditionalQuest.UseVisualStyleBackColor = true;
+            this.checkBoxEnterAdditionalQuest.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // tableLayoutPanel5
             // 
@@ -670,33 +684,35 @@
             this.tableLayoutPanel8.ColumnCount = 2;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel8.Controls.Add(this.labelStateUnknown, 1, 10);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateGetCard, 0, 8);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateEventFinished, 0, 10);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateLevelUp, 1, 7);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateAccessBlock, 1, 9);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateAdditional, 1, 4);
             this.tableLayoutPanel8.Controls.Add(this.labelStateHome, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateFightAlreadyFinished, 0, 9);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationRequestFaild, 0, 7);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateError, 1, 8);
             this.tableLayoutPanel8.Controls.Add(this.labelStateSearch, 1, 0);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationWin, 1, 6);
             this.tableLayoutPanel8.Controls.Add(this.labelStateEnemyList, 0, 1);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationRequestComplete, 0, 6);
             this.tableLayoutPanel8.Controls.Add(this.labelStateBattle, 1, 1);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationRequestSubmit, 1, 5);
             this.tableLayoutPanel8.Controls.Add(this.labelStateBattleFlash, 0, 2);
             this.tableLayoutPanel8.Controls.Add(this.labelStateResult, 1, 2);
             this.tableLayoutPanel8.Controls.Add(this.labelStateReceive, 0, 3);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationHome, 0, 4);
             this.tableLayoutPanel8.Controls.Add(this.labelStatePresentList, 1, 3);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateBattleAssaultOperation, 1, 4);
-            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationRequest, 0, 5);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateUnknown, 1, 11);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateEventFinished, 0, 11);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateAccessBlock, 1, 10);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateFightAlreadyFinished, 0, 10);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateError, 1, 9);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateGetCard, 0, 9);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateLevelUp, 1, 8);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationRequestFaild, 0, 8);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationWin, 1, 7);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationRequestComplete, 0, 7);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationRequestSubmit, 1, 6);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationRequest, 0, 6);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateBattleAssaultOperation, 1, 5);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateAssaultOperationHome, 0, 5);
+            this.tableLayoutPanel8.Controls.Add(this.labelStateRequest, 0, 4);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel8.Location = new System.Drawing.Point(3, 15);
             this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 11;
+            this.tableLayoutPanel8.RowCount = 12;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
@@ -708,81 +724,10 @@
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel8.Size = new System.Drawing.Size(186, 599);
             this.tableLayoutPanel8.TabIndex = 10;
-            // 
-            // labelStateUnknown
-            // 
-            this.labelStateUnknown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateUnknown.BackColor = System.Drawing.Color.White;
-            this.labelStateUnknown.Location = new System.Drawing.Point(93, 460);
-            this.labelStateUnknown.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateUnknown.Name = "labelStateUnknown";
-            this.labelStateUnknown.Size = new System.Drawing.Size(93, 46);
-            this.labelStateUnknown.TabIndex = 21;
-            this.labelStateUnknown.Text = "不明な画面";
-            this.labelStateUnknown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateUnknown.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRightBottom);
-            // 
-            // labelStateGetCard
-            // 
-            this.labelStateGetCard.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateGetCard.BackColor = System.Drawing.Color.White;
-            this.labelStateGetCard.Location = new System.Drawing.Point(0, 368);
-            this.labelStateGetCard.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateGetCard.Name = "labelStateGetCard";
-            this.labelStateGetCard.Size = new System.Drawing.Size(93, 46);
-            this.labelStateGetCard.TabIndex = 16;
-            this.labelStateGetCard.Text = "カード入手";
-            this.labelStateGetCard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateGetCard.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
-            // 
-            // labelStateEventFinished
-            // 
-            this.labelStateEventFinished.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateEventFinished.BackColor = System.Drawing.Color.White;
-            this.labelStateEventFinished.Location = new System.Drawing.Point(0, 460);
-            this.labelStateEventFinished.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateEventFinished.Name = "labelStateEventFinished";
-            this.labelStateEventFinished.Size = new System.Drawing.Size(93, 46);
-            this.labelStateEventFinished.TabIndex = 20;
-            this.labelStateEventFinished.Text = "イベント終了";
-            this.labelStateEventFinished.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateEventFinished.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRightBottom);
-            // 
-            // labelStateLevelUp
-            // 
-            this.labelStateLevelUp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateLevelUp.BackColor = System.Drawing.Color.White;
-            this.labelStateLevelUp.Location = new System.Drawing.Point(93, 322);
-            this.labelStateLevelUp.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateLevelUp.Name = "labelStateLevelUp";
-            this.labelStateLevelUp.Size = new System.Drawing.Size(93, 46);
-            this.labelStateLevelUp.TabIndex = 15;
-            this.labelStateLevelUp.Text = "レベルアップ";
-            this.labelStateLevelUp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateLevelUp.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
-            // 
-            // labelStateAccessBlock
-            // 
-            this.labelStateAccessBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateAccessBlock.BackColor = System.Drawing.Color.White;
-            this.labelStateAccessBlock.Location = new System.Drawing.Point(93, 414);
-            this.labelStateAccessBlock.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateAccessBlock.Name = "labelStateAccessBlock";
-            this.labelStateAccessBlock.Size = new System.Drawing.Size(93, 46);
-            this.labelStateAccessBlock.TabIndex = 19;
-            this.labelStateAccessBlock.Text = "アクセス制限";
-            this.labelStateAccessBlock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateAccessBlock.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
             // 
             // labelStateHome
             // 
@@ -799,51 +744,6 @@
             this.labelStateHome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelStateHome.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
             // 
-            // labelStateFightAlreadyFinished
-            // 
-            this.labelStateFightAlreadyFinished.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateFightAlreadyFinished.BackColor = System.Drawing.Color.White;
-            this.labelStateFightAlreadyFinished.Location = new System.Drawing.Point(0, 414);
-            this.labelStateFightAlreadyFinished.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateFightAlreadyFinished.Name = "labelStateFightAlreadyFinished";
-            this.labelStateFightAlreadyFinished.Size = new System.Drawing.Size(93, 46);
-            this.labelStateFightAlreadyFinished.TabIndex = 18;
-            this.labelStateFightAlreadyFinished.Text = "既に戦闘は終了しています";
-            this.labelStateFightAlreadyFinished.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateFightAlreadyFinished.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
-            // 
-            // labelStateAssaultOperationRequestFaild
-            // 
-            this.labelStateAssaultOperationRequestFaild.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateAssaultOperationRequestFaild.BackColor = System.Drawing.Color.White;
-            this.labelStateAssaultOperationRequestFaild.Location = new System.Drawing.Point(0, 322);
-            this.labelStateAssaultOperationRequestFaild.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateAssaultOperationRequestFaild.Name = "labelStateAssaultOperationRequestFaild";
-            this.labelStateAssaultOperationRequestFaild.Size = new System.Drawing.Size(93, 46);
-            this.labelStateAssaultOperationRequestFaild.TabIndex = 14;
-            this.labelStateAssaultOperationRequestFaild.Text = "強襲作戦エラー";
-            this.labelStateAssaultOperationRequestFaild.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateAssaultOperationRequestFaild.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
-            // 
-            // labelStateError
-            // 
-            this.labelStateError.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateError.BackColor = System.Drawing.Color.White;
-            this.labelStateError.Location = new System.Drawing.Point(93, 368);
-            this.labelStateError.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateError.Name = "labelStateError";
-            this.labelStateError.Size = new System.Drawing.Size(93, 46);
-            this.labelStateError.TabIndex = 17;
-            this.labelStateError.Text = "不正な画面遷移";
-            this.labelStateError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateError.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
-            // 
             // labelStateSearch
             // 
             this.labelStateSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -858,21 +758,6 @@
             this.labelStateSearch.Text = "探索";
             this.labelStateSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelStateSearch.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
-            // 
-            // labelStateAssaultOperationWin
-            // 
-            this.labelStateAssaultOperationWin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateAssaultOperationWin.BackColor = System.Drawing.Color.White;
-            this.labelStateAssaultOperationWin.Location = new System.Drawing.Point(93, 276);
-            this.labelStateAssaultOperationWin.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateAssaultOperationWin.Name = "labelStateAssaultOperationWin";
-            this.labelStateAssaultOperationWin.Size = new System.Drawing.Size(93, 46);
-            this.labelStateAssaultOperationWin.TabIndex = 13;
-            this.labelStateAssaultOperationWin.Text = "強襲作戦終了";
-            this.labelStateAssaultOperationWin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateAssaultOperationWin.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
             // 
             // labelStateEnemyList
             // 
@@ -889,21 +774,6 @@
             this.labelStateEnemyList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelStateEnemyList.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
             // 
-            // labelStateAssaultOperationRequestComplete
-            // 
-            this.labelStateAssaultOperationRequestComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateAssaultOperationRequestComplete.BackColor = System.Drawing.Color.White;
-            this.labelStateAssaultOperationRequestComplete.Location = new System.Drawing.Point(0, 276);
-            this.labelStateAssaultOperationRequestComplete.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateAssaultOperationRequestComplete.Name = "labelStateAssaultOperationRequestComplete";
-            this.labelStateAssaultOperationRequestComplete.Size = new System.Drawing.Size(93, 46);
-            this.labelStateAssaultOperationRequestComplete.TabIndex = 12;
-            this.labelStateAssaultOperationRequestComplete.Text = "強襲作戦参加完了";
-            this.labelStateAssaultOperationRequestComplete.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateAssaultOperationRequestComplete.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
-            // 
             // labelStateBattle
             // 
             this.labelStateBattle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -918,21 +788,6 @@
             this.labelStateBattle.Text = "戦闘画面";
             this.labelStateBattle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelStateBattle.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
-            // 
-            // labelStateAssaultOperationRequestSubmit
-            // 
-            this.labelStateAssaultOperationRequestSubmit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateAssaultOperationRequestSubmit.BackColor = System.Drawing.Color.White;
-            this.labelStateAssaultOperationRequestSubmit.Location = new System.Drawing.Point(93, 230);
-            this.labelStateAssaultOperationRequestSubmit.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateAssaultOperationRequestSubmit.Name = "labelStateAssaultOperationRequestSubmit";
-            this.labelStateAssaultOperationRequestSubmit.Size = new System.Drawing.Size(93, 46);
-            this.labelStateAssaultOperationRequestSubmit.TabIndex = 11;
-            this.labelStateAssaultOperationRequestSubmit.Text = "強襲作戦TOP";
-            this.labelStateAssaultOperationRequestSubmit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateAssaultOperationRequestSubmit.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
             // 
             // labelStateBattleFlash
             // 
@@ -979,21 +834,6 @@
             this.labelStateReceive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelStateReceive.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
             // 
-            // labelStateAssaultOperationHome
-            // 
-            this.labelStateAssaultOperationHome.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateAssaultOperationHome.BackColor = System.Drawing.Color.White;
-            this.labelStateAssaultOperationHome.Location = new System.Drawing.Point(0, 184);
-            this.labelStateAssaultOperationHome.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateAssaultOperationHome.Name = "labelStateAssaultOperationHome";
-            this.labelStateAssaultOperationHome.Size = new System.Drawing.Size(93, 46);
-            this.labelStateAssaultOperationHome.TabIndex = 8;
-            this.labelStateAssaultOperationHome.Text = "強襲作戦ホーム";
-            this.labelStateAssaultOperationHome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateAssaultOperationHome.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
-            // 
             // labelStatePresentList
             // 
             this.labelStatePresentList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1009,13 +849,191 @@
             this.labelStatePresentList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelStatePresentList.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
             // 
+            // labelStateUnknown
+            // 
+            this.labelStateUnknown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateUnknown.BackColor = System.Drawing.Color.White;
+            this.labelStateUnknown.Location = new System.Drawing.Point(93, 506);
+            this.labelStateUnknown.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateUnknown.Name = "labelStateUnknown";
+            this.labelStateUnknown.Size = new System.Drawing.Size(93, 46);
+            this.labelStateUnknown.TabIndex = 21;
+            this.labelStateUnknown.Text = "不明な画面";
+            this.labelStateUnknown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateUnknown.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRightBottom);
+            // 
+            // labelStateEventFinished
+            // 
+            this.labelStateEventFinished.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateEventFinished.BackColor = System.Drawing.Color.White;
+            this.labelStateEventFinished.Location = new System.Drawing.Point(0, 506);
+            this.labelStateEventFinished.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateEventFinished.Name = "labelStateEventFinished";
+            this.labelStateEventFinished.Size = new System.Drawing.Size(93, 46);
+            this.labelStateEventFinished.TabIndex = 20;
+            this.labelStateEventFinished.Text = "イベント終了";
+            this.labelStateEventFinished.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateEventFinished.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRightBottom);
+            // 
+            // labelStateAccessBlock
+            // 
+            this.labelStateAccessBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateAccessBlock.BackColor = System.Drawing.Color.White;
+            this.labelStateAccessBlock.Location = new System.Drawing.Point(93, 460);
+            this.labelStateAccessBlock.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAccessBlock.Name = "labelStateAccessBlock";
+            this.labelStateAccessBlock.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAccessBlock.TabIndex = 19;
+            this.labelStateAccessBlock.Text = "アクセス制限";
+            this.labelStateAccessBlock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAccessBlock.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
+            // 
+            // labelStateFightAlreadyFinished
+            // 
+            this.labelStateFightAlreadyFinished.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateFightAlreadyFinished.BackColor = System.Drawing.Color.White;
+            this.labelStateFightAlreadyFinished.Location = new System.Drawing.Point(0, 460);
+            this.labelStateFightAlreadyFinished.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateFightAlreadyFinished.Name = "labelStateFightAlreadyFinished";
+            this.labelStateFightAlreadyFinished.Size = new System.Drawing.Size(93, 46);
+            this.labelStateFightAlreadyFinished.TabIndex = 18;
+            this.labelStateFightAlreadyFinished.Text = "既に戦闘は終了しています";
+            this.labelStateFightAlreadyFinished.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateFightAlreadyFinished.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
+            // 
+            // labelStateError
+            // 
+            this.labelStateError.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateError.BackColor = System.Drawing.Color.White;
+            this.labelStateError.Location = new System.Drawing.Point(93, 414);
+            this.labelStateError.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateError.Name = "labelStateError";
+            this.labelStateError.Size = new System.Drawing.Size(93, 46);
+            this.labelStateError.TabIndex = 17;
+            this.labelStateError.Text = "不正な画面遷移";
+            this.labelStateError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateError.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
+            // 
+            // labelStateGetCard
+            // 
+            this.labelStateGetCard.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateGetCard.BackColor = System.Drawing.Color.White;
+            this.labelStateGetCard.Location = new System.Drawing.Point(0, 414);
+            this.labelStateGetCard.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateGetCard.Name = "labelStateGetCard";
+            this.labelStateGetCard.Size = new System.Drawing.Size(93, 46);
+            this.labelStateGetCard.TabIndex = 16;
+            this.labelStateGetCard.Text = "カード入手";
+            this.labelStateGetCard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateGetCard.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
+            // 
+            // labelStateLevelUp
+            // 
+            this.labelStateLevelUp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateLevelUp.BackColor = System.Drawing.Color.White;
+            this.labelStateLevelUp.Location = new System.Drawing.Point(93, 368);
+            this.labelStateLevelUp.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateLevelUp.Name = "labelStateLevelUp";
+            this.labelStateLevelUp.Size = new System.Drawing.Size(93, 46);
+            this.labelStateLevelUp.TabIndex = 15;
+            this.labelStateLevelUp.Text = "レベルアップ";
+            this.labelStateLevelUp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateLevelUp.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
+            // 
+            // labelStateAssaultOperationRequestFaild
+            // 
+            this.labelStateAssaultOperationRequestFaild.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateAssaultOperationRequestFaild.BackColor = System.Drawing.Color.White;
+            this.labelStateAssaultOperationRequestFaild.Location = new System.Drawing.Point(0, 368);
+            this.labelStateAssaultOperationRequestFaild.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAssaultOperationRequestFaild.Name = "labelStateAssaultOperationRequestFaild";
+            this.labelStateAssaultOperationRequestFaild.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAssaultOperationRequestFaild.TabIndex = 14;
+            this.labelStateAssaultOperationRequestFaild.Text = "強襲作戦エラー";
+            this.labelStateAssaultOperationRequestFaild.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAssaultOperationRequestFaild.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
+            // 
+            // labelStateAssaultOperationWin
+            // 
+            this.labelStateAssaultOperationWin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateAssaultOperationWin.BackColor = System.Drawing.Color.White;
+            this.labelStateAssaultOperationWin.Location = new System.Drawing.Point(93, 322);
+            this.labelStateAssaultOperationWin.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAssaultOperationWin.Name = "labelStateAssaultOperationWin";
+            this.labelStateAssaultOperationWin.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAssaultOperationWin.TabIndex = 13;
+            this.labelStateAssaultOperationWin.Text = "強襲作戦終了";
+            this.labelStateAssaultOperationWin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAssaultOperationWin.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
+            // 
+            // labelStateAssaultOperationRequestComplete
+            // 
+            this.labelStateAssaultOperationRequestComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateAssaultOperationRequestComplete.BackColor = System.Drawing.Color.White;
+            this.labelStateAssaultOperationRequestComplete.Location = new System.Drawing.Point(0, 322);
+            this.labelStateAssaultOperationRequestComplete.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAssaultOperationRequestComplete.Name = "labelStateAssaultOperationRequestComplete";
+            this.labelStateAssaultOperationRequestComplete.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAssaultOperationRequestComplete.TabIndex = 12;
+            this.labelStateAssaultOperationRequestComplete.Text = "強襲作戦参加完了";
+            this.labelStateAssaultOperationRequestComplete.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAssaultOperationRequestComplete.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
+            // 
+            // labelStateAssaultOperationRequestSubmit
+            // 
+            this.labelStateAssaultOperationRequestSubmit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateAssaultOperationRequestSubmit.BackColor = System.Drawing.Color.White;
+            this.labelStateAssaultOperationRequestSubmit.Location = new System.Drawing.Point(93, 276);
+            this.labelStateAssaultOperationRequestSubmit.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAssaultOperationRequestSubmit.Name = "labelStateAssaultOperationRequestSubmit";
+            this.labelStateAssaultOperationRequestSubmit.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAssaultOperationRequestSubmit.TabIndex = 11;
+            this.labelStateAssaultOperationRequestSubmit.Text = "強襲作戦TOP";
+            this.labelStateAssaultOperationRequestSubmit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAssaultOperationRequestSubmit.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
+            // 
+            // labelStateAssaultOperationRequest
+            // 
+            this.labelStateAssaultOperationRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateAssaultOperationRequest.BackColor = System.Drawing.Color.White;
+            this.labelStateAssaultOperationRequest.Location = new System.Drawing.Point(0, 276);
+            this.labelStateAssaultOperationRequest.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAssaultOperationRequest.Name = "labelStateAssaultOperationRequest";
+            this.labelStateAssaultOperationRequest.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAssaultOperationRequest.TabIndex = 10;
+            this.labelStateAssaultOperationRequest.Text = "強襲作戦参加依頼";
+            this.labelStateAssaultOperationRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAssaultOperationRequest.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
+            // 
             // labelStateBattleAssaultOperation
             // 
             this.labelStateBattleAssaultOperation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelStateBattleAssaultOperation.BackColor = System.Drawing.Color.White;
-            this.labelStateBattleAssaultOperation.Location = new System.Drawing.Point(93, 184);
+            this.labelStateBattleAssaultOperation.Location = new System.Drawing.Point(93, 230);
             this.labelStateBattleAssaultOperation.Margin = new System.Windows.Forms.Padding(0);
             this.labelStateBattleAssaultOperation.Name = "labelStateBattleAssaultOperation";
             this.labelStateBattleAssaultOperation.Size = new System.Drawing.Size(93, 46);
@@ -1024,20 +1042,20 @@
             this.labelStateBattleAssaultOperation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelStateBattleAssaultOperation.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
             // 
-            // labelStateAssaultOperationRequest
+            // labelStateAssaultOperationHome
             // 
-            this.labelStateAssaultOperationRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.labelStateAssaultOperationHome.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateAssaultOperationRequest.BackColor = System.Drawing.Color.White;
-            this.labelStateAssaultOperationRequest.Location = new System.Drawing.Point(0, 230);
-            this.labelStateAssaultOperationRequest.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateAssaultOperationRequest.Name = "labelStateAssaultOperationRequest";
-            this.labelStateAssaultOperationRequest.Size = new System.Drawing.Size(93, 46);
-            this.labelStateAssaultOperationRequest.TabIndex = 10;
-            this.labelStateAssaultOperationRequest.Text = "強襲作戦参加依頼";
-            this.labelStateAssaultOperationRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateAssaultOperationRequest.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
+            this.labelStateAssaultOperationHome.BackColor = System.Drawing.Color.White;
+            this.labelStateAssaultOperationHome.Location = new System.Drawing.Point(0, 230);
+            this.labelStateAssaultOperationHome.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAssaultOperationHome.Name = "labelStateAssaultOperationHome";
+            this.labelStateAssaultOperationHome.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAssaultOperationHome.TabIndex = 8;
+            this.labelStateAssaultOperationHome.Text = "強襲作戦ホーム";
+            this.labelStateAssaultOperationHome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAssaultOperationHome.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
             // 
             // labelSpm
             // 
@@ -1047,7 +1065,7 @@
             this.labelSpm.Name = "labelSpm";
             this.labelSpm.Size = new System.Drawing.Size(99, 12);
             this.labelSpm.TabIndex = 6;
-            this.labelSpm.Text = "1分間の敵発見数：";
+            this.labelSpm.Text = "1分間の探索回数：";
             // 
             // tableLayoutPanel6
             // 
@@ -1156,17 +1174,35 @@
             // 
             this.timerRecievePresent.Tick += new System.EventHandler(this.timerRecievePresent_Tick);
             // 
-            // checkBoxEnterAdditionalQuest
+            // labelStateRequest
             // 
-            this.checkBoxEnterAdditionalQuest.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxEnterAdditionalQuest.AutoSize = true;
-            this.checkBoxEnterAdditionalQuest.Location = new System.Drawing.Point(3, 360);
-            this.checkBoxEnterAdditionalQuest.Name = "checkBoxEnterAdditionalQuest";
-            this.checkBoxEnterAdditionalQuest.Size = new System.Drawing.Size(172, 16);
-            this.checkBoxEnterAdditionalQuest.TabIndex = 20;
-            this.checkBoxEnterAdditionalQuest.Text = "アディショナルクエストに突入する";
-            this.checkBoxEnterAdditionalQuest.UseVisualStyleBackColor = true;
-            this.checkBoxEnterAdditionalQuest.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            this.labelStateRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateRequest.BackColor = System.Drawing.Color.White;
+            this.labelStateRequest.Location = new System.Drawing.Point(0, 184);
+            this.labelStateRequest.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateRequest.Name = "labelStateRequest";
+            this.labelStateRequest.Size = new System.Drawing.Size(93, 46);
+            this.labelStateRequest.TabIndex = 22;
+            this.labelStateRequest.Text = "応援依頼完了";
+            this.labelStateRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateRequest.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
+            // 
+            // labelStateAdditional
+            // 
+            this.labelStateAdditional.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateAdditional.BackColor = System.Drawing.Color.White;
+            this.labelStateAdditional.Location = new System.Drawing.Point(93, 184);
+            this.labelStateAdditional.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAdditional.Name = "labelStateAdditional";
+            this.labelStateAdditional.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAdditional.TabIndex = 23;
+            this.labelStateAdditional.Text = "アディショナルクエスト突入画面";
+            this.labelStateAdditional.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAdditional.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
             // 
             // TabControlRaid
             // 
@@ -1276,5 +1312,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
         private System.Windows.Forms.Timer timerRecievePresent;
         private System.Windows.Forms.CheckBox checkBoxEnterAdditionalQuest;
+        private System.Windows.Forms.Label labelStateRequest;
+        private System.Windows.Forms.Label labelStateAdditional;
     }
 }

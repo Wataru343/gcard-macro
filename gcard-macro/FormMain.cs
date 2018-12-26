@@ -14,21 +14,17 @@ namespace gcard_macro
 {
     public partial class FormMain : Form
     {
-#if DEBUG
-        [System.Runtime.InteropServices.DllImport("kernel32.dll")] // この行を追加
-        private static extern bool AllocConsole();
-#endif
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private IWebDriver driver_ { get; set; }
         private string UserName { get; set; }
         private string AppTitle { get; set; }
+        private bool RecieveCancelToken { get; set; }
+        private object obj { get; set; }
 
         public FormMain()
         {
             InitializeComponent();
-#if DEBUG
-            AllocConsole();
-#endif
 
             textBoxWaitSearch.Text = Properties.Settings.Default.WaitSearch.ToString();
             textBoxWaitBattle.Text = Properties.Settings.Default.WaitBattle.ToString();
@@ -80,7 +76,10 @@ namespace gcard_macro
             numericUpDownCycleRecieveTime.ValueChanged += onSettingChanged;
             buttonSave.Enabled = false;
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.10";
+            obj = new object();
+            RecieveCancelToken = false;
+
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.18";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -382,6 +381,11 @@ namespace gcard_macro
 
         private void onLog(object sender, string text)
         {
+            while (textBoxLog.Lines.Length > 200)
+            {
+                textBoxLog.Text = textBoxLog.Text.Remove(0, textBoxLog.Lines[0].Length + 1);
+            }
+
             if (text.IndexOf("アクセス制限通知") >= 0)
             {
                 textBoxLog.SelectionFont = new Font(textBoxLog.Font, FontStyle.Bold);
@@ -389,7 +393,10 @@ namespace gcard_macro
 
             textBoxLog.AppendText(string.Format("{0}: {1}{2}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff"), text, Environment.NewLine));
             textBoxLog.SelectionStart = textBoxLog.Text.Length;
+
             textBoxLog.ScrollToCaret();
+
+            Logger.Info(text);
         }
 
         private void buttonRemoveCookie_Click(object sender, EventArgs e)
@@ -471,7 +478,14 @@ namespace gcard_macro
                 else if (tabControlGTactics.IsStart) tabControlGTactics.RecievePresent();
                 else
                 {
-                    buttonReceiveImmediately.Enabled = false;
+
+                    if (buttonReceiveImmediately.Text == "すぐに受け取る") buttonReceiveImmediately.Text = "中止する";
+                    else
+                    {
+                        lock (obj)
+                            RecieveCancelToken = true;
+                        buttonReceiveImmediately.Enabled = false;
+                    }
 
                     Task.Run(() =>
                     {
@@ -498,11 +512,18 @@ namespace gcard_macro
                         rp.CreateThread();
 
                         while (rp.IsRun)
+                        {
+                            lock (obj)
+                                if (RecieveCancelToken)
+                                    rp.KillThread();
                             System.Threading.Thread.Sleep(300);
+                        }
 
                         Invoke((MethodInvoker)delegate
                         {
+                            buttonReceiveImmediately.Text = "すぐに受け取る";
                             buttonReceiveImmediately.Enabled = true;
+                            lock (obj) RecieveCancelToken = false;
                         });
                     });
                 }

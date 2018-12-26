@@ -31,13 +31,16 @@ namespace gcard_macro.WebDriber
 
         public ReadOnlyCollection<string> WindowHandles => new ReadOnlyCollection<string>(new List<string>());
 
-        public HtmlAgilityPackDriver(string userAgent = "")
+        private int KeepPages { get; set; }
+
+        public HtmlAgilityPackDriver(string userAgent = "", int keepPages = 100)
         {
             HtmlDoc_ = new HtmlDocument();
             Urls_ = new LinkedList<string>();
             ForwardUrls_ = new LinkedList<string>();
             UserAgent_ = userAgent;
             Cookies_ = new HtmlAgilityPackCookieJar(this);
+            KeepPages = keepPages;
 
             ReloadWebClient();
         }
@@ -165,7 +168,7 @@ namespace gcard_macro.WebDriber
                 case HtmlAgilityPackNavigate.Move.New:
                     Urls_.AddLast(url);
 
-                    while (Urls_.Count > 100)
+                    while (Urls_.Count > KeepPages)
                         Urls_.RemoveFirst();
 
                     ForwardUrls_.Clear();

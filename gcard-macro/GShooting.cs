@@ -211,8 +211,11 @@ namespace gcard_macro
                 //サーバーエラー
                 else if (IsServerError())
                 {
-                    KillThread();
-                    Log?.Invoke(this, "サーバーエラー");
+                    if (CurrentState != State.Unknown)
+                        Log?.Invoke(this, "サーバーエラー");
+                    CurrentState = State.Unknown;
+                    Wait(5);
+                    driver_.Navigate().GoToUrl(home_path_);
                 }
                 else
                 {
@@ -222,7 +225,14 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(home_path_);
                 }
             }
-            catch { }
+            catch
+            {
+                try
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                catch { }
+            }
 
             StateChanged?.Invoke(this, CurrentState);
         }
@@ -231,7 +241,7 @@ namespace gcard_macro
         /// 敵一覧画面判定
         /// </summary>
         /// <returns></returns>
-        override protected bool IsEnemyList() => driver_.PageSource.IndexOf("戦況を更新する") >= 0 && driver_.PageSource.IndexOf("探索する") >= 0;
+        override protected bool IsEnemyList() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("戦況を更新する", 1536) >= 0 && driver_.PageSource.IndexOf("探索する", 1536) >= 0;
 
         /// <summary>
         /// イベントのホームから探索へ
@@ -446,6 +456,8 @@ namespace gcard_macro
 
                         if (url != null)
                         {
+                            CurrentState = State.SearchFlash;
+                            StateChanged?.Invoke(this, CurrentState);
                             switch (SearchEnemy(url))
                             {
                                 case SearchResult.Found:
@@ -454,6 +466,9 @@ namespace gcard_macro
                                     Exec = SearchState;
                                     break;
                                 case SearchResult.Card:
+                                    Exec = SearchState;
+                                    break;
+                                case SearchResult.Continue:
                                     Exec = SearchState;
                                     break;
                                 case SearchResult.Error:

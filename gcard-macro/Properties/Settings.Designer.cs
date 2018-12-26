@@ -1452,5 +1452,53 @@ namespace gcard_macro.Properties {
                 this["RaidEnterAdditionalQuest"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong GTacticsSearchForce {
+            get {
+                return ((ulong)(this["GTacticsSearchForce"]));
+            }
+            set {
+                this["GTacticsSearchForce"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsSearchForceLeft {
+            get {
+                return ((bool)(this["GTacticsSearchForceLeft"]));
+            }
+            set {
+                this["GTacticsSearchForceLeft"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsSearchForceCenter {
+            get {
+                return ((bool)(this["GTacticsSearchForceCenter"]));
+            }
+            set {
+                this["GTacticsSearchForceCenter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsSearchForceRight {
+            get {
+                return ((bool)(this["GTacticsSearchForceRight"]));
+            }
+            set {
+                this["GTacticsSearchForceRight"] = value;
+            }
+        }
     }
 }

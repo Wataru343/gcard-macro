@@ -1342,7 +1342,7 @@
             this.labelSpm.Name = "labelSpm";
             this.labelSpm.Size = new System.Drawing.Size(99, 12);
             this.labelSpm.TabIndex = 6;
-            this.labelSpm.Text = "1分間の敵発見数：";
+            this.labelSpm.Text = "1分間の探索回数：";
             // 
             // tableLayoutPanel10
             // 

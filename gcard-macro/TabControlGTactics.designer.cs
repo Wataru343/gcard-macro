@@ -37,7 +37,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBoxNoSearch = new System.Windows.Forms.CheckBox();
-            this.checkBoxStandby = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxPointDiff = new System.Windows.Forms.TextBox();
             this.labelPointDiff = new System.Windows.Forms.Label();
@@ -48,20 +47,24 @@
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBoxEnableStrategyArea = new System.Windows.Forms.CheckBox();
             this.comboBoxShieldC3 = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldC2 = new System.Windows.Forms.ComboBox();
             this.comboBoxStrategicArea = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldC1 = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.comboBoxShieldA1 = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldA2 = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldA3 = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldB3 = new System.Windows.Forms.ComboBox();
             this.comboBoxShieldB2 = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.comboBoxShieldB1 = new System.Windows.Forms.ComboBox();
+            this.checkBoxEnableLeftArea = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnableCenterArea = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnableRightArea = new System.Windows.Forms.CheckBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.checkBoxForceCharge = new System.Windows.Forms.CheckBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -87,6 +90,7 @@
             this.checkBoxRecievePresent = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxRecieve = new System.Windows.Forms.ComboBox();
+            this.checkBoxStandby = new System.Windows.Forms.CheckBox();
             this.labelStateHome = new System.Windows.Forms.Label();
             this.labelStateSearch = new System.Windows.Forms.Label();
             this.labelStateBattle = new System.Windows.Forms.Label();
@@ -115,10 +119,14 @@
             this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
             this.timerRecievePresent = new System.Windows.Forms.Timer(this.components);
-            this.checkBoxEnableLeftArea = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnableCenterArea = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnableRightArea = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnableStrategyArea = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBoxSearchForce = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBoxSearchForceLRight = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchForceCenter = new System.Windows.Forms.CheckBox();
+            this.checkBoxSearchForceLeft = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -137,6 +145,8 @@
             this.tableLayoutPanel14.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
             this.tableLayoutPanel17.SuspendLayout();
+            this.tableLayoutPanel13.SuspendLayout();
+            this.tableLayoutPanel15.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStart
@@ -206,7 +216,7 @@
             this.tableLayoutPanel1.Controls.Add(this.checkBoxNoSearch, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 15);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 17);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel7, 0, 20);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxUseForce, 0, 16);
@@ -221,11 +231,14 @@
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 12);
             this.tableLayoutPanel1.Controls.Add(this.comboBoxRecieve, 0, 13);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxStandby, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel13, 0, 19);
+            this.tableLayoutPanel1.Controls.Add(this.label9, 0, 17);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel15, 0, 18);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 15);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 19;
+            this.tableLayoutPanel1.RowCount = 22;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -243,8 +256,10 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(494, 631);
             this.tableLayoutPanel1.TabIndex = 9;
@@ -260,20 +275,6 @@
             this.checkBoxNoSearch.Text = "探索しない";
             this.checkBoxNoSearch.UseVisualStyleBackColor = true;
             this.checkBoxNoSearch.CheckedChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // checkBoxStandby
-            // 
-            this.checkBoxStandby.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxStandby.AutoSize = true;
-            this.checkBoxStandby.Checked = true;
-            this.checkBoxStandby.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxStandby.Location = new System.Drawing.Point(3, 316);
-            this.checkBoxStandby.Name = "checkBoxStandby";
-            this.checkBoxStandby.Size = new System.Drawing.Size(299, 16);
-            this.checkBoxStandby.TabIndex = 20;
-            this.checkBoxStandby.Text = "目標エリアレベル、敵部隊との点数差を満たしたら待機する";
-            this.checkBoxStandby.UseVisualStyleBackColor = true;
-            this.checkBoxStandby.CheckedChanged += new System.EventHandler(this.checkBoxStandby_CheckedChanged);
             // 
             // tableLayoutPanel4
             // 
@@ -318,7 +319,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 322F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 376F));
             this.tableLayoutPanel2.Controls.Add(this.dateTimePickerTimeStart, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.dateTimePickerTimeEnd, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label23, 1, 0);
@@ -371,7 +372,7 @@
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 219F));
             this.tableLayoutPanel7.Controls.Add(this.groupBox3, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.tableLayoutPanel5, 0, 0);
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 381);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 445);
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
@@ -429,6 +430,19 @@
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel8.Size = new System.Drawing.Size(205, 107);
             this.tableLayoutPanel8.TabIndex = 14;
+            // 
+            // checkBoxEnableStrategyArea
+            // 
+            this.checkBoxEnableStrategyArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.checkBoxEnableStrategyArea.AutoSize = true;
+            this.checkBoxEnableStrategyArea.Checked = true;
+            this.checkBoxEnableStrategyArea.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnableStrategyArea.Location = new System.Drawing.Point(170, 85);
+            this.checkBoxEnableStrategyArea.Name = "checkBoxEnableStrategyArea";
+            this.checkBoxEnableStrategyArea.Size = new System.Drawing.Size(15, 18);
+            this.checkBoxEnableStrategyArea.TabIndex = 22;
+            this.checkBoxEnableStrategyArea.UseVisualStyleBackColor = true;
+            this.checkBoxEnableStrategyArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableStrategyArea_CheckedChanged);
             // 
             // comboBoxShieldC3
             // 
@@ -493,36 +507,6 @@
             this.comboBoxShieldC1.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldC1.TabIndex = 15;
             this.comboBoxShieldC1.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // label16
-            // 
-            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(151, 8);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(53, 12);
-            this.label16.TabIndex = 12;
-            this.label16.Text = "戦略拠点";
-            // 
-            // label14
-            // 
-            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(4, 62);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(29, 12);
-            this.label14.TabIndex = 16;
-            this.label14.Text = "下段";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(4, 8);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(29, 12);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "上段";
             // 
             // comboBoxShieldA1
             // 
@@ -604,16 +588,6 @@
             this.comboBoxShieldB2.TabIndex = 9;
             this.comboBoxShieldB2.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
-            // label11
-            // 
-            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(4, 35);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(29, 12);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "中段";
-            // 
             // comboBoxShieldB1
             // 
             this.comboBoxShieldB1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -629,6 +603,85 @@
             this.comboBoxShieldB1.Size = new System.Drawing.Size(30, 20);
             this.comboBoxShieldB1.TabIndex = 7;
             this.comboBoxShieldB1.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // checkBoxEnableLeftArea
+            // 
+            this.checkBoxEnableLeftArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.checkBoxEnableLeftArea.AutoSize = true;
+            this.checkBoxEnableLeftArea.Checked = true;
+            this.checkBoxEnableLeftArea.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnableLeftArea.Location = new System.Drawing.Point(47, 85);
+            this.checkBoxEnableLeftArea.Name = "checkBoxEnableLeftArea";
+            this.checkBoxEnableLeftArea.Size = new System.Drawing.Size(15, 18);
+            this.checkBoxEnableLeftArea.TabIndex = 20;
+            this.checkBoxEnableLeftArea.UseVisualStyleBackColor = true;
+            this.checkBoxEnableLeftArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableLeftArea_CheckedChanged);
+            // 
+            // checkBoxEnableCenterArea
+            // 
+            this.checkBoxEnableCenterArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.checkBoxEnableCenterArea.AutoSize = true;
+            this.checkBoxEnableCenterArea.Checked = true;
+            this.checkBoxEnableCenterArea.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnableCenterArea.Location = new System.Drawing.Point(84, 85);
+            this.checkBoxEnableCenterArea.Name = "checkBoxEnableCenterArea";
+            this.checkBoxEnableCenterArea.Size = new System.Drawing.Size(15, 18);
+            this.checkBoxEnableCenterArea.TabIndex = 21;
+            this.checkBoxEnableCenterArea.UseVisualStyleBackColor = true;
+            this.checkBoxEnableCenterArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableCenterArea_CheckedChanged);
+            // 
+            // checkBoxEnableRightArea
+            // 
+            this.checkBoxEnableRightArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.checkBoxEnableRightArea.AutoSize = true;
+            this.checkBoxEnableRightArea.Checked = true;
+            this.checkBoxEnableRightArea.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnableRightArea.Location = new System.Drawing.Point(121, 85);
+            this.checkBoxEnableRightArea.Name = "checkBoxEnableRightArea";
+            this.checkBoxEnableRightArea.Size = new System.Drawing.Size(15, 18);
+            this.checkBoxEnableRightArea.TabIndex = 22;
+            this.checkBoxEnableRightArea.UseVisualStyleBackColor = true;
+            this.checkBoxEnableRightArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableRightArea_CheckedChanged);
+            // 
+            // label16
+            // 
+            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(151, 8);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(53, 12);
+            this.label16.TabIndex = 12;
+            this.label16.Text = "戦略拠点";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 8);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(29, 12);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "上段";
+            // 
+            // label11
+            // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(4, 35);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(29, 12);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "中段";
+            // 
+            // label14
+            // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(4, 62);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(29, 12);
+            this.label14.TabIndex = 16;
+            this.label14.Text = "下段";
             // 
             // tableLayoutPanel5
             // 
@@ -694,14 +747,14 @@
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(223, 24);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(275, 24);
             this.tableLayoutPanel6.TabIndex = 12;
             // 
             // label21
             // 
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(203, 6);
+            this.label21.Location = new System.Drawing.Point(255, 6);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(17, 12);
             this.label21.TabIndex = 25;
@@ -712,7 +765,7 @@
             this.textBoxWaitForce.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitForce.Location = new System.Drawing.Point(3, 3);
             this.textBoxWaitForce.Name = "textBoxWaitForce";
-            this.textBoxWaitForce.Size = new System.Drawing.Size(194, 19);
+            this.textBoxWaitForce.Size = new System.Drawing.Size(246, 19);
             this.textBoxWaitForce.TabIndex = 24;
             this.textBoxWaitForce.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -737,7 +790,7 @@
             "弱のみ"});
             this.comboBoxForcePattern.Location = new System.Drawing.Point(3, 89);
             this.comboBoxForcePattern.Name = "comboBoxForcePattern";
-            this.comboBoxForcePattern.Size = new System.Drawing.Size(217, 20);
+            this.comboBoxForcePattern.Size = new System.Drawing.Size(269, 20);
             this.comboBoxForcePattern.TabIndex = 27;
             this.comboBoxForcePattern.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -763,7 +816,7 @@
             "戦略拠点のみ"});
             this.comboBoxPriority.Location = new System.Drawing.Point(3, 135);
             this.comboBoxPriority.Name = "comboBoxPriority";
-            this.comboBoxPriority.Size = new System.Drawing.Size(217, 20);
+            this.comboBoxPriority.Size = new System.Drawing.Size(269, 20);
             this.comboBoxPriority.TabIndex = 29;
             this.comboBoxPriority.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -948,6 +1001,20 @@
             this.comboBoxRecieve.Size = new System.Drawing.Size(488, 20);
             this.comboBoxRecieve.TabIndex = 16;
             this.comboBoxRecieve.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // checkBoxStandby
+            // 
+            this.checkBoxStandby.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxStandby.AutoSize = true;
+            this.checkBoxStandby.Checked = true;
+            this.checkBoxStandby.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxStandby.Location = new System.Drawing.Point(3, 316);
+            this.checkBoxStandby.Name = "checkBoxStandby";
+            this.checkBoxStandby.Size = new System.Drawing.Size(299, 16);
+            this.checkBoxStandby.TabIndex = 20;
+            this.checkBoxStandby.Text = "目標エリアレベル、敵部隊との点数差を満たしたら待機する";
+            this.checkBoxStandby.UseVisualStyleBackColor = true;
+            this.checkBoxStandby.CheckedChanged += new System.EventHandler(this.checkBoxStandby_CheckedChanged);
             // 
             // labelStateHome
             // 
@@ -1269,7 +1336,7 @@
             this.labelSpm.Name = "labelSpm";
             this.labelSpm.Size = new System.Drawing.Size(99, 12);
             this.labelSpm.TabIndex = 7;
-            this.labelSpm.Text = "1分間の敵発見数：";
+            this.labelSpm.Text = "1分間の探索回数：";
             // 
             // tableLayoutPanel9
             // 
@@ -1385,57 +1452,108 @@
             // 
             this.timerRecievePresent.Tick += new System.EventHandler(this.timerRecievePresent_Tick);
             // 
-            // checkBoxEnableLeftArea
+            // tableLayoutPanel13
             // 
-            this.checkBoxEnableLeftArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.checkBoxEnableLeftArea.AutoSize = true;
-            this.checkBoxEnableLeftArea.Checked = true;
-            this.checkBoxEnableLeftArea.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxEnableLeftArea.Location = new System.Drawing.Point(47, 85);
-            this.checkBoxEnableLeftArea.Name = "checkBoxEnableLeftArea";
-            this.checkBoxEnableLeftArea.Size = new System.Drawing.Size(15, 18);
-            this.checkBoxEnableLeftArea.TabIndex = 20;
-            this.checkBoxEnableLeftArea.UseVisualStyleBackColor = true;
-            this.checkBoxEnableLeftArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableLeftArea_CheckedChanged);
+            this.tableLayoutPanel13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel13.ColumnCount = 2;
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel13.Controls.Add(this.textBoxSearchForce, 0, 0);
+            this.tableLayoutPanel13.Controls.Add(this.label5, 1, 0);
+            this.tableLayoutPanel13.Location = new System.Drawing.Point(0, 421);
+            this.tableLayoutPanel13.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel13.Name = "tableLayoutPanel13";
+            this.tableLayoutPanel13.RowCount = 1;
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(494, 24);
+            this.tableLayoutPanel13.TabIndex = 22;
             // 
-            // checkBoxEnableCenterArea
+            // textBoxSearchForce
             // 
-            this.checkBoxEnableCenterArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.checkBoxEnableCenterArea.AutoSize = true;
-            this.checkBoxEnableCenterArea.Checked = true;
-            this.checkBoxEnableCenterArea.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxEnableCenterArea.Location = new System.Drawing.Point(84, 85);
-            this.checkBoxEnableCenterArea.Name = "checkBoxEnableCenterArea";
-            this.checkBoxEnableCenterArea.Size = new System.Drawing.Size(15, 18);
-            this.checkBoxEnableCenterArea.TabIndex = 21;
-            this.checkBoxEnableCenterArea.UseVisualStyleBackColor = true;
-            this.checkBoxEnableCenterArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableCenterArea_CheckedChanged);
+            this.textBoxSearchForce.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSearchForce.Location = new System.Drawing.Point(3, 3);
+            this.textBoxSearchForce.Name = "textBoxSearchForce";
+            this.textBoxSearchForce.Size = new System.Drawing.Size(320, 19);
+            this.textBoxSearchForce.TabIndex = 1;
+            this.textBoxSearchForce.TextChanged += new System.EventHandler(this.ValueChanged);
+            this.textBoxSearchForce.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSearchForce_KeyPress);
+            this.textBoxSearchForce.Validated += new System.EventHandler(this.textBoxSearchForce_Validated);
             // 
-            // checkBoxEnableRightArea
+            // label5
             // 
-            this.checkBoxEnableRightArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.checkBoxEnableRightArea.AutoSize = true;
-            this.checkBoxEnableRightArea.Checked = true;
-            this.checkBoxEnableRightArea.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxEnableRightArea.Location = new System.Drawing.Point(121, 85);
-            this.checkBoxEnableRightArea.Name = "checkBoxEnableRightArea";
-            this.checkBoxEnableRightArea.Size = new System.Drawing.Size(15, 18);
-            this.checkBoxEnableRightArea.TabIndex = 22;
-            this.checkBoxEnableRightArea.UseVisualStyleBackColor = true;
-            this.checkBoxEnableRightArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableRightArea_CheckedChanged);
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(329, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(162, 12);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "体以下で探索フォースを使用する";
             // 
-            // checkBoxEnableStrategyArea
+            // label9
             // 
-            this.checkBoxEnableStrategyArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.checkBoxEnableStrategyArea.AutoSize = true;
-            this.checkBoxEnableStrategyArea.Checked = true;
-            this.checkBoxEnableStrategyArea.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxEnableStrategyArea.Location = new System.Drawing.Point(170, 85);
-            this.checkBoxEnableStrategyArea.Name = "checkBoxEnableStrategyArea";
-            this.checkBoxEnableStrategyArea.Size = new System.Drawing.Size(15, 18);
-            this.checkBoxEnableStrategyArea.TabIndex = 22;
-            this.checkBoxEnableStrategyArea.UseVisualStyleBackColor = true;
-            this.checkBoxEnableStrategyArea.CheckedChanged += new System.EventHandler(this.checkBoxEnableStrategyArea_CheckedChanged);
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(3, 385);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(140, 12);
+            this.label9.TabIndex = 23;
+            this.label9.Text = "探索フォースをセットした位置";
+            // 
+            // tableLayoutPanel15
+            // 
+            this.tableLayoutPanel15.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel15.ColumnCount = 3;
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel15.Controls.Add(this.checkBoxSearchForceLeft, 0, 0);
+            this.tableLayoutPanel15.Controls.Add(this.checkBoxSearchForceCenter, 1, 0);
+            this.tableLayoutPanel15.Controls.Add(this.checkBoxSearchForceLRight, 2, 0);
+            this.tableLayoutPanel15.Location = new System.Drawing.Point(0, 401);
+            this.tableLayoutPanel15.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
+            this.tableLayoutPanel15.RowCount = 1;
+            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(494, 20);
+            this.tableLayoutPanel15.TabIndex = 24;
+            // 
+            // checkBoxSearchForceLRight
+            // 
+            this.checkBoxSearchForceLRight.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxSearchForceLRight.AutoSize = true;
+            this.checkBoxSearchForceLRight.Location = new System.Drawing.Point(99, 3);
+            this.checkBoxSearchForceLRight.Name = "checkBoxSearchForceLRight";
+            this.checkBoxSearchForceLRight.Size = new System.Drawing.Size(36, 16);
+            this.checkBoxSearchForceLRight.TabIndex = 2;
+            this.checkBoxSearchForceLRight.Text = "右";
+            this.checkBoxSearchForceLRight.UseVisualStyleBackColor = true;
+            this.checkBoxSearchForceLRight.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // checkBoxSearchForceCenter
+            // 
+            this.checkBoxSearchForceCenter.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxSearchForceCenter.AutoSize = true;
+            this.checkBoxSearchForceCenter.Location = new System.Drawing.Point(45, 3);
+            this.checkBoxSearchForceCenter.Name = "checkBoxSearchForceCenter";
+            this.checkBoxSearchForceCenter.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxSearchForceCenter.TabIndex = 1;
+            this.checkBoxSearchForceCenter.Text = "中央";
+            this.checkBoxSearchForceCenter.UseVisualStyleBackColor = true;
+            this.checkBoxSearchForceCenter.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // checkBoxSearchForceLeft
+            // 
+            this.checkBoxSearchForceLeft.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxSearchForceLeft.AutoSize = true;
+            this.checkBoxSearchForceLeft.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxSearchForceLeft.Name = "checkBoxSearchForceLeft";
+            this.checkBoxSearchForceLeft.Size = new System.Drawing.Size(36, 16);
+            this.checkBoxSearchForceLeft.TabIndex = 0;
+            this.checkBoxSearchForceLeft.Text = "左";
+            this.checkBoxSearchForceLeft.UseVisualStyleBackColor = true;
+            this.checkBoxSearchForceLeft.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // TabControlGTactics
             // 
@@ -1475,6 +1593,10 @@
             this.tableLayoutPanel16.ResumeLayout(false);
             this.tableLayoutPanel16.PerformLayout();
             this.tableLayoutPanel17.ResumeLayout(false);
+            this.tableLayoutPanel13.ResumeLayout(false);
+            this.tableLayoutPanel13.PerformLayout();
+            this.tableLayoutPanel15.ResumeLayout(false);
+            this.tableLayoutPanel15.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1571,5 +1693,13 @@
         private System.Windows.Forms.CheckBox checkBoxEnableLeftArea;
         private System.Windows.Forms.CheckBox checkBoxEnableCenterArea;
         private System.Windows.Forms.CheckBox checkBoxEnableRightArea;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
+        private System.Windows.Forms.TextBox textBoxSearchForce;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
+        private System.Windows.Forms.CheckBox checkBoxSearchForceLeft;
+        private System.Windows.Forms.CheckBox checkBoxSearchForceCenter;
+        private System.Windows.Forms.CheckBox checkBoxSearchForceLRight;
     }
 }

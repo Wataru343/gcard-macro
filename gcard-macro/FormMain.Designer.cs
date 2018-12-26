@@ -446,7 +446,7 @@
             this.labelOptimizedWait2.Name = "labelOptimizedWait2";
             this.labelOptimizedWait2.Size = new System.Drawing.Size(137, 12);
             this.labelOptimizedWait2.TabIndex = 4;
-            this.labelOptimizedWait2.Text = "体以下になるように調整する";
+            this.labelOptimizedWait2.Text = "回以下になるように調整する";
             // 
             // labelOptimizedWait1
             // 
@@ -456,7 +456,7 @@
             this.labelOptimizedWait1.Name = "labelOptimizedWait1";
             this.labelOptimizedWait1.Size = new System.Drawing.Size(103, 12);
             this.labelOptimizedWait1.TabIndex = 2;
-            this.labelOptimizedWait1.Text = "1分間の敵発見数が";
+            this.labelOptimizedWait1.Text = "1分間の探索回数が";
             // 
             // numericUpDown
             // 

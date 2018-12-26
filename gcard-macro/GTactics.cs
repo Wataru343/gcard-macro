@@ -25,6 +25,8 @@ namespace gcard_macro
         public long PointDiff { get; set; }
         public bool Standby { get; set; }
         public double WaitForce { get; set; }
+        public ulong SearchForceEnemyCount { get; set; }
+        public List<bool> SearchForcePlace { get; set; }
 
         private bool IsAreaBattle { get; set; }
         private string CurrentArea { get; set; }
@@ -38,7 +40,7 @@ namespace gcard_macro
         private bool TargetAllClear { get; set; }
         private bool ShieldClear { get; set; }
         private System.Threading.Thread WatchThread { get; set; }
-        private bool ChangeArea { get; set; }
+        private bool ChengeArea { get; set; }
         private int ChangeAreaIdx { get; set; }
         private int Gauge { get; set; }
 
@@ -98,9 +100,11 @@ namespace gcard_macro
             TargetAllClear = false;
             ShieldClear = false;
             WaitForce = 0.0;
-            ChangeArea = false;
+            ChengeArea = false;
             ChangeAreaIdx = -1;
             Gauge = 0;
+            SearchForceEnemyCount = 0;
+            SearchForcePlace = new List<bool>();
 
             base.StateChanged += StateChangedBase;
             base.MinicapChanged += MiniCapChangedBase;
@@ -135,10 +139,10 @@ namespace gcard_macro
                     CurrentState = State.None;
                     Wait(1);
                 }
-                else if (ChangeArea)
+                else if (ChengeArea)
                 {
                     driver_.Navigate().GoToUrl(home_path_);
-                    ChangeArea = false;
+                    ChengeArea = false;
                 }
                 //イベントホーム
                 else if (IsHome())
@@ -299,8 +303,11 @@ namespace gcard_macro
                 //サーバーエラー
                 else if (IsServerError())
                 {
-                    KillThread();
-                    Log?.Invoke(this, "サーバーエラー");
+                    if (CurrentState != State.Unknown)
+                        Log?.Invoke(this, "サーバーエラー");
+                    CurrentState = State.Unknown;
+                    Wait(5);
+                    driver_.Navigate().GoToUrl(home_path_);
                 }
                 else
                 {
@@ -310,7 +317,14 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(home_path_);
                 }
             }
-            catch { }
+            catch
+            {
+                try
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                catch { }
+            }
 
             StateChanged?.Invoke(this, CurrentState);
         }
@@ -335,225 +349,237 @@ namespace gcard_macro
             }
             driverArea.Navigate().GoToUrl(home_path_);
 
+            Wait(1);
+
             while (IsRun)
             {
-                try
+                if (IsAreaBattle)
                 {
-                    if(driverArea.PageSource.IndexOf("quest_result_effect") >= 0)
-                        driverArea.Navigate().GoToUrl(home_path_);
-
-                    IWebElement[] panel, link;
-                    List<int> levels;
-                    List<string> areaNames;
-
-                    (panel, link, levels, areaNames) = GetAreaLevel(driverArea);
-
-
-                    int currentAreaIdx = areaNames.IndexOf(CurrentArea);
-
-                    if (Priority != AreaPriority.OnlyStrategyArea)
+                    try
                     {
-                        //中立を最優先する
-                        //戦略拠点が先
-                        if (Priority == AreaPriority.StrategyArea)
-                        {
-                            if (Shield[0].Enable && Shield[0].Level > 0 && levels[0] == 0)
-                            {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
-                                goto EXIT;
-                            }
-                        }
+                        if (driverArea.PageSource.IndexOf("quest_result_effect") >= 0)
+                            driverArea.Navigate().GoToUrl(home_path_);
+
+                        IWebElement[] panel, link;
+                        List<int> levels;
+                        List<string> areaNames;
+
+                        (panel, link, levels, areaNames) = GetAreaLevel(driverArea);
 
 
-                        for (int i = 1; i < panel.Count(); i++)
+                        int currentAreaIdx = areaNames.IndexOf(CurrentArea);
+
+                        if (Priority != AreaPriority.OnlyStrategyArea)
                         {
-                            string className = panel[i].GetAttribute("class");
-                            if (className.IndexOf("own") < 0 && className.IndexOf("enemy") < 0)
+                            //中立を最優先する
+                            //戦略拠点が先
+                            if (Priority == AreaPriority.StrategyArea)
                             {
-                                if (Shield[i].Enable && Shield[i].Level >= levels[i])
+                                if (Shield[0].Enable && Shield[0].Level > 0 && levels[0] == 0)
                                 {
-                                    ChangeArea = currentAreaIdx != i;
+                                    ChengeArea = currentAreaIdx != 0;
+                                    ChangeAreaIdx = 0;
+                                    goto EXIT;
+                                }
+                            }
+
+                            //拠点優先の場合エリアレベルを先に上げる
+                            if (Priority == AreaPriority.StrategyArea)
+                            {
+                                if (Shield[0].Enable && levels[0] < 0)
+                                {
+                                    ChengeArea = currentAreaIdx != 0;
+                                    ChangeAreaIdx = 0;
+                                    goto EXIT;
+                                }
+                            }
+
+                            if (Priority == AreaPriority.StrategyArea)
+                            {
+                                if (Shield[0].Enable)
+                                {
+                                    if (Shield[0].Level > levels[0])
+                                    {
+                                        ChengeArea = currentAreaIdx != 0;
+                                        ChangeAreaIdx = 0;
+                                        goto EXIT;
+                                    }
+                                    else if (levels[0] == 3 && Gauge < 100)
+                                    {
+                                        ChengeArea = currentAreaIdx != 0;
+                                        ChangeAreaIdx = 0;
+                                        goto EXIT;
+                                    }
+                                }
+                            }
+
+
+                            for (int i = 1; i < panel.Count(); i++)
+                            {
+                                string className = panel[i].GetAttribute("class");
+                                if (className.IndexOf("own") < 0 && className.IndexOf("enemy") < 0)
+                                {
+                                    if (Shield[i].Enable && Shield[i].Level >= levels[i])
+                                    {
+                                        ChengeArea = currentAreaIdx != i;
+                                        ChangeAreaIdx = i;
+                                        goto EXIT;
+                                    }
+                                }
+                            }
+
+                            //戦略拠点は後
+                            if (Priority == AreaPriority.None)
+                            {
+                                if (Shield[0].Enable && Shield[0].Level > 0 && levels[0] == 0)
+                                {
+                                    ChengeArea = currentAreaIdx != 0;
+                                    ChangeAreaIdx = 0;
+                                    goto EXIT;
+                                }
+                            }
+
+
+                            //次に敵エリアを優先する
+                            for (int i = 1; i < panel.Count(); i++)
+                            {
+                                string className = panel[i].GetAttribute("class");
+                                if (Shield[i].Enable && className.IndexOf("enemy") >= 0)
+                                {
+                                    ChengeArea = currentAreaIdx != i;
                                     ChangeAreaIdx = i;
                                     goto EXIT;
                                 }
                             }
-                        }
 
-                        //戦略拠点は後
-                        if (Priority == AreaPriority.None)
-                        {
-                            if (Shield[0].Enable && Shield[0].Level > 0 && levels[0] == 0)
+                            if (Priority == AreaPriority.None)
                             {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
-                                goto EXIT;
-                            }
-                        }
-
-
-                        //次に敵エリアを優先する
-                        if (Priority == AreaPriority.StrategyArea)
-                        {
-                            if (Shield[0].Enable && levels[0] < 0)
-                            {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
-                                goto EXIT;
-                            }
-                        }
-
-
-                        for (int i = 1; i < panel.Count(); i++)
-                        {
-                            string className = panel[i].GetAttribute("class");
-                            if (Shield[i].Enable && className.IndexOf("enemy") >= 0)
-                            {
-                                ChangeArea = currentAreaIdx != i;
-                                ChangeAreaIdx = i;
-                                goto EXIT;
-                            }
-                        }
-
-                        if (Priority == AreaPriority.None)
-                        {
-                            if (Shield[0].Enable && levels[0] < 0)
-                            {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
-                                goto EXIT;
-                            }
-                        }
-
-                        //最後に味方エリア
-                        if (Priority == AreaPriority.StrategyArea)
-                        {
-                            if (Shield[0].Enable)
-                            {
-                                if (Shield[0].Level > levels[0])
+                                if (Shield[0].Enable && levels[0] < 0)
                                 {
-                                    ChangeArea = currentAreaIdx != 0;
-                                    ChangeAreaIdx = 0;
-                                    goto EXIT;
-                                }
-                                else if (levels[0] == 3 && Gauge < 100)
-                                {
-                                    ChangeArea = currentAreaIdx != 0;
+                                    ChengeArea = currentAreaIdx != 0;
                                     ChangeAreaIdx = 0;
                                     goto EXIT;
                                 }
                             }
-                        }
 
-                        for (int i = 1; i < panel.Count(); i++)
-                        {
-                            if (Shield[i].Enable && Shield[i].Level > levels[i])
+                            //最後に味方エリア
+                            for (int i = panel.Count() - 1; i > 0; i--)
                             {
-                                ChangeArea = currentAreaIdx != i;
-                                ChangeAreaIdx = i;
+                                if (Shield[i].Enable && Shield[i].Level > levels[i])
+                                {
+                                    ChengeArea = currentAreaIdx != i;
+                                    ChangeAreaIdx = i;
+                                    goto EXIT;
+                                }
+                            }
+
+                            if (Priority == AreaPriority.None)
+                            {
+                                if (Shield[0].Enable)
+                                {
+                                    if (Shield[0].Level > levels[0])
+                                    {
+                                        ChengeArea = currentAreaIdx != 0;
+                                        ChangeAreaIdx = 0;
+                                        goto EXIT;
+                                    }
+                                    else if (levels[0] == 3 && Gauge < 100)
+                                    {
+                                        ChengeArea = currentAreaIdx != 0;
+                                        ChangeAreaIdx = 0;
+                                        goto EXIT;
+                                    }
+                                }
+                            }
+
+
+                            if (Standby && PointDiff <= (OurPoint - EnemyPoint))
+                            {
+                                ChengeArea = true;
+                                ChangeAreaIdx = -1;
                                 goto EXIT;
                             }
-                        }
-
-                        if (Priority == AreaPriority.None)
-                        {
-                            if (Shield[0].Enable)
+                            else
                             {
-                                if (Shield[0].Level > levels[0])
+                                int cIdx = currentAreaIdx;
+
+                                if (cIdx <= 0)
                                 {
-                                    ChangeArea = currentAreaIdx != 0;
-                                    ChangeAreaIdx = 0;
-                                    goto EXIT;
+                                    //待機中の場合有効な列を探す
+                                    cIdx = Shield.FindIndex(1, e => e.Enable);
+
+                                    if (cIdx == -1)
+                                    {
+                                        cIdx = Shield[0].Enable ? 0 : -1;
+                                    }
+
+                                    cIdx = cIdx == -1 ? -1 : cIdx;
                                 }
-                                else if (levels[0] == 3 && Gauge < 100)
-                                {
-                                    ChangeArea = currentAreaIdx != 0;
-                                    ChangeAreaIdx = 0;
-                                    goto EXIT;
-                                }
-                            }
-                        }
-
-
-                        if (Standby && PointDiff <= (OurPoint - EnemyPoint))
-                        {
-                            ChangeArea = true;
-                            ChangeAreaIdx = -1;
-                            goto EXIT;
-                        }
-                        else
-                        {
-                            int cIdx = currentAreaIdx;
-
-                            if (cIdx <= 0)
-                            {
-                                //待機中の場合有効な列を探す
-                                cIdx = Shield.FindIndex(1, e => e.Enable);
 
                                 if (cIdx == -1)
                                 {
-                                    cIdx = Shield[0].Enable ? 0 : -1;
+                                    ChengeArea = true;
+                                    ChangeAreaIdx = -1;
+                                    goto EXIT;
+                                }
+                                else
+                                {
+                                    //待機しない場合は有効な列の最上段を攻撃する
+                                    //戦略拠点のみ有効の場合戦略拠点を攻撃する
+                                    int upAreaIdx = cIdx > 0 ? (10 - (3 - (cIdx - 1) % 3)) : 0;
+                                    ChengeArea = currentAreaIdx != upAreaIdx;
+                                    ChangeAreaIdx = upAreaIdx;
                                 }
 
-                                cIdx = cIdx == -1 ? -1 : cIdx;
-                            }
-
-                            if (cIdx == -1)
-                            {
-                                ChangeArea = true;
-                                ChangeAreaIdx = -1;
-                                goto EXIT;
-                            }
-                            else
-                            {
-                                //待機しない場合は有効な列の最上段を攻撃する
-                                //戦略拠点のみ有効の場合戦略拠点を攻撃する
-                                int upAreaIdx = cIdx > 0 ? (10 - (3 - (cIdx - 1) % 3)) : 0;
-                                ChangeArea = currentAreaIdx != upAreaIdx;
-                                ChangeAreaIdx = upAreaIdx;
-                            }
-
-                            goto EXIT;
-                        }
-                    }
-                    else
-                    {
-                        if (!Shield[0].Enable)
-                        {
-                            ChangeArea = true;
-                            ChangeAreaIdx = -1;
-                            goto EXIT;
-                        }
-
-                        if (Standby)
-                        {
-                            if (levels[0] >= Shield[0].Level && PointDiff <= (OurPoint - EnemyPoint))
-                            {
-                                ChangeArea = true;
-                                ChangeAreaIdx = -1;
-                                goto EXIT;
-                            }
-                            else
-                            {
-                                ChangeArea = currentAreaIdx != 0;
-                                ChangeAreaIdx = 0;
                                 goto EXIT;
                             }
                         }
                         else
                         {
-                            //待機設定していない場合はノンストップ
-                            ChangeArea = currentAreaIdx != 0;
-                            ChangeAreaIdx = 0;
-                            goto EXIT;
-                        }
-                    }
+                            if (!Shield[0].Enable)
+                            {
+                                ChengeArea = true;
+                                ChangeAreaIdx = -1;
+                                goto EXIT;
+                            }
 
-                    EXIT:;
+                            if (Standby)
+                            {
+                                if (levels[0] >= Shield[0].Level && PointDiff <= (OurPoint - EnemyPoint))
+                                {
+                                    ChengeArea = true;
+                                    ChangeAreaIdx = -1;
+                                    goto EXIT;
+                                }
+                                else
+                                {
+                                    ChengeArea = currentAreaIdx != 0;
+                                    ChangeAreaIdx = 0;
+                                    goto EXIT;
+                                }
+                            }
+                            else
+                            {
+                                //待機設定していない場合はノンストップ
+                                ChengeArea = currentAreaIdx != 0;
+                                ChangeAreaIdx = 0;
+                                goto EXIT;
+                            }
+                        }
+
+                        EXIT:;
+                    }
+                    catch
+                    {
+                        Wait(3);
+                    }
                 }
-                catch
+                else
                 {
-                    Wait(3);
+                    if(driverArea.Url != home_path_)
+                        driverArea.Navigate().GoToUrl(home_path_);
+                    ChengeArea = false;
+                    Wait(5);
                 }
                 Wait(1);
                 driverArea.Navigate().Refresh();
@@ -564,19 +590,19 @@ namespace gcard_macro
         /// 敵一覧画面判定
         /// </summary>
         /// <returns></returns>
-        override protected bool IsEnemyList() => driver_.PageSource.IndexOf("戦況を") >= 0 && driver_.PageSource.IndexOf("更新する") >= 0;
+        override protected bool IsEnemyList() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("戦況を", 1536) >= 0 && driver_.PageSource.IndexOf("更新する", 1536) >= 0;
 
         /// <summary>
         /// 戦略拠点画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsStrategicArea() => driver_.Url.IndexOf("strategic_area") >= 0 && driver_.PageSource.IndexOf("js-force-submit") >= 0;
+        private bool IsStrategicArea() => driver_.PageSource.Length > 1536 && driver_.Url.IndexOf("strategic_area") >= 0 && driver_.PageSource.IndexOf("js-force-submit", 1536) >= 0;
 
         /// <summary>
         /// フォース実行失敗画面判定
         /// </summary>
         /// <returns></returns>
-        private bool IsForceFaild() => driver_.PageSource.IndexOf("フォースの実行に失敗しました") >= 0;
+        private bool IsForceFaild() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("フォースの実行に失敗しました", 1536) >= 0;
 
         /// <summary>
         /// イベントのホームから探索へ
@@ -617,12 +643,12 @@ namespace gcard_macro
                         Log?.Invoke(this, "エリア移動： " + areaNames[ChangeAreaIdx]);
                         CurrentArea = areaNames[ChangeAreaIdx];
                         AreaChanged?.Invoke(this, CurrentArea);
-                        ChangeArea = false;
+                        ChengeArea = false;
                         Exec = SearchState;
                         return;
                     }
 
-                    Wait(5);
+                    Wait(1);
                     driver_.Navigate().Refresh();
                 }
                 catch
@@ -792,38 +818,38 @@ namespace gcard_macro
 
 
                         //敵が6体未満なら探索フォースを使う
-                        if (enemys.Count < 6 && !NoSearch)
+                        if (enemys.Count <= (int)SearchForceEnemyCount && !NoSearch)
                         {
                             //探索フォース未使用なら探す
-                            if (SearchForceIdx < 0 && enemys.Count == 0)
+                            //if (SearchForceIdx < 0 && enemys.Count == 0)
+                            //{
+                            //    for (int i = 0; i < 3; i++)
+                            //    {
+                            //        try
+                            //        {
+                            //            IWebElement f = forces[i].FindElement(By.XPath("form[@method=\"post\"]"));
+                            //            SearchForceIdx = i;                                        
+                            //            break;
+                            //        }
+                            //        catch { }
+                            //    }
+                            //}
+
+                            //探索フォース使用
+                            for(int i = 0; i < SearchForcePlace.Count; i++)
                             {
-                                for (int i = 0; i < 3; i++)
+                                if (SearchForcePlace[i])
                                 {
                                     try
                                     {
-                                        IWebElement f = forces[i].FindElement(By.XPath("form[@method=\"post\"]"));
-                                        SearchForceIdx = i;                                        
-                                        break;
+                                        IWebElement f = forces[i].FindElement(By.XPath("div[@class=\"force-count\"]"));
+
+                                        forces[i].FindElement(By.XPath("form[@method=\"post\"]")).Submit();
+                                        Log?.Invoke(this, "探索フォース使用");
+                                        Exec = SearchState;
+                                        return;
                                     }
                                     catch { }
-                                }
-                            }
-
-                            //探索フォース使用
-                            if (SearchForceIdx >= 0)
-                            {
-                                try
-                                {
-                                    IWebElement f = forces[SearchForceIdx].FindElement(By.XPath("div[@class=\"force-count\"]"));
-
-                                    forces[SearchForceIdx].FindElement(By.XPath("form[@method=\"post\"]")).Submit();
-                                    Log?.Invoke(this, "探索フォース使用");
-                                    Exec = SearchState;
-                                    return;
-                                }
-                                catch
-                                {
-                                    SearchForceIdx = -1;
                                 }
                             }
 
@@ -846,6 +872,8 @@ namespace gcard_macro
 
                                     if (url != null)
                                     {
+                                        CurrentState = State.SearchFlash;
+                                        StateChanged?.Invoke(this, CurrentState);
                                         switch (SearchEnemy(url))
                                         {
                                             case SearchResult.Found:
@@ -854,6 +882,9 @@ namespace gcard_macro
                                                 Exec = SearchState;
                                                 break;
                                             case SearchResult.Card:
+                                                Exec = SearchState;
+                                                break;
+                                            case SearchResult.Continue:
                                                 Exec = SearchState;
                                                 break;
                                             case SearchResult.Error:
@@ -1038,6 +1069,8 @@ namespace gcard_macro
 
                         if (url != null)
                         {
+                            CurrentState = State.SearchFlash;
+                            StateChanged?.Invoke(this, CurrentState);
                             switch (SearchEnemy(url))
                             {
                                 case SearchResult.Found:

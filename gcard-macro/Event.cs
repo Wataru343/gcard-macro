@@ -183,6 +183,7 @@ namespace gcard_macro
         virtual protected bool RecievePresentRequest { get; set; }
 
         protected Stopwatch PTimer { get; set; }
+        protected bool EnableAimLastAttack { get; set; }
 
         public delegate void StateChangedHandler(object sender, State state);
         virtual public event StateChangedHandler StateChanged;
@@ -228,6 +229,7 @@ namespace gcard_macro
             AssaultOperationWin,
             AssaultOperationStart,
             AssaultOperationFaildRequestJoin,
+            AdditionalQuest,
             GroupSelectJobs,
             GroupUseBoost,
             PromotionWithdrawalConfirmation,
@@ -372,25 +374,25 @@ namespace gcard_macro
         /// 敵一覧画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsEnemyList() => driver_.PageSource.IndexOf("戦況を更新") >= 0 && driver_.PageSource.IndexOf("敵を見つける") >= 0;
+        virtual protected bool IsEnemyList() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("戦況を更新", 1536) >= 0 && driver_.PageSource.IndexOf("敵を見つける", 1536) >= 0;
 
         /// <summary>
         /// 敵一覧画面(敵出現)判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsEnemyAppearance() => driver_.PageSource.IndexOf("戦況を更新する") >= 0 && (driver_.PageSource.IndexOf("敵を攻撃") >= 0 || driver_.PageSource.IndexOf("コンボチャンス") >= 0);
+        virtual protected bool IsEnemyAppearance() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("戦況を更新する", 1536) >= 0 && (driver_.PageSource.IndexOf("敵を攻撃", 1536) >= 0 || driver_.PageSource.IndexOf("コンボチャンス", 1536) >= 0);
 
         /// <summary>
         /// 戦闘画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsBattle() => driver_.PageSource.IndexOf("バトルエネルギー") >= 0 && driver_.PageSource.IndexOf("撃破報酬をチェック") >= 0;
+        virtual protected bool IsBattle() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("バトルエネルギー", 1536) >= 0 && driver_.PageSource.IndexOf("撃破報酬をチェック", 1536) >= 0;
 
         /// <summary>
         /// 応援依頼完了画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsRequestComplete() => driver_.PageSource.IndexOf("応援依頼完了") >= 0;
+        virtual protected bool IsRequestComplete() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("応援依頼完了", 1536) >= 0;
 
         /// <summary>
         /// 探索時のFlash画面判定
@@ -408,73 +410,73 @@ namespace gcard_macro
         /// レベルアップ画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsLevelUp() => driver_.PageSource.IndexOf("heading-aー") >= 0 && driver_.PageSource.IndexOf("レベルアップ") >= 0;
+        virtual protected bool IsLevelUp() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("heading-aー", 1536) >= 0 && driver_.PageSource.IndexOf("レベルアップ", 1536) >= 0;
 
         /// <summary>
         /// リザルト画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsResult() => driver_.PageSource.IndexOf("value=\"報酬を受け取る\"") >= 0;
+        virtual protected bool IsResult() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("value=\"報酬を受け取る\"", 1536) >= 0;
 
         /// <summary>
         /// 受け取り画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsReceive() => driver_.PageSource.IndexOf("報酬") >= 0 && driver_.PageSource.IndexOf("受け取り") >= 0 && driver_.PageSource.IndexOf("プレゼントへ") >= 0;
+        virtual protected bool IsReceive() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("報酬", 1536) >= 0 && driver_.PageSource.IndexOf("受け取り", 1536) >= 0 && driver_.PageSource.IndexOf("プレゼントへ", 1536) >= 0;
 
         /// <summary>
         /// プレゼント一覧画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsPresentList() => driver_.PageSource.IndexOf("プレゼント一覧") >= 0;
+        virtual protected bool IsPresentList() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("プレゼント一覧", 1536) >= 0;
 
         /// <summary>
         /// カード獲得画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsGetCard() => driver_.PageSource.IndexOf("カード獲得") >= 0;
+        virtual protected bool IsGetCard() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("カード獲得", 1536) >= 0;
 
         /// <summary>
         /// ボス画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsBoss() => driver_.PageSource.IndexOf("ボスが現れた") >= 0;
+        virtual protected bool IsBoss() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("ボスが現れた", 1536) >= 0;
 
         /// <summary>
         /// インターバル中判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsHomeDuringInterval() => driver_.PageSource.IndexOf("インターバル中です") >= 0;
+        virtual protected bool IsHomeDuringInterval() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("インターバル中です", 1536) >= 0;
 
         /// <summary>
         /// 不正な画面遷移画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsError() => driver_.PageSource.IndexOf("不正な画面遷移です") >= 0 || driver_.PageSource.IndexOf("エラー") >= 0;
+        virtual protected bool IsError() => driver_.PageSource.Length > 1536 && (driver_.PageSource.IndexOf("不正な画面遷移です", 1536) >= 0 || driver_.PageSource.IndexOf("エラー", 1536) >= 0);
 
         /// <summary>
         /// 既に戦闘は終了しています画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsFightAlreadyFinished() => driver_.PageSource.IndexOf("既に戦闘は終了しています") >= 0 || driver_.PageSource.IndexOf("このボスと戦うことはできません") >= 0;
+        virtual protected bool IsFightAlreadyFinished() => driver_.PageSource.Length > 1536 && (driver_.PageSource.IndexOf("既に戦闘は終了しています", 1536) >= 0 || driver_.PageSource.IndexOf("このボスと戦うことはできません", 1536) >= 0);
 
         /// <summary>
         /// アクセス制限画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsAccessBlock() => driver_.PageSource.IndexOf("アクセスを制限") >= 0;
+        virtual protected bool IsAccessBlock() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("アクセスを制限", 1536) >= 0;
 
         /// <summary>
         /// イベント終了画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsEventFinished() => driver_.PageSource.IndexOf("イベントは終了しました") >= 0;
+        virtual protected bool IsEventFinished() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("イベントは終了しました", 1536) >= 0;
 
         /// <summary>
         /// 燃料不足画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsFuelShortage() => driver_.PageSource.IndexOf("燃料不足") >= 0;
+        virtual protected bool IsFuelShortage() => driver_.PageSource.Length > 1536 && driver_.PageSource.IndexOf("燃料不足", 1536) >= 0;
 
         /// <summary>
         /// サーバーエラー判定
@@ -833,7 +835,6 @@ namespace gcard_macro
         /// <returns>成否</returns>
         protected SearchResult SearchEnemy(string url)
         {
-            Wait(WaitSearch);
             try
             {
                 using (WebClient client = GetWebClient())
@@ -845,8 +846,14 @@ namespace gcard_macro
                         string pageSource = sr.ReadToEnd();
                         string swfUrl = GetSwfURL(pageSource);
 
+                        int count = 0;
                         while (true)
                         {
+                            count++;
+
+                            Wait(WaitSearch);
+                            WaitForAccessLimit();
+
                             string swf = new string(GetSwfBinary(swfUrl, 3000));
                             string resultURL = "";
 
@@ -894,6 +901,8 @@ namespace gcard_macro
                                 }
                                 else if (respons.IndexOf("lucky") >= 0 || respons.IndexOf("mission") >= 0)
                                 {
+                                    if(count >= 5) return SearchResult.Continue;
+
                                     //探索続行
                                     Log?.Invoke(this, "探索続行");
                                     Wait(WaitSearch);
@@ -902,11 +911,8 @@ namespace gcard_macro
                                 }
                                 else if (respons.IndexOf("comp") >= 0 || respons.IndexOf("lvup") >= 0)
                                 {
-                                    //探索続行
-                                    Log?.Invoke(this, "探索続行");
-                                    Wait(WaitSearch);
-                                    swfUrl = GetSwfURL(respons);
-                                    continue;
+                                    //レベルアップ
+                                    return SearchResult.Continue;
                                 }
                                 else
                                 {
@@ -929,7 +935,7 @@ namespace gcard_macro
         /// </summary>
         virtual protected void WaitForAccessLimit()
         {
-            //分間平均発見数のために発見時刻を記録する
+            //分間平均探索回数のために探時刻を記録する
             DateTime now = DateTime.Now;
             EnemyFoundTime.Add(now);
             EnemyFoundTime = EnemyFoundTime.Where(e => (now - e) < TimeSpan.FromMinutes(1)).ToList();

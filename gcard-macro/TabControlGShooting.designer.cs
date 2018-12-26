@@ -272,7 +272,7 @@
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 93F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
             this.tableLayoutPanel3.Controls.Add(this.dateTimePickerTimeStart, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.dateTimePickerTimeEnd, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.label10, 1, 0);
@@ -753,7 +753,7 @@
             this.labelSpm.Name = "labelSpm";
             this.labelSpm.Size = new System.Drawing.Size(99, 12);
             this.labelSpm.TabIndex = 6;
-            this.labelSpm.Text = "1分間の敵発見数：";
+            this.labelSpm.Text = "1分間の探索回数：";
             // 
             // tableLayoutPanel10
             // 

@@ -70,7 +70,7 @@ namespace gcard_macro
                 driver_.Close();
                 driver_.Quit();
 
-                driver_ = new HtmlAgilityPackDriver("Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1");
+                driver_ = new HtmlAgilityPackDriver("Mozilla /5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B5110e Safari/601.1", 10);
 
                 foreach (var c in cookies)
                 {

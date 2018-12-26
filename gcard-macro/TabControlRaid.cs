@@ -312,8 +312,8 @@ namespace gcard_macro
                         CurrentState = labelStatePresentList;
                         break;
                     case Event.State.RequestComplete:
-                        labelStatePresentList.BackColor = Color.Yellow;
-                        CurrentState = labelStatePresentList;
+                        labelStateRequest.BackColor = Color.Yellow;
+                        CurrentState = labelStateRequest;
                         break;
                     case Event.State.FightAlreadyFinished:
                         labelStateFightAlreadyFinished.BackColor = Color.Yellow;
@@ -363,6 +363,10 @@ namespace gcard_macro
                         labelStateAssaultOperationRequestFaild.BackColor = Color.Yellow;
                         CurrentState = labelStateAssaultOperationRequestFaild;
                         break;
+                    case Event.State.AdditionalQuest:
+                        labelStateAdditional.BackColor = Color.Yellow;
+                        CurrentState = labelStateAdditional;
+                        break;
                     default:
                         labelStateUnknown.BackColor = Color.Yellow;
                         CurrentState = labelStateUnknown;
@@ -387,7 +391,7 @@ namespace gcard_macro
         {
             Invoke((MethodInvoker)delegate
             {
-                labelSpm.Text = "1分間の敵発見数：" + count.ToString() + "体";
+                labelSpm.Text = "1分間の探索回数：" + count.ToString() + "回";
             });
         }
 

@@ -97,8 +97,11 @@ namespace gcard_macro
                 //サーバーエラー
                 else if (IsServerError())
                 {
-                    KillThread();
-                    Log?.Invoke(this, "サーバーエラー");
+                    if (CurrentState != State.Unknown)
+                        Log?.Invoke(this, "サーバーエラー");
+                    CurrentState = State.Unknown;
+                    Wait(5);
+                    driver_.Navigate().GoToUrl(home_path_);
                 }
                 else
                 {
@@ -108,7 +111,14 @@ namespace gcard_macro
                     driver_.Navigate().GoToUrl(home_path_);
                 }
             }
-            catch { }
+            catch
+            {
+                try
+                {
+                    driver_.Navigate().GoToUrl(home_path_);
+                }
+                catch { }
+            }
         }
 
         /// <summary>
@@ -183,6 +193,7 @@ namespace gcard_macro
                     {
                         IWebElement fever = driver_.FindElement(By.XPath("//div[@class=\"flex\"]/a"));
                         driver_.Navigate().GoToUrl(fever.GetAttribute("href"));
+                        return;
                     }
                     catch { }
                 }
