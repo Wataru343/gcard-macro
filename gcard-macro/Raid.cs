@@ -22,6 +22,7 @@ namespace gcard_macro
         public double WaitRecieveAssult { get; set; }
         public double WaitAtackBattleShip { get; set; }
         public bool EnterAdditionalQuest { get; set; }
+        public AttackPriority PriorityAttackAssultEnemy { get; set; }
 
         private bool AssaultOperations { get; set; }
         private bool AssaultOperationsRequest { get; set; }
@@ -37,6 +38,13 @@ namespace gcard_macro
         private string AssaultOperationPath { get; set; }
         private bool RecieveAssaultOperationReword { get; set; }
         private List<string> MVPEnemyId { get; set; }
+
+        public enum AttackPriority
+        {
+            None,
+            Ascending,
+            Descending
+        }
 
         public Raid(IWebDriver driver, string home_path) : base(driver, home_path)
         {
@@ -74,6 +82,7 @@ namespace gcard_macro
             FoundEndedAssaultOperations = false;
             RecieveAssaultOperationReword = false;
             MVPEnemyId = new List<string>();
+            PriorityAttackAssultEnemy = AttackPriority.None;
 #if CHROME
             EnableAimLastAttack = true;
 #else
@@ -1281,7 +1290,15 @@ namespace gcard_macro
                     else
 #endif
                     {
-                        driver_.Navigate().GoToUrl(elms[5].GetAttribute("href"));
+                        int i = 0;
+                        switch (PriorityAttackAssultEnemy)
+                        {
+                            case AttackPriority.None: i = 5; break;
+                            case AttackPriority.Ascending: i = hps.IndexOf(hps.Min()); break;
+                            case AttackPriority.Descending: hps.IndexOf(hps.Max()); break;
+                            default: i = 5;  break;
+                        }
+                        driver_.Navigate().GoToUrl(elms[i].GetAttribute("href"));
                         AssaultOperations = true;
                     }
                 }

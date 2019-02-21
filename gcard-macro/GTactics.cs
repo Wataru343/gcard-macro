@@ -1475,6 +1475,10 @@ namespace gcard_macro
                         }
                         else
                         {
+#if CHROME
+                            Wait(5);
+                            return;
+#endif
                             Log?.Invoke(this, "弱フォース使用");
                             forces[0].FindElement(By.XPath("form")).Submit();
                             PrevUsedForce = Force.Weak;
@@ -1530,3 +1534,4 @@ namespace gcard_macro
         private void OnLogBase(object sender, string text) => this?.Log(this, text);
     }
 }
+//24万くらい

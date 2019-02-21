@@ -70,9 +70,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.checkBoxRecieveReword = new System.Windows.Forms.CheckBox();
             this.checkBoxOnlySearch = new System.Windows.Forms.CheckBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.comboBoxPriorityAttackAssultEnemy = new System.Windows.Forms.ComboBox();
             this.labelMiniCap = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.labelStateAdditional = new System.Windows.Forms.Label();
             this.labelStateHome = new System.Windows.Forms.Label();
             this.labelStateSearch = new System.Windows.Forms.Label();
             this.labelStateEnemyList = new System.Windows.Forms.Label();
@@ -95,6 +98,7 @@
             this.labelStateAssaultOperationRequest = new System.Windows.Forms.Label();
             this.labelStateBattleAssaultOperation = new System.Windows.Forms.Label();
             this.labelStateAssaultOperationHome = new System.Windows.Forms.Label();
+            this.labelStateRequest = new System.Windows.Forms.Label();
             this.labelSpm = new System.Windows.Forms.Label();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
@@ -103,8 +107,6 @@
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.timerRecievePresent = new System.Windows.Forms.Timer(this.components);
-            this.labelStateRequest = new System.Windows.Forms.Label();
-            this.labelStateAdditional = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
@@ -124,7 +126,7 @@
             // buttonStart
             // 
             this.buttonStart.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonStart.Location = new System.Drawing.Point(73, 7);
+            this.buttonStart.Location = new System.Drawing.Point(87, 7);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(81, 42);
             this.buttonStart.TabIndex = 3;
@@ -135,7 +137,7 @@
             // buttonStop
             // 
             this.buttonStop.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonStop.Location = new System.Drawing.Point(160, 7);
+            this.buttonStop.Location = new System.Drawing.Point(174, 7);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 42);
             this.buttonStop.TabIndex = 4;
@@ -148,7 +150,7 @@
             this.textBoxURL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxURL.Location = new System.Drawing.Point(122, 3);
             this.textBoxURL.Name = "textBoxURL";
-            this.textBoxURL.Size = new System.Drawing.Size(311, 19);
+            this.textBoxURL.Size = new System.Drawing.Size(325, 19);
             this.textBoxURL.TabIndex = 1;
             this.textBoxURL.TextChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -174,7 +176,7 @@
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(232, 601);
+            this.groupBox1.Size = new System.Drawing.Size(246, 637);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "オプション";
@@ -185,12 +187,12 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.checkBoxEnterAdditionalQuest, 0, 16);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 24);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 22);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 26);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 24);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxOnlyAttackAssultEnemy, 0, 20);
-            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 23);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 25);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxNoSearch, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.label10, 0, 21);
+            this.tableLayoutPanel1.Controls.Add(this.label10, 0, 23);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 0);
@@ -209,11 +211,13 @@
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 12);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxRecieveReword, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.checkBoxOnlySearch, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.label13, 0, 21);
+            this.tableLayoutPanel1.Controls.Add(this.comboBoxPriorityAttackAssultEnemy, 0, 22);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 15);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 25;
+            this.tableLayoutPanel1.RowCount = 27;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -239,7 +243,9 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(226, 583);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(240, 619);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
             // checkBoxEnterAdditionalQuest
@@ -263,19 +269,19 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.Controls.Add(this.label5, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.textBoxWaitRecieveAssult, 0, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 531);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 577);
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(226, 24);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(240, 24);
             this.tableLayoutPanel5.TabIndex = 9;
             // 
             // label5
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(206, 6);
+            this.label5.Location = new System.Drawing.Point(220, 6);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(17, 12);
             this.label5.TabIndex = 28;
@@ -286,7 +292,7 @@
             this.textBoxWaitRecieveAssult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitRecieveAssult.Location = new System.Drawing.Point(3, 3);
             this.textBoxWaitRecieveAssult.Name = "textBoxWaitRecieveAssult";
-            this.textBoxWaitRecieveAssult.Size = new System.Drawing.Size(197, 19);
+            this.textBoxWaitRecieveAssult.Size = new System.Drawing.Size(211, 19);
             this.textBoxWaitRecieveAssult.TabIndex = 27;
             this.textBoxWaitRecieveAssult.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxWaitRecieveAssult.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitRecieveAssult_KeyPress);
@@ -300,19 +306,19 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel4.Controls.Add(this.label9, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.textBoxWaitAtackBattleShip, 0, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 487);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 533);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(226, 24);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(240, 24);
             this.tableLayoutPanel4.TabIndex = 9;
             // 
             // label9
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(206, 6);
+            this.label9.Location = new System.Drawing.Point(220, 6);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(17, 12);
             this.label9.TabIndex = 25;
@@ -323,7 +329,7 @@
             this.textBoxWaitAtackBattleShip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxWaitAtackBattleShip.Location = new System.Drawing.Point(3, 3);
             this.textBoxWaitAtackBattleShip.Name = "textBoxWaitAtackBattleShip";
-            this.textBoxWaitAtackBattleShip.Size = new System.Drawing.Size(197, 19);
+            this.textBoxWaitAtackBattleShip.Size = new System.Drawing.Size(211, 19);
             this.textBoxWaitAtackBattleShip.TabIndex = 24;
             this.textBoxWaitAtackBattleShip.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxWaitAtackBattleShip.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWaitAtackBattleShip_KeyPress);
@@ -345,7 +351,7 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 515);
+            this.label6.Location = new System.Drawing.Point(3, 561);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(199, 12);
             this.label6.TabIndex = 26;
@@ -367,7 +373,7 @@
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 471);
+            this.label10.Location = new System.Drawing.Point(3, 517);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(181, 12);
             this.label10.TabIndex = 23;
@@ -388,7 +394,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(226, 24);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(240, 24);
             this.tableLayoutPanel3.TabIndex = 9;
             // 
             // dateTimePickerTimeStart
@@ -436,7 +442,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(226, 24);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(240, 24);
             this.tableLayoutPanel2.TabIndex = 9;
             // 
             // textBoxEnemyCount
@@ -444,7 +450,7 @@
             this.textBoxEnemyCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxEnemyCount.Location = new System.Drawing.Point(3, 3);
             this.textBoxEnemyCount.Name = "textBoxEnemyCount";
-            this.textBoxEnemyCount.Size = new System.Drawing.Size(120, 19);
+            this.textBoxEnemyCount.Size = new System.Drawing.Size(134, 19);
             this.textBoxEnemyCount.TabIndex = 1;
             this.textBoxEnemyCount.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxEnemyCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxEnemyCount_KeyPress);
@@ -454,7 +460,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(129, 6);
+            this.label8.Location = new System.Drawing.Point(143, 6);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(94, 12);
             this.label8.TabIndex = 2;
@@ -495,7 +501,7 @@
             this.textBoxBaseDamage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBaseDamage.Location = new System.Drawing.Point(3, 111);
             this.textBoxBaseDamage.Name = "textBoxBaseDamage";
-            this.textBoxBaseDamage.Size = new System.Drawing.Size(220, 19);
+            this.textBoxBaseDamage.Size = new System.Drawing.Size(234, 19);
             this.textBoxBaseDamage.TabIndex = 8;
             this.textBoxBaseDamage.TextChanged += new System.EventHandler(this.ValueChanged);
             this.textBoxBaseDamage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxBaseDamage_KeyPress);
@@ -589,7 +595,7 @@
             "10"});
             this.comboBoxRecieve.Location = new System.Drawing.Point(3, 290);
             this.comboBoxRecieve.Name = "comboBoxRecieve";
-            this.comboBoxRecieve.Size = new System.Drawing.Size(220, 20);
+            this.comboBoxRecieve.Size = new System.Drawing.Size(234, 20);
             this.comboBoxRecieve.TabIndex = 16;
             this.comboBoxRecieve.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -616,7 +622,7 @@
             "一発だけ攻撃する"});
             this.comboBoxAttackMode.Location = new System.Drawing.Point(3, 156);
             this.comboBoxAttackMode.Name = "comboBoxAttackMode";
-            this.comboBoxAttackMode.Size = new System.Drawing.Size(220, 20);
+            this.comboBoxAttackMode.Size = new System.Drawing.Size(234, 20);
             this.comboBoxAttackMode.TabIndex = 10;
             this.comboBoxAttackMode.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
             // 
@@ -654,6 +660,31 @@
             this.checkBoxOnlySearch.UseVisualStyleBackColor = true;
             this.checkBoxOnlySearch.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
+            // label13
+            // 
+            this.label13.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(3, 471);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(157, 12);
+            this.label13.TabIndex = 27;
+            this.label13.Text = "強襲作戦中の雑魚の優先順位";
+            // 
+            // comboBoxPriorityAttackAssultEnemy
+            // 
+            this.comboBoxPriorityAttackAssultEnemy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxPriorityAttackAssultEnemy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPriorityAttackAssultEnemy.FormattingEnabled = true;
+            this.comboBoxPriorityAttackAssultEnemy.Items.AddRange(new object[] {
+            "ランダム",
+            "レベルが低い順",
+            "レベルが高い順"});
+            this.comboBoxPriorityAttackAssultEnemy.Location = new System.Drawing.Point(3, 490);
+            this.comboBoxPriorityAttackAssultEnemy.Name = "comboBoxPriorityAttackAssultEnemy";
+            this.comboBoxPriorityAttackAssultEnemy.Size = new System.Drawing.Size(234, 20);
+            this.comboBoxPriorityAttackAssultEnemy.TabIndex = 28;
+            this.comboBoxPriorityAttackAssultEnemy.SelectedIndexChanged += new System.EventHandler(this.ValueChanged);
+            // 
             // labelMiniCap
             // 
             this.labelMiniCap.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -673,7 +704,7 @@
             this.groupBox2.Controls.Add(this.tableLayoutPanel8);
             this.groupBox2.Location = new System.Drawing.Point(3, 43);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(192, 617);
+            this.groupBox2.Size = new System.Drawing.Size(192, 653);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "画面遷移";
@@ -726,8 +757,23 @@
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(186, 599);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(186, 635);
             this.tableLayoutPanel8.TabIndex = 10;
+            // 
+            // labelStateAdditional
+            // 
+            this.labelStateAdditional.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateAdditional.BackColor = System.Drawing.Color.White;
+            this.labelStateAdditional.Location = new System.Drawing.Point(93, 184);
+            this.labelStateAdditional.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateAdditional.Name = "labelStateAdditional";
+            this.labelStateAdditional.Size = new System.Drawing.Size(93, 46);
+            this.labelStateAdditional.TabIndex = 23;
+            this.labelStateAdditional.Text = "アディショナルクエスト突入画面";
+            this.labelStateAdditional.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateAdditional.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
             // 
             // labelStateHome
             // 
@@ -1057,6 +1103,21 @@
             this.labelStateAssaultOperationHome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelStateAssaultOperationHome.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
             // 
+            // labelStateRequest
+            // 
+            this.labelStateRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelStateRequest.BackColor = System.Drawing.Color.White;
+            this.labelStateRequest.Location = new System.Drawing.Point(0, 184);
+            this.labelStateRequest.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStateRequest.Name = "labelStateRequest";
+            this.labelStateRequest.Size = new System.Drawing.Size(93, 46);
+            this.labelStateRequest.TabIndex = 22;
+            this.labelStateRequest.Text = "応援依頼完了";
+            this.labelStateRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelStateRequest.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
+            // 
             // labelSpm
             // 
             this.labelSpm.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -1076,12 +1137,12 @@
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel6.Controls.Add(this.buttonStart, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.buttonStop, 2, 0);
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 607);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 643);
             this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(238, 56);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(252, 56);
             this.tableLayoutPanel6.TabIndex = 8;
             // 
             // tableLayoutPanel7
@@ -1099,7 +1160,7 @@
             this.tableLayoutPanel7.RowCount = 2;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(238, 663);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(252, 699);
             this.tableLayoutPanel7.TabIndex = 9;
             // 
             // tableLayoutPanel9
@@ -1110,14 +1171,14 @@
             this.tableLayoutPanel9.Controls.Add(this.groupBox2, 0, 2);
             this.tableLayoutPanel9.Controls.Add(this.labelSpm, 0, 1);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(238, 0);
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(252, 0);
             this.tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 3;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(198, 663);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(198, 699);
             this.tableLayoutPanel9.TabIndex = 10;
             // 
             // tableLayoutPanel10
@@ -1135,7 +1196,7 @@
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 1;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(436, 663);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(450, 699);
             this.tableLayoutPanel10.TabIndex = 11;
             // 
             // tableLayoutPanel11
@@ -1151,7 +1212,7 @@
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 1;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(436, 24);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(450, 24);
             this.tableLayoutPanel11.TabIndex = 12;
             // 
             // tableLayoutPanel12
@@ -1167,42 +1228,12 @@
             this.tableLayoutPanel12.RowCount = 2;
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(436, 687);
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(450, 723);
             this.tableLayoutPanel12.TabIndex = 13;
             // 
             // timerRecievePresent
             // 
             this.timerRecievePresent.Tick += new System.EventHandler(this.timerRecievePresent_Tick);
-            // 
-            // labelStateRequest
-            // 
-            this.labelStateRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateRequest.BackColor = System.Drawing.Color.White;
-            this.labelStateRequest.Location = new System.Drawing.Point(0, 184);
-            this.labelStateRequest.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateRequest.Name = "labelStateRequest";
-            this.labelStateRequest.Size = new System.Drawing.Size(93, 46);
-            this.labelStateRequest.TabIndex = 22;
-            this.labelStateRequest.Text = "応援依頼完了";
-            this.labelStateRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateRequest.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopLeftRight);
-            // 
-            // labelStateAdditional
-            // 
-            this.labelStateAdditional.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelStateAdditional.BackColor = System.Drawing.Color.White;
-            this.labelStateAdditional.Location = new System.Drawing.Point(93, 184);
-            this.labelStateAdditional.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStateAdditional.Name = "labelStateAdditional";
-            this.labelStateAdditional.Size = new System.Drawing.Size(93, 46);
-            this.labelStateAdditional.TabIndex = 23;
-            this.labelStateAdditional.Text = "アディショナルクエスト突入画面";
-            this.labelStateAdditional.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelStateAdditional.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintFrameTopRight);
             // 
             // TabControlRaid
             // 
@@ -1210,7 +1241,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel12);
             this.Name = "TabControlRaid";
-            this.Size = new System.Drawing.Size(436, 687);
+            this.Size = new System.Drawing.Size(450, 723);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -1314,5 +1345,7 @@
         private System.Windows.Forms.CheckBox checkBoxEnterAdditionalQuest;
         private System.Windows.Forms.Label labelStateRequest;
         private System.Windows.Forms.Label labelStateAdditional;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox comboBoxPriorityAttackAssultEnemy;
     }
 }

@@ -1500,5 +1500,17 @@ namespace gcard_macro.Properties {
                 this["GTacticsSearchForceRight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RaidPriorityAttackAssultEnemy {
+            get {
+                return ((int)(this["RaidPriorityAttackAssultEnemy"]));
+            }
+            set {
+                this["RaidPriorityAttackAssultEnemy"] = value;
+            }
+        }
     }
 }

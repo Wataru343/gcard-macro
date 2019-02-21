@@ -79,7 +79,7 @@ namespace gcard_macro
             obj = new object();
             RecieveCancelToken = false;
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.18";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.20";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
