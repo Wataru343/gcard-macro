@@ -21,7 +21,7 @@ namespace gcard_macro
             RunObj = new object();
             driver_ = driver;
             driver_.Navigate().GoToUrl(home_path);
-            home_path_ = home_path;
+            HomePath = home_path;
             CurrentState = State.Home;
             Exec = SearchState;
             WaitSearch = 0.0;
@@ -53,7 +53,7 @@ namespace gcard_macro
                     if (CurrentState != State.None)
                     {
                         Log?.Invoke(this, "稼働時間外");
-                        driver_.Navigate().GoToUrl(home_path_);
+                        driver_.Navigate().GoToUrl(HomePath);
                     }
                     CurrentState = State.None;
                     Wait(1);
@@ -165,13 +165,13 @@ namespace gcard_macro
                         }
                         else
                         {
-                            driver_.Navigate().GoToUrl(home_path_);
+                            driver_.Navigate().GoToUrl(HomePath);
 
                         }
                     }
                     catch
                     {
-                        driver_.Navigate().GoToUrl(home_path_);
+                        driver_.Navigate().GoToUrl(HomePath);
                     }
 
                     Attacked = false;
@@ -182,7 +182,7 @@ namespace gcard_macro
                     Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                     CurrentState = State.AccessBlock;
                     Wait(WaitAccessBlock);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //不正な画面遷移です
                 else if (IsError())
@@ -190,7 +190,7 @@ namespace gcard_macro
                     Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
                     CurrentState = State.Error;
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //イベント終了
                 else if (IsEventFinished())
@@ -206,7 +206,7 @@ namespace gcard_macro
                     Log?.Invoke(this, "警告：燃料不足");
                     CurrentState = State.Home;
                     Wait(10);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //サーバーエラー
                 else if (IsServerError())
@@ -215,21 +215,21 @@ namespace gcard_macro
                         Log?.Invoke(this, "サーバーエラー");
                     CurrentState = State.Unknown;
                     Wait(5);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 else
                 {
                     Log?.Invoke(this, "ページ移動：不明な画面");
                     CurrentState = State.Unknown;
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
             }
             catch
             {
                 try
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 catch { }
             }
@@ -516,7 +516,7 @@ namespace gcard_macro
             Exec = SearchState;
             try
             {
-                driver_.Navigate().GoToUrl(home_path_);
+                driver_.Navigate().GoToUrl(HomePath);
             }
             catch { }
         }
@@ -644,7 +644,7 @@ namespace gcard_macro
                         StateChanged?.Invoke(this, State.AccessBlock);
                         Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                         Wait(WaitAccessBlock);
-                        driver_.Navigate().GoToUrl(home_path_);
+                        driver_.Navigate().GoToUrl(HomePath);
                         return;
                     }
 

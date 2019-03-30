@@ -41,30 +41,32 @@ namespace gcard_macro
             IsStart = false;
             buttonStop.Enabled = false;
 
-            textBoxURL.Text = Properties.Settings.Default.RaidURL;
-            checkBoxJoinAssault.Checked = Properties.Settings.Default.RaidJoinAssault;
-            checkBoxUseAssaultBE.Checked = Properties.Settings.Default.RaidUseAssaultBE;
-            checkBoxRequest.Checked = Properties.Settings.Default.RaidRequest;
-            textBoxBaseDamage.Text = Properties.Settings.Default.RaidBaseDamage.ToString();
-            textBoxEnemyCount.Text = Properties.Settings.Default.RaidEnemyCount.ToString();
-            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.RaidAttackMode;
-            comboBoxRecieve.SelectedIndex = Properties.Settings.Default.RaidReceiveCount;
-            checkBoxOnlySearch.Checked = Properties.Settings.Default.RaidOnlySearch;
-            checkBoxNoSearch.Checked = Properties.Settings.Default.RaidNoSearch;
-            checkBoxRecieveReword.Checked = Properties.Settings.Default.RaidReceiveReword;
-            checkBoxRecievePresent.Checked = Properties.Settings.Default.RaidReceivePresent;
-            checkBoxAimMVP.Checked = Properties.Settings.Default.RaidAimMVP;
-            checkBoxOnlyAttackAssultBoss.Checked = Properties.Settings.Default.RaidOnlyAttackAssultBoss;
-            checkBoxOnlyAttackAssultEnemy.Checked = Properties.Settings.Default.RaidOnlyAttackAssultEnemy;
-            textBoxWaitRecieveAssult.Text = Properties.Settings.Default.RaidWaitRecieveAssult.ToString();
-            textBoxWaitAtackBattleShip.Text = Properties.Settings.Default.RaidWaitAtackBattleShip.ToString();
-            checkBoxEnterAdditionalQuest.Checked = Properties.Settings.Default.RaidEnterAdditionalQuest;
-            comboBoxPriorityAttackAssultEnemy.SelectedIndex = Properties.Settings.Default.RaidPriorityAttackAssultEnemy;
+            Setting.Raid.Load();
+
+            textBoxURL.Text = Setting.Raid.Url;
+            checkBoxJoinAssault.Checked = Setting.Raid.JoinAssault;
+            checkBoxUseAssaultBE.Checked = Setting.Raid.UseAssaultBE;
+            checkBoxRequest.Checked = Setting.Raid.Request;
+            textBoxBaseDamage.Text = Setting.Raid.BaseDamage.ToString();
+            textBoxEnemyCount.Text = Setting.Raid.EnemyCount.ToString();
+            comboBoxAttackMode.SelectedIndex = Setting.Raid.AttackMode;
+            comboBoxRecieve.SelectedIndex = Setting.Raid.ReceiveCount;
+            checkBoxOnlySearch.Checked = Setting.Raid.OnlySearch;
+            checkBoxNoSearch.Checked = Setting.Raid.NoSearch;
+            checkBoxRecieveReword.Checked = Setting.Raid.ReceiveReword;
+            checkBoxRecievePresent.Checked = Setting.Raid.ReceivePresent;
+            checkBoxAimMVP.Checked = Setting.Raid.AimMVP;
+            checkBoxOnlyAttackAssultBoss.Checked = Setting.Raid.OnlyAttackAssultBoss;
+            checkBoxOnlyAttackAssultEnemy.Checked = Setting.Raid.OnlyAttackAssultEnemy;
+            textBoxWaitRecieveAssult.Text = Setting.Raid.WaitRecieveAssult.ToString();
+            textBoxWaitAtackBattleShip.Text = Setting.Raid.WaitAtackBattleShip.ToString();
+            checkBoxEnterAdditionalQuest.Checked = Setting.Raid.EnterAdditionalQuest;
+            comboBoxPriorityAttackAssultEnemy.SelectedIndex = Setting.Raid.PriorityAttackAssultEnemy;
 
             try
             {
-                dateTimePickerTimeStart.Value = Properties.Settings.Default.RaidTimeStart;
-                dateTimePickerTimeEnd.Value = Properties.Settings.Default.RaidTimeEnd;
+                dateTimePickerTimeStart.Value = Setting.Raid.TimeStart;
+                dateTimePickerTimeEnd.Value = Setting.Raid.TimeEnd;
             }
             catch
             {
@@ -118,36 +120,8 @@ namespace gcard_macro
 
             if (Webdriver.IsOoen())
             {
-                Raid = new Raid(Webdriver.Instance, textBoxURL.Text)
-                {
-                    WaitSearch = WaitSearch,
-                    WaitBattle = WaitBattle,
-                    WaitAttack = WaitAttack,
-                    WaitReceive = WaitReceive,
-                    WaitAccessBlock = WaitAccessBlock,
-                    WaitMisc = WaitMisc,
-                    JoinAssault = checkBoxJoinAssault.Checked,
-                    UseAssaultBE = checkBoxUseAssaultBE.Checked,
-                    Request = checkBoxRequest.Checked,
-                    BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),
-                    EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text),
-                    Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
-                    ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
-                    OnlySearch = checkBoxOnlySearch.Checked,
-                    NoSearch = checkBoxNoSearch.Checked,
-                    ReceiveReword = checkBoxRecieveReword.Checked,
-                    ReceivePresent = checkBoxRecievePresent.Checked,
-                    AimMVP = checkBoxAimMVP.Checked,
-                    OnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked,
-                    OnlyAttackAssultEnemy = checkBoxOnlyAttackAssultEnemy.Checked,
-                    WaitRecieveAssult = Utils.ToDouble(textBoxWaitRecieveAssult.Text),
-                    WaitAtackBattleShip = Utils.ToDouble(textBoxWaitAtackBattleShip.Text),
-                    StartTime = dateTimePickerTimeStart.Value,
-                    EndTime = dateTimePickerTimeEnd.Value,
-                    SampleCount = OptimizedWaitEnemyCount,
-                    EnterAdditionalQuest = checkBoxEnterAdditionalQuest.Checked,
-                    PriorityAttackAssultEnemy = (Raid.AttackPriority)comboBoxPriorityAttackAssultEnemy.SelectedIndex
-                };
+                SetSetting();
+                Raid = EventManager.CreateRaid(Webdriver.Instance);
 
                 Raid.StateChanged += StateChanged;
                 Raid.MinicapChanged += MiniCapChanged;
@@ -217,28 +191,33 @@ namespace gcard_macro
 
         public void SaveSetting()
         {
-            Properties.Settings.Default.RaidURL = textBoxURL.Text;
-            Properties.Settings.Default.RaidJoinAssault = checkBoxJoinAssault.Checked;
-            Properties.Settings.Default.RaidUseAssaultBE = checkBoxUseAssaultBE.Checked;
-            Properties.Settings.Default.RaidRequest = checkBoxRequest.Checked;
-            Properties.Settings.Default.RaidBaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
-            Properties.Settings.Default.RaidEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
-            Properties.Settings.Default.RaidAttackMode = comboBoxAttackMode.SelectedIndex;
-            Properties.Settings.Default.RaidReceiveCount = comboBoxRecieve.SelectedIndex;
-            Properties.Settings.Default.RaidOnlySearch = checkBoxOnlySearch.Checked;
-            Properties.Settings.Default.RaidNoSearch = checkBoxNoSearch.Checked;
-            Properties.Settings.Default.RaidReceiveReword = checkBoxRecieveReword.Checked;
-            Properties.Settings.Default.RaidReceivePresent = checkBoxRecievePresent.Checked;
-            Properties.Settings.Default.RaidAimMVP = checkBoxAimMVP.Checked;
-            Properties.Settings.Default.RaidOnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked;
-            Properties.Settings.Default.RaidOnlyAttackAssultEnemy = checkBoxOnlyAttackAssultEnemy.Checked;
-            Properties.Settings.Default.RaidWaitRecieveAssult = Utils.ToDouble(textBoxWaitRecieveAssult.Text);
-            Properties.Settings.Default.RaidWaitAtackBattleShip = Utils.ToDouble(textBoxWaitAtackBattleShip.Text);
-            Properties.Settings.Default.RaidTimeStart = dateTimePickerTimeStart.Value;
-            Properties.Settings.Default.RaidTimeEnd = dateTimePickerTimeEnd.Value;
-            Properties.Settings.Default.RaidEnterAdditionalQuest = checkBoxEnterAdditionalQuest.Checked;
-            Properties.Settings.Default.RaidPriorityAttackAssultEnemy = comboBoxPriorityAttackAssultEnemy.SelectedIndex;
-            Properties.Settings.Default.Save();
+            SetSetting();
+            Setting.Raid.Save();
+        }
+
+        private void SetSetting()
+        {
+            Setting.Raid.Url = textBoxURL.Text;
+            Setting.Raid.JoinAssault = checkBoxJoinAssault.Checked;
+            Setting.Raid.UseAssaultBE = checkBoxUseAssaultBE.Checked;
+            Setting.Raid.Request = checkBoxRequest.Checked;
+            Setting.Raid.BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
+            Setting.Raid.EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
+            Setting.Raid.AttackMode = comboBoxAttackMode.SelectedIndex;
+            Setting.Raid.ReceiveCount = comboBoxRecieve.SelectedIndex;
+            Setting.Raid.OnlySearch = checkBoxOnlySearch.Checked;
+            Setting.Raid.NoSearch = checkBoxNoSearch.Checked;
+            Setting.Raid.ReceiveReword = checkBoxRecieveReword.Checked;
+            Setting.Raid.ReceivePresent = checkBoxRecievePresent.Checked;
+            Setting.Raid.AimMVP = checkBoxAimMVP.Checked;
+            Setting.Raid.OnlyAttackAssultBoss = checkBoxOnlyAttackAssultBoss.Checked;
+            Setting.Raid.OnlyAttackAssultEnemy = checkBoxOnlyAttackAssultEnemy.Checked;
+            Setting.Raid.WaitRecieveAssult = Utils.ToDouble(textBoxWaitRecieveAssult.Text);
+            Setting.Raid.WaitAtackBattleShip = Utils.ToDouble(textBoxWaitAtackBattleShip.Text);
+            Setting.Raid.TimeStart = dateTimePickerTimeStart.Value;
+            Setting.Raid.TimeEnd = dateTimePickerTimeEnd.Value;
+            Setting.Raid.EnterAdditionalQuest = checkBoxEnterAdditionalQuest.Checked;
+            Setting.Raid.PriorityAttackAssultEnemy = comboBoxPriorityAttackAssultEnemy.SelectedIndex;
         }
 
         private void textBoxBaseDamage_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);

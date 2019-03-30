@@ -90,19 +90,8 @@ namespace gcard_macro
 
             if (Webdriver.IsOoen())
             {
-                ShootingRange = new ShootingRange(Webdriver.Instance, textBoxURL.Text)
-                {
-                    WaitSearch = WaitSearch,
-                    WaitBattle = WaitBattle,
-                    WaitAttack = WaitAttack,
-                    WaitReceive = WaitReceive,
-                    WaitAccessBlock = WaitAccessBlock,
-                    WaitMisc = WaitMisc,
-                    ThresholdFocusShot = Utils.ToUInt(textBoxThresholdFocusShot.Text),
-                    UseFocusShotDuringFever = checkBoxUseFocusShotDuringFever.Checked,
-                    UseFeverTip = checkBoxUseFeverTip.Checked,
-                    AutoStop = checkBoxAutoStop.Checked
-                };
+                SetSetting();
+                ShootingRange = EventManager.CreateShootingRange(Webdriver.Instance);
 
                 ShootingRange.Log += OnLog;
                 ShootingRange.AutoStopped += OnAutoStop;
@@ -168,12 +157,17 @@ namespace gcard_macro
 
         public void SaveSetting()
         {
-            Properties.Settings.Default.ShootingRangeURL = textBoxURL.Text;
-            Properties.Settings.Default.ShootingRangeThresholdFocusShot = Utils.ToUInt(textBoxThresholdFocusShot.Text);
-            Properties.Settings.Default.ShootingRangeUseFocusShotDuringFever = checkBoxUseFocusShotDuringFever.Checked;
-            Properties.Settings.Default.ShootingRangeUseFeverTip = checkBoxUseFeverTip.Checked;
-            Properties.Settings.Default.ShootingRangeAutoStop = checkBoxAutoStop.Checked;
+            SetSetting();
             Properties.Settings.Default.Save();
+        }
+
+        private void SetSetting()
+        {
+            Setting.ShootingRange.Url = textBoxURL.Text;
+            Setting.ShootingRange.ThresholdFocusShot = Utils.ToUInt(textBoxThresholdFocusShot.Text);
+            Setting.ShootingRange.UseFocusShotDuringFever = checkBoxUseFocusShotDuringFever.Checked;
+            Setting.ShootingRange.UseFeverTip = checkBoxUseFeverTip.Checked;
+            Setting.ShootingRange.AutoStop = checkBoxAutoStop.Checked;
         }
 
         private void textBoxThresholdFocusShot_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = Utils.ValidUlong(sender as TextBox, e);

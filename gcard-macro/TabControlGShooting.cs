@@ -41,21 +41,23 @@ namespace gcard_macro
             IsStart = false;
             buttonStop.Enabled = false;
 
-            textBoxURL.Text = Properties.Settings.Default.GShootingURL;
-            textBoxBaseDamage.Text = Properties.Settings.Default.GShootingBaseDamage.ToString();
-            textBoxEnemyCount.Text = Properties.Settings.Default.GShootingEnemyCount.ToString();
-            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.GShootingAttackMode;
-            comboBoxRecieve.SelectedIndex = Properties.Settings.Default.GShootingReceiveCount;
-            checkBoxRecieveReword.Checked = Properties.Settings.Default.GShootingReceiveReword;
-            checkBoxRecievePresent.Checked = Properties.Settings.Default.GShootingReceivePresent;
-            checkBoxOnlySearch.Checked = Properties.Settings.Default.GShootingOnlySearch;
-            checkBoxNoSearch.Checked = Properties.Settings.Default.GShootingNoSearch;
-            checkBoxRequest.Checked = Properties.Settings.Default.GShootingRequest;
+            Setting.GShooting.Load();
+
+            textBoxURL.Text = Setting.GShooting.Url;
+            textBoxBaseDamage.Text = Setting.GShooting.BaseDamage.ToString();
+            textBoxEnemyCount.Text = Setting.GShooting.EnemyCount.ToString();
+            comboBoxAttackMode.SelectedIndex = Setting.GShooting.AttackMode;
+            comboBoxRecieve.SelectedIndex = Setting.GShooting.ReceiveCount;
+            checkBoxRecieveReword.Checked = Setting.GShooting.ReceiveReword;
+            checkBoxRecievePresent.Checked = Setting.GShooting.ReceivePresent;
+            checkBoxOnlySearch.Checked = Setting.GShooting.OnlySearch;
+            checkBoxNoSearch.Checked = Setting.GShooting.NoSearch;
+            checkBoxRequest.Checked = Setting.GShooting.Request;
 
             try
             {
-                dateTimePickerTimeStart.Value = Properties.Settings.Default.GShootingTimeStart;
-                dateTimePickerTimeEnd.Value = Properties.Settings.Default.GShootingTimeEnd;
+                dateTimePickerTimeStart.Value = Setting.GShooting.TimeStart;
+                dateTimePickerTimeEnd.Value = Setting.GShooting.TimeEnd;
             }
             catch
             {
@@ -108,27 +110,8 @@ namespace gcard_macro
 
             if (Webdriver.IsOoen())
             {
-                GShooting = new GShooting(Webdriver.Instance, textBoxURL.Text)
-                {
-                    WaitSearch = WaitSearch,
-                    WaitBattle = WaitBattle,
-                    WaitAttack = WaitAttack,
-                    WaitReceive = WaitReceive,
-                    WaitAccessBlock = WaitAccessBlock,
-                    WaitMisc = WaitMisc,
-                    BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),
-                    EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text),
-                    Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
-                    ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
-                    ReceiveReword = checkBoxRecieveReword.Checked,
-                    ReceivePresent = checkBoxRecievePresent.Checked,
-                    OnlySearch = checkBoxOnlySearch.Checked,
-                    NoSearch = checkBoxNoSearch.Checked,
-                    Request = checkBoxRequest.Checked,
-                    StartTime = dateTimePickerTimeStart.Value,
-                    EndTime = dateTimePickerTimeEnd.Value,
-                    SampleCount = OptimizedWaitEnemyCount
-                };
+                SetSetting();
+                GShooting = EventManager.CreateGShooting(Webdriver.Instance);
 
                 GShooting.StateChanged += StateChanged;
                 GShooting.MinicapChanged += MiniCapChanged;
@@ -197,20 +180,25 @@ namespace gcard_macro
 
         public void SaveSetting()
         {
-            Properties.Settings.Default.GShootingURL = textBoxURL.Text;
-            Properties.Settings.Default.GShootingBaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
-            Properties.Settings.Default.GShootingEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
-            Properties.Settings.Default.GShootingAttackMode = comboBoxAttackMode.SelectedIndex;
-            Properties.Settings.Default.GShootingReceiveCount = comboBoxRecieve.SelectedIndex;
-            Properties.Settings.Default.GShootingReceiveReword = checkBoxRecieveReword.Checked;
-            Properties.Settings.Default.GShootingReceivePresent = checkBoxRecievePresent.Checked;
-            Properties.Settings.Default.GShootingOnlySearch = checkBoxOnlySearch.Checked;
-            Properties.Settings.Default.GShootingNoSearch = checkBoxNoSearch.Checked;
-            Properties.Settings.Default.GShootingNoSearch = checkBoxNoSearch.Checked;
-            Properties.Settings.Default.GShootingRequest = checkBoxRequest.Checked;
-            Properties.Settings.Default.GShootingTimeStart = dateTimePickerTimeStart.Value;
-            Properties.Settings.Default.GShootingTimeEnd = dateTimePickerTimeEnd.Value;
-            Properties.Settings.Default.Save();
+            SetSetting();
+            Setting.GShooting.Save();
+        }
+
+        private void SetSetting()
+        {
+            Setting.GShooting.Url = textBoxURL.Text;
+            Setting.GShooting.BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
+            Setting.GShooting.EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
+            Setting.GShooting.AttackMode = comboBoxAttackMode.SelectedIndex;
+            Setting.GShooting.ReceiveCount = comboBoxRecieve.SelectedIndex;
+            Setting.GShooting.ReceiveReword = checkBoxRecieveReword.Checked;
+            Setting.GShooting.ReceivePresent = checkBoxRecievePresent.Checked;
+            Setting.GShooting.OnlySearch = checkBoxOnlySearch.Checked;
+            Setting.GShooting.NoSearch = checkBoxNoSearch.Checked;
+            Setting.GShooting.NoSearch = checkBoxNoSearch.Checked;
+            Setting.GShooting.Request = checkBoxRequest.Checked;
+            Setting.GShooting.TimeStart = dateTimePickerTimeStart.Value;
+            Setting.GShooting.TimeEnd = dateTimePickerTimeEnd.Value;
         }
 
 

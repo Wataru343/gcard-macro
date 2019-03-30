@@ -15,7 +15,7 @@ namespace gcard_macro
             RunObj = new object();
             driver_ = driver;
             driver_.Navigate().GoToUrl(home_path);
-            home_path_ = home_path;
+            HomePath = home_path;
             Exec = SearchState;
         }
 
@@ -39,7 +39,7 @@ namespace gcard_macro
                 else if (IsError())
                 {
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //サーバーエラー
                 else if (IsServerError())
@@ -49,7 +49,7 @@ namespace gcard_macro
                 else
                 {
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
             }
             catch { }
@@ -59,7 +59,7 @@ namespace gcard_macro
         /// ホーム画面判定
         /// </summary>
         /// <returns></returns>
-        override protected bool IsHome() => driver_.Url.IndexOf(home_path_) >= 0;
+        override protected bool IsHome() => driver_.Url.IndexOf(HomePath) >= 0;
 
 
         /// <summary>

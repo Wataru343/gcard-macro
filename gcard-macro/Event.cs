@@ -25,7 +25,7 @@ namespace gcard_macro
         /// <summary>
         /// イベントのホームのパス
         /// </summary>
-        virtual protected string home_path_ { get; set; }
+        virtual public string HomePath { get; set; }
 
         /// <summary>
         /// 敵一覧画面のパス
@@ -274,7 +274,7 @@ namespace gcard_macro
         public Event(IWebDriver driver, string home_path)
         {
             driver_ = driver;
-            home_path_ = home_path;
+            HomePath = home_path;
             enemy_list_path_ = "";
             CurrentState = State.None;
             RunObj = new object();
@@ -333,7 +333,7 @@ namespace gcard_macro
         /// </summary>
         virtual protected void SeleniumThread()
         {
-            driver_.Navigate().GoToUrl(home_path_);
+            driver_.Navigate().GoToUrl(HomePath);
             while (true)
             {
                 System.Threading.Thread.Sleep(1);
@@ -368,7 +368,7 @@ namespace gcard_macro
         /// ホーム画面判定
         /// </summary>
         /// <returns></returns>
-        virtual protected bool IsHome() => driver_.Url == home_path_;
+        virtual protected bool IsHome() => driver_.Url == HomePath;
 
         /// <summary>
         /// 敵一覧画面判定
@@ -501,7 +501,7 @@ namespace gcard_macro
                 if (swfUrl.IndexOf("gcard_mission_effect") > 0)
                 {
                     SearchEnemy(driver_.Url);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //カードゲットチャンス
                 else if (swfUrl.IndexOf("lucky_effect") >= 0)
@@ -515,7 +515,7 @@ namespace gcard_macro
                     string id = new string(swf.Substring(swf.LastIndexOf("id") + 7, 9).Where(c => char.IsNumber(c)).ToArray());
                     string sk = new string(swf.Substring(swf.IndexOf("sk") + 7, 8).Where(c => char.IsNumber(c)).ToArray());
 
-                    string resultURL = home_path_ + @"_raid_boss" +
+                    string resultURL = HomePath + @"_raid_boss" +
                         "?progress=" + progress +
                         "&id=" + id +
                         "&sk=" + sk;
@@ -529,7 +529,7 @@ namespace gcard_macro
                         case Raid r:
                             {
                                 string sk = new string(swf.Substring(swf.LastIndexOf("sk") + 7, 8).Where(c => char.IsNumber(c)).ToArray());
-                                string resultURL = home_path_ + @"_raid_boss_receive_result" +
+                                string resultURL = HomePath + @"_raid_boss_receive_result" +
                                     "?sk=" + sk;
                                 driver_.Navigate().GoToUrl(resultURL);
                                 break;
@@ -541,7 +541,7 @@ namespace gcard_macro
                                 string r_boss_eids = FilterNumComma(swf.Substring(swf.LastIndexOf("r_boss_eids") + 16));
                                 string s_boss_eids = new string(swf.Substring(swf.LastIndexOf("s_boss_eids") + 16, 4).Where(c => char.IsNumber(c)).ToArray());
 
-                                string resultURL = home_path_ + @"_raid_boss_receive_multi_result" +
+                                string resultURL = HomePath + @"_raid_boss_receive_multi_result" +
                                     "?p_q_ss=" + p_q_ss +
                                     "&c_q_ids=" + c_q_ids +
                                     "&r_boss_eids=" + r_boss_eids +
@@ -549,8 +549,8 @@ namespace gcard_macro
                                 driver_.Navigate().GoToUrl(resultURL);
                                 break;
                             }
-                        case Promotion p: driver_.Navigate().GoToUrl(home_path_); break;
-                        case GShooting s: driver_.Navigate().GoToUrl(home_path_); break;
+                        case Promotion p: driver_.Navigate().GoToUrl(HomePath); break;
+                        case GShooting s: driver_.Navigate().GoToUrl(HomePath); break;
                         case GTactics t:
                             {
                                 //http://gcc.sp.mbga.jp/_gcard_event310_raid_boss_receive_multi_result?l_boss_eids=&p_q_ss=1&c_q_ids=3&r_boss_eids=1106723%2C1108205%2C1108461%2C1108716%2C1108974
@@ -559,7 +559,7 @@ namespace gcard_macro
                                 string c_q_ids = new string(swf.Substring(swf.IndexOf("c_q_ids", 16 * 3000) + 12, 3).Where(c => char.IsNumber(c)).ToArray());
                                 string r_boss_eids = FilterNumComma(swf.Substring(swf.IndexOf("r_boss_eids") + 16));
 
-                                string resultURL = home_path_ + @"_raid_boss_receive_multi_result" +
+                                string resultURL = HomePath + @"_raid_boss_receive_multi_result" +
                                     "?l_boss_eids=" + l_boss_eids +
                                     "&p_q_ss=" + p_q_ss +
                                     "&c_q_ids=" + c_q_ids +
@@ -567,7 +567,7 @@ namespace gcard_macro
                                 driver_.Navigate().GoToUrl(resultURL);
                                 break;
                             }
-                        case ShootingRange t: driver_.Navigate().GoToUrl(home_path_); break;
+                        case ShootingRange t: driver_.Navigate().GoToUrl(HomePath); break;
                     }
 
                 }
@@ -588,7 +588,7 @@ namespace gcard_macro
                     string can_r = new string(swf.Substring(swf.IndexOf("can_r") + 10, 2).Where(c => char.IsNumber(c)).ToArray());
                     string g_point = new string(swf.Substring(swf.IndexOf("g_point", 8000) + 12, 10).Where(c => char.IsNumber(c)).ToArray());
 
-                    string resultURL = home_path_ + @"_raid_boss_receive_multi_result" +
+                    string resultURL = HomePath + @"_raid_boss_receive_multi_result" +
                         "?a_point=" + a_point +
                         "&b_point=" + b_point +
                         "&boss_eids=" + boss_eids +
@@ -644,18 +644,18 @@ namespace gcard_macro
                 //中隊メンバー結成演出(G-Tactics)
                 else if (swfUrl.IndexOf("team_formation_effect") >= 0)
                 {
-                    driver_.Navigate().GoToUrl(home_path_ + "_group_members");
+                    driver_.Navigate().GoToUrl(HomePath + "_group_members");
                 }
                 //部隊クエスト終了(G-Tactics)
                 else if (swfUrl.IndexOf("group_quest_result_effect") >= 0)
                 {
                     string id = swfUrl.Substring(swfUrl.IndexOf("id=") + 3);
-                    driver_.Navigate().GoToUrl(home_path_ + "_group_quest_result?id=" + id);
+                    driver_.Navigate().GoToUrl(HomePath + "_group_quest_result?id=" + id);
                 }
                 //ラウンドリザルト(G-Tactics)
                 else if (swfUrl.IndexOf("group_result_effect") >= 0)
                 {
-                    driver_.Navigate().GoToUrl(home_path_ + "_group_records");
+                    driver_.Navigate().GoToUrl(HomePath + "_group_records");
                 }
                 //戦略拠点制圧(G-Tactics)
                 else if (swfUrl.IndexOf("field_occupy_strategic_area_effect") >= 0)
@@ -667,7 +667,7 @@ namespace gcard_macro
                 {
                     string sk = new string(swf.Substring(swf.IndexOf("sk") + 7, 8).Where(c => char.IsNumber(c)).ToArray());
 
-                    string resultURL = home_path_ + @"_assault_operation_result?" +
+                    string resultURL = HomePath + @"_assault_operation_result?" +
                         "sk=" + sk;
                     driver_.Navigate().GoToUrl(resultURL);
                 }
@@ -679,7 +679,7 @@ namespace gcard_macro
                     string r_boss_eids = FilterNumComma(swf.Substring(swf.LastIndexOf("r_boss_eids") + 16));
                     string s_boss_eids = new string(swf.Substring(swf.LastIndexOf("s_boss_eids") + 16, 4).Where(c => char.IsNumber(c)).ToArray());
 
-                    string resultURL = home_path_ + @"_raid_boss_receive_multi_result" +
+                    string resultURL = HomePath + @"_raid_boss_receive_multi_result" +
                         "?p_q_ss=" + p_q_ss +
                         "&c_q_ids=" + c_q_ids +
                         "&r_boss_eids=" + r_boss_eids +
@@ -689,26 +689,26 @@ namespace gcard_macro
                 //Boost使用(部隊戦)
                 else if(swfUrl.IndexOf("exec_boost_effect") >= 0)
                 {
-                    driver_.Navigate().GoToUrl(home_path_ + "_boost_result");
+                    driver_.Navigate().GoToUrl(HomePath + "_boost_result");
                 }
                 //フィーバー継続(射撃場)
                 else if (swfUrl.IndexOf("shooting_fever_next_level_lot_effect") >= 0)
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //フィーバーチップ使用(射撃場)
                 else if (swfUrl.IndexOf("shooting_fever_chip_item_use_effect") >= 0)
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 else
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
             }
             catch
             {
-                driver_.Navigate().GoToUrl(home_path_);
+                driver_.Navigate().GoToUrl(HomePath);
             }
 
             Exec = SearchState;
@@ -1069,7 +1069,7 @@ namespace gcard_macro
             {
                 try
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 catch { }
             }
@@ -1098,7 +1098,7 @@ namespace gcard_macro
             }
             catch
             {
-                driver_.Navigate().GoToUrl(home_path_);
+                driver_.Navigate().GoToUrl(HomePath);
             }
 
             Exec = SearchState;
@@ -1138,7 +1138,7 @@ namespace gcard_macro
                 {
                     try
                     {
-                        driver_.Navigate().GoToUrl(home_path_);
+                        driver_.Navigate().GoToUrl(HomePath);
                     }
                     catch { }
                 }

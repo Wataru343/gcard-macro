@@ -37,48 +37,52 @@ namespace gcard_macro
         {
             InitializeComponent();
             timerWatchWebdriver.Start();
-
             GTactics = null;
             IsStart = false;
             buttonStop.Enabled = false;
 
-            textBoxURL.Text = Properties.Settings.Default.GTacticsURL;
-            textBoxBaseDamage.Text = Properties.Settings.Default.GTacticsBaseDamage.ToString();
-            textBoxEnemyCount.Text = Properties.Settings.Default.GTacticsEnemyCount.ToString();
-            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.GTacticsAttackMode;
-            comboBoxRecieve.SelectedIndex = Properties.Settings.Default.GTacticsReceiveCount;
-            checkBoxRecieveReword.Checked = Properties.Settings.Default.GTacticsReceiveReword;
-            checkBoxRecievePresent.Checked = Properties.Settings.Default.GTacticsReceivePresent;
-            checkBoxOnlySearch.Checked = Properties.Settings.Default.GTacticsOnlySearch;
-            comboBoxShieldA1.SelectedIndex = Properties.Settings.Default.GTacticsShieldA1;
-            comboBoxShieldA2.SelectedIndex = Properties.Settings.Default.GTacticsShieldA2;
-            comboBoxShieldA3.SelectedIndex = Properties.Settings.Default.GTacticsShieldA3;
-            comboBoxShieldB1.SelectedIndex = Properties.Settings.Default.GTacticsShieldB1;
-            comboBoxShieldB2.SelectedIndex = Properties.Settings.Default.GTacticsShieldB2;
-            comboBoxShieldB3.SelectedIndex = Properties.Settings.Default.GTacticsShieldB3;
-            comboBoxShieldC1.SelectedIndex = Properties.Settings.Default.GTacticsShieldC1;
-            comboBoxShieldC2.SelectedIndex = Properties.Settings.Default.GTacticsShieldC2;
-            comboBoxShieldC3.SelectedIndex = Properties.Settings.Default.GTacticsShieldC3;
-            comboBoxStrategicArea.SelectedIndex = Properties.Settings.Default.GTacticsStrategicArea;
-            checkBoxUseForce.Checked = Properties.Settings.Default.GTacticsUseForce;
-            checkBoxForceCharge.Checked = Properties.Settings.Default.GTacticsForceCharge;
-            comboBoxForcePattern.SelectedIndex = Properties.Settings.Default.GTacticsForcePattern;
-            comboBoxPriority.SelectedIndex = Properties.Settings.Default.GTacticsPriority;
-            textBoxPointDiff.Text = Properties.Settings.Default.GTacticsPointDiff.ToString();
-            checkBoxStandby.Checked = Properties.Settings.Default.GTacticsStandby;
-            textBoxWaitForce.Text = Properties.Settings.Default.GTacticsWaitForce.ToString();
-            checkBoxEnableRightArea.Checked = Properties.Settings.Default.GTacticsEnableRightArea;
-            checkBoxEnableCenterArea.Checked = Properties.Settings.Default.GTacticsEnableCenterArea;
-            checkBoxEnableLeftArea.Checked = Properties.Settings.Default.GTacticsEnableLeftArea;
-            textBoxSearchForce.Text = Properties.Settings.Default.GTacticsSearchForce.ToString();
-            checkBoxSearchForceLeft.Checked = Properties.Settings.Default.GTacticsSearchForceLeft;
-            checkBoxSearchForceCenter.Checked = Properties.Settings.Default.GTacticsSearchForceCenter;
-            checkBoxSearchForceLRight.Checked = Properties.Settings.Default.GTacticsSearchForceRight;
+            Setting.GTactics.Load();
+
+            textBoxURL.Text = Setting.GTactics.Url;
+            textBoxBaseDamage.Text = Setting.GTactics.BaseDamage.ToString();
+            textBoxEnemyCount.Text = Setting.GTactics.EnemyCount.ToString();
+            comboBoxAttackMode.SelectedIndex = Setting.GTactics.AttackMode;
+            comboBoxRecieve.SelectedIndex = Setting.GTactics.ReceiveCount;
+            checkBoxRecieveReword.Checked = Setting.GTactics.ReceiveReword;
+            checkBoxRecievePresent.Checked = Setting.GTactics.ReceivePresent;
+            checkBoxOnlySearch.Checked = Setting.GTactics.OnlySearch;
+            checkBoxNoSearch.Checked = Setting.GTactics.NoSearch;
+            comboBoxShieldA1.SelectedIndex = Setting.GTactics.ShieldA1;
+            comboBoxShieldA2.SelectedIndex = Setting.GTactics.ShieldA2;
+            comboBoxShieldA3.SelectedIndex = Setting.GTactics.ShieldA3;
+            comboBoxShieldB1.SelectedIndex = Setting.GTactics.ShieldB1;
+            comboBoxShieldB2.SelectedIndex = Setting.GTactics.ShieldB2;
+            comboBoxShieldB3.SelectedIndex = Setting.GTactics.ShieldB3;
+            comboBoxShieldC1.SelectedIndex = Setting.GTactics.ShieldC1;
+            comboBoxShieldC2.SelectedIndex = Setting.GTactics.ShieldC2;
+            comboBoxShieldC3.SelectedIndex = Setting.GTactics.ShieldC3;
+            comboBoxStrategicArea.SelectedIndex = Setting.GTactics.StrategicArea;
+            checkBoxUseForce.Checked = Setting.GTactics.UseForce;
+            checkBoxForceCharge.Checked = Setting.GTactics.ForceCharge;
+            comboBoxForcePattern.SelectedIndex = Setting.GTactics.ForcePattern;
+            comboBoxPriority.SelectedIndex = Setting.GTactics.Priority;
+            textBoxPointDiff.Text = Setting.GTactics.PointDiff.ToString();
+            checkBoxStandby.Checked = Setting.GTactics.Standby;
+            textBoxWaitForce.Text = Setting.GTactics.WaitForce.ToString();
+            checkBoxEnableRightArea.Checked = Setting.GTactics.EnableRightArea;
+            checkBoxEnableCenterArea.Checked = Setting.GTactics.EnableCenterArea;
+            checkBoxEnableLeftArea.Checked = Setting.GTactics.EnableLeftArea;
+            checkBoxEnableStrategyArea.Checked = Setting.GTactics.EnableStrategicArea;
+            textBoxSearchForce.Text = Setting.GTactics.SearchForce.ToString();
+            checkBoxSearchForceLeft.Checked = Setting.GTactics.SearchForceLeft;
+            checkBoxSearchForceCenter.Checked = Setting.GTactics.SearchForceCenter;
+            checkBoxSearchForceLRight.Checked = Setting.GTactics.SearchForceRight;
+
 
             try
             {
-                dateTimePickerTimeStart.Value = Properties.Settings.Default.GTacticsTimeStart;
-                dateTimePickerTimeEnd.Value = Properties.Settings.Default.GTacticsTimeEnd;
+                dateTimePickerTimeStart.Value = Setting.GTactics.TimeStart;
+                dateTimePickerTimeEnd.Value = Setting.GTactics.TimeEnd;
             }
             catch
             {
@@ -138,52 +142,8 @@ namespace gcard_macro
 
             if (Webdriver.IsOoen())
             {
-                GTactics = new GTactics(Webdriver.Instance, textBoxURL.Text)
-                {
-                    WaitSearch = WaitSearch,
-                    WaitBattle = WaitBattle,
-                    WaitAttack = WaitAttack,
-                    WaitReceive = WaitReceive,
-                    WaitAccessBlock = WaitAccessBlock,
-                    WaitMisc = WaitMisc,
-                    BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),
-                    EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text),
-                    Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
-                    ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
-                    ReceiveReword = checkBoxRecieveReword.Checked,
-                    ReceivePresent = checkBoxRecievePresent.Checked,
-                    OnlySearch = checkBoxOnlySearch.Checked,
-                    NoSearch = checkBoxNoSearch.Checked,
-                    Shield = new List<GTactics.Area>() {
-                        new GTactics.Area() { Level = comboBoxStrategicArea.SelectedIndex, Enable = checkBoxEnableStrategyArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldC3.SelectedIndex, Enable = checkBoxEnableRightArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldC2.SelectedIndex, Enable = checkBoxEnableCenterArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldC1.SelectedIndex, Enable = checkBoxEnableLeftArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldB3.SelectedIndex, Enable = checkBoxEnableRightArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldB2.SelectedIndex, Enable = checkBoxEnableCenterArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldB1.SelectedIndex, Enable = checkBoxEnableLeftArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldA3.SelectedIndex, Enable = checkBoxEnableRightArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldA2.SelectedIndex, Enable = checkBoxEnableCenterArea.Checked },
-                        new GTactics.Area() { Level = comboBoxShieldA1.SelectedIndex, Enable = checkBoxEnableLeftArea.Checked },
-                    },
-                    Priority = (GTactics.AreaPriority)comboBoxPriority.SelectedIndex,
-                    UseForce = checkBoxUseForce.Checked,
-                    ForceCharge = checkBoxForceCharge.Checked,
-                    StrategyAreaForcePattern = (GTactics.ForcePattern)comboBoxForcePattern.SelectedIndex,
-                    PointDiff = Utils.ToLong(textBoxPointDiff.Text),
-                    Standby = checkBoxStandby.Checked,
-                    WaitForce = Utils.ToDouble(textBoxWaitForce.Text),
-                    StartTime = dateTimePickerTimeStart.Value,
-                    EndTime = dateTimePickerTimeEnd.Value,
-                    SampleCount = OptimizedWaitEnemyCount,
-                    SearchForceEnemyCount = Utils.ToUlong(textBoxSearchForce.Text),
-                    SearchForcePlace = new List<bool>()
-                    {
-                        checkBoxSearchForceLeft.Checked,
-                        checkBoxSearchForceCenter.Checked,
-                        checkBoxSearchForceLRight.Checked,
-                    }
-                };
+                SetSetting();
+                GTactics = EventManager.CreateGTactics(Webdriver.Instance);
 
                 GTactics.StateChanged += StateChanged;
                 GTactics.MinicapChanged += MiniCapChanged;
@@ -254,41 +214,48 @@ namespace gcard_macro
 
         public void SaveSetting()
         {
-            Properties.Settings.Default.GTacticsURL = textBoxURL.Text;
-            Properties.Settings.Default.GTacticsBaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
-            Properties.Settings.Default.GTacticsEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
-            Properties.Settings.Default.GTacticsAttackMode = comboBoxAttackMode.SelectedIndex;
-            Properties.Settings.Default.GTacticsReceiveCount = comboBoxRecieve.SelectedIndex;
-            Properties.Settings.Default.GTacticsReceiveReword = checkBoxRecieveReword.Checked;
-            Properties.Settings.Default.GTacticsReceivePresent = checkBoxRecievePresent.Checked;
-            Properties.Settings.Default.GTacticsOnlySearch = checkBoxOnlySearch.Checked;
-            Properties.Settings.Default.GTacticsShieldA1 = comboBoxShieldA1.SelectedIndex;
-            Properties.Settings.Default.GTacticsShieldA2 = comboBoxShieldA2.SelectedIndex;
-            Properties.Settings.Default.GTacticsShieldA3 = comboBoxShieldA3.SelectedIndex;
-            Properties.Settings.Default.GTacticsShieldB1 = comboBoxShieldB1.SelectedIndex;
-            Properties.Settings.Default.GTacticsShieldB2 = comboBoxShieldB2.SelectedIndex;
-            Properties.Settings.Default.GTacticsShieldB3 = comboBoxShieldB3.SelectedIndex;
-            Properties.Settings.Default.GTacticsShieldC1 = comboBoxShieldC1.SelectedIndex;
-            Properties.Settings.Default.GTacticsShieldC2 = comboBoxShieldC2.SelectedIndex;
-            Properties.Settings.Default.GTacticsShieldC3 = comboBoxShieldC3.SelectedIndex;
-            Properties.Settings.Default.GTacticsStrategicArea = comboBoxStrategicArea.SelectedIndex;
-            Properties.Settings.Default.GTacticsPriority = comboBoxPriority.SelectedIndex;
-            Properties.Settings.Default.GTacticsUseForce = checkBoxUseForce.Checked;
-            Properties.Settings.Default.GTacticsForceCharge = checkBoxForceCharge.Checked;
-            Properties.Settings.Default.GTacticsForcePattern = comboBoxForcePattern.SelectedIndex;
-            Properties.Settings.Default.GTacticsPointDiff = Utils.ToUlong(textBoxPointDiff.Text);
-            Properties.Settings.Default.GTacticsStandby = checkBoxStandby.Checked;
-            Properties.Settings.Default.GTacticsWaitForce = Utils.ToDouble(textBoxWaitForce.Text);
-            Properties.Settings.Default.GTacticsTimeStart = dateTimePickerTimeStart.Value;
-            Properties.Settings.Default.GTacticsTimeEnd = dateTimePickerTimeEnd.Value;
-            Properties.Settings.Default.GTacticsEnableRightArea = checkBoxEnableRightArea.Checked;
-            Properties.Settings.Default.GTacticsEnableCenterArea = checkBoxEnableCenterArea.Checked;
-            Properties.Settings.Default.GTacticsEnableLeftArea = checkBoxEnableLeftArea.Checked;
-            Properties.Settings.Default.GTacticsSearchForce = Utils.ToUlong(textBoxSearchForce.Text);
-            Properties.Settings.Default.GTacticsSearchForceLeft = checkBoxSearchForceLeft.Checked;
-            Properties.Settings.Default.GTacticsSearchForceCenter = checkBoxSearchForceCenter.Checked;
-            Properties.Settings.Default.GTacticsSearchForceRight = checkBoxSearchForceLRight.Checked;
-            Properties.Settings.Default.Save();
+            SetSetting();
+            Setting.GTactics.Save();
+        }
+
+        private void SetSetting()
+        {
+            Setting.GTactics.Url = textBoxURL.Text;
+            Setting.GTactics.BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
+            Setting.GTactics.EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
+            Setting.GTactics.AttackMode = comboBoxAttackMode.SelectedIndex;
+            Setting.GTactics.ReceiveCount = comboBoxRecieve.SelectedIndex;
+            Setting.GTactics.ReceiveReword = checkBoxRecieveReword.Checked;
+            Setting.GTactics.ReceivePresent = checkBoxRecievePresent.Checked;
+            Setting.GTactics.OnlySearch = checkBoxOnlySearch.Checked;
+            Setting.GTactics.NoSearch = checkBoxNoSearch.Checked;
+            Setting.GTactics.ShieldA1 = comboBoxShieldA1.SelectedIndex;
+            Setting.GTactics.ShieldA2 = comboBoxShieldA2.SelectedIndex;
+            Setting.GTactics.ShieldA3 = comboBoxShieldA3.SelectedIndex;
+            Setting.GTactics.ShieldB1 = comboBoxShieldB1.SelectedIndex;
+            Setting.GTactics.ShieldB2 = comboBoxShieldB2.SelectedIndex;
+            Setting.GTactics.ShieldB3 = comboBoxShieldB3.SelectedIndex;
+            Setting.GTactics.ShieldC1 = comboBoxShieldC1.SelectedIndex;
+            Setting.GTactics.ShieldC2 = comboBoxShieldC2.SelectedIndex;
+            Setting.GTactics.ShieldC3 = comboBoxShieldC3.SelectedIndex;
+            Setting.GTactics.StrategicArea = comboBoxStrategicArea.SelectedIndex;
+            Setting.GTactics.Priority = comboBoxPriority.SelectedIndex;
+            Setting.GTactics.UseForce = checkBoxUseForce.Checked;
+            Setting.GTactics.ForceCharge = checkBoxForceCharge.Checked;
+            Setting.GTactics.ForcePattern = comboBoxForcePattern.SelectedIndex;
+            Setting.GTactics.PointDiff = Utils.ToUlong(textBoxPointDiff.Text);
+            Setting.GTactics.Standby = checkBoxStandby.Checked;
+            Setting.GTactics.WaitForce = Utils.ToDouble(textBoxWaitForce.Text);
+            Setting.GTactics.TimeStart = dateTimePickerTimeStart.Value;
+            Setting.GTactics.TimeEnd = dateTimePickerTimeEnd.Value;
+            Setting.GTactics.EnableRightArea = checkBoxEnableRightArea.Checked;
+            Setting.GTactics.EnableCenterArea = checkBoxEnableCenterArea.Checked;
+            Setting.GTactics.EnableLeftArea = checkBoxEnableLeftArea.Checked;
+            Setting.GTactics.EnableStrategicArea = checkBoxEnableStrategyArea.Checked;
+            Setting.GTactics.SearchForce = Utils.ToUlong(textBoxSearchForce.Text);
+            Setting.GTactics.SearchForceLeft = checkBoxSearchForceLeft.Checked;
+            Setting.GTactics.SearchForceCenter = checkBoxSearchForceCenter.Checked;
+            Setting.GTactics.SearchForceRight = checkBoxSearchForceLRight.Checked;
         }
 
 

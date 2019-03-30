@@ -492,7 +492,6 @@
             this.checkBoxAutoRun.TabIndex = 5;
             this.checkBoxAutoRun.Text = "自動ログイン";
             this.checkBoxAutoRun.UseVisualStyleBackColor = true;
-            this.checkBoxAutoRun.CheckedChanged += new System.EventHandler(this.onSettingChanged);
             // 
             // groupBox2
             // 

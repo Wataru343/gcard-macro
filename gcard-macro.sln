@@ -9,17 +9,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyGenerator", "KeyGenerato
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Chrome_Debug_NoGUI|Any CPU = Chrome_Debug_NoGUI|Any CPU
 		Chrome_Debug|Any CPU = Chrome_Debug|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Chrome_Debug_NoGUI|Any CPU.ActiveCfg = Chrome_Debug_NoGUI|Any CPU
+		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Chrome_Debug_NoGUI|Any CPU.Build.0 = Chrome_Debug_NoGUI|Any CPU
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Chrome_Debug|Any CPU.ActiveCfg = Chrome_Debug|Any CPU
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Chrome_Debug|Any CPU.Build.0 = Chrome_Debug|Any CPU
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B09625-485A-4B23-8DA6-9C4F29EC1700}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Chrome_Debug_NoGUI|Any CPU.ActiveCfg = Chrome_Debug_NoGUI|Any CPU
+		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Chrome_Debug_NoGUI|Any CPU.Build.0 = Chrome_Debug_NoGUI|Any CPU
 		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Chrome_Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Chrome_Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B7EA10B-E4ED-4946-88AA-DE2B147B82C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

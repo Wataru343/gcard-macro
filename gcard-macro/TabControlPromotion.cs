@@ -40,15 +40,17 @@ namespace gcard_macro
             IsStart = false;
             buttonStop.Enabled = false;
 
-            textBoxURL.Text = Properties.Settings.Default.PromotionURL;
-            textBoxWatchRank.Text = Properties.Settings.Default.PromotionWatchRank.ToString();
-            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.PromotionAttackMode;
-            textBoxSallyCount.Text = Properties.Settings.Default.PromotionSallyCount.ToString();
+            Setting.Promotion.Load();
+
+            textBoxURL.Text = Setting.Promotion.Url;
+            textBoxWatchRank.Text = Setting.Promotion.WatchRank.ToString();
+            comboBoxAttackMode.SelectedIndex = Setting.Promotion.AttackMode;
+            textBoxSallyCount.Text = Setting.Promotion.SallyCount.ToString();
 
             try
             {
-                dateTimePickerTimeStart.Value = Properties.Settings.Default.PromotionTimeStart;
-                dateTimePickerTimeEnd.Value = Properties.Settings.Default.PromotionTimeEnd;
+                dateTimePickerTimeStart.Value = Setting.Promotion.TimeStart;
+                dateTimePickerTimeEnd.Value = Setting.Promotion.TimeEnd;
             }
             catch
             {
@@ -102,21 +104,8 @@ namespace gcard_macro
 
             if (Webdriver.IsOoen())
             {
-                Promotion = new Promotion(Webdriver.Instance, textBoxURL.Text)
-                {
-                    WaitSearch = WaitSearch,
-                    WaitBattle = WaitBattle,
-                    WaitAttack = WaitAttack,
-                    WaitReceive = WaitReceive,
-                    WaitAccessBlock = WaitAccessBlock,
-                    WaitMisc = WaitMisc,
-                    Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex + 3,
-                    WatchRank = Convert.ToInt32(textBoxWatchRank.Text),
-                    SallyCount = Convert.ToInt32(textBoxSallyCount.Text),
-                    SallyUnlimited = Convert.ToInt32(textBoxSallyCount.Text) == 0 ? true : false,
-                    StartTime = dateTimePickerTimeStart.Value,
-                    EndTime = dateTimePickerTimeEnd.Value
-                };
+                SetSetting();
+                Promotion = EventManager.CreatePromotion(Webdriver.Instance);
 
                 Promotion.StateChanged += StateChanged;
                 Promotion.MinicapChanged += MiniCapChanged;
@@ -185,13 +174,18 @@ namespace gcard_macro
 
         public void SaveSetting()
         {
-            Properties.Settings.Default.PromotionURL = textBoxURL.Text;
-            Properties.Settings.Default.PromotionWatchRank = Convert.ToInt32(textBoxWatchRank.Text);
-            Properties.Settings.Default.PromotionAttackMode = comboBoxAttackMode.SelectedIndex;
-            Properties.Settings.Default.PromotionSallyCount = Convert.ToInt32(textBoxSallyCount.Text);
-            Properties.Settings.Default.PromotionTimeStart = dateTimePickerTimeStart.Value;
-            Properties.Settings.Default.PromotionTimeEnd = dateTimePickerTimeEnd.Value;
-            Properties.Settings.Default.Save();
+            SetSetting();
+            Setting.Promotion.Save();
+        }
+
+        private void SetSetting()
+        {
+            Setting.Promotion.Url = textBoxURL.Text;
+            Setting.Promotion.WatchRank = Convert.ToInt32(textBoxWatchRank.Text);
+            Setting.Promotion.AttackMode = comboBoxAttackMode.SelectedIndex;
+            Setting.Promotion.SallyCount = Convert.ToInt32(textBoxSallyCount.Text);
+            Setting.Promotion.TimeStart = dateTimePickerTimeStart.Value;
+            Setting.Promotion.TimeEnd = dateTimePickerTimeEnd.Value;
         }
 
 

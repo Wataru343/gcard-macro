@@ -63,11 +63,6 @@
             this.checkBoxAttack10Normal = new System.Windows.Forms.CheckBox();
             this.checkBoxUseAttack10 = new System.Windows.Forms.CheckBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.checkBoxBE1RequiredRatio = new System.Windows.Forms.CheckBox();
-            this.checkBoxUseBE1 = new System.Windows.Forms.CheckBox();
-            this.checkBoxBE1Normal = new System.Windows.Forms.CheckBox();
-            this.checkBoxBE1Mira = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.checkBoxRecieveReword = new System.Windows.Forms.CheckBox();
             this.comboBoxRecieve = new System.Windows.Forms.ComboBox();
@@ -120,6 +115,11 @@
             this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
             this.timerRecievePresent = new System.Windows.Forms.Timer(this.components);
+            this.checkBoxBE1Mira = new System.Windows.Forms.CheckBox();
+            this.checkBoxBE1Normal = new System.Windows.Forms.CheckBox();
+            this.checkBoxUseBE1 = new System.Windows.Forms.CheckBox();
+            this.checkBoxBE1RequiredRatio = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
@@ -132,7 +132,6 @@
             this.groupBox6.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -143,6 +142,7 @@
             this.tableLayoutPanel14.SuspendLayout();
             this.tableLayoutPanel15.SuspendLayout();
             this.tableLayoutPanel16.SuspendLayout();
+            this.tableLayoutPanel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStart
@@ -476,8 +476,8 @@
             this.tableLayoutPanel6.Controls.Add(this.checkBoxAttack20RequiredRatio, 0, 4);
             this.tableLayoutPanel6.Controls.Add(this.checkBoxUseAttack20, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.checkBoxAttack20Boost, 0, 3);
-            this.tableLayoutPanel6.Controls.Add(this.checkBoxAttack20Mira, 0, 2);
             this.tableLayoutPanel6.Controls.Add(this.checkBoxAttack20Normal, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.checkBoxAttack20Mira, 0, 2);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 15);
             this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(0);
@@ -641,82 +641,6 @@
             this.groupBox7.TabIndex = 37;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "BEカプセルx1 20倍(紫)";
-            // 
-            // tableLayoutPanel8
-            // 
-            this.tableLayoutPanel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel8.ColumnCount = 1;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Controls.Add(this.checkBoxBE1RequiredRatio, 0, 3);
-            this.tableLayoutPanel8.Controls.Add(this.checkBoxUseBE1, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.checkBoxBE1Normal, 0, 1);
-            this.tableLayoutPanel8.Controls.Add(this.checkBoxBE1Mira, 0, 2);
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(6, 18);
-            this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 4;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(176, 92);
-            this.tableLayoutPanel8.TabIndex = 14;
-            // 
-            // checkBoxBE1RequiredRatio
-            // 
-            this.checkBoxBE1RequiredRatio.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxBE1RequiredRatio.AutoSize = true;
-            this.checkBoxBE1RequiredRatio.BackColor = System.Drawing.Color.Transparent;
-            this.checkBoxBE1RequiredRatio.Location = new System.Drawing.Point(3, 71);
-            this.checkBoxBE1RequiredRatio.Name = "checkBoxBE1RequiredRatio";
-            this.checkBoxBE1RequiredRatio.Size = new System.Drawing.Size(170, 16);
-            this.checkBoxBE1RequiredRatio.TabIndex = 41;
-            this.checkBoxBE1RequiredRatio.Text = "必要倍率が20倍以上の時のみ";
-            this.checkBoxBE1RequiredRatio.UseVisualStyleBackColor = false;
-            this.checkBoxBE1RequiredRatio.CheckedChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // checkBoxUseBE1
-            // 
-            this.checkBoxUseBE1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxUseBE1.AutoSize = true;
-            this.checkBoxUseBE1.BackColor = System.Drawing.Color.Transparent;
-            this.checkBoxUseBE1.Checked = true;
-            this.checkBoxUseBE1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxUseBE1.Location = new System.Drawing.Point(3, 3);
-            this.checkBoxUseBE1.Name = "checkBoxUseBE1";
-            this.checkBoxUseBE1.Size = new System.Drawing.Size(67, 16);
-            this.checkBoxUseBE1.TabIndex = 47;
-            this.checkBoxUseBE1.Text = "使用する";
-            this.checkBoxUseBE1.UseVisualStyleBackColor = false;
-            this.checkBoxUseBE1.CheckedChanged += new System.EventHandler(this.checkBoxUseBE1_CheckedChanged);
-            // 
-            // checkBoxBE1Normal
-            // 
-            this.checkBoxBE1Normal.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxBE1Normal.AutoSize = true;
-            this.checkBoxBE1Normal.BackColor = System.Drawing.Color.Transparent;
-            this.checkBoxBE1Normal.Location = new System.Drawing.Point(3, 25);
-            this.checkBoxBE1Normal.Name = "checkBoxBE1Normal";
-            this.checkBoxBE1Normal.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxBE1Normal.TabIndex = 46;
-            this.checkBoxBE1Normal.Text = "通常時";
-            this.checkBoxBE1Normal.UseVisualStyleBackColor = false;
-            this.checkBoxBE1Normal.CheckedChanged += new System.EventHandler(this.ValueChanged);
-            // 
-            // checkBoxBE1Mira
-            // 
-            this.checkBoxBE1Mira.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.checkBoxBE1Mira.AutoSize = true;
-            this.checkBoxBE1Mira.BackColor = System.Drawing.Color.Transparent;
-            this.checkBoxBE1Mira.Location = new System.Drawing.Point(3, 47);
-            this.checkBoxBE1Mira.Name = "checkBoxBE1Mira";
-            this.checkBoxBE1Mira.Size = new System.Drawing.Size(126, 16);
-            this.checkBoxBE1Mira.TabIndex = 48;
-            this.checkBoxBE1Mira.Text = "敵ミラージュコロイド時";
-            this.checkBoxBE1Mira.UseVisualStyleBackColor = false;
-            this.checkBoxBE1Mira.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // label5
             // 
@@ -1454,6 +1378,82 @@
             // 
             this.timerRecievePresent.Tick += new System.EventHandler(this.timerRecievePresent_Tick);
             // 
+            // checkBoxBE1Mira
+            // 
+            this.checkBoxBE1Mira.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxBE1Mira.AutoSize = true;
+            this.checkBoxBE1Mira.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxBE1Mira.Location = new System.Drawing.Point(3, 47);
+            this.checkBoxBE1Mira.Name = "checkBoxBE1Mira";
+            this.checkBoxBE1Mira.Size = new System.Drawing.Size(126, 16);
+            this.checkBoxBE1Mira.TabIndex = 48;
+            this.checkBoxBE1Mira.Text = "敵ミラージュコロイド時";
+            this.checkBoxBE1Mira.UseVisualStyleBackColor = false;
+            this.checkBoxBE1Mira.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // checkBoxBE1Normal
+            // 
+            this.checkBoxBE1Normal.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxBE1Normal.AutoSize = true;
+            this.checkBoxBE1Normal.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxBE1Normal.Location = new System.Drawing.Point(3, 25);
+            this.checkBoxBE1Normal.Name = "checkBoxBE1Normal";
+            this.checkBoxBE1Normal.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxBE1Normal.TabIndex = 46;
+            this.checkBoxBE1Normal.Text = "通常時";
+            this.checkBoxBE1Normal.UseVisualStyleBackColor = false;
+            this.checkBoxBE1Normal.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // checkBoxUseBE1
+            // 
+            this.checkBoxUseBE1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxUseBE1.AutoSize = true;
+            this.checkBoxUseBE1.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxUseBE1.Checked = true;
+            this.checkBoxUseBE1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxUseBE1.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxUseBE1.Name = "checkBoxUseBE1";
+            this.checkBoxUseBE1.Size = new System.Drawing.Size(67, 16);
+            this.checkBoxUseBE1.TabIndex = 47;
+            this.checkBoxUseBE1.Text = "使用する";
+            this.checkBoxUseBE1.UseVisualStyleBackColor = false;
+            this.checkBoxUseBE1.CheckedChanged += new System.EventHandler(this.checkBoxUseBE1_CheckedChanged);
+            // 
+            // checkBoxBE1RequiredRatio
+            // 
+            this.checkBoxBE1RequiredRatio.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBoxBE1RequiredRatio.AutoSize = true;
+            this.checkBoxBE1RequiredRatio.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxBE1RequiredRatio.Location = new System.Drawing.Point(3, 71);
+            this.checkBoxBE1RequiredRatio.Name = "checkBoxBE1RequiredRatio";
+            this.checkBoxBE1RequiredRatio.Size = new System.Drawing.Size(173, 16);
+            this.checkBoxBE1RequiredRatio.TabIndex = 41;
+            this.checkBoxBE1RequiredRatio.Text = "必要倍率が20倍以上の時のみ";
+            this.checkBoxBE1RequiredRatio.UseVisualStyleBackColor = false;
+            this.checkBoxBE1RequiredRatio.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // tableLayoutPanel8
+            // 
+            this.tableLayoutPanel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel8.ColumnCount = 1;
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxBE1RequiredRatio, 0, 3);
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxUseBE1, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxBE1Normal, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.checkBoxBE1Mira, 0, 2);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(6, 18);
+            this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            this.tableLayoutPanel8.RowCount = 4;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(190, 92);
+            this.tableLayoutPanel8.TabIndex = 14;
+            // 
             // TabControlGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1479,8 +1479,6 @@
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.groupBox7.ResumeLayout(false);
-            this.tableLayoutPanel8.ResumeLayout(false);
-            this.tableLayoutPanel8.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -1496,6 +1494,8 @@
             this.tableLayoutPanel15.PerformLayout();
             this.tableLayoutPanel16.ResumeLayout(false);
             this.tableLayoutPanel16.PerformLayout();
+            this.tableLayoutPanel8.ResumeLayout(false);
+            this.tableLayoutPanel8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1559,9 +1559,6 @@
         private System.Windows.Forms.CheckBox checkBoxCombo30Mira;
         private System.Windows.Forms.CheckBox checkBoxCombo30Normal;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckBox checkBoxBE1Mira;
-        private System.Windows.Forms.CheckBox checkBoxBE1Normal;
-        private System.Windows.Forms.CheckBox checkBoxUseBE1;
         private System.Windows.Forms.CheckBox checkBoxUseAttack20;
         private System.Windows.Forms.CheckBox checkBoxAttack20Normal;
         private System.Windows.Forms.CheckBox checkBoxAttack20Mira;
@@ -1575,7 +1572,6 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox checkBoxCombo30FirstAttack;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.CheckBox checkBoxBE1RequiredRatio;
         private System.Windows.Forms.CheckBox checkBoxAttack20RequiredRatio;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
@@ -1583,7 +1579,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
@@ -1593,5 +1588,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
         private System.Windows.Forms.Timer timerRecievePresent;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
+        private System.Windows.Forms.CheckBox checkBoxBE1RequiredRatio;
+        private System.Windows.Forms.CheckBox checkBoxUseBE1;
+        private System.Windows.Forms.CheckBox checkBoxBE1Normal;
+        private System.Windows.Forms.CheckBox checkBoxBE1Mira;
     }
 }

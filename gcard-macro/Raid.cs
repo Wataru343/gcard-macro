@@ -51,7 +51,7 @@ namespace gcard_macro
             RunObj = new object();
             driver_ = driver;
             driver_.Navigate().GoToUrl(home_path);
-            home_path_ = home_path;
+            HomePath = home_path;
             CurrentState = State.Home;
             Exec = SearchState;
             WaitSearch = 0.0;
@@ -120,7 +120,7 @@ namespace gcard_macro
                     if (CurrentState != State.None)
                     {
                         Log?.Invoke(this, "稼働時間外");
-                        driver_.Navigate().GoToUrl(home_path_);
+                        driver_.Navigate().GoToUrl(HomePath);
                     }
                     CurrentState = State.None;
                     Wait(1);
@@ -128,7 +128,7 @@ namespace gcard_macro
                 //強襲の報酬を発見したら
                 else if (FoundAssaultOperationsReword)
                 {
-                    driver_.Navigate().GoToUrl(home_path_ + "_assault_operation");
+                    driver_.Navigate().GoToUrl(HomePath + "_assault_operation");
                     Log?.Invoke(this, "ページ移動：強襲作戦参TOP画面");
                     CurrentState = State.AssaultOperationRequestSubmit;
                     Wait(WaitMisc);
@@ -137,7 +137,7 @@ namespace gcard_macro
                 //強襲作戦に参加していたら
                 else if (!AssaultOperations && FoundAssaultOperations)
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                     FoundAssaultOperations = false;
                     AssaultOperations = true;
                     IsAssaultBEEnded = false;
@@ -147,7 +147,7 @@ namespace gcard_macro
                 //終了済みの強襲作戦を発見したら
                 else if (FoundEndedAssaultOperations)
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                     FoundEndedAssaultOperations = false;
                 }
                 //アディショナルクエスト突入確認画面判定
@@ -325,7 +325,7 @@ namespace gcard_macro
                     AssaultOperationsRequest = false;
                     AssaultOperationsRequest2 = false;
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //カード入手
                 else if (IsGetCard())
@@ -374,7 +374,7 @@ namespace gcard_macro
                     Log?.Invoke(this, "ページ移動：強襲作戦未参加通知画面");
                     CurrentState = State.FightAlreadyFinished;
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //受信クエスト一覧
                 else if (IsRecievedQuestlist())
@@ -388,7 +388,7 @@ namespace gcard_macro
                     Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                     CurrentState = State.AccessBlock;
                     Wait(WaitAccessBlock);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //不正な画面遷移です
                 else if (IsError())
@@ -396,7 +396,7 @@ namespace gcard_macro
                     Log?.Invoke(this, "ページ移動：不正な画面遷移通知画面");
                     CurrentState = State.Error;
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //イベント終了
                 else if (IsEventFinished())
@@ -412,7 +412,7 @@ namespace gcard_macro
                     Log?.Invoke(this, "警告：燃料不足");
                     CurrentState = State.Home;
                     Wait(10);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 //サーバーエラー
                 else if (IsServerError())
@@ -421,21 +421,21 @@ namespace gcard_macro
                         Log?.Invoke(this, "サーバーエラー");
                     CurrentState = State.Unknown;
                     Wait(5);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 else
                 {
                     Log?.Invoke(this, "ページ移動：不明な画面");
                     CurrentState = State.Unknown;
                     Wait(WaitMisc);
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
             }
             catch
             {
                 try
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 catch { }
             }
@@ -456,14 +456,14 @@ namespace gcard_macro
                     {
                         System.Net.WebClient wc = GetWebClient();
                         wc.Encoding = Encoding.UTF8;
-                        string source = wc.DownloadString(home_path_ + "_assault_operation");
+                        string source = wc.DownloadString(HomePath + "_assault_operation");
 
                         FoundAssaultOperations = source.IndexOf("参加中の作戦へ戻る") > -1;
                         FoundAssaultOperationsReword = source.IndexOf("未受取報酬を受け取る") > -1;
 
                         wc = GetWebClient();
                         wc.Encoding = Encoding.UTF8;
-                        source = wc.DownloadString(home_path_);
+                        source = wc.DownloadString(HomePath);
                         FoundEndedAssaultOperations = source.IndexOf("結果を確認する") > -1;
                     }
                 }
@@ -492,7 +492,7 @@ namespace gcard_macro
         /// ホーム画面に参加中の強襲作戦が出ているかどうか判定
         /// </summary>
         /// <returns></returns>
-        private bool IsAssaultOperationInHome() => driver_.PageSource.Length > 1536 && ((driver_.Url == home_path_ && driver_.PageSource.IndexOf("参加中の作戦へ戻る", 1536) >= 0) || (driver_.Url == home_path_ && driver_.PageSource.IndexOf("依頼を確認する", 1536) >= 0));
+        private bool IsAssaultOperationInHome() => driver_.PageSource.Length > 1536 && ((driver_.Url == HomePath && driver_.PageSource.IndexOf("参加中の作戦へ戻る", 1536) >= 0) || (driver_.Url == HomePath && driver_.PageSource.IndexOf("依頼を確認する", 1536) >= 0));
 
         /// <summary>
         /// 戦闘画面に強襲作戦参加依頼が出ているかどうか判定
@@ -902,7 +902,7 @@ namespace gcard_macro
             Exec = SearchState;
             try
             {
-                driver_.Navigate().GoToUrl(home_path_);
+                driver_.Navigate().GoToUrl(HomePath);
             }
             catch { }
         }
@@ -1020,7 +1020,7 @@ namespace gcard_macro
             {
                 try
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 catch { }
             }
@@ -1149,7 +1149,7 @@ namespace gcard_macro
             {
                 try
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 catch { }
             }
@@ -1171,7 +1171,7 @@ namespace gcard_macro
             {
                 try
                 {
-                    driver_.Navigate().GoToUrl(home_path_);
+                    driver_.Navigate().GoToUrl(HomePath);
                 }
                 catch { }
             }
@@ -1467,7 +1467,7 @@ namespace gcard_macro
                         StateChanged?.Invoke(this, State.AccessBlock);
                         Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                         Wait(WaitAccessBlock);
-                        driver_.Navigate().GoToUrl(home_path_);
+                        driver_.Navigate().GoToUrl(HomePath);
                         return;
                     }
 
@@ -1655,7 +1655,7 @@ namespace gcard_macro
                         StateChanged?.Invoke(this, State.AccessBlock);
                         Log?.Invoke(this, "ページ移動：アクセス制限通知画面");
                         Wait(WaitAccessBlock);
-                        driver_.Navigate().GoToUrl(home_path_);
+                        driver_.Navigate().GoToUrl(HomePath);
                         return;
                     }
 

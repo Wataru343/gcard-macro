@@ -41,46 +41,48 @@ namespace gcard_macro
             IsStart = false;
             buttonStop.Enabled = false;
 
-            textBoxURL.Text = Properties.Settings.Default.GroupURL;
-            textBoxBaseDamage.Text = Properties.Settings.Default.GroupBaseDamage.ToString();
-            textBoxEnemyCount.Text = Properties.Settings.Default.GroupEnemyCount.ToString();
-            textBoxPointDiff.Text = Properties.Settings.Default.GroupPointDiff.ToString();
-            comboBoxAttackMode.SelectedIndex = Properties.Settings.Default.GroupAttackMode;
-            comboBoxRecieve.SelectedIndex = Properties.Settings.Default.GroupReceiveCount;
-            checkBoxUseBoost.Checked = Properties.Settings.Default.GroupUseBoost;
-            checkBoxFirstAttackBoss.Checked = Properties.Settings.Default.GroupFirstAttackBoss;
-            checkBoxRecieveReword.Checked = Properties.Settings.Default.GroupReceiveReword;
-            checkBoxRecievePresent.Checked = Properties.Settings.Default.GroupReceivePresent;
-            checkBoxAutojobLevelUp.Checked = Properties.Settings.Default.GroupAutoJobLevelUp;
-            checkBoxOnlySearch.Checked = Properties.Settings.Default.GroupOnlySearch;
-            checkBoxNoSearch.Checked = Properties.Settings.Default.GroupNoSearch;
-            comboBoxFinalJob.SelectedIndex = Properties.Settings.Default.GroupFinalJob;
+            Setting.Group.Load();
 
-            checkBoxUseCombo30.Checked = Properties.Settings.Default.GroupUseCombo30;
-            checkBoxCombo30Normal.Checked = Properties.Settings.Default.GroupCombo30Normal;
-            checkBoxCombo30Mira.Checked = Properties.Settings.Default.GroupCombo30Mira;
-            checkBoxCombo30Boost.Checked = Properties.Settings.Default.GroupCombo30Boost;
-            checkBoxCombo30FirstAttack.Checked = Properties.Settings.Default.GroupCombo30FirstAttack;
+            textBoxURL.Text = Setting.Group.Url;
+            textBoxBaseDamage.Text = Setting.Group.BaseDamage.ToString();
+            textBoxEnemyCount.Text = Setting.Group.EnemyCount.ToString();
+            textBoxPointDiff.Text = Setting.Group.PointDiff.ToString();
+            comboBoxAttackMode.SelectedIndex = Setting.Group.AttackMode;
+            comboBoxRecieve.SelectedIndex = Setting.Group.ReceiveCount;
+            checkBoxUseBoost.Checked = Setting.Group.UseBoost;
+            checkBoxFirstAttackBoss.Checked = Setting.Group.FirstAttackBoss;
+            checkBoxRecieveReword.Checked = Setting.Group.ReceiveReword;
+            checkBoxRecievePresent.Checked = Setting.Group.ReceivePresent;
+            checkBoxAutojobLevelUp.Checked = Setting.Group.AutoJobLevelUp;
+            checkBoxOnlySearch.Checked = Setting.Group.OnlySearch;
+            checkBoxNoSearch.Checked = Setting.Group.NoSearch;
+            comboBoxFinalJob.SelectedIndex = Setting.Group.FinalJob;
 
-            checkBoxUseAttack20.Checked = Properties.Settings.Default.GroupUseAttack20;
-            checkBoxAttack20Normal.Checked = Properties.Settings.Default.GroupAttack20Normal;
-            checkBoxAttack20Mira.Checked = Properties.Settings.Default.GroupAttack20Mira;
-            checkBoxAttack20Boost.Checked = Properties.Settings.Default.GroupAttack20Boost;
-            checkBoxAttack20RequiredRatio.Checked = Properties.Settings.Default.GroupAttack20RequiredRatio;
+            checkBoxUseCombo30.Checked = Setting.Group.UseCombo30;
+            checkBoxCombo30Normal.Checked = Setting.Group.Combo30Normal;
+            checkBoxCombo30Mira.Checked = Setting.Group.Combo30Mira;
+            checkBoxCombo30Boost.Checked = Setting.Group.Combo30Boost;
+            checkBoxCombo30FirstAttack.Checked = Setting.Group.Combo30FirstAttack;
 
-            checkBoxUseAttack10.Checked = Properties.Settings.Default.GroupUseAttack10;
-            checkBoxAttack10Normal.Checked = Properties.Settings.Default.GroupAttack10Normal;
-            checkBoxAttack10Boost.Checked = Properties.Settings.Default.GroupAttack10Boost;
+            checkBoxUseAttack20.Checked = Setting.Group.UseAttack20;
+            checkBoxAttack20Normal.Checked = Setting.Group.Attack20Normal;
+            checkBoxAttack20Mira.Checked = Setting.Group.Attack20Mira;
+            checkBoxAttack20Boost.Checked = Setting.Group.Attack20Boost;
+            checkBoxAttack20RequiredRatio.Checked = Setting.Group.Attack20RequiredRatio;
 
-            checkBoxUseBE1.Checked = Properties.Settings.Default.GroupUseBE1;
-            checkBoxBE1Normal.Checked = Properties.Settings.Default.GroupBE1Normal;
-            checkBoxBE1Mira.Checked = Properties.Settings.Default.GroupBE1Mira;
-            checkBoxBE1RequiredRatio.Checked = Properties.Settings.Default.GroupBE1RequiredRatio;
+            checkBoxUseAttack10.Checked = Setting.Group.UseAttack10;
+            checkBoxAttack10Normal.Checked = Setting.Group.Attack10Normal;
+            checkBoxAttack10Boost.Checked = Setting.Group.Attack10Boost;
+
+            checkBoxUseBE1.Checked = Setting.Group.UseBE1;
+            checkBoxBE1Normal.Checked = Setting.Group.BE1Normal;
+            checkBoxBE1Mira.Checked = Setting.Group.BE1Mira;
+            checkBoxBE1RequiredRatio.Checked = Setting.Group.BE1RequiredRatio;
 
             try
             {
-                dateTimePickerTimeStart.Value = Properties.Settings.Default.GroupTimeStart;
-                dateTimePickerTimeEnd.Value = Properties.Settings.Default.GroupTimeEnd;
+                dateTimePickerTimeStart.Value = Setting.Group.TimeStart;
+                dateTimePickerTimeEnd.Value = Setting.Group.TimeEnd;
             }
             catch
             {
@@ -139,66 +141,8 @@ namespace gcard_macro
 
             if (Webdriver.IsOoen())
             {
-                Group = new Group(Webdriver.Instance, textBoxURL.Text)
-                {
-                    WaitSearch = WaitSearch,
-                    WaitBattle = WaitBattle,
-                    WaitAttack = WaitAttack,
-                    WaitReceive = WaitReceive,
-                    WaitAccessBlock = WaitAccessBlock,
-                    WaitMisc = WaitMisc,
-                    BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text),
-                    EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text),
-                    PointDiff = Utils.ToUlong(textBoxPointDiff.Text),
-                    Mode = (Event.AttackMode)comboBoxAttackMode.SelectedIndex,
-                    ReceiveCount = comboBoxRecieve.SelectedIndex + 1,
-                    UseBoost = checkBoxUseBoost.Checked,
-                    FirstAttackBoss = checkBoxFirstAttackBoss.Checked,
-                    ReceiveReword = checkBoxRecieveReword.Checked,
-                    ReceivePresent = checkBoxRecievePresent.Checked,
-                    AutojobLevelUp = checkBoxAutojobLevelUp.Checked,
-                    OnlySearch = checkBoxOnlySearch.Checked,
-                    NoSearch = checkBoxNoSearch.Checked,
-                    FinalJob = comboBoxFinalJob.SelectedIndex,
-                    StartTime = dateTimePickerTimeStart.Value,
-                    EndTime = dateTimePickerTimeEnd.Value,
-                    SampleCount = OptimizedWaitEnemyCount,
-                    Combo30 = new Combo30Button()
-                    {
-                        Type = SpecialAttackButton.AttackType.Combo30,
-                        Use = checkBoxUseCombo30.Checked,
-                        Normal = checkBoxCombo30Normal.Checked,
-                        Mira = checkBoxCombo30Mira.Checked,
-                        FirstAttack = checkBoxCombo30FirstAttack.Checked,
-                        Boost = checkBoxCombo30Boost.Checked
-                    },
-                    Attack20 = new Attack20Button()
-                    {
-                        Type = SpecialAttackButton.AttackType.Attack20,
-                        Use = checkBoxUseAttack20.Checked,
-                        Normal = checkBoxAttack20Normal.Checked,
-                        Mira = checkBoxAttack20Mira.Checked,
-                        Boost = checkBoxAttack20Boost.Checked,
-                        RequiredRatio = checkBoxAttack20RequiredRatio.Checked
-                    },
-                    Attack10 = new Attack10Button()
-                    {
-                        Type = SpecialAttackButton.AttackType.Attack10,
-                        Use = checkBoxUseAttack10.Checked,
-                        Normal = checkBoxAttack10Normal.Checked,
-                        Mira = false,
-                        Boost = checkBoxAttack10Boost.Checked
-                    },
-                    BE1 = new BE1Button()
-                    {
-                        Type = SpecialAttackButton.AttackType.BE1,
-                        Use = checkBoxUseBE1.Checked,
-                        Normal = checkBoxBE1Normal.Checked,
-                        Mira = checkBoxBE1Mira.Checked,
-                        Boost = true,
-                        RequiredRatio = checkBoxBE1RequiredRatio.Checked
-                    }
-                };
+                SetSetting();
+                Group = EventManager.CreateGroup(Webdriver.Instance);
 
                 Group.StateChanged += StateChanged;
                 Group.MinicapChanged += MiniCapChanged;
@@ -266,40 +210,45 @@ namespace gcard_macro
 
         public void SaveSetting()
         {
-            Properties.Settings.Default.GroupURL = textBoxURL.Text;
-            Properties.Settings.Default.GroupBaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
-            Properties.Settings.Default.GroupPointDiff = Utils.ToUlong(textBoxPointDiff.Text);
-            Properties.Settings.Default.GroupEnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
-            Properties.Settings.Default.GroupAttackMode = comboBoxAttackMode.SelectedIndex;
-            Properties.Settings.Default.GroupReceiveCount = comboBoxRecieve.SelectedIndex;
-            Properties.Settings.Default.GroupUseBoost = checkBoxUseBoost.Checked;
-            Properties.Settings.Default.GroupFirstAttackBoss = checkBoxFirstAttackBoss.Checked;
-            Properties.Settings.Default.GroupReceiveReword = checkBoxRecieveReword.Checked;
-            Properties.Settings.Default.GroupReceivePresent = checkBoxRecievePresent.Checked;
-            Properties.Settings.Default.GroupAutoJobLevelUp = checkBoxAutojobLevelUp.Checked;
-            Properties.Settings.Default.GroupOnlySearch = checkBoxOnlySearch.Checked;
-            Properties.Settings.Default.GroupNoSearch = checkBoxNoSearch.Checked;
-            Properties.Settings.Default.GroupFinalJob = comboBoxFinalJob.SelectedIndex;
-            Properties.Settings.Default.GroupTimeStart = dateTimePickerTimeStart.Value;
-            Properties.Settings.Default.GroupTimeEnd = dateTimePickerTimeEnd.Value;
-            Properties.Settings.Default.GroupUseCombo30 = checkBoxUseCombo30.Checked;
-            Properties.Settings.Default.GroupCombo30Normal = checkBoxCombo30Normal.Checked;
-            Properties.Settings.Default.GroupCombo30Mira = checkBoxCombo30Mira.Checked;
-            Properties.Settings.Default.GroupCombo30Boost = checkBoxCombo30Boost.Checked;
-            Properties.Settings.Default.GroupCombo30FirstAttack = checkBoxCombo30FirstAttack.Checked;
-            Properties.Settings.Default.GroupUseAttack20 = checkBoxUseAttack20.Checked;
-            Properties.Settings.Default.GroupAttack20Normal = checkBoxAttack20Normal.Checked;
-            Properties.Settings.Default.GroupAttack20Mira = checkBoxAttack20Mira.Checked;
-            Properties.Settings.Default.GroupAttack20Boost = checkBoxAttack20Boost.Checked;
-            Properties.Settings.Default.GroupAttack20RequiredRatio = checkBoxAttack20RequiredRatio.Checked;
-            Properties.Settings.Default.GroupUseAttack10 = checkBoxUseAttack10.Checked;
-            Properties.Settings.Default.GroupAttack10Normal = checkBoxAttack10Normal.Checked;
-            Properties.Settings.Default.GroupAttack10Boost = checkBoxAttack10Boost.Checked;
-            Properties.Settings.Default.GroupUseBE1 = checkBoxUseBE1.Checked;
-            Properties.Settings.Default.GroupBE1Normal = checkBoxBE1Normal.Checked;
-            Properties.Settings.Default.GroupBE1Mira = checkBoxBE1Mira.Checked;
-            Properties.Settings.Default.GroupBE1RequiredRatio = checkBoxBE1RequiredRatio.Checked;
-            Properties.Settings.Default.Save();
+            SetSetting();
+            Setting.Group.Save();
+        }
+
+        private void SetSetting()
+        {
+            Setting.Group.Url = textBoxURL.Text;
+            Setting.Group.BaseDamage = Utils.ToUlong(textBoxBaseDamage.Text);
+            Setting.Group.PointDiff = Utils.ToUlong(textBoxPointDiff.Text);
+            Setting.Group.EnemyCount = Utils.ToUlong(textBoxEnemyCount.Text);
+            Setting.Group.AttackMode = comboBoxAttackMode.SelectedIndex;
+            Setting.Group.ReceiveCount = comboBoxRecieve.SelectedIndex;
+            Setting.Group.UseBoost = checkBoxUseBoost.Checked;
+            Setting.Group.FirstAttackBoss = checkBoxFirstAttackBoss.Checked;
+            Setting.Group.ReceiveReword = checkBoxRecieveReword.Checked;
+            Setting.Group.ReceivePresent = checkBoxRecievePresent.Checked;
+            Setting.Group.AutoJobLevelUp = checkBoxAutojobLevelUp.Checked;
+            Setting.Group.OnlySearch = checkBoxOnlySearch.Checked;
+            Setting.Group.NoSearch = checkBoxNoSearch.Checked;
+            Setting.Group.FinalJob = comboBoxFinalJob.SelectedIndex;
+            Setting.Group.TimeStart = dateTimePickerTimeStart.Value;
+            Setting.Group.TimeEnd = dateTimePickerTimeEnd.Value;
+            Setting.Group.UseCombo30 = checkBoxUseCombo30.Checked;
+            Setting.Group.Combo30Normal = checkBoxCombo30Normal.Checked;
+            Setting.Group.Combo30Mira = checkBoxCombo30Mira.Checked;
+            Setting.Group.Combo30Boost = checkBoxCombo30Boost.Checked;
+            Setting.Group.Combo30FirstAttack = checkBoxCombo30FirstAttack.Checked;
+            Setting.Group.UseAttack20 = checkBoxUseAttack20.Checked;
+            Setting.Group.Attack20Normal = checkBoxAttack20Normal.Checked;
+            Setting.Group.Attack20Mira = checkBoxAttack20Mira.Checked;
+            Setting.Group.Attack20Boost = checkBoxAttack20Boost.Checked;
+            Setting.Group.Attack20RequiredRatio = checkBoxAttack20RequiredRatio.Checked;
+            Setting.Group.UseAttack10 = checkBoxUseAttack10.Checked;
+            Setting.Group.Attack10Normal = checkBoxAttack10Normal.Checked;
+            Setting.Group.Attack10Boost = checkBoxAttack10Boost.Checked;
+            Setting.Group.UseBE1 = checkBoxUseBE1.Checked;
+            Setting.Group.BE1Normal = checkBoxBE1Normal.Checked;
+            Setting.Group.BE1Mira = checkBoxBE1Mira.Checked;
+            Setting.Group.BE1RequiredRatio = checkBoxBE1RequiredRatio.Checked;
         }
 
 

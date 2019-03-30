@@ -183,9 +183,9 @@
             this.checkBoxAutoStop.AutoSize = true;
             this.checkBoxAutoStop.Location = new System.Drawing.Point(3, 91);
             this.checkBoxAutoStop.Name = "checkBoxAutoStop";
-            this.checkBoxAutoStop.Size = new System.Drawing.Size(166, 16);
+            this.checkBoxAutoStop.Size = new System.Drawing.Size(211, 16);
             this.checkBoxAutoStop.TabIndex = 20;
-            this.checkBoxAutoStop.Text = "全てのクエストクリアで停止する";
+            this.checkBoxAutoStop.Text = "全てのクエストクリアで自動的に停止する";
             this.checkBoxAutoStop.UseVisualStyleBackColor = true;
             this.checkBoxAutoStop.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 

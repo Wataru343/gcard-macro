@@ -1512,5 +1512,17 @@ namespace gcard_macro.Properties {
                 this["RaidPriorityAttackAssultEnemy"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GTacticsEnableStrategicArea {
+            get {
+                return ((bool)(this["GTacticsEnableStrategicArea"]));
+            }
+            set {
+                this["GTacticsEnableStrategicArea"] = value;
+            }
+        }
     }
 }

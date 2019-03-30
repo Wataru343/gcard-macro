@@ -26,17 +26,19 @@ namespace gcard_macro
         {
             InitializeComponent();
 
-            textBoxWaitSearch.Text = Properties.Settings.Default.WaitSearch.ToString();
-            textBoxWaitBattle.Text = Properties.Settings.Default.WaitBattle.ToString();
-            textBoxWaitAttack.Text = Properties.Settings.Default.WaitAttack.ToString();
-            textBoxWaitReceive.Text = Properties.Settings.Default.WaitReceive.ToString();
-            textBoxWaitAccessBlock.Text = Properties.Settings.Default.WaitAccessBlock.ToString();
-            textBoxWaitMisc.Text = Properties.Settings.Default.WaitMisc.ToString();
-            checkBoxAutoRun.Checked = Properties.Settings.Default.AutoRun;
-            checkBoxOptimizedWait.Checked = Properties.Settings.Default.OptimizedWaitEnable;
-            numericUpDown.Value = Properties.Settings.Default.OptimizedWaitEnemyCount;
-            checkBoxCycleReceive.Checked = Properties.Settings.Default.UseCycleReceive;
-            numericUpDownCycleRecieveTime.Value = Properties.Settings.Default.CycleRecieveTime;
+            Setting.Common.Load();
+
+            textBoxWaitSearch.Text = Setting.Common.WaitSearch.ToString();
+            textBoxWaitBattle.Text = Setting.Common.WaitBattle.ToString();
+            textBoxWaitAttack.Text = Setting.Common.WaitAttack.ToString();
+            textBoxWaitReceive.Text = Setting.Common.WaitReceive.ToString();
+            textBoxWaitAccessBlock.Text = Setting.Common.WaitAccessBlock.ToString();
+            textBoxWaitMisc.Text = Setting.Common.WaitMisc.ToString();
+            checkBoxAutoRun.Checked = Setting.Common.AutoRun;
+            checkBoxOptimizedWait.Checked = Setting.Common.OptimizedWaitEnable;
+            numericUpDown.Value = Setting.Common.OptimizedWaitEnemyCount;
+            checkBoxCycleReceive.Checked = Setting.Common.UseCycleReceive;
+            numericUpDownCycleRecieveTime.Value = Setting.Common.CycleRecieveTime;
 
             buttonStopBrowser.Enabled = false;
             EnableOptimizedWait(checkBoxOptimizedWait.Checked);
@@ -74,12 +76,14 @@ namespace gcard_macro
             numericUpDown.ValueChanged += onSettingChanged;
             checkBoxCycleReceive.CheckedChanged += onSettingChanged;
             numericUpDownCycleRecieveTime.ValueChanged += onSettingChanged;
+            checkBoxAutoRun.CheckedChanged += onSettingChanged;
+
             buttonSave.Enabled = false;
 
             obj = new object();
             RecieveCancelToken = false;
 
-            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.2.20";
+            AppTitle = "ガンダムカードコレクション自動化ツール Ver1.3.1";
             this.Text = string.Format("{0} {1}", UserName, AppTitle);
         }
 
@@ -301,21 +305,26 @@ namespace gcard_macro
             tabControlRaid.WaitMisc = tabControlGroup.WaitMisc = tabControlGShooting.WaitMisc = tabControlPromotion.WaitMisc = tabControlGTactics.WaitMisc = tabControlShootingRange.WaitMisc = wait;
         }
 
+        private void SetSetting()
+        {
+            Setting.Common.WaitSearch = Utils.ToDouble(textBoxWaitSearch.Text);
+            Setting.Common.WaitBattle = Utils.ToDouble(textBoxWaitBattle.Text);
+            Setting.Common.WaitAttack = Utils.ToDouble(textBoxWaitAttack.Text);
+            Setting.Common.WaitReceive = Utils.ToDouble(textBoxWaitReceive.Text);
+            Setting.Common.WaitAccessBlock = Utils.ToDouble(textBoxWaitAccessBlock.Text);
+            Setting.Common.WaitMisc = Utils.ToDouble(textBoxWaitMisc.Text);
+            Setting.Common.AutoRun = checkBoxAutoRun.Checked;
+            Setting.Common.OptimizedWaitEnable = checkBoxOptimizedWait.Checked;
+            Setting.Common.OptimizedWaitEnemyCount = Utils.ToUInt(numericUpDown.Value.ToString());
+            Setting.Common.UseCycleReceive = checkBoxCycleReceive.Checked;
+            Setting.Common.CycleRecieveTime = Utils.ToUInt(numericUpDownCycleRecieveTime.Value.ToString());
+        }
+
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.WaitSearch = Utils.ToDouble(textBoxWaitSearch.Text);
-            Properties.Settings.Default.WaitBattle = Utils.ToDouble(textBoxWaitBattle.Text);
-            Properties.Settings.Default.WaitAttack = Utils.ToDouble(textBoxWaitAttack.Text);
-            Properties.Settings.Default.WaitReceive = Utils.ToDouble(textBoxWaitReceive.Text);
-            Properties.Settings.Default.WaitAccessBlock = Utils.ToDouble(textBoxWaitAccessBlock.Text);
-            Properties.Settings.Default.WaitMisc = Utils.ToDouble(textBoxWaitMisc.Text);
-            Properties.Settings.Default.AutoRun = checkBoxAutoRun.Checked;
-            Properties.Settings.Default.OptimizedWaitEnable = checkBoxOptimizedWait.Checked;
-            Properties.Settings.Default.OptimizedWaitEnemyCount = Utils.ToUInt(numericUpDown.Value.ToString());
-            Properties.Settings.Default.UseCycleReceive = checkBoxCycleReceive.Checked;
-            Properties.Settings.Default.CycleRecieveTime = Utils.ToUInt(numericUpDownCycleRecieveTime.Value.ToString());
-            Properties.Settings.Default.Save();
+            SetSetting();
+            Setting.Common.Save();
 
             tabControlRaid.SaveSetting();
             tabControlGroup.SaveSetting();
@@ -442,7 +451,11 @@ namespace gcard_macro
             }
         }
 
-        private void onSettingChanged(object sender, EventArgs e) => buttonSave.Enabled = true;
+        private void onSettingChanged(object sender, EventArgs e)
+        {
+            SetSetting();
+            buttonSave.Enabled = true;
+        }
 
         private void checkBoxCycleReceive_CheckedChanged(object sender, EventArgs e) => EnableCycleReceive((sender as CheckBox).Checked);
 
