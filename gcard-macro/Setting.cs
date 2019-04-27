@@ -591,7 +591,7 @@ namespace gcard_macro
                 AttackMode = Properties.Settings.Default.GShootingAttackMode;
                 ReceiveCount = Properties.Settings.Default.GShootingReceiveCount;
                 OnlySearch = Properties.Settings.Default.GShootingOnlySearch;
-                NoSearch = Properties.Settings.Default.GShootingOnlySearch;
+                NoSearch = Properties.Settings.Default.GShootingNoSearch;
                 ReceiveReword = Properties.Settings.Default.GShootingReceiveReword;
                 ReceivePresent = Properties.Settings.Default.GShootingReceivePresent;
                 Request = Properties.Settings.Default.GShootingRequest;
@@ -619,7 +619,7 @@ namespace gcard_macro
                 Properties.Settings.Default.GShootingAttackMode = AttackMode;
                 Properties.Settings.Default.GShootingReceiveCount = ReceiveCount;
                 Properties.Settings.Default.GShootingOnlySearch = OnlySearch;
-                Properties.Settings.Default.GShootingOnlySearch = NoSearch;
+                Properties.Settings.Default.GShootingNoSearch = NoSearch;
                 Properties.Settings.Default.GShootingReceiveReword = ReceiveReword;
                 Properties.Settings.Default.GShootingReceivePresent = ReceivePresent;
                 Properties.Settings.Default.GShootingRequest = Request;

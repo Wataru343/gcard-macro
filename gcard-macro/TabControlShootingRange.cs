@@ -41,11 +41,13 @@ namespace gcard_macro
             IsStart = false;
             buttonStop.Enabled = false;
 
-            textBoxURL.Text = Properties.Settings.Default.ShootingRangeURL;
-            textBoxThresholdFocusShot.Text = Properties.Settings.Default.ShootingRangeThresholdFocusShot.ToString();
-            checkBoxUseFocusShotDuringFever.Checked = Properties.Settings.Default.ShootingRangeUseFocusShotDuringFever;
-            checkBoxUseFeverTip.Checked = Properties.Settings.Default.ShootingRangeUseFeverTip;
-            checkBoxAutoStop.Checked = Properties.Settings.Default.ShootingRangeAutoStop;
+            Setting.ShootingRange.Load();
+
+            textBoxURL.Text = Setting.ShootingRange.Url;
+            textBoxThresholdFocusShot.Text = Setting.ShootingRange.ThresholdFocusShot.ToString();
+            checkBoxUseFocusShotDuringFever.Checked = Setting.ShootingRange.UseFocusShotDuringFever;
+            checkBoxUseFeverTip.Checked = Setting.ShootingRange.UseFeverTip;
+            checkBoxAutoStop.Checked = Setting.ShootingRange.AutoStop;
 
             CycleRecieveTime = TimeSpan.FromHours(1);
         }
@@ -158,7 +160,7 @@ namespace gcard_macro
         public void SaveSetting()
         {
             SetSetting();
-            Properties.Settings.Default.Save();
+            Setting.ShootingRange.Save();
         }
 
         private void SetSetting()

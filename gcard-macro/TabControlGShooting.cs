@@ -195,7 +195,6 @@ namespace gcard_macro
             Setting.GShooting.ReceivePresent = checkBoxRecievePresent.Checked;
             Setting.GShooting.OnlySearch = checkBoxOnlySearch.Checked;
             Setting.GShooting.NoSearch = checkBoxNoSearch.Checked;
-            Setting.GShooting.NoSearch = checkBoxNoSearch.Checked;
             Setting.GShooting.Request = checkBoxRequest.Checked;
             Setting.GShooting.TimeStart = dateTimePickerTimeStart.Value;
             Setting.GShooting.TimeEnd = dateTimePickerTimeEnd.Value;
